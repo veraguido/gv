@@ -1,0 +1,27 @@
+{
+    "name": "gvera/TestPrj",
+    "description": "gvera",
+    "license": "MIT",
+    "keywords": ["gvera"],
+    "authors": [
+        {
+            "name": "Guido Vera",
+            "email": "guido.vera@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+	    "monolog/monolog": "1.0.*",
+        "twig/twig": "2.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "Gvera\\": [
+          "src/"
+        ]
+      }
+
+
+      }
+}
