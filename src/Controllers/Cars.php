@@ -10,6 +10,6 @@ class Cars extends GController
     }
 
     public function tiju() {
-        $this->twigParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
+        $this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
     }
 }

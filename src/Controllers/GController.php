@@ -6,7 +6,7 @@ abstract class GController
     private $method = null;
     private $name;
     private $twig;
-    protected $twigParams = array();
+    protected $viewParams = array();
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
 
@@ -39,7 +39,7 @@ abstract class GController
 
     protected function postInit() {
         if($this->needsTwig()) {
-            echo $this->twig->render('/'.$this->name . '/' . $this->method . '.twig.html', $this->twigParams);
+            echo $this->twig->render('/'.$this->name . '/' . $this->method . '.twig.html', $this->viewParams);
         }
     }
 
