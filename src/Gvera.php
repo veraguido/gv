@@ -1,11 +1,12 @@
 <?php namespace Gvera;
 
 
-use Gvera\Controllers\Cars;
+use Gvera\Controllers\GController;
 
 class Gvera {
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
+
 
     public function run() {
         $uriData = @parse_url($_SERVER['REQUEST_URI']);
@@ -18,7 +19,7 @@ class Gvera {
             }
         }
 
-        $method = strtolower($uriArray[2]);
+        $method = $this->getFinalMethodName($uriArray[2]);
         $controllerFinalName = $this->getFinalControllerName($uriArray[1]);
         $controller = $this->checkIfControllerExists($controllerFinalName);
 
@@ -45,6 +46,11 @@ class Gvera {
     private function getFinalControllerName($rawName)
     {
         return ucfirst(strtolower($rawName));
+    }
+
+    private function getFinalMethodName($methodName)
+    {
+        return ($methodName === null || $methodName == '') ? GController::DEFAULT_METHOD :$methodName;
     }
 
 }
