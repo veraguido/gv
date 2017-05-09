@@ -28,6 +28,7 @@ abstract class GController
         if ($this->needsTwig()) {
             $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
             $this->twig = new \Twig_Environment($loader);
+            $this->httpResponse->asJson();
         }
     }
 
