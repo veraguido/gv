@@ -1,5 +1,6 @@
 <?php namespace Gvera\Controllers;
 
+use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
 abstract class GController
@@ -10,6 +11,7 @@ abstract class GController
     private $twig;
     protected $viewParams;
     protected $httpResponse;
+    protected $httpRequest;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_METHOD = 'index';
@@ -19,6 +21,7 @@ abstract class GController
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpResponse = HttpResponse::getInstance();
+        $this->httpRequest = new HttpRequest();
         if(!method_exists($this, $method)) {
             throw new \Exception('the method ' . $method . ' was not found on:' . __FILE__ . ' controller');
         }
@@ -28,7 +31,7 @@ abstract class GController
         if ($this->needsTwig()) {
             $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
             $this->twig = new \Twig_Environment($loader);
-            $this->httpResponse->asJson();
+            //$this->httpResponse->asJson();
         }
     }
 
