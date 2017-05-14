@@ -32,7 +32,6 @@ abstract class GController
         if ($this->needsTwig()) {
             $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
             $this->twig = new \Twig_Environment($loader);
-            //$this->httpResponse->asJson();
         }
     }
 
@@ -52,8 +51,8 @@ abstract class GController
             return;
         }
 
-        if($this->viewParams !== null)
-            throw new \Exception('view could not be found for ' . $this->method . ' method, Controller: ' . $this->name);
+        if(count($this->viewParams) > 0)
+            throw new \Exception('view params was set, but view could not be found for ' . $this->method . ' method, Controller: ' . $this->name);
     }
 
 
