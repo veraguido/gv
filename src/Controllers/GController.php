@@ -9,12 +9,13 @@ abstract class GController
     private $method = null;
     private $name;
     private $twig;
-    protected $viewParams;
+    protected $viewParams = array();
     protected $httpResponse;
     protected $httpRequest;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_METHOD = 'index';
+    const HTTP_RESPONSE_CODE_CONTROLLER_NAME = 'HttpCodeResponse';
 
     public function __construct($controllerName, $method = 'index')
     {
@@ -52,7 +53,7 @@ abstract class GController
         }
 
         if($this->viewParams !== null)
-            throw new \Exception('view could not be found for' . $this->method . ' method');
+            throw new \Exception('view could not be found for ' . $this->method . ' method, Controller: ' . $this->name);
     }
 
 

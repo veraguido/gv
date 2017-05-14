@@ -39,7 +39,6 @@ class HttpResponse
     public function notFound()
     {
         header("HTTP/1.0 404 Not Found");
-        exit;
     }
 
     public function customHeader($header)

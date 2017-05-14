@@ -6,7 +6,8 @@ use Gvera\Controllers\GController;
 class Gvera {
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
-
+    private $method = 'index';
+    private $controllerFinalName;
 
     public function run() {
         $uriData = @parse_url($_SERVER['REQUEST_URI']);
@@ -19,11 +20,11 @@ class Gvera {
             }
         }
 
-        $method = $this->getFinalMethodName($uriArray[2]);
-        $controllerFinalName = $this->getFinalControllerName($uriArray[1]);
-        $controller = $this->checkIfControllerExists($controllerFinalName);
+        $this->method = $this->getFinalMethodName($uriArray[2]);
+        $this->controllerFinalName = $this->getFinalControllerName($uriArray[1]);
+        $controller = $this->checkIfControllerExists($this->controllerFinalName);
 
-        $controllerInstance = new $controller($controllerFinalName, $method);
+        $controllerInstance = new $controller($this->controllerFinalName, $this->method);
         if (!is_a($controllerInstance, self::CONTROLLERS_PREFIX . 'GController'))
             throw new \Exception('The controller that you are trying to instantiate should be extending GController');
 
@@ -37,8 +38,11 @@ class Gvera {
         if($controllerName == "GController")
             throw new \Exception('GController is not a valid controller');
 
-        if (!class_exists($controllerFullName))
-            throw new \Exception('Controller not found');
+        if (!class_exists($controllerFullName)) {
+            $controllerFullName = self::CONTROLLERS_PREFIX . GController::HTTP_RESPONSE_CODE_CONTROLLER_NAME;
+            $this->controllerFinalName = GController::HTTP_RESPONSE_CODE_CONTROLLER_NAME;
+            $this->method = 'resourceNotFound';
+        }
 
         return $controllerFullName;
     }
