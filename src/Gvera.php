@@ -49,12 +49,12 @@ class Gvera {
 
     private function getFinalControllerName($rawName)
     {
-        return ucfirst(strtolower($rawName));
+        return ($rawName != null && $rawName != "") ? ucfirst(strtolower($rawName)) : GController::DEFAULT_CONTROLLER;
     }
 
     private function getFinalMethodName($methodName)
     {
-        return ($methodName === null || $methodName == '') ? GController::DEFAULT_METHOD :$methodName;
+        return ($methodName === null || $methodName == '') ? GController::DEFAULT_METHOD : $methodName;
     }
 
 }

@@ -14,6 +14,7 @@ abstract class GController
     protected $httpRequest;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
+    const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
     const HTTP_RESPONSE_CODE_CONTROLLER_NAME = 'HttpCodeResponse';
 
