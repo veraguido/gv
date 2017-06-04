@@ -4,6 +4,7 @@ namespace Gvera\Controllers;
 
 
 use Gvera\Helpers\Session\Session;
+use Gvera\Cache\RedisCache;
 
 class Examples extends GController
 {
@@ -29,5 +30,15 @@ class Examples extends GController
         echo $count;
 
         Session::set('count', ++$count);
+    }
+
+    public function asd()
+    {
+        echo password_hash("asd", PASSWORD_BCRYPT);
+    }
+
+    public function qwe()
+    {
+        $redis = RedisCache::getInstance()->save();
     }
 }

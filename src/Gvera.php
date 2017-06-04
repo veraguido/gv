@@ -13,22 +13,18 @@ class Gvera {
         $uriData = @parse_url($_SERVER['REQUEST_URI']);
 
         if ($uriData === false) {
-            // Do something?
+            $this->controllerFinalName =  $this->getControllerFinalName("");
+            $this->method = $this->getMethodFinalName("");
         } else {
             if (isset($uriData['path'])) {
                 $uriArray = explode("/", $uriData['path']);
             }
+            $this->method = $this->getMethodFinalName($uriArray[2]);
+            $this->controllerFinalName = $this->getControllerFinalName($uriArray[1]);
         }
 
-        $this->method = $this->getFinalMethodName($uriArray[2]);
-        $this->controllerFinalName = $this->getFinalControllerName($uriArray[1]);
         $controller = $this->checkIfControllerExists($this->controllerFinalName);
-
-        $controllerInstance = new $controller($this->controllerFinalName, $this->method);
-        if (!is_a($controllerInstance, self::CONTROLLERS_PREFIX . 'GController'))
-            throw new \Exception('The controller that you are trying to instantiate should be extending GController');
-
-        $controllerInstance->init();
+        $this->initializeControllerInstance($controller);
     }
 
     private function checkIfControllerExists($controllerName){
@@ -47,14 +43,23 @@ class Gvera {
         return $controllerFullName;
     }
 
-    private function getFinalControllerName($rawName)
+    private function getControllerFinalName($rawName)
     {
         return ($rawName != null && $rawName != "") ? ucfirst(strtolower($rawName)) : GController::DEFAULT_CONTROLLER;
     }
 
-    private function getFinalMethodName($methodName)
+    private function getMethodFinalName($methodName)
     {
-        return ($methodName === null || $methodName == '') ? GController::DEFAULT_METHOD : $methodName;
+        return ($methodName === null || $methodName == "") ? GController::DEFAULT_METHOD : $methodName;
+    }
+
+    private function initializeControllerInstance($controllerFullName)
+    {
+        $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
+        if (!is_a($controllerInstance, self::CONTROLLERS_PREFIX . 'GController'))
+            throw new \Exception('The controller that you are trying to instantiate should be extending GController');
+
+        $controllerInstance->init();
     }
 
 }
