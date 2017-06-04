@@ -1,0 +1,11 @@
+config:
+  mysql:
+    host: localhost
+    db_name: gv
+    username: root
+    password: root
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    username:
+    password:

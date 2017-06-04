@@ -1,9 +1,12 @@
 <?php namespace Gvera\Cache;
 
+use Symfony\Component\Yaml\Yaml;
+
 class RedisCache
 {
     private static $instance;
     private $client;
+    private static $config;
 
     private function __construct()
     {
@@ -14,6 +17,7 @@ class RedisCache
         if (!self::$instance)
         {
             self::$instance = new RedisCache();
+            self::$config = Yaml::parse(file_get_contents("../config/config.yml"))["config"]["redis"];
         }
 
         return self::$instance;
@@ -22,8 +26,7 @@ class RedisCache
     public function save($key, $value)
     {
         $this->checkRedisClient();
-
-        $this->client->connect("127.0.0.1", 6379);
+        $this->client->connect(self::$config['host'], self::$config['port']);
         $this->client->set($key, $value);
     }
 
