@@ -39,7 +39,6 @@ class Examples extends GController
 
     public function qwe()
     {
-        $redis = RedisCache::getInstance()->save("asd", "qwerty");
-        echo (RedisCache::getInstance()->load("asd"));
+        print_r(RedisCache::getInstance()->getList("lista-loca"));
     }
 }

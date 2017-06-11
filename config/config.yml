@@ -1,6 +1,6 @@
 config:
   mysql:
-    host: localhost
+    host: 127.0.0.1
     db_name: gv
     username: root
     password: root

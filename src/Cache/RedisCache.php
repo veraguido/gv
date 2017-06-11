@@ -25,14 +25,27 @@ class RedisCache
         return self::$instance;
     }
 
-    public function save($key, $value)
+    public function save($key, $value, $expirationTime = null)
     {
         self::$client->set($key, $value);
+        if ($expirationTime)
+            self::$client->expire($key, $expirationTime);
     }
 
     public function load($key)
     {
         return self::$client->get($key);
+    }
+
+    public function addToList($listKey, $list)
+    {
+        self::$client->lpush($listKey, $list);
+    }
+
+    public function getList($listKey)
+    {
+        $list = self::$client->lrange($listKey, 0, -1);
+        return $list;
     }
 
     private static function checkRedisClient()
