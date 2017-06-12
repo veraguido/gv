@@ -2,6 +2,7 @@
 
 
 use Gvera\Controllers\GController;
+use Gvera\Controllers\HttpCodeResponse;
 
 class Gvera {
 
@@ -35,8 +36,8 @@ class Gvera {
             throw new \Exception('GController is not a valid controller');
 
         if (!class_exists($controllerFullName)) {
-            $controllerFullName = self::CONTROLLERS_PREFIX . GController::HTTP_RESPONSE_CODE_CONTROLLER_NAME;
-            $this->controllerFinalName = GController::HTTP_RESPONSE_CODE_CONTROLLER_NAME;
+            $controllerFullName = HttpCodeResponse::class;
+            $this->controllerFinalName = $controllerName;
             $this->method = 'resourceNotFound';
         }
 
@@ -56,7 +57,7 @@ class Gvera {
     private function initializeControllerInstance($controllerFullName)
     {
         $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
-        if (!is_a($controllerInstance, self::CONTROLLERS_PREFIX . 'GController'))
+        if (!is_a($controllerInstance, GController::class))
             throw new \Exception('The controller that you are trying to instantiate should be extending GController');
 
         $controllerInstance->init();

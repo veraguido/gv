@@ -14,6 +14,6 @@ class Index extends GController
     public function index()
     {
         $this->httpResponse->asJson();
-        echo json_encode(array('gbag' => array("version" => "1.0")));
+        echo json_encode(array('gv' => array("version" => "1.0")));
     }
 }

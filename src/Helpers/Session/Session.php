@@ -1,11 +1,5 @@
 <?php
 namespace Gvera\Helpers\Session;
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 14/05/17
- * Time: 23:44
- */
 class Session
 {
 
