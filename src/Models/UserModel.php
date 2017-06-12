@@ -5,7 +5,7 @@
  */
 class UserModel
 {
-    /** @Id @Column(type="int") @GeneratedValue */
+    /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
 
     /** @Column(type="string") */
