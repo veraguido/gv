@@ -18,7 +18,7 @@ class UserStatusModel
     /** @Id @Column(type="integer") @GeneratedValue  */
     protected $id;
 
-    /** @Id @Column(type="string") */
+    /** @Column(type="string") */
     protected $status;
 
     /**

@@ -5,23 +5,22 @@
  */
 class UserModel
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /** @Id @Column(type="int") @GeneratedValue */
     protected $id;
 
-    /** @Id @Column(type="string") */
+    /** @Column(type="string") */
     protected $username;
 
-    /** @Id @Column(type="string") */
+    /** @Column(type="string") */
     protected $password;
 
-    /** @Id @Column(type="datetime") */
+    /** @Column(type="datetime") */
     protected $createdAt;
 
-    /** @Id @Column(type="datetime") */
+    /** @Column(type="datetime") */
     protected $updatedAt;
 
     /**
-     * @Id
      * @Column(type="integer")
      * @ManyToOne(targetEntity="UserStatusModel")
      */

@@ -39,6 +39,6 @@ class Examples extends GController
 
     public function qwe()
     {
-       
+
     }
 }
