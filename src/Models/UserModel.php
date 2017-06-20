@@ -2,6 +2,7 @@
 
 /**
  * @Entity @Table(name="users")
+ * @HasLifecycleCallbacks
  */
 class UserModel
 {
@@ -15,14 +16,13 @@ class UserModel
     protected $password;
 
     /** @Column(type="datetime") */
-    protected $createdAt;
+    protected $created;
 
     /** @Column(type="datetime") */
-    protected $updatedAt;
+    protected $updated;
 
     /**
      * @Column(type="integer")
-     * @ManyToOne(targetEntity="UserStatusModel")
      */
     protected $status;
 
@@ -51,24 +51,33 @@ class UserModel
         $this->password = $password;
     }
 
-    public function getCreatedAt()
+    public function getCreated()
     {
-        return $this->createdAt;
+        return $this->created;
     }
 
-    public function setCreatedAt($createdAt)
+    /**
+     * @param $created
+     * @PrePersist
+     */
+    public function setCreated()
     {
-        $this->createdAt = $createdAt;
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
-    public function getUpdatedAt()
+    public function getUpdated()
     {
-        return $this->updatedAt;
+        return $this->updated;
     }
 
-    public function setUpdatedAt($updatedAt)
+    /**
+     * @param $updated
+     * @PreUpdate
+     */
+    public function setUpdated()
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated = new \DateTime();
     }
 
     public function setStatus($status)

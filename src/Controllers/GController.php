@@ -1,5 +1,6 @@
 <?php namespace Gvera\Controllers;
 
+use Doctrine\ORM\EntityManager;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
@@ -12,17 +13,19 @@ abstract class GController
     protected $viewParams = array();
     protected $httpResponse;
     protected $httpRequest;
+    protected $entityManager;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
 
-    public function __construct($controllerName, $method = 'index')
+    public function __construct($controllerName, $method = 'index', $entityManager)
     {
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpResponse = HttpResponse::getInstance();
         $this->httpRequest = new HttpRequest();
+        $this->entityManager = $entityManager;
         if(!method_exists($this, $method)) {
             throw new \Exception('the method ' . $method . ' was not found on:' . __FILE__ . ' controller');
         }

@@ -34,6 +34,10 @@ class HttpRequest
         return $this->requestParams;
     }
 
+    public function getParameter($name) {
+        return $this->getParameters()[$name];
+    }
+
     public function isPost()
     {
         return $this->requestType == self::POST;

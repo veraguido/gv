@@ -1,12 +1,17 @@
 <?php namespace Gvera;
 
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+use Gvera\Cache\RedisCache;
 use Gvera\Controllers\GController;
 use Gvera\Controllers\HttpCodeResponse;
+use Symfony\Component\Yaml\Yaml;
 
 class Gvera {
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
+    const MYSQL_CONFIG_KEY = 'mysql_config';
     private $method = 'index';
     private $controllerFinalName;
 
@@ -56,11 +61,31 @@ class Gvera {
 
     private function initializeControllerInstance($controllerFullName)
     {
-        $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
+        $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method, $this->getEntityManager());
         if (!is_a($controllerInstance, GController::class))
             throw new \Exception('The controller that you are trying to instantiate should be extending GController');
 
         $controllerInstance->init();
+    }
+
+    private function getEntityManager() {
+        $path = array('/src/Models');
+
+        if (RedisCache::getInstance()->load('mysql_config')) {
+           $config =  unserialize(RedisCache::getInstance()->load(self::MYSQL_CONFIG_KEY));
+        } else {
+            $config = Yaml::parse(file_get_contents("../config/config.yml"))["config"]["mysql"];
+            RedisCache::getInstance()->save(self::MYSQL_CONFIG_KEY, serialize($config));
+        }
+        $dbParams = array(
+            'driver'   => 'pdo_mysql',
+            'user'     => $config['username'],
+            'password' => $config['password'],
+            'dbname'   => $config['db_name']
+        );
+
+        $doctrineConfig = Setup::createAnnotationMetadataConfiguration($path, false);
+        return EntityManager::create($dbParams, $doctrineConfig);
     }
 
 }
