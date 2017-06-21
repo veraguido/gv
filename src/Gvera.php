@@ -15,17 +15,34 @@ class Gvera {
     private $method = 'index';
     private $controllerFinalName;
 
-    public function run() {
+    public function run()
+    {
+        $specialRouteApplied = $this->useSpecialRoutesIfApply();
+
+        if (!$specialRouteApplied)
+            $this->parseUri();
+    }
+
+    private function useSpecialRoutesIfApply()
+    {
+
+    }
+
+    private function parseUri()
+    {
         $uriData = @parse_url($_SERVER['REQUEST_URI']);
 
         if ($uriData === false) {
-            $this->controllerFinalName =  $this->getControllerFinalName("");
-            $this->method = $this->getMethodFinalName("");
+            $this->controllerFinalName =  $this->getControllerFinalName('');
+            $this->method = $this->getMethodFinalName('');
         } else {
             if (isset($uriData['path'])) {
-                $uriArray = explode("/", $uriData['path']);
+                $uriArray = explode('/', $uriData['path']);
             }
-            $this->method = $this->getMethodFinalName($uriArray[2]);
+
+
+            $methodName = isset($uriArray[2]) ? $uriArray[2] : '';
+            $this->method = $this->getMethodFinalName($methodName);
             $this->controllerFinalName = $this->getControllerFinalName($uriArray[1]);
         }
 
@@ -33,7 +50,8 @@ class Gvera {
         $this->initializeControllerInstance($controller);
     }
 
-    private function checkIfControllerExists($controllerName){
+    private function checkIfControllerExists($controllerName)
+    {
 
         $controllerFullName = self::CONTROLLERS_PREFIX . $controllerName;
 
@@ -56,7 +74,11 @@ class Gvera {
 
     private function getMethodFinalName($methodName)
     {
-        return ($methodName === null || $methodName == "") ? GController::DEFAULT_METHOD : $methodName;
+        //remove http get params if are present
+        $methodName = explode('?', $methodName)[0];
+
+        //if there's no method assigned then return the default method call.
+        return ($methodName === null || $methodName == '') ? GController::DEFAULT_METHOD : $methodName;
     }
 
     private function initializeControllerInstance($controllerFullName)

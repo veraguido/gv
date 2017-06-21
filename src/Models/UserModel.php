@@ -22,7 +22,8 @@ class UserModel
     protected $updated;
 
     /**
-     * @Column(type="integer")
+     * @OneToOne(targetEntity="UserStatusModel")
+     * @JoinColumn(name="status_id", referencedColumnName="id")
      */
     protected $status;
 

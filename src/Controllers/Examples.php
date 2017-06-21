@@ -36,21 +36,24 @@ class Examples extends GController
 
     public function asd()
     {
-        echo password_hash("asd", PASSWORD_BCRYPT);
+        $user = $this->entityManager->find('Gvera\Models\UserModel', 1);
+        echo '<pre>';
+        var_dump($user);
+        echo '</pre>';
     }
 
     public function qwe()
     {
-        $user = new UserModel();
-        $user->setUsername($this->httpRequest->getParameter('username'));
-        $user->setPassword(password_hash($this->httpRequest->getParameter('pass'), PASSWORD_BCRYPT));
-        $user->setCreated();
-
         $status = new UserStatusModel();
         $status->setStatus('dsf');
         $this->entityManager->persist($status);
         $this->entityManager->flush();
-        $user->setStatus($status->getId());
+
+        $user = new UserModel();
+        $user->setUsername($this->httpRequest->getParameter('username'));
+        $user->setPassword(password_hash($this->httpRequest->getParameter('pass'), PASSWORD_BCRYPT));
+        $user->setCreated();
+        $user->setStatus($status);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

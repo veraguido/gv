@@ -1,5 +1,5 @@
 <?php
-namespace Gvera\Helpers\Session;
+namespace Gvera\Helpers\session;
 class Session
 {
 

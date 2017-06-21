@@ -18,7 +18,7 @@ class RedisCache
         if (!self::$instance)
         {
             self::$instance = new RedisCache();
-            self::$config = Yaml::parse(file_get_contents("../config/config.yml"))["config"]["redis"];
+            self::$config = Yaml::parse(file_get_contents('../config/config.yml'))['config']['redis'];
             self::checkRedisClient();
         }
 
@@ -46,6 +46,26 @@ class RedisCache
     {
         $list = self::$client->lrange($listKey, 0, -1);
         return $list;
+    }
+
+    public function addToHashMap($hashMapKey, $key, $value)
+    {
+        self::$client->hset($hashMapKey, $key, $value);
+    }
+
+    public function getHashMap($hashMapKey)
+    {
+        return self::$client->hgetall($hashMapKey);
+    }
+
+    public function getHashmapItem($hashMapKey, $itemKey)
+    {
+        return self::$client->hget($hashMapKey, $itemKey);
+    }
+
+    public function setExpiration($key, $expirationTime)
+    {
+        self::$client->expire($key, $expirationTime);
     }
 
     private static function checkRedisClient()
