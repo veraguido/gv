@@ -1,7 +1,5 @@
 # GV
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
 GV is a PHP framework focused on usability, fastness and reliableness. 
 
   - Redis cache
