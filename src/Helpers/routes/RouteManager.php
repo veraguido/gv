@@ -23,6 +23,8 @@ class RouteManager
     public function getRoute($pathLike, $httpRequest)
     {
         $pathLikeArray = explode("/", $pathLike);
+        if ( !isset($pathLikeArray[2]) )
+            return false;
 
         $filteredRoutes = $this->stripRoutesByHttpMethod($httpRequest->getRequestType());
 
