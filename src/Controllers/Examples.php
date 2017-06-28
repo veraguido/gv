@@ -19,7 +19,10 @@ class Examples extends GController
 
     public function tiju()
     {
-        $this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
+        //$this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
+
+
+
     }
 
     public function tan()
@@ -44,7 +47,7 @@ class Examples extends GController
 
     public function qwe()
     {
-        $status = new UserStatusModel();
+        /*$status = new UserStatusModel();
         $status->setStatus('dsf');
         $this->entityManager->persist($status);
         $this->entityManager->flush();
@@ -56,7 +59,7 @@ class Examples extends GController
         $user->setStatus($status);
 
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->entityManager->flush();*/
 
     }
 }

@@ -1,0 +1,5 @@
+routes:
+  route:
+    method: GET
+    uri: /examples/qwe/:new_id:/:page:/
+    action: examples->asd

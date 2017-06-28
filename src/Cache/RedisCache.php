@@ -68,6 +68,11 @@ class RedisCache
         self::$client->expire($key, $expirationTime);
     }
 
+    public function exists($key)
+    {
+        return self::$client->exists($key);
+    }
+
     private static function checkRedisClient()
     {
         if (!self::$client)

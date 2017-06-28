@@ -6,6 +6,8 @@ use Doctrine\ORM\Tools\Setup;
 use Gvera\Cache\RedisCache;
 use Gvera\Controllers\GController;
 use Gvera\Controllers\HttpCodeResponse;
+use Gvera\Helpers\http\HttpRequest;
+use Gvera\Helpers\routes\RouteManager;
 use Symfony\Component\Yaml\Yaml;
 
 class Gvera {
@@ -25,7 +27,9 @@ class Gvera {
 
     private function useSpecialRoutesIfApply()
     {
-
+        $rm = new RouteManager();
+        $action = $rm->getRoute($_SERVER['REQUEST_URI'], new HttpRequest());
+        echo $action;
     }
 
     private function parseUri()
@@ -93,7 +97,7 @@ class Gvera {
     private function getEntityManager() {
         $path = array('/src/Models');
 
-        if (RedisCache::getInstance()->load('mysql_config')) {
+        if (RedisCache::getInstance()->exists('mysql_config')) {
            $config =  unserialize(RedisCache::getInstance()->load(self::MYSQL_CONFIG_KEY));
         } else {
             $config = Yaml::parse(file_get_contents("../config/config.yml"))["config"]["mysql"];

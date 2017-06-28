@@ -58,5 +58,13 @@ class HttpRequest
         return $this->requestType == self::DELETE;
     }
 
+    public function getRequestType()
+    {
+        return $this->requestType;
+    }
+
+    public function setParameter($key, $value) {
+        $this->requestParams[$key] = $value;
+    }
 
 }
