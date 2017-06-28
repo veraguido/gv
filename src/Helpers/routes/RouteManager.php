@@ -28,7 +28,6 @@ class RouteManager
 
         foreach ($filteredRoutes as $route) {
 
-            echo $pathLikeArray[1];
             if ( (strpos($route['uri'], $pathLikeArray[1]) !== false) && (strpos($route['uri'], $pathLikeArray[2]) !== false) ) {
 
                 $totalRoute = $route['uri'] ;
@@ -36,10 +35,9 @@ class RouteManager
                 $routeController = $totalRouteArray[1];
                 $routeMethod = $totalRouteArray[2];
 
-                $urlCheck = ($pathLikeArray[0] == $routeController && $pathLikeArray[1] == $routeMethod);
-
-                $this->convertUriParams($totalRoute, explode('/', $totalRoute), $httpRequest);
-                if($urlCheck)
+                $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
+                $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute), $httpRequest);
+                if($urlCheck && $checkUri)
                     return $route['action'];
                 else
                     continue;
@@ -57,14 +55,17 @@ class RouteManager
 
     private function convertUriParams($totalRoute, $pathLikeArray, $httpRequest)
     {
-        print_r(($pathLikeArray));
         for ($i = 0; $i < count($pathLikeArray); $i++) {
             if (substr_count($pathLikeArray[$i], self::ROUTE_NEEDLE) == 2) {
-                $httpRequest->setParameter(str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]), explode('/', $pathLikeArray)[$i]);
+
+                if (empty($totalRoute[$i]))
+                    return false;
+
+                $httpRequest->setParameter(str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]), explode('/', $totalRoute[$i]));
             }
         }
 
-        print_r($httpRequest->getParameters());
+        return true;
     }
 
     private function stripRoutesByHttpMethod($method)

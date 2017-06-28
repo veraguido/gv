@@ -21,33 +21,38 @@ class Gvera {
     {
         $specialRouteApplied = $this->useSpecialRoutesIfApply();
 
-        if (!$specialRouteApplied)
-            $this->parseUri();
+        $this->parseUri($specialRouteApplied);
     }
 
     private function useSpecialRoutesIfApply()
     {
         $rm = new RouteManager();
-        $action = $rm->getRoute($_SERVER['REQUEST_URI'], new HttpRequest());
-        echo $action;
+        return $rm->getRoute($_SERVER['REQUEST_URI'], new HttpRequest());
     }
 
-    private function parseUri()
+    private function parseUri($action = false)
     {
-        $uriData = @parse_url($_SERVER['REQUEST_URI']);
 
-        if ($uriData === false) {
-            $this->controllerFinalName =  $this->getControllerFinalName('');
-            $this->method = $this->getMethodFinalName('');
+        if ($action) {
+            $actionArr = explode('->', $action);
+            $this->controllerFinalName = $this->getControllerFinalName($actionArr[0]);
+            $this->method = $this->getMethodFinalName($actionArr[1]);
         } else {
-            if (isset($uriData['path'])) {
-                $uriArray = explode('/', $uriData['path']);
+            $uriData = @parse_url($_SERVER['REQUEST_URI']);
+
+            if ($uriData === false) {
+                $this->controllerFinalName =  $this->getControllerFinalName('');
+                $this->method = $this->getMethodFinalName('');
+            } else {
+                if (isset($uriData['path'])) {
+                    $uriArray = explode('/', $uriData['path']);
+                }
+
+
+                $methodName = isset($uriArray[2]) ? $uriArray[2] : '';
+                $this->method = $this->getMethodFinalName($methodName);
+                $this->controllerFinalName = $this->getControllerFinalName($uriArray[1]);
             }
-
-
-            $methodName = isset($uriArray[2]) ? $uriArray[2] : '';
-            $this->method = $this->getMethodFinalName($methodName);
-            $this->controllerFinalName = $this->getControllerFinalName($uriArray[1]);
         }
 
         $controller = $this->checkIfControllerExists($this->controllerFinalName);

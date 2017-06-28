@@ -39,14 +39,19 @@ class Examples extends GController
 
     public function asd()
     {
-        $user = $this->entityManager->find('Gvera\Models\UserModel', 1);
+        /*$user = $this->entityManager->find('Gvera\Models\UserModel', 1);
         echo '<pre>';
         var_dump($user);
-        echo '</pre>';
+        echo '</pre>';*/
+
+        print_r($this->httpRequest->getParameters());
+
+        echo "asd! seeee";
     }
 
     public function qwe()
     {
+        echo "a verrr";
         /*$status = new UserStatusModel();
         $status->setStatus('dsf');
         $this->entityManager->persist($status);
