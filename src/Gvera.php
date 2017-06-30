@@ -24,8 +24,8 @@ class Gvera {
 
     private function useSpecialRoutesIfApply()
     {
-        $rm = new RouteManager();
-        return $rm->getRoute($_SERVER['REQUEST_URI'], HttpRequest::getInstance());
+        $rm = new RouteManager(HttpRequest::getInstance());
+        return $rm->getRoute($_SERVER['REQUEST_URI']);
     }
 
     private function parseUri($action = false)

@@ -9,9 +9,11 @@ class RouteManager
     private $routes;
     const ROUTE_NEEDLE = ':';
     const ROUTE_CACHE_KEY = 'routes';
+    private $httpRequest;
 
-    public function __construct()
+    public function __construct($httpRequest)
     {
+        $this->httpRequest = $httpRequest;
         if (RedisCache::getInstance()->exists(self::ROUTE_CACHE_KEY)) {
             $this->routes = unserialize(RedisCache::getInstance()->load(self::ROUTE_CACHE_KEY));
         } else {
@@ -20,13 +22,13 @@ class RouteManager
         }
     }
 
-    public function getRoute($pathLike, $httpRequest)
+    public function getRoute($pathLike)
     {
         $pathLikeArray = explode("/", $pathLike);
         if ( !isset($pathLikeArray[2]) )
             return false;
 
-        $filteredRoutes = $this->stripRoutesByHttpMethod($httpRequest->getRequestType());
+        $filteredRoutes = $this->stripRoutesByHttpMethod($this->httpRequest->getRequestType());
 
         foreach ($filteredRoutes as $route) {
 
@@ -38,7 +40,7 @@ class RouteManager
                 $routeMethod = $totalRouteArray[2];
 
                 $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
-                $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute), $httpRequest);
+                $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
                 if($urlCheck && $checkUri)
                     return $route['action'];
                 else
@@ -55,7 +57,7 @@ class RouteManager
         $this->routes[$method][] = array('route' => $route, 'action' => $action);
     }
 
-    private function convertUriParams($totalRoute, $pathLikeArray, $httpRequest)
+    private function convertUriParams($totalRoute, $pathLikeArray)
     {
         for ($i = 0; $i < count($pathLikeArray); $i++) {
             if (substr_count($pathLikeArray[$i], self::ROUTE_NEEDLE) == 2) {
@@ -63,7 +65,7 @@ class RouteManager
                 if (empty($totalRoute[$i]))
                     return false;
 
-                $httpRequest->setParameter(
+                $this->httpRequest->setParameter(
                     str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]),
                     $totalRoute[$i]
                 );
