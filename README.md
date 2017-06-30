@@ -47,7 +47,11 @@ Remember to configure your web server to Allow override in case of Apache2
 ```sh
 /etc/apache2/apache2.conf
 ```
-And change the "AllowOverride None" to "AllowOverride All" for the /var/www tag.
+And change the "AllowOverride None" to "AllowOverride All" for the /var/www directory.
+Enable the rewrite module:
+```sh
+sudo a2enmod rewrite
+```
 
 configure your config.yml file inside the config folder.
 
