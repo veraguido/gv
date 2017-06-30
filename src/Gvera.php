@@ -19,15 +19,13 @@ class Gvera {
 
     public function run()
     {
-        $specialRouteApplied = $this->useSpecialRoutesIfApply();
-
-        $this->parseUri($specialRouteApplied);
+        $this->parseUri($this->useSpecialRoutesIfApply());
     }
 
     private function useSpecialRoutesIfApply()
     {
         $rm = new RouteManager();
-        return $rm->getRoute($_SERVER['REQUEST_URI'], new HttpRequest());
+        return $rm->getRoute($_SERVER['REQUEST_URI'], HttpRequest::getInstance());
     }
 
     private function parseUri($action = false)

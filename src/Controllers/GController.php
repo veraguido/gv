@@ -24,7 +24,7 @@ abstract class GController
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpResponse = HttpResponse::getInstance();
-        $this->httpRequest = new HttpRequest();
+        $this->httpRequest = HttpRequest::getInstance();
         $this->entityManager = $entityManager;
         if(!method_exists($this, $method)) {
             throw new \Exception('the method ' . $method . ' was not found on:' . __FILE__ . ' controller');

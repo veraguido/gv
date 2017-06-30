@@ -63,7 +63,10 @@ class RouteManager
                 if (empty($totalRoute[$i]))
                     return false;
 
-                $httpRequest->setParameter(str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]), explode('/', $totalRoute[$i]));
+                $httpRequest->setParameter(
+                    str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]),
+                    $totalRoute[$i]
+                );
             }
         }
 
