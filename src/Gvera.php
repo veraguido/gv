@@ -1,19 +1,19 @@
 <?php namespace Gvera;
 
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
-use Gvera\Cache\RedisCache;
 use Gvera\Controllers\GController;
 use Gvera\Controllers\HttpCodeResponse;
+use Gvera\Helpers\config\Config;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
-use Symfony\Component\Yaml\Yaml;
 
 class Gvera {
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
-    const MYSQL_CONFIG_KEY = 'mysql_config';
     private $method = 'index';
     private $controllerFinalName;
 
@@ -98,22 +98,18 @@ class Gvera {
     }
 
     private function getEntityManager() {
-        $path = array('/src/Models');
+        $path = array('src/Models');
 
-        if (RedisCache::getInstance()->exists('mysql_config')) {
-           $config =  unserialize(RedisCache::getInstance()->load(self::MYSQL_CONFIG_KEY));
-        } else {
-            $config = Yaml::parse(file_get_contents("../config/config.yml"))["config"]["mysql"];
-            RedisCache::getInstance()->save(self::MYSQL_CONFIG_KEY, serialize($config));
-        }
+        $mysqlConfig = Config::getInstance()->getConfig('mysql');
+
         $dbParams = array(
             'driver'   => 'pdo_mysql',
-            'user'     => $config['username'],
-            'password' => $config['password'],
-            'dbname'   => $config['db_name']
+            'user'     => $mysqlConfig['username'],
+            'password' => $mysqlConfig['password'],
+            'dbname'   => $mysqlConfig['db_name']
         );
 
-        $doctrineConfig = Setup::createAnnotationMetadataConfiguration($path, false);
+        $doctrineConfig = Setup::createAnnotationMetadataConfiguration($path, (bool) Config::getInstance()->getConfig('devmode'));
         return EntityManager::create($dbParams, $doctrineConfig);
     }
 

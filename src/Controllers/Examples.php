@@ -3,6 +3,7 @@
 namespace Gvera\Controllers;
 
 
+use Doctrine\ORM\EntityManager;
 use Gvera\Helpers\Session\Session;
 use Gvera\Cache\RedisCache;
 use Gvera\Models\UserModel;
@@ -20,9 +21,6 @@ class Examples extends GController
     public function tiju()
     {
         //$this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
-
-
-
     }
 
     public function tan()
@@ -51,7 +49,10 @@ class Examples extends GController
 
     public function qwe()
     {
-        echo "a verrr";
+        echo '<pre>';
+        var_dump($this->entityManager->getRepository(UserModel::class)->find(1)->getPassword());
+        echo '</pre>';
+
         /*$status = new UserStatusModel();
         $status->setStatus('dsf');
         $this->entityManager->persist($status);
