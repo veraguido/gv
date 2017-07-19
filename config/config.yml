@@ -10,3 +10,10 @@ config:
     port: 6379
     username:
     password:
+  email:
+    host: lala.example.com
+    smtp_auth: true
+    username:
+    password:
+    smtp_secure:
+    port:
