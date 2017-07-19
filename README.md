@@ -27,6 +27,7 @@ template engine for PHP
 * [Redis cache](https://redis.io/) - With [PRedis](https://github.com/nrk/predis) client.
 * [PHP Unit](https://phpunit.de/) - Unit tests suite.
 * [Monolog](https://github.com/Seldaek/monolog) - Logging system
+* [PhpMailer](https://github.com/PHPMailer/PHPMailer) - Mail class
 
 And of course GV itself is open source with a [public repository](https://github.com/veraguido/gv) on GitHub.
 
