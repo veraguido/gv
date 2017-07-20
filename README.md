@@ -73,3 +73,9 @@ For more information use the documentation.
 
 ### Docker
 TODO
+
+### TODO list
+- bash commands
+- view hierarchy
+- docker
+- Documentation
