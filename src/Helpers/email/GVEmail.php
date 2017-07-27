@@ -4,6 +4,11 @@ namespace Gvera\Helpers\email\GVEmail;
 
 use Gvera\Helpers\config\Config;
 
+/**
+ * Class GVEmail
+ * @package Gvera\Helpers\email\GVEmail
+ * This class is a wrapper from the PhpMailer class just for easiness purposes.
+ */
 class GVEmail {
 
     private $mailer;

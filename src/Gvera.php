@@ -17,17 +17,29 @@ class Gvera {
     private $method = 'index';
     private $controllerFinalName;
 
+    /**
+     * Application's entry point
+     */
     public function run()
     {
         $this->parseUri($this->useSpecialRoutesIfApply());
     }
 
+    /**
+     * @return bool
+     * This will check on routes.yml if a route is overwritten.
+     */
     private function useSpecialRoutesIfApply()
     {
         $rm = new RouteManager(HttpRequest::getInstance());
         return $rm->getRoute($_SERVER['REQUEST_URI']);
     }
 
+    /**
+     * @param bool $action
+     * If the route was already defined in the routes.yml file then that one will take precedence over the
+     * convention over configuration strategy (host.com/Controller/Method)
+     */
     private function parseUri($action = false)
     {
 
@@ -57,6 +69,13 @@ class Gvera {
         $this->initializeControllerInstance($controller);
     }
 
+    /**
+     * @param $controllerName
+     * @return string
+     * @throws \Exception
+     * All controllers should extend from GController. By default if a Controller does not exist
+     * it fallbacks to the HttpCodeResponse controller.
+     */
     private function checkIfControllerExists($controllerName)
     {
 
@@ -74,6 +93,11 @@ class Gvera {
         return $controllerFullName;
     }
 
+    /**
+     * @param $rawName
+     * @return string
+     * If no Controller/Method is specified it will fallback to the default controller (Index controller)
+     */
     private function getControllerFinalName($rawName)
     {
         return ($rawName != null && $rawName != "") ? ucfirst(strtolower($rawName)) : GController::DEFAULT_CONTROLLER;

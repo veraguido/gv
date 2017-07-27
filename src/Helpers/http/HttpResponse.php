@@ -1,10 +1,9 @@
 <?php namespace Gvera\Helpers\http;
 
 /**
- * Created by PhpStorm.
- * User: guido
- * Date: 08/05/17
- * Time: 13:34
+ * Class HttpResponse
+ * @package Gvera\Helpers\http
+ * This is a response wrapper for the response object.
  */
 class HttpResponse
 {

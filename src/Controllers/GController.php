@@ -4,6 +4,12 @@ use Doctrine\ORM\EntityManager;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
+/**
+ * Class GController
+ * @package Gvera\Controllers
+ * Base controller to be used as a parent of all controllers, manages http objects,
+ * the entityManager and the responsibility of loading twig or not.
+ */
 abstract class GController
 {
 
@@ -19,6 +25,13 @@ abstract class GController
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
 
+    /**
+     * GController constructor.
+     * @param $controllerName
+     * @param string $method
+     * @param $entityManager
+     * @throws \Exception
+     */
     public function __construct($controllerName, $method = 'index', $entityManager)
     {
         $this->method = $method;
@@ -38,7 +51,9 @@ abstract class GController
         }
     }
 
-
+    /**
+     * Initialization method.
+     */
     public function init() {
         $this->preInit();
 
@@ -47,6 +62,7 @@ abstract class GController
 
         $this->postInit();
     }
+
 
     protected function postInit() {
         if($this->needsTwig()) {

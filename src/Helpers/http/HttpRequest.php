@@ -2,7 +2,11 @@
 
 namespace Gvera\Helpers\http;
 
-
+/**
+ * Class HttpRequest
+ * @package Gvera\Helpers\http
+ * This is a request wrapper to manage params making an abstraction from the request type
+ */
 class HttpRequest
 {
 

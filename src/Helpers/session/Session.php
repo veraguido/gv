@@ -1,5 +1,10 @@
 <?php
 namespace Gvera\Helpers\session;
+/**
+ * Class Session
+ * @package Gvera\Helpers\session
+ * A session wrapper
+ */
 class Session
 {
 

@@ -5,6 +5,12 @@ namespace Gvera\Helpers\config;
 use Gvera\Cache\RedisCache;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Class Config
+ * @package Gvera\Helpers\config
+ * This class is a driver for the config, if this one is saved into redis it will get it
+ * if not, it will fetch it from the yml file, and save it into the cache.
+ */
 class Config
 {
     private static $instance;

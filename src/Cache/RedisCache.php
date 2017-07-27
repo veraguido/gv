@@ -3,7 +3,12 @@
 use Predis\Client;
 use Symfony\Component\Yaml\Yaml;
 
-class RedisCache
+/**
+ * Class RedisCache
+ * @package Gvera\Cache
+ * implementation for the redis cache
+ */
+class RedisCache implements ICache
 {
     private static $instance;
     private static $client;
@@ -63,7 +68,7 @@ class RedisCache
         return self::$client->hget($hashMapKey, $itemKey);
     }
 
-    public function setExpiration($key, $expirationTime)
+    public function setExpiration($key, $expirationTime = null)
     {
         self::$client->expire($key, $expirationTime);
     }
