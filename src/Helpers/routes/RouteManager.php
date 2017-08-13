@@ -15,7 +15,7 @@ class RouteManager
 {
     private $routes;
     const ROUTE_NEEDLE = ':';
-    const ROUTE_CACHE_KEY = 'routes';
+    const ROUTE_CACHE_KEY = 'gv_routes';
     private $httpRequest;
 
     public function __construct($httpRequest)

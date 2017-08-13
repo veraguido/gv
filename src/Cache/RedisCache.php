@@ -78,6 +78,11 @@ class RedisCache implements ICache
         return self::$client->exists($key);
     }
 
+    public function delete($key)
+    {
+        return self::$client->del($key);
+    }
+
     private static function checkRedisClient()
     {
         if (!self::$client)

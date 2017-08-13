@@ -20,4 +20,5 @@ interface ICache
     public function getHashmapItem($hashMapKey, $itemKey);
     public function setExpiration($key, $expirationTime = null);
     public function exists($key);
+    public function delete($key);
 }
