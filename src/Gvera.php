@@ -5,6 +5,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Gvera\Cache\Cache;
 use Gvera\Controllers\GController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Helpers\config\Config;
@@ -121,7 +122,8 @@ class Gvera {
         $controllerInstance->init();
     }
 
-    private function getEntityManager() {
+    private function getEntityManager()
+    {
         $path = array('src/Models');
 
         $mysqlConfig = Config::getInstance()->getConfig('mysql');
@@ -136,6 +138,7 @@ class Gvera {
         $doctrineConfig = Setup::createAnnotationMetadataConfiguration($path, (bool) Config::getInstance()->getConfig('devmode'));
         return EntityManager::create($dbParams, $doctrineConfig);
     }
+
 
 }
 

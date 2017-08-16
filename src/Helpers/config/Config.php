@@ -2,6 +2,7 @@
 
 namespace Gvera\Helpers\config;
 
+use Gvera\Cache\Cache;
 use Gvera\Cache\RedisCache;
 use Symfony\Component\Yaml\Yaml;
 
@@ -20,11 +21,11 @@ class Config
 
     private function __construct()
     {
-        if (RedisCache::getInstance()->exists(self::CONFIG_KEY)) {
-            $this->config = unserialize(RedisCache::getInstance()->load(self::CONFIG_KEY));
+        if (Cache::getCache()->exists(self::CONFIG_KEY)) {
+            $this->config = unserialize(Cache::getCache()->load(self::CONFIG_KEY));
         } else {
             $this->config = Yaml::parse(file_get_contents("../config/config.yml"))["config"];
-            RedisCache::getInstance()->save(self::CONFIG_KEY, serialize($this->config));
+            Cache::getCache()->save(self::CONFIG_KEY, serialize($this->config));
         }
     }
 
