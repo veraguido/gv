@@ -1,6 +1,7 @@
 <?php namespace Gvera\Helpers\routes;
 
 
+use Gvera\Cache\Cache;
 use Gvera\Cache\RedisCache;
 use Symfony\Component\Yaml\Yaml;
 
@@ -21,11 +22,11 @@ class RouteManager
     public function __construct($httpRequest)
     {
         $this->httpRequest = $httpRequest;
-        if (RedisCache::getInstance()->exists(self::ROUTE_CACHE_KEY)) {
-            $this->routes = unserialize(RedisCache::getInstance()->load(self::ROUTE_CACHE_KEY));
+        if (Cache::getCache()->exists(self::ROUTE_CACHE_KEY)) {
+            $this->routes = unserialize(Cache::getCache()->load(self::ROUTE_CACHE_KEY));
         } else {
             $this->routes = Yaml::parse(file_get_contents(__DIR__ . '/../../../config/routes.yml'))['routes'];
-            RedisCache::getInstance()->save(self::ROUTE_CACHE_KEY, serialize($this->routes));
+            Cache::getCache()->save(self::ROUTE_CACHE_KEY, serialize($this->routes));
         }
     }
 
