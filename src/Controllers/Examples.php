@@ -6,10 +6,10 @@ namespace Gvera\Controllers;
 use Doctrine\ORM\EntityManager;
 use Gvera\Helpers\Session\Session;
 use Gvera\Cache\RedisCache;
-use Gvera\Models\UserModel;
-use Gvera\Models\UserStatusModel;
+use Gvera\Models\User;
+use Gvera\Models\UserStatus;
 
-class Examples extends GController
+class Examples extends GvController
 {
     public function index()
     {
@@ -50,7 +50,7 @@ class Examples extends GController
     public function qwe()
     {
         echo '<pre>';
-        var_dump($this->entityManager->getRepository(UserModel::class)->find(1)->getPassword());
+        var_dump($this->entityManager->getRepository(User::class)->find(1)->getPassword());
         echo '</pre>';
 
         /*$status = new UserStatusModel();

@@ -9,7 +9,7 @@
 namespace Gvera\Controllers;
 
 
-class Index extends GController
+class Index extends GvController
 {
     public function index()
     {

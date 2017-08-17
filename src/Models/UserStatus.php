@@ -13,7 +13,7 @@ namespace Gvera\Models;
  * @package Gvera\Models
  * @Entity @Table(name="user_status")
  */
-class UserStatusModel
+class UserStatus
 {
     /** @Id @Column(type="integer") @GeneratedValue
      */

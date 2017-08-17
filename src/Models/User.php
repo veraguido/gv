@@ -4,7 +4,7 @@
  * @Entity @Table(name="users")
  * @HasLifecycleCallbacks
  */
-class UserModel
+class User
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;

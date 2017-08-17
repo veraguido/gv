@@ -5,12 +5,12 @@ use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
 /**
- * Class GController
+ * Class GvController
  * @package Gvera\Controllers
  * Base controller to be used as a parent of all controllers, manages http objects,
  * the entityManager and the responsibility of loading twig or not.
  */
-abstract class GController
+abstract class GvController
 {
 
     private $method = null;
@@ -26,7 +26,7 @@ abstract class GController
     const DEFAULT_METHOD = 'index';
 
     /**
-     * GController constructor.
+     * GvController constructor.
      * @param $controllerName
      * @param string $method
      * @param $entityManager

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gvera\Helpers\email\GVEmail;
+namespace Gvera\Helpers\email\GvEmail;
 
 use Gvera\Helpers\config\Config;
 
@@ -9,7 +9,7 @@ use Gvera\Helpers\config\Config;
  * @package Gvera\Helpers\email\GVEmail
  * This class is a wrapper from the PhpMailer class just for easiness purposes.
  */
-class GVEmail {
+class GvEmail {
 
     private $mailer;
     private $host;

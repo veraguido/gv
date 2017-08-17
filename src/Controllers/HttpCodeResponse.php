@@ -9,7 +9,7 @@
 namespace Gvera\Controllers;
 
 
-class HttpCodeResponse extends GController
+class HttpCodeResponse extends GvController
 {
     public function resourceNotFound()
     {
