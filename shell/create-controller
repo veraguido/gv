@@ -1,0 +1,70 @@
+#!/usr/bin/php -q
+Please choose a name for the controller:
+<?php
+
+const CONTROLLERS_PATH = '../src/Controllers/';
+
+$stdin = fopen('php://stdin', 'r');
+$name = fgets($stdin);
+$name = removeExtraCharacters($name);
+$name = ucfirst(strtolower($name));
+createFile($name);
+//fclose($stdin);
+
+function createFile($fileName) {
+    $classPath = CONTROLLERS_PATH . $fileName . ".php";
+    if (file_exists($classPath)){
+       exit("The controller already exists in the destination.");
+    }
+    $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$fileName);
+    fwrite($handle, openClass($fileName));
+    fclose($handle);
+    createMethods($classPath);
+}
+
+
+function openClass($className) {
+    return "<?php 
+namespace Gvera\Controllers;
+
+class ". $className ." extends GvController { \n
+}";
+}
+
+function createMethods($classPath) {
+    echo 'Please choose an action name for your entry on the controller (CTRL + C to finish):';
+    $stdin = fopen('php://stdin', 'r');
+    $method = fgets($stdin);
+    $method = removeExtraCharacters($method);
+    removeClosingBracket($classPath);
+
+
+    $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$classPath);
+    fwrite($handle, appendMethod($method));
+    fclose($handle);
+
+    createMethods($classPath);
+}
+
+function appendMethod($methodName) {
+    return
+        "    public function ".$methodName."() {
+        //TODO: Implement this
+    }\n
+}";
+}
+
+function removeExtraCharacters($text) {
+    return rtrim($text, "\n\r");
+}
+
+function removeClosingBracket($classPath) {
+    $file_out = file($classPath); // Read the whole file into an array
+    $lastLine = sizeof($file_out) - 1;    // Number of the line we are deleting
+    //Delete the recorded line
+    unset($file_out[$lastLine]);
+
+    //Recorded in a file
+    file_put_contents($classPath, implode("", $file_out));
+}
+
