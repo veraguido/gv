@@ -17,7 +17,7 @@ interface ICache
     public function getList($listKey);
     public function addToHashMap($hashMapKey, $key, $value);
     public function getHashMap($hashMapKey);
-    public function getHashmapItem($hashMapKey, $itemKey);
+    public function getHashMapItem($hashMapKey, $itemKey);
     public function setExpiration($key, $expirationTime = null);
     public function exists($key);
     public function delete($key);

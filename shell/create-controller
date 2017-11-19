@@ -7,7 +7,7 @@ const CONTROLLERS_PATH = '../src/Controllers/';
 $stdin = fopen('php://stdin', 'r');
 $name = fgets($stdin);
 $name = removeExtraCharacters($name);
-$name = ucfirst(strtolower($name));
+$name = ucfirst($name);
 createFile($name);
 //fclose($stdin);
 
