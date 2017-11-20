@@ -53,6 +53,8 @@ Enable the rewrite module:
 ```sh
 sudo a2enmod rewrite
 ```
+Edit your php.ini to let apache2 handle sessions through redis: 
+session.save_handler = redis
 
 configure your config.yml file inside the config folder.
 
@@ -75,7 +77,7 @@ For more information use the documentation.
 TODO
 
 ### TODO list
-- bash commands
+- bash commands (WIP)
 - view hierarchy
 - docker
 - Documentation
