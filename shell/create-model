@@ -1,0 +1,84 @@
+#!/usr/bin/php -q
+Please choose a name for your model:
+<?php
+
+const MODELS_PATH = '../src/Models/';
+const PROPERTY_TYPES = array('integer', 'string', 'datetime');
+
+$stdin = fopen('php://stdin', 'r');
+$name = fgets($stdin);
+$name = removeExtraCharacters($name);
+$name = ucfirst($name);
+createFile($name);
+
+//since fgets adds an extra special character, we'll remove this extra characters
+function removeExtraCharacters($text) {
+    return rtrim($text, "\n\r");
+}
+
+
+function createFile($fileName) {
+    $classPath = MODELS_PATH . $fileName . ".php";
+    if (file_exists($classPath)){
+        exit("The model already exists in the destination.");
+    }
+    $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$fileName);
+    fwrite($handle, openClass($fileName));
+    fclose($handle);
+    createNewProperty($classPath);
+
+}
+
+function createNewProperty($classPath) {
+    echo "\033[33m Please choose a property type: \n \033[32m integer, string, datetime (CTRL + C to finish):";
+    $stdin = fopen('php://stdin', 'r');
+    $type = fgets($stdin);
+    $type = removeExtraCharacters($type);
+
+    $handle = fopen($classPath,'a') or die('Cannot create file:' . $classPath);
+    fwrite($handle,getDoctrineDoc($type, $classPath));
+    echo"\033[33m Please choose the name of the new property: \n";
+    $stdin = fopen('php://stdin', 'r');
+    $property = fgets($stdin);
+    $property = removeExtraCharacters($property);
+    fwrite($handle, "   public $".$property . ";\n\n}");
+    fclose($handle);
+
+    createNewProperty($classPath);
+}
+
+function getDoctrineDoc($type, $classPath) {
+    if (!in_array(strtolower($type), PROPERTY_TYPES)) {
+        echo "\033[31m The type used is invalid, please try again.";
+        createNewProperty($classPath);
+    }
+    removeClosingBracket($classPath);
+
+    return "/** @Column(type=\"$type\" */\n";
+}
+
+function appendMethod($classPath) {
+    $stdin = fopen('php://stdin', 'r');
+    $method = fgets($stdin);
+    $method = removeExtraCharacters($method);
+}
+
+function openClass($className) {
+    return "<?php 
+namespace Gvera\Models;
+/**
+* @Entity @Table(name=\"".strtolower($className)."\")
+*/
+class ". $className ." extends GvModel { \n
+}";
+}
+
+function removeClosingBracket($classPath) {
+    $file_out = file($classPath); // Read the whole file into an array
+    $lastLine = sizeof($file_out) - 1;    // Number of the line we are deleting
+    //Delete the recorded line
+    unset($file_out[$lastLine]);
+
+    //Recorded in a file
+    file_put_contents($classPath, implode("", $file_out));
+}
