@@ -60,7 +60,7 @@ class Examples extends GvController
 
         echo "event dispatched, all done :), removing event listener now <br/>";
 
-        EventDispatcher::removeAllListenersFromEvent(QWEEvent::QWE_NAME);
+        EventDispatcher::removeEventListeners(QWEEvent::QWE_NAME);
 
         echo '<br/> sending signal again';
 

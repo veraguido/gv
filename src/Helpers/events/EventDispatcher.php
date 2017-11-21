@@ -25,20 +25,7 @@ class EventDispatcher
         }
     }
 
-    public static function removeEventListener(string $eventId, EventListener $listener){
-        $listeners = self::$eventsListeners[$eventId];
-        $listenerPosition = array_search($listener, $listeners);
-
-        if(!$listenerPosition) {
-            return false;
-        }
-
-        unset($listener[$listenerPosition]);
-
-        return true;
-    }
-
-    public static function removeAllListenersFromEvent(string $eventId){
+    public static function removeEventListeners(string $eventId){
         unset(self::$eventsListeners[$eventId]);
     }
 
