@@ -4,6 +4,9 @@ namespace Gvera\Controllers;
 
 
 use Doctrine\ORM\EntityManager;
+use Gvera\Events\QWEEvent;
+use Gvera\Helpers\config\Config;
+use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Helpers\Session\Session;
 use Gvera\Cache\RedisCache;
 use Gvera\Models\User;
@@ -44,14 +47,29 @@ class Examples extends GvController
 
         print_r($this->httpRequest->getParameters());
 
-        echo "asd! seeee";
+        print_r(Config::getInstance()->getConfig("mysql"));
     }
 
     public function qwe()
     {
-        echo '<pre>';
+        echo "first call, something happening, call to be made <br/>";
+        $event = new QWEEvent(QWEEvent::QWE_NAME, 234);
+
+        EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);
+        echo "<br />";
+
+        echo "event dispatched, all done :), removing event listener now <br/>";
+
+        EventDispatcher::removeAllListenersFromEvent(QWEEvent::QWE_NAME);
+
+        echo '<br/> sending signal again';
+
+        EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);
+
+
+        /*echo '<pre>';
         var_dump($this->entityManager->getRepository(User::class)->find(1)->getPassword());
-        echo '</pre>';
+        echo '</pre>';*/
 
         /*$status = new UserStatusModel();
         $status->setStatus('dsf');

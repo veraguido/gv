@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 14/05/17
- * Time: 10:21
- */
 
 namespace Gvera\Controllers;
 

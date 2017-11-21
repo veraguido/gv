@@ -9,6 +9,7 @@ use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Helpers\config\Config;
+use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
 
@@ -23,6 +24,7 @@ class Gvera {
      */
     public function run()
     {
+        EventListenerRegistry::registerEventListeners();
         $this->parseUri($this->useSpecialRoutesIfApply());
     }
 
