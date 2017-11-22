@@ -5,7 +5,7 @@ GV is a PHP framework focused on usability, fastness and reliableness.
   - Redis cache
   - A validation strategy
   - Http handling
-  - Event mechanismn
+  - Event mechanism
   - PHP Unit
   - Monolog
   - Only one configuration file with only a few REALLY needed lines
