@@ -141,6 +141,5 @@ class Gvera {
         return EntityManager::create($dbParams, $doctrineConfig);
     }
 
-
 }
 

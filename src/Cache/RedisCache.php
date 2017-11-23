@@ -63,6 +63,14 @@ class RedisCache implements ICache
         return self::$client->hgetall($hashMapKey);
     }
 
+    public function setHashMap($hashMapKey, $array)
+    {
+        foreach($array as $key => $value)
+        {
+            $this->addToHashMap($hashMapKey, $key, $value);
+        }
+    }
+
     public function getHashMapItem($hashMapKey, $itemKey)
     {
         return self::$client->hget($hashMapKey, $itemKey);

@@ -7,10 +7,12 @@ use Doctrine\ORM\EntityManager;
 use Gvera\Events\QWEEvent;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\events\EventDispatcher;
+use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\Session\Session;
 use Gvera\Cache\RedisCache;
 use Gvera\Models\User;
 use Gvera\Models\UserStatus;
+
 
 class Examples extends GvController
 {
@@ -85,5 +87,9 @@ class Examples extends GvController
         $this->entityManager->persist($user);
         $this->entityManager->flush();*/
 
+    }
+
+    public function lorep() {
+        echo Locale::getLocale("Hello world");
     }
 }

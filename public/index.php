@@ -9,6 +9,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
+    include_once __DIR__ . '/../config/locale_setup.php';
     $app = new Gvera\Gvera();
     $app->run();
 } catch(\Exception $e) {
