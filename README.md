@@ -79,7 +79,6 @@ TODO
 
 ### TODO list
 - bash commands (WIP)
-- localization (WIP)
 - view hierarchy
 - docker
 - Documentation
