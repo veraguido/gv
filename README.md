@@ -5,6 +5,7 @@ GV is a PHP framework focused on usability, fastness and reliableness.
   - Redis cache
   - A validation strategy
   - Http handling
+  - Event mechanism
   - PHP Unit
   - Monolog
   - Only one configuration file with only a few REALLY needed lines
@@ -78,6 +79,7 @@ TODO
 
 ### TODO list
 - bash commands (WIP)
+- localization (WIP)
 - view hierarchy
 - docker
 - Documentation
