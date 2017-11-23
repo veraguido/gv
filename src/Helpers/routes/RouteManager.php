@@ -33,13 +33,12 @@ class RouteManager
     public function getRoute($pathLike)
     {
         $pathLikeArray = explode("/", $pathLike);
-        if ( !isset($pathLikeArray[2]) )
+        if ( empty($pathLikeArray[2]) )
             return false;
 
         $filteredRoutes = $this->stripRoutesByHttpMethod($this->httpRequest->getRequestType());
 
         foreach ($filteredRoutes as $route) {
-
             if ( (strpos($route['uri'], $pathLikeArray[1]) !== false) && (strpos($route['uri'], $pathLikeArray[2]) !== false) ) {
 
                 $totalRoute = $route['uri'] ;

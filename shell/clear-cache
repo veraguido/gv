@@ -5,7 +5,8 @@ echo "1 - Flush all"
 echo "2 - Flush key"
 echo "3 - Flush config"
 echo "4 - Flush routes"
-echo "5 - Exit"
+echo "5 - Flush translations"
+echo "6 - Exit"
 echo "--------------------------"
 
 
@@ -36,8 +37,13 @@ if [ "$input" = "4" ]; then
     exit 1
 fi
 if [ "$input" = "5" ]; then
-    echo "Exit"
+    echo "Flush routes key"
+    redis-cli KEYS "*_gv_locale" | xargs redis-cli del
     exit 1
+fi
+if [ "$input" = "6" ]; then
+echo "Exit"
+exit 1
 fi
 done
 

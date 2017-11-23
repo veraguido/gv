@@ -1,15 +1,18 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../config/locale_setup.php';
 
 
 // DEV MODE
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+$isDevMode = Gvera\Helpers\config\Config::getInstance()->getConfig('devmode');
+ini_set('display_errors', $isDevMode);
+ini_set('display_startup_errors', $isDevMode);
+if ($isDevMode) {
+    error_reporting(E_ALL);
+}
 
 try {
-    include_once __DIR__ . '/../config/locale_setup.php';
     $app = new Gvera\Gvera();
     $app->run();
 } catch(\Exception $e) {

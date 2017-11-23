@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 21/11/17
- * Time: 16:26
- */
 
 namespace Gvera\Helpers\events;
 
@@ -12,6 +6,11 @@ namespace Gvera\Helpers\events;
 use Gvera\Events\QWEEvent;
 use Gvera\Listeners\QWEListener;
 
+/**
+ * Class EventListenerRegistry
+ * @package Gvera\Helpers\events
+ * All event listeners should be added to this registry
+ */
 class EventListenerRegistry
 {
     public static function registerEventListeners() {

@@ -36,4 +36,4 @@ if (isset($_GET['lang']) && valid($_GET['lang'])) {
     $lang = 'en';
 }
 
-\Gvera\Helpers\locale\Locale::setCurrentLocale($lang);
+Gvera\Helpers\locale\Locale::setCurrentLocale($lang);
