@@ -92,4 +92,8 @@ class Examples extends GvController
     public function lorep() {
         echo Locale::getLocale("Hello world");
     }
+
+    public function ipsum() {
+        throw new \Exception('Test Exception for default controller');
+    }
 }

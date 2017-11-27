@@ -8,6 +8,7 @@ use Doctrine\ORM\Tools\Setup;
 use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
+use Gvera\Controllers\Index;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
@@ -26,6 +27,16 @@ class Gvera {
     {
         EventListenerRegistry::registerEventListeners();
         $this->parseUri($this->useSpecialRoutesIfApply());
+    }
+
+    /**
+     * In case of not dev mode redirect will be done instead of printing an exception.
+     */
+    public function redirectToDefault()
+    {
+        $this->controllerFinalName = $this->getControllerFinalName(null);
+        $this->method = 'index';
+        $this->initializeControllerInstance(Index::class);
     }
 
     /**
@@ -89,9 +100,10 @@ class Gvera {
 
         if (!class_exists($controllerFullName)) {
             $controllerFullName = HttpCodeResponse::class;
-            $this->controllerFinalName = $controllerName;
+            $this->controllerFinalName = GvController::HTTP_CODE_REPONSE_CONTROLLER_NAME;
             $this->method = 'resourceNotFound';
         }
+
 
         return $controllerFullName;
     }

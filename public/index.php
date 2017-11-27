@@ -16,5 +16,11 @@ try {
     $app = new Gvera\Gvera();
     $app->run();
 } catch(\Exception $e) {
-    die($e->getMessage());
+    if($isDevMode) {
+        die($e->getMessage());
+    } else {
+        $l = new \Monolog\Logger('gv');
+        $l->err($e->getMessage());
+        $app->redirectToDefault();
+    }
 }
