@@ -47,9 +47,20 @@ composer install
 
 Remember to configure your web server to Allow override in case of Apache2
 ```sh
-/etc/apache2/apache2.conf
+/etc/apache2/sites-available/000-default.conf
 ```
-And change the "AllowOverride None" to "AllowOverride All" for the /var/www directory.
+
+And add the following tag to your virtual host:
+
+```xml
+<Directory /var/www/gv/> <!-- USE YOUR PATH TO THE PROJECT'S ROOT FOLDER -->
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+</Directory>
+```
+
 Enable the rewrite module:
 ```sh
 sudo a2enmod rewrite
