@@ -6,3 +6,6 @@ nbproject/*
 composer.lock
 /vendor/*
 
+#volatile files
+
+

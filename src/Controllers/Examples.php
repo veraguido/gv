@@ -4,6 +4,7 @@ namespace Gvera\Controllers;
 
 
 use Doctrine\ORM\EntityManager;
+use Gvera\Cache\Cache;
 use Gvera\Events\QWEEvent;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\events\EventDispatcher;
@@ -26,6 +27,12 @@ class Examples extends GvController
     public function tiju()
     {
         //$this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
+
+        if (!Cache::getCache()->exists('asd')) {
+            Cache::getCache()->save('asd', 'test ameo 2');
+        }
+
+        echo Cache::getCache()->load('asd');
     }
 
     public function tan()

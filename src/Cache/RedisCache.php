@@ -91,6 +91,10 @@ class RedisCache implements ICache
         return self::$client->del($key);
     }
 
+    public function ping() {
+        return self::$client->ping();
+    }
+
     private static function checkRedisClient()
     {
         if (!self::$client)
