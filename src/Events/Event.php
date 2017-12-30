@@ -8,7 +8,7 @@ abstract class Event
 {
     private $name;
 
-    public function __construct(String $name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }

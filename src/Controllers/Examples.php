@@ -9,8 +9,8 @@ use Gvera\Events\QWEEvent;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Helpers\locale\Locale;
-use Gvera\Helpers\Session\Session;
 use Gvera\Cache\RedisCache;
+use Gvera\Helpers\session\Session;
 use Gvera\Models\User;
 use Gvera\Models\UserStatus;
 
