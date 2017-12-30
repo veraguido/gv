@@ -37,6 +37,7 @@ GV requires:
 - [Composer](https://getcomposer.org/)
 - [MySQL](https://www.mysql.com/)
 - [PHP7](http://php.net/)
+
 optional but highly recommended:
 - [Redis](https://redis.io/)
 
