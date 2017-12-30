@@ -36,8 +36,9 @@ And of course GV itself is open source with a [public repository](https://github
 GV requires:
 - [Composer](https://getcomposer.org/)
 - [MySQL](https://www.mysql.com/)
-- [Redis](https://redis.io/)
 - [PHP7](http://php.net/)
+optional but highly recommended:
+- [Redis](https://redis.io/)
 
 Install the dependencies running composer install in the root of the project
 
