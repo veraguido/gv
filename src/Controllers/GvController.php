@@ -24,7 +24,7 @@ abstract class GvController
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
-    public const HTTP_CODE_REPONSE_CONTROLLER_NAME = 'HttpCodeResponse';
+    const HTTP_CODE_REPONSE_CONTROLLER_NAME = 'HttpCodeResponse';
 
     /**
      * GvController constructor.
