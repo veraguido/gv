@@ -80,7 +80,7 @@ class Examples extends GvController
         var_dump($this->entityManager->getRepository(User::class)->find(1)->getPassword());
         echo '</pre>';*/
 
-        /*$status = new UserStatusModel();
+        /*$status = new UserStatus();
         $status->setStatus('dsf');
         $this->entityManager->persist($status);
         $this->entityManager->flush();

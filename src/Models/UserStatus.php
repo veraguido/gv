@@ -9,7 +9,7 @@
 namespace Gvera\Models;
 
 /**
- * Class UserStatusModel
+ * Class UserStatus
  * @package Gvera\Models
  * @Entity @Table(name="user_status")
  */
