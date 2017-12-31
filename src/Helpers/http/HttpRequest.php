@@ -52,7 +52,7 @@ class HttpRequest
     }
 
     public function getParameter($name) {
-        return $this->getParameters()[$name];
+        return isset($this->getParameters()[$name]) ? $this->getParameters()[$name] : null;
     }
 
     public function isPost()
