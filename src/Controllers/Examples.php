@@ -61,7 +61,7 @@ class Examples extends GvController
 
     public function qwe()
     {
-        echo "first call, something happening, call to be made <br/>";
+        /*echo "first call, something happening, call to be made <br/>";
         $event = new QWEEvent(QWEEvent::QWE_NAME, 234);
 
         EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);
@@ -73,21 +73,21 @@ class Examples extends GvController
 
         echo '<br/> sending signal again';
 
-        EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);
+        EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);*/
 
 
-        /*echo '<pre>';
+        echo '<pre>';
         var_dump($this->entityManager->getRepository(User::class)->find(1)->getPassword());
-        echo '</pre>';*/
+        echo '</pre>';
 
         /*$status = new UserStatus();
         $status->setStatus('dsf');
         $this->entityManager->persist($status);
         $this->entityManager->flush();
 
-        $user = new UserModel();
+        $user = new User();
         $user->setUsername($this->httpRequest->getParameter('username'));
-        $user->setPassword(password_hash($this->httpRequest->getParameter('pass'), PASSWORD_BCRYPT));
+        $user->setPassword($this->httpRequest->getParameter('pass'));
         $user->setCreated();
         $user->setStatus($status);
 

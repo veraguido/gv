@@ -4,7 +4,7 @@
  * @Entity @Table(name="users")
  * @HasLifecycleCallbacks
  */
-class User
+class User extends GvModel
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -49,7 +49,7 @@ class User
 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = $this->getService()->generatePassword($password);
     }
 
     public function getCreated()
