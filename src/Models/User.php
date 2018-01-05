@@ -27,6 +27,7 @@ class User extends GvModel
 
     /**
      * @param mixed $email
+     * @throws \Exception
      */
     public function setEmail($email)
     {
@@ -83,7 +84,6 @@ class User extends GvModel
     }
 
     /**
-     * @param $created
      * @PrePersist
      */
     public function setCreated()
@@ -98,7 +98,6 @@ class User extends GvModel
     }
 
     /**
-     * @param $updated
      * @PreUpdate
      */
     public function setUpdated()
