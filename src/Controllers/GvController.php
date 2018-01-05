@@ -30,16 +30,15 @@ abstract class GvController
      * GvController constructor.
      * @param $controllerName
      * @param string $method
-     * @param $entityManager
      * @throws \Exception
      */
-    public function __construct($controllerName, $method = 'index', $entityManager)
+    public function __construct($controllerName, $method = 'index')
     {
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpResponse = HttpResponse::getInstance();
         $this->httpRequest = HttpRequest::getInstance();
-        $this->entityManager = $entityManager;
+
         if(!method_exists($this, $method)) {
             throw new \Exception('the method ' . $method . ' was not found on:' . __FILE__ . ' controller');
         }

@@ -3,23 +3,26 @@
 namespace Gvera\Controllers;
 
 
-use Doctrine\ORM\EntityManager;
 use Gvera\Cache\Cache;
 use Gvera\Events\QWEEvent;
+use Gvera\Helpers\commands\CreateNewUserCommand;
+use Gvera\Helpers\commands\LoginCommand;
 use Gvera\Helpers\config\Config;
+use Gvera\Helpers\entities\EntityManager;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Cache\RedisCache;
 use Gvera\Helpers\session\Session;
 use Gvera\Models\User;
 use Gvera\Models\UserStatus;
+use Gvera\Services\UserService;
 
 
 class Examples extends GvController
 {
     public function index()
     {
-        echo phpinfo();
+        //echo phpinfo();
         //$this->httpResponse->redirect("/Cars/tiju");
         //$this->httpResponse->notFound();
     }
@@ -47,16 +50,23 @@ class Examples extends GvController
         Session::set('count', ++$count);
     }
 
+    public function login()
+    {
+        $loginCommand = new LoginCommand(
+            $this->httpRequest->getParameter('username'),
+            $this->httpRequest->getParameter('password')
+        );
+        $loginCommand->execute();
+    }
+
     public function asd()
     {
         /*$user = $this->entityManager->find('Gvera\Models\UserModel', 1);
         echo '<pre>';
         var_dump($user);
         echo '</pre>';*/
+        echo print_r(Session::get('user'));
 
-        print_r($this->httpRequest->getParameters());
-
-        print_r(Config::getInstance()->getConfig("mysql"));
     }
 
     public function qwe()
@@ -76,23 +86,21 @@ class Examples extends GvController
         EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);*/
 
 
-        echo '<pre>';
-        var_dump($this->entityManager->getRepository(User::class)->find(1)->getPassword());
-        echo '</pre>';
+        /*echo '<pre>';
+        var_dump(EntityManager::getInstance()->getRepository(User::class)->find(1)->getPassword());
+        echo '</pre>';*/
 
-        /*$status = new UserStatus();
-        $status->setStatus('dsf');
-        $this->entityManager->persist($status);
-        $this->entityManager->flush();
+        if($this->httpRequest->isPost()) {
+            $registerUserCommand = new CreateNewUserCommand(
+                $this->httpRequest->getParameter('username'),
+                $this->httpRequest->getParameter('password'),
+                $this->httpRequest->getParameter('email')
+            );
 
-        $user = new User();
-        $user->setUsername($this->httpRequest->getParameter('username'));
-        $user->setPassword($this->httpRequest->getParameter('pass'));
-        $user->setCreated();
-        $user->setStatus($status);
+            $registerUserCommand->execute();
+            echo 'worked!';
+        }
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();*/
 
     }
 

@@ -129,28 +129,11 @@ class Gvera {
 
     private function initializeControllerInstance($controllerFullName)
     {
-        $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method, $this->getEntityManager());
+        $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
         if (!is_a($controllerInstance, GvController::class))
             throw new \Exception('The controller that you are trying to instantiate should be extending GvController');
 
         $controllerInstance->init();
-    }
-
-    private function getEntityManager()
-    {
-        $path = array('src/Models');
-
-        $mysqlConfig = Config::getInstance()->getConfig('mysql');
-
-        $dbParams = array(
-            'driver'   => 'pdo_mysql',
-            'user'     => $mysqlConfig['username'],
-            'password' => $mysqlConfig['password'],
-            'dbname'   => $mysqlConfig['db_name']
-        );
-
-        $doctrineConfig = Setup::createAnnotationMetadataConfiguration($path, (bool) Config::getInstance()->getConfig('devmode'));
-        return EntityManager::create($dbParams, $doctrineConfig);
     }
 
 }

@@ -6,7 +6,7 @@ namespace Gvera\Events;
 
 abstract class Event
 {
-    private $name;
+    protected $name;
 
     public function __construct(string $name)
     {

@@ -1,4 +1,6 @@
 <?php namespace Gvera\Models;
+use Gvera\Helpers\validation\EmailValidationStrategy;
+use Gvera\Helpers\validation\ValidationService;
 
 /**
  * @Entity @Table(name="users")
@@ -9,8 +11,31 @@ class User extends GvModel
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
 
-    /** @Column(type="string") */
+    /** @Column(type="string", length=50, unique=true, nullable=false) */
     protected $username;
+
+    /** @Column(type="string", length=128, unique=true, nullable=false) */
+    protected $email;
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        if (!$this->getService()->validateEmail($email)) {
+            throw new \Exception('Email is not valid.');
+        }
+
+        $this->email = $email;
+    }
 
     /** @Column(type="string") */
     protected $password;
