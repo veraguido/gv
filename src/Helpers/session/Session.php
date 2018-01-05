@@ -30,6 +30,11 @@ class Session
         $_SESSION[$key] = $value;
     }
 
+    public static function unset($key) {
+        self::start();
+        unset($_SESSION[$key]);
+    }
+
     public static function get($key)
     {
         self::start();

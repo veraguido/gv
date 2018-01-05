@@ -59,13 +59,19 @@ class Examples extends GvController
         $loginCommand->execute();
     }
 
+    public function logout()
+    {
+        $us = new UserService();
+        $us->logout();
+    }
+
     public function asd()
     {
         /*$user = $this->entityManager->find('Gvera\Models\UserModel', 1);
         echo '<pre>';
         var_dump($user);
         echo '</pre>';*/
-        echo print_r(Session::get('user'));
+        //echo print_r(Session::get('user'));
 
     }
 

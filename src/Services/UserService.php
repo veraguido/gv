@@ -21,15 +21,19 @@ class UserService
         return password_verify($plainPassword, $hash);
     }
 
-    public function login($userName, $password)
+    public function login($username, $password)
     {
         $em = EntityManager::getInstance()->getRepository(User::class);
-        $user = $em->findOneBy(['username' => $userName]);
+        $user = $em->findOneBy(['username' => $username]);
 
         var_dump($this->validatePassword($password, $user->getPassword()));
-        if ($user && $user->getUsername() == $userName && $this->validatePassword($password, $user->getPassword())) {
-            Session::set('user', ['username' => $userName, 'userEmail' => $user->getEmail()]);
+        if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {
+            Session::set('user', ['username' => $username, 'userEmail' => $user->getEmail()]);
         }
+    }
+
+    public function logout() {
+        Session::unset('user');
     }
 
     public static function isUserLoggedIn() {
