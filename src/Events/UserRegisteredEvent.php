@@ -6,13 +6,13 @@ namespace Gvera\Events;
 class UserRegisteredEvent extends Event
 {
     const USER_REGISTERED_EVENT  = 'user_registered_event';
-    protected $name;
+    protected $username;
     protected $email;
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function getUserName()
     {
         return $this->name;
     }
@@ -25,10 +25,10 @@ class UserRegisteredEvent extends Event
         return $this->email;
     }
 
-    public function __construct(string $name, $username, $email)
+    public function __construct($name, $username, $email)
     {
         parent::__construct($name);
-        $this->name = $name;
+        $this->username = $username;
         $this->email = $email;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gvera\Helpers\email\GvEmail;
+namespace Gvera\Helpers\email;
 
 use Gvera\Helpers\config\Config;
 
@@ -12,24 +12,19 @@ use Gvera\Helpers\config\Config;
 class GvEmail {
 
     private $mailer;
-    private $host;
-    private $SMTPAuth = true;
-    private $username;
-    private $password;
-    private $SMTPSecure;
-    private $port;
 
     public function __construct($isHtml, $subject, $body, $alternativeBody)
     {
         $config = Config::getInstance()->getConfig('email');
         $this->mailer = new \PHPMailer();
+        $this->mailer->isSMTP();
         $this->mailer->isHTML($isHtml);
-        $this->host = $config['host'];
-        $this->SMTPAuth = (bool)$config['smtp_auth'];
-        $this->username = $config['username'];
-        $this->password = $config['password'];
-        $this->SMTPSecure = $config['smtp_secure'];
-        $this->port = $config['port'];
+        $this->mailer->Host = $config['host'];
+        $this->mailer->SMTPAuth = (bool)$config['smtp_auth'];
+        $this->mailer->From = $config['username'];
+        $this->mailer->Password = $config['password'];
+        $this->mailer->SMTPSecure = $config['smtp_secure'];
+        $this->mailer->Port = $config['port'];
 
         $this->mailer->Subject = $subject;
         $this->mailer->Body = $body;

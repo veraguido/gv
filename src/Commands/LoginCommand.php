@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 05/01/18
- * Time: 15:38
- */
 
-namespace Gvera\Helpers\commands;
+namespace Gvera\Commands;
 
 
 use Gvera\Events\UserLoggedInEvent;

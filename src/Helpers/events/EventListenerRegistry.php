@@ -4,7 +4,9 @@ namespace Gvera\Helpers\events;
 
 
 use Gvera\Events\QWEEvent;
+use Gvera\Events\UserRegisteredEvent;
 use Gvera\Listeners\QWEListener;
+use Gvera\Listeners\UserRegisteredEmailListener;
 
 /**
  * Class EventListenerRegistry
@@ -14,6 +16,6 @@ use Gvera\Listeners\QWEListener;
 class EventListenerRegistry
 {
     public static function registerEventListeners() {
-        EventDispatcher::addEventListener(QWEEvent::QWE_NAME, new QWEListener());
+        EventDispatcher::addEventListener(UserRegisteredEvent::USER_REGISTERED_EVENT, new UserRegisteredEmailListener());
     }
 }

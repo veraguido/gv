@@ -6,7 +6,7 @@
  * Time: 14:47
  */
 
-namespace Gvera\Helpers\commands;
+namespace Gvera\Commands;
 
 
 use Gvera\Events\UserRegisteredEvent;

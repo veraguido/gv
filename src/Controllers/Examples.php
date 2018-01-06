@@ -4,17 +4,10 @@ namespace Gvera\Controllers;
 
 
 use Gvera\Cache\Cache;
-use Gvera\Events\QWEEvent;
-use Gvera\Helpers\commands\CreateNewUserCommand;
-use Gvera\Helpers\commands\LoginCommand;
-use Gvera\Helpers\config\Config;
-use Gvera\Helpers\entities\EntityManager;
-use Gvera\Helpers\events\EventDispatcher;
+use Gvera\Commands\CreateNewUserCommand;
+use Gvera\Commands\LoginCommand;
 use Gvera\Helpers\locale\Locale;
-use Gvera\Cache\RedisCache;
 use Gvera\Helpers\session\Session;
-use Gvera\Models\User;
-use Gvera\Models\UserStatus;
 use Gvera\Services\UserService;
 
 
@@ -77,21 +70,6 @@ class Examples extends GvController
 
     public function qwe()
     {
-        /*echo "first call, something happening, call to be made <br/>";
-        $event = new QWEEvent(QWEEvent::QWE_NAME, 234);
-
-        EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);
-        echo "<br />";
-
-        echo "event dispatched, all done :), removing event listener now <br/>";
-
-        EventDispatcher::removeEventListeners(QWEEvent::QWE_NAME);
-
-        echo '<br/> sending signal again';
-
-        EventDispatcher::dispatchEvent(QWEEvent::QWE_NAME, $event);*/
-
-
         /*echo '<pre>';
         var_dump(EntityManager::getInstance()->getRepository(User::class)->find(1)->getPassword());
         echo '</pre>';*/
