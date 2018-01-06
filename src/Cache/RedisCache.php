@@ -23,7 +23,7 @@ class RedisCache implements ICache
         if (!self::$instance)
         {
             self::$instance = new RedisCache();
-            self::$config = Yaml::parse(file_get_contents('../config/config.yml'))['config']['redis'];
+            self::$config = Yaml::parse(file_get_contents(__DIR__ . '/../../config/config.yml'))['config']['redis'];
             self::checkRedisClient();
         }
 

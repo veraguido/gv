@@ -1,0 +1,23 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../config/locale_setup.php';
+
+if (count($argv) != 2){
+    echo 'wrong amount of parameters for this command';?>
+
+usage example: ./create-user-status active
+    <?php
+    exit(0);
+}
+
+echo $argv[1];
+try {
+    $command = new \Gvera\Commands\CreateUserStatusCommand($argv[1]);
+    $command->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+echo ' status generated successfully';

@@ -19,7 +19,7 @@ class UserStatus
      */
     protected $id;
 
-    /** @Column(type="string")
+    /** @Column(type="string", nullable=false, unique=true, length=20)
      */
     protected $status;
 

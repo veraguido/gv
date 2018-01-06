@@ -30,10 +30,13 @@ class CreateNewUserCommand implements ICommand
         $this->entityManager = EntityManager::getInstance();
     }
 
-
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     */
     public function execute()
     {
-        $status = $this->entityManager->getRepository(UserStatus::class)->find(1);
+        $status = $this->entityManager->getRepository(UserStatus::class)->findOneBy(['status' => 'active']);
 
         $user = new User();
         $user->setUsername($this->name);
