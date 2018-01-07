@@ -1,7 +1,16 @@
 <?php
 namespace Gvera\Cache;
 
-
+/**
+ * Cache Interface Doc Comment
+ *
+ * @category Interface
+ * @package  src/cache
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 interface ICache
 {
     public function save($key, $value, $expirationTime = null);

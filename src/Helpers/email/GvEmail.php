@@ -1,5 +1,4 @@
 <?php
-
 namespace Gvera\Helpers\email;
 
 use Gvera\Helpers\config\Config;
@@ -9,8 +8,8 @@ use Gvera\Helpers\config\Config;
  * @package Gvera\Helpers\email\GVEmail
  * This class is a wrapper from the PhpMailer class just for easiness purposes.
  */
-class GvEmail {
-
+class GvEmail
+{
     private $mailer;
 
     public function __construct($isHtml, $subject, $body, $alternativeBody)
@@ -31,28 +30,36 @@ class GvEmail {
         $this->mailer->AltBody = $alternativeBody;
     }
 
-    public function addAddress($address, $name = '') {
+    public function addAddress($address, $name = '')
+    {
         $this->mailer->addAddress($address, $name);
     }
 
-    public function addCC($cc, $name = '') {
+    public function addCC($cc, $name = '')
+    {
         $this->mailer->addCC($cc, $name);
     }
 
-    public function addBcc($bcc, $name = '') {
+    public function addBcc($bcc, $name = '')
+    {
         $this->mailer->addBCC($bcc, $name);
     }
 
-    public function addAttachment($path, $name = '', $encoding = 'base64', $type = '', $disposition = 'attachment') {
+    public function addAttachment($path, $name = '', $encoding = 'base64', $type = '', $disposition = 'attachment')
+    {
         $this->mailer->addAttachment($path, $name, $encoding, $type, $disposition);
     }
 
-    public function send(){
-        if(!$this->mailer->send()) {
+    /**
+     * @throws \Exception
+     * @throws \phpmailerException
+     */
+    public function send()
+    {
+        if (!$this->mailer->send()) {
             throw new \Exception('Message could not be sent ' . $this->mailer->ErrorInfo);
         } else {
             //your implementation here
         }
     }
-
 }

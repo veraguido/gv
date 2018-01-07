@@ -1,5 +1,6 @@
 <?php
 namespace Gvera\Helpers\session;
+
 /**
  * Class Session
  * @package Gvera\Helpers\session
@@ -17,8 +18,7 @@ class Session
 
     private static function start()
     {
-        if (!self::$started)
-        {
+        if (!self::$started) {
             self::$started = true;
             session_start();
         }
@@ -30,7 +30,8 @@ class Session
         $_SESSION[$key] = $value;
     }
 
-    public static function unset($key) {
+    public static function unset($key)
+    {
         self::start();
         unset($_SESSION[$key]);
     }
@@ -38,7 +39,7 @@ class Session
     public static function get($key)
     {
         self::start();
-        if (isset($_SESSION[$key])){
+        if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
 
@@ -47,8 +48,7 @@ class Session
 
     public static function destroy()
     {
-        if (self::$started)
-        {
+        if (self::$started) {
             session_destroy();
             self::$started = false;
         }

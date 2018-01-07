@@ -1,5 +1,4 @@
 <?php
-
 namespace Gvera\Models;
 
 /**
@@ -47,6 +46,4 @@ class UserRole extends GvModel
     {
         $this->rolePriority = $rolePriority;
     }
-
-
 }

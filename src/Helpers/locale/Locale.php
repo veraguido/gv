@@ -1,5 +1,5 @@
-<?php
-namespace Gvera\Helpers\locale;
+<?php namespace Gvera\Helpers\locale;
+
 use Gvera\Cache\Cache;
 use Symfony\Component\Yaml\Yaml;
 
@@ -29,16 +29,19 @@ class Locale
     public static function getLocale(string $key, array $additionalParams = null)
     {
         if (!Cache::getCache()->exists(self::LOCALE_CACHE_KEY)) {
-            self::$locales = Yaml::parse(file_get_contents(__DIR__ . '/../../../resources/locale/' . self::$currentLocale .'/messages.yml'));
+            self::$locales = Yaml::parse(
+                file_get_contents(
+                    __DIR__ . '/../../../resources/locale/' . self::$currentLocale .'/messages.yml'
+                )
+            );
             Cache::getCache()->setHashMap(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY, self::$locales);
         }
         $value = Cache::getCache()->getHashMapItem(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY, $key);
 
-        if(!$value) {
+        if (!$value) {
             return $key;
         }
 
         return sprintf($value, $additionalParams);
     }
-
 }

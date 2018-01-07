@@ -2,7 +2,16 @@
 
 namespace Gvera\Controllers;
 
-
+/**
+ * Controller Class Doc Comment
+ *
+ * @category Class
+ * @package  src/controllers
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class HttpCodeResponse extends GvController
 {
     public function resourceNotFound()

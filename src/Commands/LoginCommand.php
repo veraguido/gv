@@ -1,12 +1,20 @@
 <?php
-
 namespace Gvera\Commands;
-
 
 use Gvera\Events\UserLoggedInEvent;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Services\UserService;
 
+/**
+ * Command Class Doc Comment
+ *
+ * @category Class
+ * @package  src/commands
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class LoginCommand implements ICommand
 {
     private $username;
@@ -17,7 +25,6 @@ class LoginCommand implements ICommand
     {
         $this->username = $username;
         $this->password = $password;
-        $this->role = $role;
     }
 
     public function execute()
@@ -28,7 +35,8 @@ class LoginCommand implements ICommand
         if (UserService::isUserLoggedIn()) {
             EventDispatcher::dispatchEvent(
                 UserLoggedInEvent::USER_LOGGED_IN_EVENT,
-                new UserLoggedInEvent(UserLoggedInEvent::USER_LOGGED_IN_EVENT));
+                new UserLoggedInEvent(UserLoggedInEvent::USER_LOGGED_IN_EVENT)
+            );
         }
     }
 }

@@ -6,7 +6,11 @@ use Gvera\Helpers\http\HttpResponse;
 
 /**
  * Class GvController
+ * @category Class
  * @package Gvera\Controllers
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
  * Base controller to be used as a parent of all controllers, manages http objects,
  * the entityManager and the responsibility of loading twig or not.
  */
@@ -39,12 +43,13 @@ abstract class GvController
         $this->httpResponse = HttpResponse::getInstance();
         $this->httpRequest = HttpRequest::getInstance();
 
-        if(!method_exists($this, $method)) {
+        if (!method_exists($this, $method)) {
             throw new \Exception('the method ' . $method . ' was not found on:' . __FILE__ . ' controller');
         }
     }
 
-    protected function preInit() {
+    protected function preInit()
+    {
         if ($this->needsTwig()) {
             $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
             $this->twig = new \Twig_Environment($loader);
@@ -54,7 +59,8 @@ abstract class GvController
     /**
      * @throws \Exception
      */
-    public function init() {
+    public function init()
+    {
         $this->preInit();
 
         $tmpM = $this->method;
@@ -66,19 +72,22 @@ abstract class GvController
     /**
      * @throws \Exception
      */
-    protected function postInit() {
-        if($this->needsTwig()) {
+    protected function postInit()
+    {
+        if ($this->needsTwig()) {
             echo $this->twig->render('/'.$this->name . '/' . $this->method . '.twig.html', $this->viewParams);
             return;
         }
 
-        if(count($this->viewParams) > 0)
-            throw new \Exception('view params was set, but view could not be found for ' . $this->method . ' method, Controller: ' . $this->name);
+        if (count($this->viewParams) > 0) {
+            throw new \Exception('view params was set, but view could not be found for ' . $this->method .
+                ' method, Controller: ' . $this->name);
+        }
     }
 
 
-    protected function needsTwig() {
+    protected function needsTwig()
+    {
         return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.twig.html');
     }
-
 }

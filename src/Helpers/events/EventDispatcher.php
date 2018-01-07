@@ -1,7 +1,5 @@
 <?php
-
 namespace Gvera\Helpers\events;
-
 
 use Gvera\Events\Event;
 use Gvera\Listeners\EventListener;
@@ -28,13 +26,13 @@ class EventDispatcher
     {
         $listeners = isset(self::$eventsListeners[$eventId]) ? self::$eventsListeners[$eventId] : array();
 
-        foreach($listeners as $listener) {
+        foreach ($listeners as $listener) {
             $listener->handleEvent($event);
         }
     }
 
-    public static function removeEventListeners(string $eventId){
+    public static function removeEventListeners(string $eventId)
+    {
         unset(self::$eventsListeners[$eventId]);
     }
-
 }

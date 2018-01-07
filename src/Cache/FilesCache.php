@@ -1,8 +1,16 @@
 <?php
-
 namespace Gvera\Cache;
 
-
+/**
+ * Cache Class Doc Comment
+ *
+ * @category Class
+ * @package  src/cache
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class FilesCache implements ICache
 {
     private static $instance;
@@ -19,8 +27,7 @@ class FilesCache implements ICache
 
     public static function getInstance()
     {
-        if (!self::$instance)
-        {
+        if (!self::$instance) {
             self::$instance = new FilesCache();
             self::checkClient();
         }
@@ -90,7 +97,8 @@ class FilesCache implements ICache
 
     private static function checkClient()
     {
-        if(!self::$client)
+        if (!self::$client) {
             self::$client = new FilesCacheClient(self::FILES_CACHE_PATH);
+        }
     }
 }

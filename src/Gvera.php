@@ -1,6 +1,5 @@
 <?php namespace Gvera;
 
-
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Controllers\Index;
@@ -8,7 +7,18 @@ use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
 
-class Gvera {
+/**
+ * Application Class Doc Comment
+ *
+ * @category Class
+ * @package  src
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
+class Gvera
+{
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     private $method = 'index';
@@ -89,11 +99,11 @@ class Gvera {
      */
     private function checkIfControllerExists($controllerName)
     {
-
         $controllerFullName = self::CONTROLLERS_PREFIX . $controllerName;
 
-        if($controllerName == "GvController")
+        if ($controllerName == "GvController") {
             throw new \Exception('GvController is not a valid controller');
+        }
 
         if (!class_exists($controllerFullName)) {
             $controllerFullName = HttpCodeResponse::class;
@@ -131,11 +141,10 @@ class Gvera {
     private function initializeControllerInstance($controllerFullName)
     {
         $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
-        if (!is_a($controllerInstance, GvController::class))
+        if (!is_a($controllerInstance, GvController::class)) {
             throw new \Exception('The controller that you are trying to instantiate should be extending GvController');
+        }
 
         $controllerInstance->init();
     }
-
 }
-

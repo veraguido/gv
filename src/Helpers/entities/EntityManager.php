@@ -1,11 +1,19 @@
 <?php
-
 namespace Gvera\Helpers\entities;
-
 
 use Doctrine\ORM\Tools\Setup;
 use Gvera\Helpers\config\Config;
 
+/**
+ * Entities Class Doc Comment
+ *
+ * @category Class
+ * @package  src/helpser/entities
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class EntityManager
 {
     public static function getInstance()
@@ -21,7 +29,11 @@ class EntityManager
             'dbname'   => $mysqlConfig['db_name']
         );
 
-        $doctrineConfig = Setup::createAnnotationMetadataConfiguration($path, (bool) Config::getInstance()->getConfig('devmode'));
+        $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
+            $path,
+            (bool) Config::getInstance()->getConfig('devmode')
+        );
+
         return \Doctrine\ORM\EntityManager::create($dbParams, $doctrineConfig);
     }
 }

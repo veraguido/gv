@@ -1,5 +1,4 @@
 <?php
-
 namespace Gvera\Models;
 
 /**
@@ -48,6 +47,4 @@ class UserStatus
     {
         $this->id = $id;
     }
-
-
 }

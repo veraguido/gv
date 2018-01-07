@@ -1,17 +1,24 @@
 <?php
-
 namespace Gvera\Controllers;
-
 
 use Gvera\Commands\CreateUserStatusCommand;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Services\UserService;
 
+/**
+ * Controller Class Doc Comment
+ *
+ * @category Class
+ * @package  src/controllers
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class UserStatuses extends GvController
 {
     public function index()
     {
-
     }
 
     /**
@@ -33,6 +40,5 @@ class UserStatuses extends GvController
 
     public function delete()
     {
-
     }
 }

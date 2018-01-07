@@ -6,9 +6,18 @@ use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\ValidationService;
 use Gvera\Models\User;
 
+/**
+ * Service Class Doc Comment
+ *
+ * @category Class
+ * @package  src/services
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class UserService
 {
-
     const MODERATOR_ROLE_PRIORITY = 5;
 
     public function validateEmail($email)
@@ -16,11 +25,13 @@ class UserService
         return ValidationService::validate($email, [new EmailValidationStrategy()]);
     }
 
-    public function generatePassword($plainPassword) {
+    public function generatePassword($plainPassword)
+    {
         return password_hash($plainPassword, PASSWORD_BCRYPT);
     }
 
-    public function validatePassword($plainPassword, $hash) {
+    public function validatePassword($plainPassword, $hash)
+    {
         return password_verify($plainPassword, $hash);
     }
 
@@ -30,7 +41,14 @@ class UserService
         $user = $em->findOneBy(['username' => $username]);
 
         if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {
-            Session::set('user', ['username' => $username, 'userEmail' => $user->getEmail(), 'role' => $user->getRole()->getRolePriority()]);
+            Session::set(
+                'user',
+                [
+                    'username' => $username,
+                    'userEmail' => $user->getEmail(),
+                    'role' => $user->getRole()->getRolePriority()
+                ]
+            );
         }
     }
 
@@ -39,11 +57,13 @@ class UserService
         Session::unset('user');
     }
 
-    public static function isUserLoggedIn() {
+    public static function isUserLoggedIn()
+    {
         return Session::get('user') != null;
     }
 
-    public static function getUserRole() {
+    public static function getUserRole()
+    {
         return Session::get('user') != null ? Session::get('user')['role'] : false;
     }
 }

@@ -1,7 +1,5 @@
 <?php
-
 namespace Gvera\Helpers\events;
-
 
 use Gvera\Events\QWEEvent;
 use Gvera\Events\UserRegisteredEvent;
@@ -15,7 +13,11 @@ use Gvera\Listeners\UserRegisteredEmailListener;
  */
 class EventListenerRegistry
 {
-    public static function registerEventListeners() {
-        EventDispatcher::addEventListener(UserRegisteredEvent::USER_REGISTERED_EVENT, new UserRegisteredEmailListener());
+    public static function registerEventListeners()
+    {
+        EventDispatcher::addEventListener(
+            UserRegisteredEvent::USER_REGISTERED_EVENT,
+            new UserRegisteredEmailListener()
+        );
     }
 }

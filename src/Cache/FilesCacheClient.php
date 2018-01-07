@@ -1,8 +1,16 @@
 <?php
-
 namespace Gvera\Cache;
 
-
+/**
+ * Cache Class Doc Comment
+ *
+ * @category Class
+ * @package  src/cache
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class FilesCacheClient
 {
     private $path;
@@ -12,12 +20,14 @@ class FilesCacheClient
         $this->path = $path;
     }
 
-    public function saveToFile($file, $value) {
+    public function saveToFile($file, $value)
+    {
         file_put_contents($this->path . $file, json_encode($value));
         return true;
     }
 
-    public function loadFromFile($file) {
+    public function loadFromFile($file)
+    {
         return file_get_contents($this->path . $file);
     }
 }

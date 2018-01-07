@@ -1,12 +1,20 @@
 <?php
-
 namespace Gvera\Listeners;
-
 
 use Gvera\Events\Event;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\email\GvEmail;
 
+/**
+ * Listener Class Doc Comment
+ *
+ * @category Class
+ * @package  src/listeners
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class UserRegisteredEmailListener implements EventListener
 {
 

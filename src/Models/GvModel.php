@@ -1,15 +1,24 @@
 <?php
-
 namespace Gvera\Models;
 
-
+/**
+ * Model Class Doc Comment
+ *
+ * @category Class
+ * @package  src/models
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 abstract class GvModel
 {
     private $service;
     private $serviceName;
     const SERVICES_PREFIX = "Gvera\\Services\\";
 
-    protected function getService() {
+    protected function getService()
+    {
         if (!$this->service) {
             $this->serviceName = self::SERVICES_PREFIX . (new \ReflectionClass($this))->getShortName() . 'Service';
             if (!class_exists($this->serviceName)) {
@@ -20,5 +29,4 @@ abstract class GvModel
         }
         return $this->service;
     }
-
 }

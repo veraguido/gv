@@ -1,4 +1,5 @@
 <?php namespace Gvera\Models;
+
 use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\ValidationService;
 
@@ -136,5 +137,4 @@ class User extends GvModel
     {
         $this->role = $role;
     }
-
 }

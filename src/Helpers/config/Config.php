@@ -1,5 +1,4 @@
 <?php
-
 namespace Gvera\Helpers\config;
 
 use Gvera\Cache\Cache;

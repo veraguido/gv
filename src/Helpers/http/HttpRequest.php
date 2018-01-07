@@ -38,20 +38,23 @@ class HttpRequest
     public function getParameters()
     {
         $paramArray = array();
-        if($this->isGet())
+        if ($this->isGet()) {
             $paramArray = $_GET;
+        }
 
-        if ($this->isPost())
+        if ($this->isPost()) {
             $paramArray = $_POST;
+        }
 
-        if ($this->isPut() || $this->isDelete())
-            parse_str(file_get_contents("php://input"),$paramArray);
-
+        if ($this->isPut() || $this->isDelete()) {
+            parse_str(file_get_contents("php://input"), $paramArray);
+        }
 
         return array_merge($this->requestParams, $paramArray);
     }
 
-    public function getParameter($name) {
+    public function getParameter($name)
+    {
         return isset($this->getParameters()[$name]) ? $this->getParameters()[$name] : null;
     }
 
@@ -80,8 +83,8 @@ class HttpRequest
         return $this->requestType;
     }
 
-    public function setParameter($key, $value) {
+    public function setParameter($key, $value)
+    {
         $this->requestParams[$key] = $value;
     }
-
 }

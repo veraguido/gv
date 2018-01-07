@@ -1,6 +1,5 @@
 <?php namespace Gvera\Helpers\routes;
 
-
 use Gvera\Cache\Cache;
 use Gvera\Cache\RedisCache;
 use Symfony\Component\Yaml\Yaml;
@@ -33,14 +32,15 @@ class RouteManager
     public function getRoute($pathLike)
     {
         $pathLikeArray = explode("/", $pathLike);
-        if ( empty($pathLikeArray[2]) )
+        if (empty($pathLikeArray[2])) {
             return false;
+        }
 
         $filteredRoutes = $this->stripRoutesByHttpMethod($this->httpRequest->getRequestType());
 
         foreach ($filteredRoutes as $route) {
-            if ( (strpos($route['uri'], $pathLikeArray[1]) !== false) && (strpos($route['uri'], $pathLikeArray[2]) !== false) ) {
-
+            if ((strpos($route['uri'], $pathLikeArray[1]) !== false) &&
+                (strpos($route['uri'], $pathLikeArray[2]) !== false)) {
                 $totalRoute = $route['uri'] ;
                 $totalRouteArray = explode("/", $totalRoute);
                 $routeController = $totalRouteArray[1];
@@ -48,14 +48,13 @@ class RouteManager
 
                 $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
                 $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
-                if($urlCheck && $checkUri)
+                if ($urlCheck && $checkUri) {
                     return $route['action'];
-                else
+                } else {
                     continue;
+                }
             }
-
         }
-
         return false;
     }
 
@@ -68,9 +67,9 @@ class RouteManager
     {
         for ($i = 0; $i < count($pathLikeArray); $i++) {
             if (substr_count($pathLikeArray[$i], self::ROUTE_NEEDLE) == 2) {
-
-                if (empty($totalRoute[$i]))
+                if (empty($totalRoute[$i])) {
                     return false;
+                }
 
                 $this->httpRequest->setParameter(
                     str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]),

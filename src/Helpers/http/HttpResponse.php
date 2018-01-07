@@ -7,7 +7,6 @@
  */
 class HttpResponse
 {
-
     const CONTENT_TYPE_CSS = "Content-Type: text/css";
     const CONTENT_TYPE_JSON = "Content-Type: application/json";
     const CONTENT_TYPE_PDF = "Content-Type: application/pdf";
@@ -51,7 +50,8 @@ class HttpResponse
         header($header);
     }
 
-    public function responseExit() {
+    public function responseExit()
+    {
         exit;
     }
 

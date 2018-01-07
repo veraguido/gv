@@ -1,7 +1,5 @@
 <?php
-
 namespace Gvera\Commands;
-
 
 use Gvera\Events\UserRegisteredEvent;
 use Gvera\Helpers\entities\EntityManager;
@@ -10,6 +8,16 @@ use Gvera\Models\User;
 use Gvera\Models\UserRole;
 use Gvera\Models\UserStatus;
 
+/**
+ * Command Class Doc Comment
+ *
+ * @category Class
+ * @package  src/commands
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class CreateNewUserCommand implements ICommand
 {
     private $name;

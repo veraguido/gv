@@ -4,9 +4,14 @@ use Predis\Client;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class RedisCache
- * @package Gvera\Cache
- * implementation for the redis cache
+ * Cache Class Doc Comment
+ *
+ * @category Class
+ * @package  src/cache
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
  */
 class RedisCache implements ICache
 {
@@ -20,8 +25,7 @@ class RedisCache implements ICache
 
     public static function getInstance()
     {
-        if (!self::$instance)
-        {
+        if (!self::$instance) {
             self::$instance = new RedisCache();
             self::$config = Yaml::parse(file_get_contents(__DIR__ . '/../../config/config.yml'))['config']['redis'];
             self::checkRedisClient();
@@ -33,8 +37,9 @@ class RedisCache implements ICache
     public function save($key, $value, $expirationTime = null)
     {
         self::$client->set($key, $value);
-        if ($expirationTime)
+        if ($expirationTime) {
             self::$client->expire($key, $expirationTime);
+        }
     }
 
     public function load($key)
@@ -65,8 +70,7 @@ class RedisCache implements ICache
 
     public function setHashMap($hashMapKey, $array)
     {
-        foreach($array as $key => $value)
-        {
+        foreach ($array as $key => $value) {
             $this->addToHashMap($hashMapKey, $key, $value);
         }
     }
@@ -91,18 +95,19 @@ class RedisCache implements ICache
         return self::$client->del($key);
     }
 
-    public function ping() {
+    public function ping()
+    {
         return self::$client->ping();
     }
 
     private static function checkRedisClient()
     {
-        if (!self::$client)
-
+        if (!self::$client) {
             self::$client  = new Client(array(
                 "scheme" => "tcp",
                 "host" => self::$config["host"],
                 "port" => self::$config["port"],
-                ));
+            ));
+        }
     }
 }

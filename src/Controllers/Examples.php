@@ -1,7 +1,5 @@
 <?php
-
 namespace Gvera\Controllers;
-
 
 use Gvera\Cache\Cache;
 use Gvera\Commands\CreateNewUserCommand;
@@ -10,7 +8,16 @@ use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Services\UserService;
 
-
+/**
+ * Controller Class Doc Comment
+ *
+ * @category Class
+ * @package  src/controllers
+ * @author    Guido Vera
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.github.com/veraguido/gv
+ *
+ */
 class Examples extends GvController
 {
     public function index()
@@ -65,7 +72,6 @@ class Examples extends GvController
         var_dump($user);
         echo '</pre>';*/
         //echo print_r(Session::get('user'));
-
     }
 
     /**
@@ -78,7 +84,7 @@ class Examples extends GvController
         var_dump(EntityManager::getInstance()->getRepository(User::class)->find(1)->getPassword());
         echo '</pre>';*/
 
-        if($this->httpRequest->isPost()) {
+        if ($this->httpRequest->isPost()) {
             $registerUserCommand = new CreateNewUserCommand(
                 $this->httpRequest->getParameter('username'),
                 $this->httpRequest->getParameter('password'),
@@ -88,15 +94,15 @@ class Examples extends GvController
             $registerUserCommand->execute();
             echo 'worked!';
         }
-
-
     }
 
-    public function lorep() {
+    public function lorep()
+    {
         echo Locale::getLocale("Hello world");
     }
 
-    public function ipsum() {
+    public function ipsum()
+    {
         throw new \Exception('Test Exception for default controller');
     }
 }
