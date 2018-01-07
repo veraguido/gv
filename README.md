@@ -15,10 +15,12 @@ GV is a PHP framework focused on usability, fastness and reliableness.
 
 > The goal of GV is to create web services or web sites 
 > as fast and robust as possible, following the 
-> convention over configuration technique plus market standards.
+> convention over configuration technique, Hexagonal architecture patterns and market standards.
 
 ### Tech
-Basically all requests are redirected to the index.php inside the public folder, from there the app will start.
+Basically for the web part, all requests are redirected to the index.php inside the public folder, from 
+there the app will start. 
+On the other hand there's a bunch of shell scripts to manage the applications / create resources, populate tables, etc.
 
 gv uses a number of open source projects to work properly. Among the architecture, you will find:
 
@@ -76,16 +78,11 @@ session.save_path = "tcp://localhost:6379"
 configure your config.yml file inside the config folder.
 
 ### How it works
-GV is a MVC framework done with convention over configuration as a mind set.
+GV is an Hexagonal architecture framework done with convention over configuration as a mind set.
 This mean that you need to put the correct files with the correct names in the correct place. 
 
-For instance, lets imagine that we want to manage a new entity, Users, this will consist of:
-- A controller that will manage the actions through /user/{action}
-- A Model that will have specific fields (username, password, status)
-- If needed, a view that will render each action
-
-The controller: Create a new User class that will extend from the GController class.
-The Model: Create a new User model inside the Models directory that you will later use.
+The controller: Create a new User class that will extend from the GvController class.
+The Model: Create a new User model inside the Models directory that you will later use, extend it from the GvModel class.
 The view: Per each action that you consider that needs a view, you will need to create a /Views/{controller_name}/{action_name}.twig.html
 
 For more information use the documentation.
