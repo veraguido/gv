@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 05/01/18
- * Time: 13:35
- */
 
 namespace Gvera\Helpers\entities;
 

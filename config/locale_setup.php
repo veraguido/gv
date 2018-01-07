@@ -1,12 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: guido
- * Date: 23/11/17
- * Time: 15:07
- */
-
-/**
  * Verifies if the given $locale is supported in the project
  * @param string $locale
  * @return bool

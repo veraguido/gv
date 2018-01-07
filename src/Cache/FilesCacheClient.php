@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 10/12/17
- * Time: 09:48
- */
 
 namespace Gvera\Cache;
 

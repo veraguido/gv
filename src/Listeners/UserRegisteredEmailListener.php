@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 1/5/18
- * Time: 8:08 PM
- */
 
 namespace Gvera\Listeners;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 1/6/18
- * Time: 9:48 PM
- */
 
 namespace Gvera\Models;
 
