@@ -11,11 +11,13 @@ class LoginCommand implements ICommand
 {
     private $username;
     private $password;
+    private $role;
 
     public function __construct($username, $password)
     {
         $this->username = $username;
         $this->password = $password;
+        $this->role = $role;
     }
 
     public function execute()

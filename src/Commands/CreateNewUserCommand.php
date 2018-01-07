@@ -13,6 +13,7 @@ use Gvera\Events\UserRegisteredEvent;
 use Gvera\Helpers\entities\EntityManager;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Models\User;
+use Gvera\Models\UserRole;
 use Gvera\Models\UserStatus;
 
 class CreateNewUserCommand implements ICommand
@@ -21,6 +22,7 @@ class CreateNewUserCommand implements ICommand
     private $password;
     private $email;
     private $entityManager;
+    private $roleName;
 
     public function __construct($name, $password, $email)
     {
@@ -37,6 +39,7 @@ class CreateNewUserCommand implements ICommand
     public function execute()
     {
         $status = $this->entityManager->getRepository(UserStatus::class)->findOneBy(['status' => 'active']);
+        $role = $this->entityManager->getRepository(UserRole::class)->findOneBy(['name' => 'user']);
 
         $user = new User();
         $user->setUsername($this->name);
@@ -44,6 +47,7 @@ class CreateNewUserCommand implements ICommand
         $user->setEmail($this->email);
         $user->setCreated();
         $user->setStatus($status);
+        $user->setRole($role);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

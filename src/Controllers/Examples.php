@@ -68,6 +68,10 @@ class Examples extends GvController
 
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     */
     public function qwe()
     {
         /*echo '<pre>';

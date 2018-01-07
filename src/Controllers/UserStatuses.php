@@ -29,18 +29,12 @@ class UserStatuses extends GvController
             throw new \Exception('/statuses/create must be a post request.');
         }
 
-        if (!UserService::isUserLoggedIn()) {
-            throw new \Exception(Locale::getLocale('User must be logged in'));
+        if (!UserService::isUserLoggedIn() || UserService::getUserRole() < UserService::MODERATOR_ROLE_PRIORITY) {
+            throw new \Exception(Locale::getLocale('User must be logged in and have the correct rights'));
         }
 
         $newUserStatusCommand = new CreateUserStatusCommand($this->httpRequest->getParameter('name'));
         $newUserStatusCommand->execute();
-
-    }
-
-    public function update()
-    {
-
     }
 
     public function delete()

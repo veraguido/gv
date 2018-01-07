@@ -1,0 +1,4 @@
+name: GV Migrations
+migrations_namespace: DoctrineMigrations
+table_name: doctrine_migration_versions
+migrations_directory: /var/www/gv/resources/migrations/classes

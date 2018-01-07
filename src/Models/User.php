@@ -53,6 +53,12 @@ class User extends GvModel
      */
     protected $status;
 
+    /**
+     * @OneToOne(targetEntity="UserRole")
+     * @JoinColumn(name="role_id", referencedColumnName="id")
+     */
+    protected $role;
+
     public function getId()
     {
         return $this->id;
@@ -114,4 +120,21 @@ class User extends GvModel
     {
         return $this->status;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
 }

@@ -1,15 +1,9 @@
 <?php namespace Gvera;
 
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
-use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Controllers\Index;
-use Gvera\Helpers\config\Config;
 use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
@@ -21,6 +15,7 @@ class Gvera {
     private $controllerFinalName;
 
     /**
+     * @throws \Exception
      * Application's entry point
      */
     public function run()
@@ -30,6 +25,7 @@ class Gvera {
     }
 
     /**
+     * @throws \Exception
      * In case of not dev mode redirect will be done instead of printing an exception.
      */
     public function redirectToDefault()
@@ -51,6 +47,7 @@ class Gvera {
 
     /**
      * @param bool $action
+     * @throws \Exception
      * If the route was already defined in the routes.yml file then that one will take precedence over the
      * convention over configuration strategy (host.com/Controller/Method)
      */
@@ -127,6 +124,10 @@ class Gvera {
         return ($methodName === null || $methodName == '') ? GvController::DEFAULT_METHOD : $methodName;
     }
 
+    /**
+     * @param $controllerFullName
+     * @throws \Exception
+     */
     private function initializeControllerInstance($controllerFullName)
     {
         $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);

@@ -1,0 +1,23 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../config/locale_setup.php';
+
+if (count($argv) != 3){
+    echo 'wrong amount of parameters for this command';?>
+
+usage example: ./create-user-role admin 10
+    <?php
+    exit(0);
+}
+
+echo $argv[1];
+try {
+    $command = new \Gvera\Commands\CreateNewUserRoleCommand($argv[1], $argv[2]);
+    $command->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+echo ' role generated successfully';

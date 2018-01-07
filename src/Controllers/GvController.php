@@ -52,7 +52,7 @@ abstract class GvController
     }
 
     /**
-     * Initialization method.
+     * @throws \Exception
      */
     public function init() {
         $this->preInit();
@@ -63,7 +63,9 @@ abstract class GvController
         $this->postInit();
     }
 
-
+    /**
+     * @throws \Exception
+     */
     protected function postInit() {
         if($this->needsTwig()) {
             echo $this->twig->render('/'.$this->name . '/' . $this->method . '.twig.html', $this->viewParams);

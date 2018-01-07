@@ -8,6 +8,9 @@ use Gvera\Models\User;
 
 class UserService
 {
+
+    const MODERATOR_ROLE_PRIORITY = 5;
+
     public function validateEmail($email)
     {
         return ValidationService::validate($email, [new EmailValidationStrategy()]);
@@ -27,7 +30,7 @@ class UserService
         $user = $em->findOneBy(['username' => $username]);
 
         if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {
-            Session::set('user', ['username' => $username, 'userEmail' => $user->getEmail()]);
+            Session::set('user', ['username' => $username, 'userEmail' => $user->getEmail(), 'role' => $user->getRole()->getRolePriority()]);
         }
     }
 
@@ -38,5 +41,9 @@ class UserService
 
     public static function isUserLoggedIn() {
         return Session::get('user') != null;
+    }
+
+    public static function getUserRole() {
+        return Session::get('user') != null ? Session::get('user')['role'] : false;
     }
 }
