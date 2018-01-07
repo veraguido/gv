@@ -15,7 +15,7 @@
         "monolog/monolog":          "1.0.*",
         "twig/twig":                "2.0",
         "doctrine/orm":             "2.4.*",
-	"doctrine/migrations":	    "1.5.*",
+	    "doctrine/migrations":	    "1.5.*",
         "symfony/yaml":             "3.*",
         "phpmailer/phpmailer":      "~5.2",
         "predis/predis":            "1.*"

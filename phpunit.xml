@@ -11,7 +11,7 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="Gvera's suite">
-            <directory suffix=".php">./test/</directory>
+            <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
