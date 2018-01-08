@@ -91,8 +91,6 @@ For more information use the documentation.
 TODO
 
 ### TODO list
-- bash commands (WIP)
-- view hierarchy
 - docker
 - Documentation
 - cron management
