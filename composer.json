@@ -10,6 +10,9 @@
         }
     ],
     "require": {
+        "php":                      "7.*",
+        "ext-ssh2":                 "*",
+        "ext-mysqli":               "*",
         "monolog/monolog":          "1.0.*",
         "twig/twig":                "2.0",
         "doctrine/orm":             "2.4.*",
