@@ -1,5 +1,6 @@
 <?php namespace Gvera;
 
+use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Controllers\Index;
@@ -21,8 +22,10 @@ class Gvera
 {
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
+    const GV_CONTROLLERS_KEY = 'gv_controllers';
     private $method = 'index';
     private $controllerFinalName;
+    private $controllerAutoloadingNames = [];
 
     /**
      * @throws \Exception
@@ -31,6 +34,7 @@ class Gvera
     public function run()
     {
         EventListenerRegistry::registerEventListeners();
+        $this->autoloadControllers();
         $this->parseUri($this->useSpecialRoutesIfApply());
     }
 
@@ -122,7 +126,7 @@ class Gvera
      */
     private function getControllerFinalName($rawName)
     {
-        return ($rawName != null && $rawName != "") ? ucfirst(strtolower($rawName)) : GvController::DEFAULT_CONTROLLER;
+        return ($rawName != null && $rawName != "") ? ($this->controllerAutoloadingNames[strtolower($rawName)]) : GvController::DEFAULT_CONTROLLER;
     }
 
     private function getMethodFinalName($methodName)
@@ -146,5 +150,25 @@ class Gvera
         }
 
         $controllerInstance->init();
+    }
+
+    /**
+     * @Cached
+     * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
+     * The method will check for all the files created under the controllers directory and generate a map of them
+     * to be used for the instantiation.
+     */
+    private function autoloadControllers()
+    {
+        if (!Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
+            $controllersDir = scandir(__DIR__ . '/Controllers/');
+            foreach ($controllersDir as $index => $autoloadingName) {
+                $correctName = str_replace(".php", "", $autoloadingName);
+                $this->controllerAutoloadingNames[strtolower($correctName)] = $correctName;
+                Cache::getCache()->save(self::CONTROLLERS_PREFIX, serialize($this->controllerAutoloadingNames));
+            }
+        } else {
+            $this->controllerAutoloadingNames = Cache::getCache()->load(self::GV_CONTROLLERS_KEY);
+        }
     }
 }

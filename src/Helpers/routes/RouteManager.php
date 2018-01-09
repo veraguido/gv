@@ -18,6 +18,11 @@ class RouteManager
     const ROUTE_CACHE_KEY = 'gv_routes';
     private $httpRequest;
 
+    /**
+     * @Cached
+     * RouteManager constructor.
+     * @param $httpRequest
+     */
     public function __construct($httpRequest)
     {
         $this->httpRequest = $httpRequest;

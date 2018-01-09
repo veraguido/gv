@@ -21,6 +21,7 @@ class Locale
     }
 
     /**
+     * @Cached
      * @param string $key
      * @param array|null $additionalParams
      * @return string

@@ -30,12 +30,6 @@ class Examples extends GvController
     public function tiju()
     {
         //$this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
-
-        if (!Cache::getCache()->exists('asd')) {
-            Cache::getCache()->save('asd', 'test ameo 2');
-        }
-
-        echo Cache::getCache()->load('asd');
     }
 
     public function tan()

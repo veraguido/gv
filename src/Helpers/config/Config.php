@@ -18,6 +18,10 @@ class Config
     const CONFIG_KEY = 'gv_config';
     private $config;
 
+    /**
+     * @Cached
+     * Config constructor.
+     */
     private function __construct()
     {
         if (Cache::getCache()->exists(self::CONFIG_KEY)) {
