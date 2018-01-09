@@ -18,6 +18,7 @@ class CreateUserStatusCommand implements ICommand
 {
 
     private $statusName;
+    private $entityManager;
 
 
     public function __construct($statusName)

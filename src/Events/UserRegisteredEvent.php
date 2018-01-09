@@ -22,7 +22,7 @@ class UserRegisteredEvent extends Event
      */
     public function getUserName()
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
@@ -33,9 +33,8 @@ class UserRegisteredEvent extends Event
         return $this->email;
     }
 
-    public function __construct($name, $username, $email)
+    public function __construct($username, $email)
     {
-        parent::__construct($name);
         $this->username = $username;
         $this->email = $email;
     }

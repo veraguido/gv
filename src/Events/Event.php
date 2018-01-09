@@ -13,24 +13,21 @@ namespace Gvera\Events;
  */
 abstract class Event
 {
-    protected $name;
+    protected $stopPropagation = false;
 
     /**
-     *
-     * Event constructor.
-     * @param $name
+     * @return mixed
      */
-    public function __construct($name)
+    public function getStopPropagation()
     {
-        $this->name = $name;
+        return $this->stopPropagation;
     }
 
     /**
-     *
-     * @return mixed
+     * @param mixed $stopPropagation
      */
-    public function getName()
+    public function setStopPropagation(bool $stopPropagation)
     {
-        return $this->name;
+        $this->stopPropagation = $stopPropagation;
     }
 }

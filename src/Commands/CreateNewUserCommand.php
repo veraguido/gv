@@ -57,7 +57,6 @@ class CreateNewUserCommand implements ICommand
         EventDispatcher::dispatchEvent(
             UserRegisteredEvent::USER_REGISTERED_EVENT,
             new UserRegisteredEvent(
-                UserRegisteredEvent::USER_REGISTERED_EVENT,
                 $user->getUsername(),
                 $user->getEmail()
             )

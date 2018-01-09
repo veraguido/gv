@@ -35,7 +35,7 @@ class LoginCommand implements ICommand
         if (UserService::isUserLoggedIn()) {
             EventDispatcher::dispatchEvent(
                 UserLoggedInEvent::USER_LOGGED_IN_EVENT,
-                new UserLoggedInEvent(UserLoggedInEvent::USER_LOGGED_IN_EVENT)
+                new UserLoggedInEvent()
             );
         }
     }
