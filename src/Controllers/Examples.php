@@ -86,7 +86,6 @@ class Examples extends GvController
             );
 
             $registerUserCommand->execute();
-            echo 'worked!';
         }
     }
 

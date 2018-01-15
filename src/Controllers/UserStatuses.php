@@ -19,6 +19,7 @@ class UserStatuses extends GvController
 {
     public function index()
     {
+        echo 'userstatuses';
     }
 
     /**
