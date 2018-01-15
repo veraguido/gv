@@ -17,3 +17,4 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && chown -R www-data:www-data /var/www/gv \
     && a2enmod rewrite \
+    && ln -fsn /usr/local/bin/php /usr/bin/php

@@ -3,9 +3,10 @@
 GV is a PHP framework focused on usability, fastness and reliableness. 
 
   - Redis cache
+  - Docker
   - A validation strategy
   - Http handling
-  - Shell scripts in place
+  - Shell scripts + ORM management through CLI
   - Event mechanism
   - Command pattern
   - Unit tests
@@ -50,6 +51,38 @@ Install the dependencies running composer install in the root of the project
 composer install
 ```
 
+Provision your docker containers at the root of the project:
+```sh
+docker-compose build
+```
+
+From now on to start your services, use:
+```sh
+docker-compose up
+```
+
+Navigate through your browser to localhost:8090 and check if the gv message is present. Enjoy :)
+
+
+
+### How it works
+GV is an Hexagonal architecture framework done with convention over configuration as a mind set.
+This mean that you need to put the correct files with the correct names in the correct place. 
+
+The controller: Create a new User class that will extend from the GvController class.
+The Model: Create a new User model inside the Models directory that you will later use, extend it from the GvModel class.
+The view: Per each action that you consider that needs a view, you will need to create a /Views/{controller_name}/{action_name}.twig.html
+
+For more information use the documentation.
+
+### Shell commands
+Use docker exec -it gv_app_1 /bin/bash to enter your container, from there, use shell/{command} and follow the steps.
+
+### TODO list
+- Documentation
+- cron management
+
+### Manual installation (only if you don't want to use docker)
 Remember to configure your web server to Allow override in case of Apache2
 ```sh
 /etc/apache2/sites-available/000-default.conf
@@ -78,20 +111,3 @@ session.save_path = "tcp://localhost:6379"
 
 configure your config.yml file inside the config folder.
 
-### How it works
-GV is an Hexagonal architecture framework done with convention over configuration as a mind set.
-This mean that you need to put the correct files with the correct names in the correct place. 
-
-The controller: Create a new User class that will extend from the GvController class.
-The Model: Create a new User model inside the Models directory that you will later use, extend it from the GvModel class.
-The view: Per each action that you consider that needs a view, you will need to create a /Views/{controller_name}/{action_name}.twig.html
-
-For more information use the documentation.
-
-### Docker
-TODO
-
-### TODO list
-- docker
-- Documentation
-- cron management

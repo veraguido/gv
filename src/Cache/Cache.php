@@ -16,12 +16,12 @@ class Cache
     private static $exception;
 
     /**
-     * it will ping redis to check the availability of the service, if it's not present it will use files as default.
+     * it will ping redis to check the availability of the service, if it's not present it will fallback
+     * to files as default.
      * @return FilesCache|RedisCache
      */
-    public static function getCache()
+    public static function getCache(): ICache
     {
-
         try {
             RedisCache::getInstance()->ping();
         } catch (\Exception $e) {
