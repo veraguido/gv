@@ -10,7 +10,7 @@ class ForgotPassword extends GvModel
     /** @Id @Column(type="integer") @GeneratedValue */
     private $id;
     /**
-     * @OneToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -18,13 +18,28 @@ class ForgotPassword extends GvModel
     private $created;
     /** @Column(type="boolean", options={"default":false}) */
     private $alreadyUsed;
+    /** @Column(type="string", length=50, unique=true, nullable=false) */
+    private $forgotPasswordKey;
 
     /**
-     * Forgotpassword constructor.
+     * @return mixed
      */
-    public function __construct()
+    public function getForgotPasswordKey()
     {
+        return $this->forgotPasswordKey;
+    }
+
+    /**
+     * ForgotPassword constructor.
+     * @param $user
+     * @param $key
+     */
+    public function __construct($user, $key)
+    {
+        $this->setUser($user);
         $this->setCreated();
+        $this->forgotPasswordKey = $key;
+        $this->alreadyUsed = false;
     }
 
     /**

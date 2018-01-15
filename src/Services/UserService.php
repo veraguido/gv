@@ -1,6 +1,7 @@
 <?php namespace Gvera\Services;
 
 use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\ValidationService;
@@ -35,6 +36,11 @@ class UserService
         return password_verify($plainPassword, $hash);
     }
 
+    /**
+     * @param $username
+     * @param $password
+     * @throws \Exception
+     */
     public function login($username, $password)
     {
         $em = EntityManager::getInstance()->getRepository(User::class);
@@ -49,6 +55,8 @@ class UserService
                     'role' => $user->getRole()->getRolePriority()
                 ]
             );
+        } else {
+            throw new \Exception(Locale::getLocale('user or password are incorrect'));
         }
     }
 
