@@ -64,7 +64,7 @@ From now on to start your services, use:
 docker-compose up
 ```
 
-Navigate through your browser to localhost:8090 and check if the gv message is present. Enjoy :)
+Navigate through your browser to localhost:8089 and check if the gv message is present. Enjoy :)
 
 
 
