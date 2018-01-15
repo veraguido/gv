@@ -24,7 +24,15 @@ Basically for the web part, all requests are redirected to the index.php inside 
 there the app will start. 
 On the other hand there's a bunch of shell scripts to manage the applications / create resources, populate tables, etc.
 
-gv uses a number of open source projects to work properly. Among the architecture, you will find:
+GV Use:
+- [Composer](https://getcomposer.org/)
+- [MySQL](https://www.mysql.com/)
+- [PHP7](http://php.net/)
+
+optional but highly recommended:
+- [Redis](https://redis.io/)
+
+GV also use a number of open source projects to work properly. Among the architecture, you will find:
 
 * [Doctrine's ORM](http://www.doctrine-project.org/) - Perfect ORM for the project!
 * [Twig templating](https://twig.sensiolabs.org/) - The flexible, fast, and secure
@@ -38,12 +46,7 @@ And of course GV itself is open source with a [public repository](https://github
 
 ### Installation
 GV requires:
-- [Composer](https://getcomposer.org/)
-- [MySQL](https://www.mysql.com/)
-- [PHP7](http://php.net/)
-
-optional but highly recommended:
-- [Redis](https://redis.io/)
+docker and docker compose.
 
 Install the dependencies running composer install in the root of the project
 
