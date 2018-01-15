@@ -44,6 +44,9 @@ class Examples extends GvController
         Session::set('count', ++$count);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function login()
     {
         $loginCommand = new LoginCommand(
