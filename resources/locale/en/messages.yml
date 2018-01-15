@@ -1,3 +1,7 @@
 Hello world: Hi planet!
 asd: Meh
 User must be logged in: You should be logged in to do this operation.
+Email do not correspond to a valid user: Email is invalid.
+Forgot Password was never generated: Forgot password was never generated.
+Forgot Password was already used: Forgot password already used.
+user or password are incorrect: User or password are incorrect.

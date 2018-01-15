@@ -19,6 +19,14 @@ class User extends GvModel
     protected $email;
 
     /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
+    /**
      * @return mixed
      */
     public function getEmail()
