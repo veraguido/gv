@@ -126,7 +126,15 @@ class Gvera
      */
     private function getControllerFinalName($rawName)
     {
-        return ($rawName != null && $rawName != "") ? ($this->controllerAutoloadingNames[strtolower($rawName)]) : GvController::DEFAULT_CONTROLLER;
+        if ($rawName != null &&
+            $rawName != "" &&
+            array_key_exists(strtolower($rawName), $this->controllerAutoloadingNames)) {
+            $name = $this->controllerAutoloadingNames[strtolower($rawName)];
+        } else {
+            $name = GvController::DEFAULT_CONTROLLER;
+        }
+
+        return $name;
     }
 
     private function getMethodFinalName($methodName)

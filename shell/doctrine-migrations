@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/local/bin/php -q
 <?php
 
 include_once(__DIR__ . "/../vendor/bin/doctrine-migrations");

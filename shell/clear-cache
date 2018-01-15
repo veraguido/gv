@@ -15,7 +15,7 @@ echo "--------------------------"
 while true; do
 read -rsn1 input
 if [ "$input" = "1" ]; then
-    redis-cli -r 1 flushall
+    redis-cli -h redis -r 1 flushall
     echo "redis cache flushed"
     exit 1
 fi
@@ -23,28 +23,28 @@ if [ "$input" = "2" ]; then
     echo "Flush specific key please input key"
     while true; do
     read varname
-    redis-cli KEYS $varname | xargs redis-cli del
+    redis-cli -h redis KEYS $varname | xargs redis-cli -h redis del
     exit 1
     done
 fi
 if [ "$input" = "3" ]; then
     echo "Flush config key"
-    redis-cli KEYS "gv_config" | xargs redis-cli del
+    redis-cli -h redis KEYS "gv_config" | xargs redis-cli -h redis del
     exit 1
 fi
 if [ "$input" = "4" ]; then
     echo "Flush routes key"
-    redis-cli KEYS "gv_routes" | xargs redis-cli del
+    redis-cli -h redis KEYS "gv_routes" | xargs redis-cli -h redis del
     exit 1
 fi
 if [ "$input" = "5" ]; then
     echo "Flush routes key"
-    redis-cli KEYS "*_gv_locale" | xargs redis-cli del
+    redis-cli -h redis KEYS "*_gv_locale" | xargs redis-cli -h redis del
     exit 1
 fi
 if [ "$input" = "6" ]; then
     echo "Flush routes key"
-    redis-cli KEYS "gv_controllers" | xargs redis-cli del
+    redis-cli -h redis KEYS "gv_controllers" | xargs redis-cli -h redis del
     exit 1
 fi
 if [ "$input" = "7" ]; then

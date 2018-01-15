@@ -47,7 +47,6 @@ class CreateNewUserCommand implements ICommand
         $user->setUsername($this->name);
         $user->setPassword($this->password);
         $user->setEmail($this->email);
-        $user->setCreated();
         $user->setStatus($status);
         $user->setRole($role);
 

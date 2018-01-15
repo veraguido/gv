@@ -27,6 +27,9 @@ class LoginCommand implements ICommand
         $this->password = $password;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function execute()
     {
         $userService = new UserService();
