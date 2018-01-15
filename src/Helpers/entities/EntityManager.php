@@ -24,6 +24,7 @@ class EntityManager
 
         $dbParams = array(
             'driver'   => 'pdo_mysql',
+            'host'     => 'mysql',
             'user'     => $mysqlConfig['username'],
             'password' => $mysqlConfig['password'],
             'dbname'   => $mysqlConfig['db_name']

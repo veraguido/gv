@@ -2,6 +2,7 @@
 namespace Gvera\Controllers;
 
 use Gvera\Cache\Cache;
+use Gvera\Cache\RedisCache;
 use Gvera\Commands\CreateNewUserCommand;
 use Gvera\Commands\LoginCommand;
 use Gvera\Helpers\locale\Locale;
@@ -29,7 +30,7 @@ class Examples extends GvController
 
     public function tiju()
     {
-        //$this->viewParams = array('asd' => 'iiiiuuuuuuuuujjjuuu');
+        //print_r(unserialize(Cache::getCache()->load('gv_config'))); exit;
     }
 
     public function tan()

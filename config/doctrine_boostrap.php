@@ -13,6 +13,7 @@ $isDevMode = true;
 // the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_mysql',
+    'host'     => 'mysql',
     'user'     => 'root',
     'password' => 'root',
     'dbname'   => 'gv',
