@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Exit when error
+set -eo pipefail
+
+filenames=`ls ./shell/*`
+
+if [ -z "$1" ]; then
+    echo "No argument supplied, available commands:"
+    for entry in $filenames; do
+        if [ $entry != "./shell/migrations.yml" ]; then
+            echo ${entry/"./shell/"}
+        fi
+    done
+    exit 1
+fi
+
+docker exec -t gv_app_1 php shell/"$@"

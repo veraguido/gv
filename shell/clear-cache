@@ -1,56 +1,48 @@
-#!/bin/bash
-echo "Please select the option: "
-echo "--------------------------"
-echo "1 - Flush all"
-echo "2 - Flush key"
-echo "3 - Flush config"
-echo "4 - Flush routes"
-echo "5 - Flush translations"
-echo "6 - Flush controller names"
-echo "7 - Exit"
-echo "--------------------------"
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 
+$cache = \Gvera\Cache\Cache::getCache();
 
-while true; do
-read -rsn1 input
-if [ "$input" = "1" ]; then
-    redis-cli -h redis -r 1 flushall
-    echo "redis cache flushed"
-    exit 1
-fi
-if [ "$input" = "2" ]; then
-    echo "Flush specific key please input key"
-    while true; do
-    read varname
-    redis-cli -h redis KEYS $varname | xargs redis-cli -h redis del
-    exit 1
-    done
-fi
-if [ "$input" = "3" ]; then
-    echo "Flush config key"
-    redis-cli -h redis KEYS "gv_config" | xargs redis-cli -h redis del
-    exit 1
-fi
-if [ "$input" = "4" ]; then
-    echo "Flush routes key"
-    redis-cli -h redis KEYS "gv_routes" | xargs redis-cli -h redis del
-    exit 1
-fi
-if [ "$input" = "5" ]; then
-    echo "Flush routes key"
-    redis-cli -h redis KEYS "*_gv_locale" | xargs redis-cli -h redis del
-    exit 1
-fi
-if [ "$input" = "6" ]; then
-    echo "Flush routes key"
-    redis-cli -h redis KEYS "gv_controllers" | xargs redis-cli -h redis del
-    exit 1
-fi
-if [ "$input" = "7" ]; then
-echo "Exit"
-exit 1
-fi
-done
+if (count($argv) < 2){
+    echo 'wrong amount of parameters for this command';?>
+
+    usage example: clear-cache 1
+    <?php
+    echo "Please select the option: \n";
+    echo "--------------------------\n";
+    echo "1 - Flush all\n";
+    echo "2 - Flush config\n";
+    echo "3 - Flush routes\n";
+    echo "4 - Flush translations\n";
+    echo "5 - Flush controller names\n";
+    echo "--------------------------\n";
+    exit(0);
+}
+
+switch ($argv[1]) {
+    case 1:
+        $cache->flushAll();
+        break;
+    case 2:
+        $cache->delete("gv_config");
+        break;
+    case 3:
+        $cache->delete("gv_routes");
+        break;
+    case 4:
+        if(!isset($argv[2])) {
+            echo 'For flushing translations, please add the language parameter. i.e.: clear-cache 4 en';
+            exit(0);
+        }
+        $cache->delete($argv[2] . "_gv_locale");
+        break;
+    case 5:
+        $cache->delete("gv_controllers");
+        break;
+}
+
 
 

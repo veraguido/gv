@@ -92,7 +92,16 @@ class FilesCache implements ICache
 
     public function delete($key)
     {
-        unlink(self::FILES_CACHE_PREFIX . $key);
+        unlink(self::FILES_CACHE_PATH . self::FILES_CACHE_PREFIX . $key);
+    }
+
+    public function flushAll()
+    {
+        $files = glob(self::FILES_CACHE_PATH . '*');
+        foreach($files as $file) {
+            if(is_file($file))
+                unlink($file);
+        }
     }
 
     private static function checkClient()
