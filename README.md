@@ -1,6 +1,6 @@
 # GV
 
-GV is a PHP framework focused on usability, fastness and reliableness. 
+GV is a PHP framework focused on usability, fastness and reliableness.
 
   - Redis cache
   - Docker
@@ -15,13 +15,13 @@ GV is a PHP framework focused on usability, fastness and reliableness.
 
 # The goal
 
-> The goal of GV is to create web services or web sites 
-> as fast and robust as possible, following the 
+> The goal of GV is to create web services or web sites
+> as fast and robust as possible, following the
 > convention over configuration technique, Hexagonal architecture patterns and market standards.
 
 ### Tech
-Basically for the web part, all requests are redirected to the index.php inside the public folder, from 
-there the app will start. 
+Basically for the web part, all requests are redirected to the index.php inside the public folder, from
+there the app will start.
 On the other hand there's a bunch of shell scripts to manage the applications / create resources, populate tables, etc.
 
 GV Use:
@@ -46,7 +46,7 @@ And of course GV itself is open source with a [public repository](https://github
 
 ### Installation
 GV requires:
-docker and docker compose.
+docker, docker compose, php and composer.
 
 Install the dependencies running composer install in the root of the project
 
@@ -56,12 +56,17 @@ composer install
 
 Provision your docker containers at the root of the project:
 ```sh
-docker-compose build
+./gvconsole build
 ```
 
 From now on to start your services, use:
 ```sh
-docker-compose up
+./gvconsole up
+```
+
+Provision your DB:
+```sh
+./gvconsole doctrine orm:schema-tool:create
 ```
 
 Navigate through your browser to localhost:8089 and check if the gv message is present. Enjoy :)
@@ -70,7 +75,7 @@ Navigate through your browser to localhost:8089 and check if the gv message is p
 
 ### How it works
 GV is an Hexagonal architecture framework done with convention over configuration as a mind set.
-This mean that you need to put the correct files with the correct names in the correct place. 
+This mean that you need to put the correct files with the correct names in the correct place.
 
 The controller: Create a new User class that will extend from the GvController class.
 The Model: Create a new User model inside the Models directory that you will later use, extend it from the GvModel class.
@@ -106,11 +111,10 @@ Enable the rewrite module:
 ```sh
 sudo a2enmod rewrite
 ```
-Edit your php.ini to let apache2 handle sessions through redis: 
+Edit your php.ini to let apache2 handle sessions through redis:
 
 session.save_handler = redis
 
 session.save_path = "tcp://localhost:6379"
 
 configure your config.yml file inside the config folder.
-
