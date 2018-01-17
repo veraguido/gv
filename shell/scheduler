@@ -1,0 +1,26 @@
+#!/usr/bin/php -q
+<?php
+
+if (count($argv) != 2 || ($argv[1] != 'start' && $argv[1] != 'stop' && $argv[1] != 'status')){
+    echo 'wrong amount of parameters for this command';
+
+    echo "usage examples: \n 
+    ./gvconsole scheduler start \n
+    ./gvconsole scheduler stop \n
+    ./gvconsole scheduler status \n ";
+    exit(1);
+}
+
+if ($argv[1] == 'status') {
+    exec("pgrep cron", $output, $return);
+    if ($return == 0) {
+        echo "Scheduler is running\n";
+        exit(1);
+    } else {
+        echo "Scheduler is not running \n";
+        exit(1);
+    }
+} else {
+    exec("service cron ". $argv[1], $output);
+    exit(1);
+}

@@ -16,7 +16,8 @@
         "doctrine/migrations":	    "1.5.*",
         "symfony/yaml":             "3.*",
         "phpmailer/phpmailer":      "~5.2",
-        "predis/predis":            "1.*"
+        "predis/predis":            "1.*",
+        "tiben/crontab-manager": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "6.5.*",
