@@ -61,7 +61,7 @@ Provision your docker containers at the root of the project:
 
 From now on to start your services, use:
 ```sh
-./gvconsole up
+./gvconsole start
 ```
 
 Provision your DB:
