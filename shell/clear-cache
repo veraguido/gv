@@ -3,7 +3,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 $cache = \Gvera\Cache\Cache::getCache();
 
 if (count($argv) < 2){
@@ -43,6 +42,4 @@ switch ($argv[1]) {
         $cache->delete("gv_controllers");
         break;
 }
-
-
 

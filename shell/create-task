@@ -1,0 +1,34 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$tasksDir = scandir(__DIR__ . "/../resources/tasks/");
+$check = false;
+foreach ($tasksDir as $task) {
+    if (str_replace(".php", "", $task) == $argv[6]) {
+        $check = true;
+        break;
+    }
+}
+
+if (!$check) {
+    echo "task was not found under the resources/tasks directoy \n";
+    echo "please check the name and write it without the .php extension \n";
+    echo "usage example ./gvconsole create-task ....... awesome-task Awesome\ task!";
+    exit(0);
+}
+
+$adapter = new \TiBeN\CrontabManager\CrontabAdapter();
+$crontabRepo = new \TiBeN\CrontabManager\CrontabRepository($adapter);
+$job = new \TiBeN\CrontabManager\CrontabJob();
+$job->minutes = $argv[1];
+$job->hours = $argv[2];
+$job->dayOfMonth = $argv[3];
+$job->months = $argv[4];
+$job->dayOfWeek = $argv[5];
+$job->taskCommandLine = '/usr/bin/php ' . __DIR__ . "/../resources/tasks/" . $argv[6] . ".php > " . __DIR__ . "/../var/log/cron.log 2>&1";
+$job->comments = $argv[7];
+
+$crontabRepo->addJob($job);
+$crontabRepo->persist();

@@ -1,0 +1,15 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (count($argv) != 2) {
+    echo "specify the description of the task to be removed \n";
+    echo "for example: ./gvconsole remove-task aw3some";
+}
+$adapter = new \TiBeN\CrontabManager\CrontabAdapter();
+$crontabRepo = new \TiBeN\CrontabManager\CrontabRepository($adapter);
+$results = $crontabRepo->findJobByRegex("/" . $argv[1] . "/");
+$crontabJob = $results[0];
+$crontabRepo->removeJob($crontabJob);
+$crontabRepo->persist();
