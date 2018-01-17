@@ -88,7 +88,6 @@ Use docker exec -it gv_app_1 /bin/bash to enter your container, from there, use 
 
 ### TODO list
 - Documentation
-- cron management
 
 ### Manual installation (only if you don't want to use docker)
 Remember to configure your web server to Allow override in case of Apache2
