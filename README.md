@@ -84,7 +84,10 @@ The view: Per each action that you consider that needs a view, you will need to 
 For more information use the documentation.
 
 ### Shell commands
-Use docker exec -it gv_app_1 /bin/bash to enter your container, from there, use shell/{command} and follow the steps.
+run the gvconsole to get all the available commands:
+```sh
+./gvconsole
+```
 
 ### TODO list
 - Documentation
