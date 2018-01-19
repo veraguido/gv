@@ -5,7 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 if (count($argv) != 2) {
     echo "specify the description of the task to be removed \n";
-    echo "for example: ./gvconsole remove-task aw3some";
+    echo "for example: ./gvconsole disable-task aw3some";
 }
 $adapter = new \TiBeN\CrontabManager\CrontabAdapter();
 $crontabRepo = new \TiBeN\CrontabManager\CrontabRepository($adapter);

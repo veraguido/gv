@@ -15,7 +15,7 @@ foreach ($tasksDir as $task) {
 if (!$check) {
     echo "task was not found under the resources/tasks directoy \n";
     echo "please check the name and write it without the .php extension \n";
-    echo "usage example ./gvconsole create-task \* \* \* \* \* {taskName|awesome-task} {identifier|Aw3some!}";
+    echo "usage example ./gvconsole enable-task \* \* \* \* \* {taskName|awesome-task} {identifier|Aw3some!}";
     exit(0);
 }
 

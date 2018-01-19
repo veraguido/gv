@@ -1,70 +1,55 @@
 #!/usr/bin/php -q
-Please choose a name for the controller:
 <?php
 
-const CONTROLLERS_PATH = '../src/Controllers/';
+const CONTROLLERS_PATH = __DIR__ . '/../src/Controllers/';
 
-$stdin = fopen('php://stdin', 'r');
-$name = fgets($stdin);
-$name = removeExtraCharacters($name);
-$name = ucfirst($name);
-createFile($name);
-//fclose($stdin);
+$name = ucfirst($argv[1]);
+createFile($name, array_slice($argv, 2));
 
-function createFile($fileName) {
+function createFile($fileName, $methods) {
     $classPath = CONTROLLERS_PATH . $fileName . ".php";
     if (file_exists($classPath)){
        exit("The controller already exists in the destination.");
     }
-    $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$fileName);
+    $handle = fopen($classPath, 'a') or die('Cannot create file:  ' . $fileName);
     fwrite($handle, openClass($fileName));
     fclose($handle);
-    createMethods($classPath);
+    createMethods($methods, $classPath);
+    chmod($classPath, 0777);
 }
 
 
 function openClass($className) {
-    return "<?php 
+    return "<?php
 namespace Gvera\Controllers;
 
-class ". $className ." extends GvController { \n
-}";
+class ". $className ." extends GvController
+{
+";
 }
 
-function createMethods($classPath) {
-    echo 'Please choose an action name for your entry on the controller (CTRL + C to finish):';
-    $stdin = fopen('php://stdin', 'r');
-    $method = fgets($stdin);
-    $method = removeExtraCharacters($method);
-    removeClosingBracket($classPath);
+function closeClass() {
+    return "\n
+}
+";
+}
 
+function createMethods($methods, $classPath) {
+    foreach ($methods as $method) {
+        $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$classPath);
+        fwrite($handle, appendMethod($method));
+        fclose($handle);
+    }
 
     $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$classPath);
-    fwrite($handle, appendMethod($method));
+    fwrite($handle, closeClass());
     fclose($handle);
-
-    createMethods($classPath);
 }
 
 function appendMethod($methodName) {
     return
-        "    public function ".$methodName."() {
+        "    public function ".$methodName."() 
+    {
         //TODO: Implement this
-    }\n
-}";
+    }";
 }
-
-function removeExtraCharacters($text) {
-    return rtrim($text, "\n\r");
-}
-
-function removeClosingBracket($classPath) {
-    $file_out = file($classPath); // Read the whole file into an array
-    $lastLine = sizeof($file_out) - 1;    // Number of the line we are deleting
-    //Delete the recorded line
-    unset($file_out[$lastLine]);
-
-    //Recorded in a file
-    file_put_contents($classPath, implode("", $file_out));
-}
-
