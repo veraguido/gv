@@ -1,6 +1,15 @@
 #!/usr/bin/php -q
 <?php
 
+
+if (count($argv) < 2){
+    echo 'wrong amount of parameters for this command';?>
+
+    <?php
+    echo "usage example: ./gvconsole create-controller {Controllername}Users {methods...}list create update delete";
+    exit(0);
+}
+
 const CONTROLLERS_PATH = __DIR__ . '/../src/Controllers/';
 
 $name = ucfirst($argv[1]);
