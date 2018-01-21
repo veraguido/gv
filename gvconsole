@@ -18,6 +18,10 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+if [ $1 = "create-model" ]; then
+    shell/create-model
+    exit 1
+fi
 
 if [ $1 = "list-tasks" ]; then
     docker exec -t gv_app_1 sh -c "crontab -l"
