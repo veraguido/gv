@@ -7,16 +7,17 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\ClassLoader;
 
+$config = \Gvera\Helpers\config\Config::getInstance();
 $paths = array(__DIR__ . "/../src/Models");
-$isDevMode = true;
-
+$isDevMode = $config->getConfig('devmode');
+$mysqlConfig = $config->getConfig('mysql');
 // the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_mysql',
-    'host'     => 'mysql',
-    'user'     => 'root',
-    'password' => 'root',
-    'dbname'   => 'gv',
+    'host'     => $mysqlConfig['host'],
+    'user'     => $mysqlConfig['username'],
+    'password' => $mysqlConfig['password'],
+    'dbname'   => $mysqlConfig['db_name'],
 );
 
 
