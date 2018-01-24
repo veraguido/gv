@@ -44,8 +44,8 @@ class Gvera
      */
     public function redirectToDefault()
     {
-        $this->controllerFinalName = $this->getControllerFinalName(null);
-        $this->method = 'index';
+        $this->controllerFinalName = GvController::DEFAULT_CONTROLLER;
+        $this->method = GvController::DEFAULT_METHOD;
         $this->initializeControllerInstance(Index::class);
     }
 
