@@ -1,6 +1,8 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Cache\RedisCache;
+
 /**
  * Controller Class Doc Comment
  *
@@ -16,6 +18,13 @@ class Index extends GvController
     public function index()
     {
         $this->httpResponse->asJson();
-        echo json_encode(array('gv' => array("version" => "1.0")));
+        echo json_encode(
+            array(
+                'gv' => array(
+                    "version" => "1.0",
+                    "redis" => (bool) RedisCache::getInstance()->ping()
+                )
+            )
+        );
     }
 }

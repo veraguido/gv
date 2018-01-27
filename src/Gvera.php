@@ -23,6 +23,7 @@ class Gvera
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     const GV_CONTROLLERS_KEY = 'gv_controllers';
+    const RESOURCE_NOT_FOUND_METHOD = 'resourceNotFound';
     private $method = 'index';
     private $controllerFinalName;
     private $controllerAutoloadingNames = [];
@@ -70,27 +71,40 @@ class Gvera
 
         if ($action) {
             $actionArr = explode('->', $action);
-            $this->controllerFinalName = $this->getControllerFinalName($actionArr[0]);
-            $this->method = $this->getMethodFinalName($actionArr[1]);
-        } else {
-            $uriData = @parse_url($_SERVER['REQUEST_URI']);
-
-            if ($uriData === false) {
-                $this->controllerFinalName =  $this->getControllerFinalName('');
-                $this->method = $this->getMethodFinalName('');
-            } else {
-                if (isset($uriData['path'])) {
-                    $uriArray = explode('/', $uriData['path']);
-                }
-
-
-                $methodName = isset($uriArray[2]) ? $uriArray[2] : '';
-                $this->method = $this->getMethodFinalName($methodName);
-                $this->controllerFinalName = $this->getControllerFinalName($uriArray[1]);
-            }
+            $this->generateControllerLifecycle(
+                $actionArr[0],
+                $actionArr[1]
+            );
+            return;
         }
 
-        $controller = $this->checkIfControllerExists($this->controllerFinalName);
+        $uriData = @parse_url($_SERVER['REQUEST_URI']);
+
+        if (!$uriData) {
+            $this->redirectToDefault();
+            return;
+        }
+
+        if (isset($uriData['path'])) {
+            $uriArray = explode('/', $uriData['path']);
+            $methodName = isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_METHOD;
+            $this->generateControllerLifecycle(
+                $uriArray[1],
+                $methodName
+            );
+        }
+    }
+
+    /**
+     * @param $controller
+     * @param $method
+     * @throws \Exception
+     */
+    private function generateControllerLifecycle($controller, $method)
+    {
+        $this->controllerFinalName = $this->getControllerFinalName($controller);
+        $this->method = $this->getMethodFinalName($method);
+        $controller = $this->getValidControllerClassName($this->controllerFinalName);
         $this->initializeControllerInstance($controller);
     }
 
@@ -101,22 +115,20 @@ class Gvera
      * All controllers should extend from GvController. By default if a Controller does not exist
      * it fallbacks to the HttpCodeResponse controller.
      */
-    private function checkIfControllerExists($controllerName)
+    private function getValidControllerClassName($controllerName)
     {
-        $controllerFullName = self::CONTROLLERS_PREFIX . $controllerName;
 
         if ($controllerName == "GvController") {
             throw new \Exception('GvController is not a valid controller');
         }
 
-        if (!class_exists($controllerFullName)) {
-            $controllerFullName = HttpCodeResponse::class;
-            $this->controllerFinalName = GvController::HTTP_CODE_REPONSE_CONTROLLER_NAME;
-            $this->method = 'resourceNotFound';
+        if (class_exists(self::CONTROLLERS_PREFIX . $controllerName)) {
+            return self::CONTROLLERS_PREFIX . $controllerName;
         }
 
-
-        return $controllerFullName;
+        $this->controllerFinalName = GvController::HTTP_CODE_REPONSE_CONTROLLER_NAME;
+        $this->method = self::RESOURCE_NOT_FOUND_METHOD;
+        return HttpCodeResponse::class;
     }
 
     /**
@@ -124,20 +136,20 @@ class Gvera
      * @return string
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
      */
-    private function getControllerFinalName($rawName)
+    private function getControllerFinalName(string $rawName)
     {
-        if ($rawName != null &&
-            $rawName != "" &&
-            array_key_exists(strtolower($rawName), $this->controllerAutoloadingNames)) {
-            $name = $this->controllerAutoloadingNames[strtolower($rawName)];
-        } else {
-            $name = GvController::DEFAULT_CONTROLLER;
+        if (empty($rawName)) {
+            return GvController::DEFAULT_CONTROLLER;
         }
 
-        return $name;
+        if (!array_key_exists(strtolower($rawName), $this->controllerAutoloadingNames)) {
+            return $rawName;
+        }
+
+        return $this->controllerAutoloadingNames[strtolower($rawName)];
     }
 
-    private function getMethodFinalName($methodName)
+    private function getMethodFinalName($methodName = null)
     {
         //remove http get params if are present
         $methodName = explode('?', $methodName)[0];

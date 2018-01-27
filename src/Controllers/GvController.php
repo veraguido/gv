@@ -44,7 +44,7 @@ abstract class GvController
         $this->httpRequest = HttpRequest::getInstance();
 
         if (!method_exists($this, $method)) {
-            throw new \Exception('the method ' . $method . ' was not found on:' . __FILE__ . ' controller');
+            throw new \Exception('the method ' . $method . ' was not found on: ' . $controllerName . ' controller');
         }
     }
 
