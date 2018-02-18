@@ -2,6 +2,7 @@
 
 use Gvera\Cache\Cache;
 use Gvera\Cache\RedisCache;
+use Gvera\Helpers\http\HttpRequest;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -23,7 +24,7 @@ class RouteManager
      * RouteManager constructor.
      * @param $httpRequest
      */
-    public function __construct($httpRequest)
+    public function __construct(HttpRequest $httpRequest)
     {
         $this->httpRequest = $httpRequest;
         if (Cache::getCache()->exists(self::ROUTE_CACHE_KEY)) {
@@ -55,8 +56,6 @@ class RouteManager
                 $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
                 if ($urlCheck && $checkUri) {
                     return $route['action'];
-                } else {
-                    continue;
                 }
             }
         }
