@@ -1,6 +1,7 @@
 <?php namespace Gvera\Controllers;
 
 use Doctrine\ORM\EntityManager;
+use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
@@ -44,7 +45,13 @@ abstract class GvController
         $this->httpRequest = HttpRequest::getInstance();
 
         if (!method_exists($this, $method)) {
-            throw new \Exception('the method ' . $method . ' was not found on: ' . $controllerName . ' controller');
+            throw new InvalidMethodException(
+                'the method was not found on the controller',
+                [
+                    'method' => $method,
+                    'controller' => $controllerName
+                ]
+            );
         }
     }
 

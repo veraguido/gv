@@ -4,6 +4,8 @@ use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Controllers\Index;
+use Gvera\Exceptions\InvalidControllerException;
+use Gvera\Exceptions\InvalidVersionException;
 use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
@@ -135,7 +137,7 @@ class Gvera
     {
 
         if ($controllerName == "GvController") {
-            throw new \Exception('GvController is not a valid controller');
+            throw new InvalidControllerException('GvController is not a valid controller');
         }
 
         $versionPath = isset($version) ? $version . "\\" : "";
@@ -158,6 +160,7 @@ class Gvera
      * @param $rawName
      * @return string
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
+     * @throws InvalidVersionException
      */
     private function getControllerFinalName(string $rawName, $version)
     {
@@ -167,7 +170,7 @@ class Gvera
 
         if (isset($version)) {
             if (!isset($this->controllerAutoloadingNames[$version])) {
-                throw new Exception("the version does not exist");
+                throw new InvalidVersionException("the version does not exist");
             }
 
             return $this->getAutoloadedControllerName($this->controllerAutoloadingNames[$version], $rawName);
@@ -203,7 +206,9 @@ class Gvera
     {
         $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
         if (!is_a($controllerInstance, GvController::class)) {
-            throw new \Exception('The controller that you are trying to instantiate should be extending GvController');
+            throw new InvalidControllerException(
+                'The controller that you are trying to instantiate should be extending GvController',
+                ["controller class" => get_class($controllerInstance)]);
         }
 
         $controllerInstance->init();
