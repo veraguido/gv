@@ -65,11 +65,7 @@ class Examples extends GvController
 
     public function asd()
     {
-        /*$user = $this->entityManager->find('Gvera\Models\UserModel', 1);
-        echo '<pre>';
-        var_dump($user);
-        echo '</pre>';*/
-        //echo print_r(Session::get('user'));
+        echo "trough routes.yml";
     }
 
     /**

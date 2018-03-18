@@ -23,10 +23,17 @@ class Gvera
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     const GV_CONTROLLERS_KEY = 'gv_controllers';
+    const GV_SUBCONTROLLERS = 'subcontroller_';
     const RESOURCE_NOT_FOUND_METHOD = 'resourceNotFound';
     private $method = 'index';
     private $controllerFinalName;
     private $controllerAutoloadingNames = [];
+    private $routeManager;
+
+    public function __construct() 
+    {
+        $this->routeManager = new RouteManager(HttpRequest::getInstance());
+    }
 
     /**
      * @throws \Exception
@@ -35,7 +42,7 @@ class Gvera
     public function run()
     {
         EventListenerRegistry::registerEventListeners();
-        $this->autoloadControllers();
+        $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->parseUri($this->useSpecialRoutesIfApply());
     }
 
@@ -56,8 +63,7 @@ class Gvera
      */
     private function useSpecialRoutesIfApply()
     {
-        $rm = new RouteManager(HttpRequest::getInstance());
-        return $rm->getRoute($_SERVER['REQUEST_URI']);
+        return $this->routeManager->getRoute($_SERVER['REQUEST_URI']);
     }
 
     /**
@@ -87,10 +93,20 @@ class Gvera
 
         if (isset($uriData['path'])) {
             $uriArray = explode('/', $uriData['path']);
-            $methodName = isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_METHOD;
+            $apiVersions = $this->getApiVersions();
+
+            if (!empty($apiVersions) && array_key_exists($uriArray[1], $apiVersions)) {
+                $this->generateControllerLifecycle(
+                    $uriArray[2],
+                    $this->getValidMethodName(3, $uriArray),
+                    $uriArray[1]
+                );
+                return;
+            }
+
             $this->generateControllerLifecycle(
                 $uriArray[1],
-                $methodName
+                $this->getValidMethodName(2, $uriArray)
             );
         }
     }
@@ -100,11 +116,11 @@ class Gvera
      * @param $method
      * @throws \Exception
      */
-    private function generateControllerLifecycle($controller, $method)
+    private function generateControllerLifecycle($controller, $method, $version = null)
     {
-        $this->controllerFinalName = $this->getControllerFinalName($controller);
+        $this->controllerFinalName = $this->getControllerFinalName($controller, $version);
         $this->method = $this->getMethodFinalName($method);
-        $controller = $this->getValidControllerClassName($this->controllerFinalName);
+        $controller = $this->getValidControllerClassName($this->controllerFinalName, $version);
         $this->initializeControllerInstance($controller);
     }
 
@@ -115,15 +131,17 @@ class Gvera
      * All controllers should extend from GvController. By default if a Controller does not exist
      * it fallbacks to the HttpCodeResponse controller.
      */
-    private function getValidControllerClassName($controllerName)
+    private function getValidControllerClassName($controllerName, $version)
     {
 
         if ($controllerName == "GvController") {
             throw new \Exception('GvController is not a valid controller');
         }
 
-        if (class_exists(self::CONTROLLERS_PREFIX . $controllerName)) {
-            return self::CONTROLLERS_PREFIX . $controllerName;
+        $versionPath = isset($version) ? $version . "\\" : "";
+
+        if (class_exists(self::CONTROLLERS_PREFIX . $versionPath . $controllerName)) {
+            return self::CONTROLLERS_PREFIX . $versionPath . $controllerName;
         }
 
         $this->controllerFinalName = GvController::HTTP_CODE_REPONSE_CONTROLLER_NAME;
@@ -131,22 +149,41 @@ class Gvera
         return HttpCodeResponse::class;
     }
 
+    private function getValidMethodName($index, $uriArray)
+    {
+        return isset($uriArray[$index]) ? $uriArray[$index] : GvController::DEFAULT_METHOD;
+    }
+
     /**
      * @param $rawName
      * @return string
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
      */
-    private function getControllerFinalName(string $rawName)
+    private function getControllerFinalName(string $rawName, $version)
     {
         if (empty($rawName)) {
             return GvController::DEFAULT_CONTROLLER;
         }
 
-        if (!array_key_exists(strtolower($rawName), $this->controllerAutoloadingNames)) {
-            return $rawName;
+        if (isset($version)) {
+            if (!isset($this->controllerAutoloadingNames[$version])) {
+                throw new Exception("the version does not exist");
+            }
+
+            return $this->getAutoloadedControllerName($this->controllerAutoloadingNames[$version], $rawName);
         }
 
-        return $this->controllerAutoloadingNames[strtolower($rawName)];
+        return $this->getAutoloadedControllerName($this->controllerAutoloadingNames, $rawName);
+    }
+
+    private function getAutoloadedControllerName($autoloadedArray, $name)
+    {
+        $lowercaseRawName = strtolower($name);
+        if (!array_key_exists($lowercaseRawName, $autoloadedArray)) {
+            return $name;
+        }
+
+        return $autoloadedArray[$lowercaseRawName];
     }
 
     private function getMethodFinalName($methodName = null)
@@ -178,17 +215,46 @@ class Gvera
      * The method will check for all the files created under the controllers directory and generate a map of them
      * to be used for the instantiation.
      */
-    private function autoloadControllers()
+    private function autoloadControllers($scanDirectory)
     {
-        if (!Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
-            $controllersDir = scandir(__DIR__ . '/Controllers/');
-            foreach ($controllersDir as $index => $autoloadingName) {
-                $correctName = str_replace(".php", "", $autoloadingName);
-                $this->controllerAutoloadingNames[strtolower($correctName)] = $correctName;
-                Cache::getCache()->save(self::CONTROLLERS_PREFIX, serialize($this->controllerAutoloadingNames));
-            }
-        } else {
-            $this->controllerAutoloadingNames = Cache::getCache()->load(self::GV_CONTROLLERS_KEY);
+        if (Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
+            return unserialize(Cache::getCache()->load(self::GV_CONTROLLERS_KEY));
         }
+        
+        $controllersDir = scandir($scanDirectory);
+        $autoloadedControllers = [];
+        foreach ($controllersDir as $index => $autoloadingName) {
+            
+            if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
+                continue;
+            }
+
+            if(is_dir($scanDirectory . $autoloadingName)) {
+                $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
+                $autoloadedControllers[$autoloadingName] = $autoloadedSubDir;
+                continue;
+            }
+
+            $correctName = str_replace(".php", "", $autoloadingName);
+            $autoloadedControllers[strtolower($correctName)] = $correctName;
+        }
+        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, serialize($autoloadedControllers));
+
+        return $autoloadedControllers;
+    }
+
+    /**
+     * 
+     */
+    private function getApiVersions()
+    {
+        $versions = [];
+        foreach ($this->controllerAutoloadingNames as $key => $controller) {
+            if (is_array($controller)) {
+                $versions[$key] = $controller;
+            }
+        }
+
+        return $versions;
     }
 }

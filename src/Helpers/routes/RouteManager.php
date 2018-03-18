@@ -18,6 +18,7 @@ class RouteManager
     const ROUTE_NEEDLE = ':';
     const ROUTE_CACHE_KEY = 'gv_routes';
     private $httpRequest;
+    private $excludeDirectories = [".", ".."];
 
     /**
      * @Cached
@@ -65,6 +66,11 @@ class RouteManager
     public function addRoute($method, $route, $action)
     {
         $this->routes[$method][] = array('route' => $route, 'action' => $action);
+    }
+
+    public function getExcludeDirectories() 
+    {
+        return $this->excludeDirectories;
     }
 
     private function convertUriParams($totalRoute, $pathLikeArray)
