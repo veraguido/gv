@@ -1,6 +1,7 @@
 #IDE's
 .idea
 nbproject/*
+.vscode
 
 #composer
 composer.lock

@@ -9,9 +9,6 @@ services:
       - 8089:80
     volumes:
       - .:/var/www/gv
-    links:
-      - mysql
-      - redis
     environment:
       DB_HOST: mysql
       DB_DATABASE: gv

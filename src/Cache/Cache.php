@@ -17,7 +17,8 @@ class Cache
 
     /**
      * it will ping redis to check the availability of the service, if it's not present it will fallback
-     * to files as default.
+     * to files as default. As PRedis will ping true OR exception I can only catch the exception and fallback to
+     * FilesCache
      * @return FilesCache|RedisCache
      */
     public static function getCache(): ICache
