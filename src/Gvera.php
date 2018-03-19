@@ -189,6 +189,10 @@ class Gvera
         return $autoloadedArray[$lowercaseRawName];
     }
 
+    /**
+     * @param null $methodName
+     * @return string
+     */
     private function getMethodFinalName($methodName = null)
     {
         //remove http get params if are present
@@ -249,7 +253,8 @@ class Gvera
     }
 
     /**
-     * 
+     * @return array
+     * if the're versions (subcontrollers in the controllers directory, get them and return the autoloading names)
      */
     private function getApiVersions()
     {

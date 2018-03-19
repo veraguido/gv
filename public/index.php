@@ -15,7 +15,15 @@ if ($isDevMode) {
 try {
     $app = new Gvera\Gvera();
     $app->run();
-} catch(\Exception $e) {
+} catch(Gvera\Exceptions\GvException $e) {
+    if($isDevMode) {
+        die($e->getMessage());
+    } else {
+        $l = new \Monolog\Logger('gv');
+        $l->err($e->getMessage(), $e->getArguments());
+        $app->redirectToDefault();
+    }
+} catch(Exception $e) {
     if($isDevMode) {
         die($e->getMessage());
     } else {
