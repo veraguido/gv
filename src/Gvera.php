@@ -35,6 +35,7 @@ class Gvera
     public function __construct() 
     {
         $this->routeManager = new RouteManager(HttpRequest::getInstance());
+        EventListenerRegistry::registerEventListeners();
     }
 
     /**
@@ -43,7 +44,6 @@ class Gvera
      */
     public function run()
     {
-        EventListenerRegistry::registerEventListeners();
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->parseUri($this->useSpecialRoutesIfApply());
     }
