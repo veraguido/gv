@@ -2,6 +2,7 @@
 
 use Doctrine\ORM\EntityManager;
 use Gvera\Exceptions\InvalidMethodException;
+use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
@@ -87,8 +88,10 @@ abstract class GvController
         }
 
         if (count($this->viewParams) > 0) {
-            throw new \Exception('view params was set, but view could not be found for ' . $this->method .
-                ' method, Controller: ' . $this->name);
+            throw new InvalidViewException(
+                'view params was set, but view could not be found ',
+                ['method' => $this->method,'controller ' => $this->name]
+            );
         }
     }
 

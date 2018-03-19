@@ -2,6 +2,8 @@
 namespace Gvera\Controllers;
 
 use Gvera\Commands\CreateUserStatusCommand;
+use Gvera\Exceptions\InvalidHttpMethodException;
+use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Services\UserService;
 
@@ -28,7 +30,10 @@ class UserStatuses extends GvController
     public function create()
     {
         if (!$this->httpRequest->isPost()) {
-            throw new \Exception('/statuses/create must be a post request.');
+            throw new InvalidHttpMethodException(
+                'Http method used mismatch with expected',
+                ['used' => $_SERVER['REQUEST_METHOD'], 'expected' => HttpRequest::POST]
+            );
         }
 
         if (!UserService::isUserLoggedIn() || UserService::getUserRole() < UserService::MODERATOR_ROLE_PRIORITY) {

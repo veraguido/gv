@@ -3,7 +3,4 @@
 namespace Gvera\Exceptions;
 
 
-class InvalidVersionException extends GvException
-{
-
-}
+class InvalidVersionException extends GvException { }

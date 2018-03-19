@@ -1,5 +1,6 @@
 <?php
 namespace Gvera\Models;
+use Gvera\Exceptions\InvalidServiceException;
 
 /**
  * Model Class Doc Comment
@@ -9,7 +10,6 @@ namespace Gvera\Models;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- *
  */
 abstract class GvModel
 {
@@ -17,12 +17,16 @@ abstract class GvModel
     private $serviceName;
     const SERVICES_PREFIX = "Gvera\\Services\\";
 
+    /**
+     * @return mixed
+     * @throws InvalidServiceException
+     */
     protected function getService()
     {
         if (!$this->service) {
             $this->serviceName = self::SERVICES_PREFIX . (new \ReflectionClass($this))->getShortName() . 'Service';
             if (!class_exists($this->serviceName)) {
-                throw new \Exception("service {$this->serviceName} doesn't exist. Please verify the name.");
+                throw new InvalidServiceException("service doesn't exist. Please verify the name.", ['service' => $this->serviceName]);
             }
 
             $this->service = new $this->serviceName();
