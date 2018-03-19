@@ -25,7 +25,6 @@ class Gvera
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     const GV_CONTROLLERS_KEY = 'gv_controllers';
-    const GV_SUBCONTROLLERS = 'subcontroller_';
     const RESOURCE_NOT_FOUND_METHOD = 'resourceNotFound';
     private $method = 'index';
     private $controllerFinalName;
