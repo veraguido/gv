@@ -1,7 +1,7 @@
 {
     "name": "gvera/gv",
     "description": "gvera",
-    "license": "GNU",
+    "license": "MIT",
     "keywords": ["gvera"],
     "authors": [
         {
