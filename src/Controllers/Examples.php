@@ -28,23 +28,6 @@ class Examples extends GvController
         //$this->httpResponse->notFound();
     }
 
-    public function tiju()
-    {
-        //print_r(unserialize(Cache::getCache()->load('gv_config'))); exit;
-    }
-
-    public function tan()
-    {
-
-        Session::set("asd", 1);
-        Session::toString();
-        $count = Session::get('count') ? Session::get('count') : 1;
-
-        echo $count;
-
-        Session::set('count', ++$count);
-    }
-
     /**
      * @throws \Exception
      */
@@ -74,10 +57,6 @@ class Examples extends GvController
      */
     public function qwe()
     {
-        /*echo '<pre>';
-        var_dump(EntityManager::getInstance()->getRepository(User::class)->find(1)->getPassword());
-        echo '</pre>';*/
-
         if ($this->httpRequest->isPost()) {
             $registerUserCommand = new CreateNewUserCommand(
                 $this->httpRequest->getParameter('username'),
@@ -92,10 +71,5 @@ class Examples extends GvController
     public function lorep()
     {
         echo Locale::getLocale("Hello world");
-    }
-
-    public function ipsum()
-    {
-        throw new \Exception('Test Exception for default controller');
     }
 }

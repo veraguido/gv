@@ -150,6 +150,11 @@ class Gvera
         return HttpCodeResponse::class;
     }
 
+    /**
+     * @param $index
+     * @param $uriArray
+     * @return string
+     */
     private function getValidMethodName($index, $uriArray)
     {
         return isset($uriArray[$index]) ? $uriArray[$index] : GvController::DEFAULT_METHOD;
@@ -178,6 +183,11 @@ class Gvera
         return $this->getAutoloadedControllerName($this->controllerAutoloadingNames, $rawName);
     }
 
+    /**
+     * @param $autoloadedArray
+     * @param $name
+     * @return mixed
+     */
     private function getAutoloadedControllerName($autoloadedArray, $name)
     {
         $lowercaseRawName = strtolower($name);

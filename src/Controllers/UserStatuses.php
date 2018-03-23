@@ -43,8 +43,4 @@ class UserStatuses extends GvController
         $newUserStatusCommand = new CreateUserStatusCommand($this->httpRequest->getParameter('name'));
         $newUserStatusCommand->execute();
     }
-
-    public function delete()
-    {
-    }
 }
