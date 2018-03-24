@@ -29,7 +29,7 @@ if [ $1 = "list-tasks" ]; then
 fi
 
 if [ $1 = "build" ]; then
-    docker-compose build
+    docker-compose build && docker run --rm -v $(pwd):/app composer install
     exit 1
 fi
 

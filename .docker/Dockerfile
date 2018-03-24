@@ -25,12 +25,3 @@ RUN pecl install xdebug
 ADD .docker/php.ini /usr/local/etc/php/php.ini
 
 EXPOSE 80
-
-ENV COMPOSER_HOME /var/www/.composer
-RUN curl -sS https://getcomposer.org/installer | php -- \
-    --install-dir=/usr/bin \
-    --filename=composer
-
-RUN chown -R www-data:www-data /var/www/
-RUN mkdir -p $COMPOSER_HOME/cache
-VOLUME $COMPOSER_HOME
