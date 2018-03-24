@@ -17,6 +17,7 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>./tests/</directory>
+            <directory>./src/</directory>
         </whitelist>
     </filter>
 </phpunit>
