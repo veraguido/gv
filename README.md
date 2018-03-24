@@ -1,4 +1,4 @@
-# GV [![Build Status](https://travis-ci.org/veraguido/gv.svg?branch=master)](https://travis-ci.org/veraguido/gv)
+# GV [![Build Status](https://travis-ci.org/veraguido/gv.svg?branch=master)](https://travis-ci.org/veraguido/gv) [![codecov](https://codecov.io/gh/veraguido/gv/branch/master/graph/badge.svg)](https://codecov.io/gh/veraguido/gv)
 
 GV is a PHP framework focused on usability, fastness and reliableness.
 
