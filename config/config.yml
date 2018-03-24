@@ -1,5 +1,5 @@
 config:
-  devmode: false
+  devmode: true
   mysql:
     host: mysql
     db_name: gv

@@ -1,7 +1,6 @@
 <?php namespace Gvera\Helpers\routes;
 
 use Gvera\Cache\Cache;
-use Gvera\Cache\RedisCache;
 use Gvera\Helpers\http\HttpRequest;
 use Symfony\Component\Yaml\Yaml;
 
@@ -39,7 +38,7 @@ class RouteManager
     public function getRoute($pathLike)
     {
         $pathLikeArray = explode("/", $pathLike);
-        if (empty($pathLikeArray[2])) {
+        if (!isset($pathLikeArray[2]) || empty($pathLikeArray[2])) {
             return false;
         }
 

@@ -96,15 +96,17 @@ class Gvera
             $uriArray = explode('/', $uriData['path']);
             $apiVersions = $this->getApiVersions();
 
+            //if a version apply, go through that specific path
             if (!empty($apiVersions) && array_key_exists($uriArray[1], $apiVersions)) {
                 $this->generateControllerLifecycle(
-                    $uriArray[2],
+                    isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_CONTROLLER,
                     $this->getValidMethodName(3, $uriArray),
                     $uriArray[1]
                 );
                 return;
             }
 
+            //if it doesn't go through the regular path
             $this->generateControllerLifecycle(
                 $uriArray[1],
                 $this->getValidMethodName(2, $uriArray)
@@ -166,7 +168,7 @@ class Gvera
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
      * @throws InvalidVersionException
      */
-    private function getControllerFinalName(string $rawName, $version)
+    private function getControllerFinalName(string $rawName = null, $version)
     {
         if (empty($rawName)) {
             return GvController::DEFAULT_CONTROLLER;
