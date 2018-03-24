@@ -2,4 +2,7 @@
 
 namespace Gvera\Exceptions;
 
-class InvalidHttpMethodException extends GvException { }
+class InvalidHttpMethodException extends GvException
+{
+ 
+}

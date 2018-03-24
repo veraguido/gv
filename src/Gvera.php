@@ -31,7 +31,7 @@ class Gvera
     private $controllerAutoloadingNames = [];
     private $routeManager;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->routeManager = new RouteManager(HttpRequest::getInstance());
         EventListenerRegistry::registerEventListeners();
@@ -221,7 +221,8 @@ class Gvera
         if (!is_a($controllerInstance, GvController::class)) {
             throw new InvalidControllerException(
                 'The controller that you are trying to instantiate should be extending GvController',
-                ["controller class" => get_class($controllerInstance)]);
+                ["controller class" => get_class($controllerInstance)]
+            );
         }
 
         $controllerInstance->init();
@@ -242,12 +243,11 @@ class Gvera
         $controllersDir = scandir($scanDirectory);
         $autoloadedControllers = [];
         foreach ($controllersDir as $index => $autoloadingName) {
-            
             if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
                 continue;
             }
 
-            if(is_dir($scanDirectory . $autoloadingName)) {
+            if (is_dir($scanDirectory . $autoloadingName)) {
                 $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
                 $autoloadedControllers[$autoloadingName] = $autoloadedSubDir;
                 continue;

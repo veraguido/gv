@@ -13,7 +13,8 @@ class ForgotPasswordCreatedEvent extends Event
         $this->email = $email;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 }

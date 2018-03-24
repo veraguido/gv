@@ -2,4 +2,7 @@
 
 namespace Gvera\Exceptions;
 
-class InvalidViewException extends GvException{ }
+class InvalidViewException extends GvException
+{
+ 
+}

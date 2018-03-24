@@ -2,4 +2,7 @@
 
 namespace Gvera\Exceptions;
 
-class InvalidControllerException extends GvException{ }
+class InvalidControllerException extends GvException
+{
+ 
+}

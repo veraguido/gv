@@ -1,5 +1,6 @@
 <?php
 namespace Gvera\Models;
+
 use Gvera\Exceptions\InvalidServiceException;
 
 /**
@@ -26,7 +27,10 @@ abstract class GvModel
         if (!$this->service) {
             $this->serviceName = self::SERVICES_PREFIX . (new \ReflectionClass($this))->getShortName() . 'Service';
             if (!class_exists($this->serviceName)) {
-                throw new InvalidServiceException("service doesn't exist. Please verify the name.", ['service' => $this->serviceName]);
+                throw new InvalidServiceException(
+                    "service doesn't exist. Please verify the name.",
+                    ['service' => $this->serviceName]
+                );
             }
 
             $this->service = new $this->serviceName();

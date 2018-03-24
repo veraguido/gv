@@ -2,4 +2,7 @@
 
 namespace Gvera\Exceptions;
 
-class InvalidServiceException extends GvException { }
+class InvalidServiceException extends GvException
+{
+ 
+}

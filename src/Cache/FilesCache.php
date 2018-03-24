@@ -98,9 +98,10 @@ class FilesCache implements ICache
     public function flushAll()
     {
         $files = glob(self::FILES_CACHE_PATH . '*');
-        foreach($files as $file) {
-            if(is_file($file))
+        foreach ($files as $file) {
+            if (is_file($file)) {
                 unlink($file);
+            }
         }
     }
 

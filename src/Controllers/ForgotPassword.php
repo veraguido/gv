@@ -1,7 +1,6 @@
 <?php
 namespace Gvera\Controllers;
 
-
 use Gvera\Helpers\session\Session;
 use Gvera\Services\ForgotPasswordService;
 
@@ -30,7 +29,8 @@ class ForgotPassword extends GvController
         }
     }
 
-    public function use() {
+    public function use()
+    {
 
         $forgotPassService = new ForgotPasswordService();
         try {
@@ -38,24 +38,27 @@ class ForgotPassword extends GvController
         } catch (\Exception $e) {
             $this->redirectToIndex();
         }
-
     }
 
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function regenerate() {
+    public function regenerate()
+    {
         if (!(Session::get('forgot_password')) || !$this->httpRequest->isPost()) {
             Session::destroy();
             $this->redirectToIndex();
         }
 
         $forgotPassService = new ForgotPasswordService();
-        $forgotPassService->regeneratePassword(Session::get('forgot_password'), $this->httpRequest->getParameter('new_password'));
+        $forgotPassService->regeneratePassword(
+            Session::get('forgot_password'),
+            $this->httpRequest->getParameter('new_password')
+        );
     }
 
-    private function redirectToIndex() {
+    private function redirectToIndex()
+    {
         $this->httpResponse->redirect('/forgotpassword');
     }
-
 }

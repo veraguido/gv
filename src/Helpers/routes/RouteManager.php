@@ -68,7 +68,7 @@ class RouteManager
         $this->routes[$method][] = array('route' => $route, 'action' => $action);
     }
 
-    public function getExcludeDirectories() 
+    public function getExcludeDirectories()
     {
         return $this->excludeDirectories;
     }

@@ -2,7 +2,6 @@
 
 namespace Gvera\Services;
 
-
 use Gvera\Events\ForgotPasswordCreatedEvent;
 use Gvera\Helpers\entities\EntityManager;
 use Gvera\Helpers\events\EventDispatcher;
@@ -36,7 +35,8 @@ class ForgotPasswordService
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Exception
      */
-    public function generateNewForgotPassword($email) {
+    public function generateNewForgotPassword($email)
+    {
         $userRepository = EntityManager::getInstance()->getRepository(User::class);
 
         $user = $userRepository->findOneBy(['email' => $email]);
@@ -62,13 +62,14 @@ class ForgotPasswordService
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Exception
      */
-    public function useForgotPassword($key) {
+    public function useForgotPassword($key)
+    {
         $fp = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
         if (!isset($fp)) {
             throw new \Exception(Locale::getLocale('Forgot Password was never generated'));
         }
 
-        if($fp->getAlreadyUsed()) {
+        if ($fp->getAlreadyUsed()) {
             throw new \Exception(Locale::getLocale('Forgot Password was already used'));
         }
 
@@ -83,7 +84,8 @@ class ForgotPasswordService
      * @param $newPassword
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function regeneratePassword($key, $newPassword) {
+    public function regeneratePassword($key, $newPassword)
+    {
         $fp = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
         $user = $fp->getUser();
         $user->setPassword($newPassword);
@@ -91,5 +93,4 @@ class ForgotPasswordService
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
-
 }
