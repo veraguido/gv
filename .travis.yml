@@ -1,7 +1,2 @@
 language: php
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq docker docker-compose
-before_script:
-  - ./gvconsole build
-script: ./gvconsole start
+script: composer install
