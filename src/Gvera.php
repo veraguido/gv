@@ -9,6 +9,7 @@ use Gvera\Exceptions\InvalidVersionException;
 use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
+use Gvera\Helpers\http\HttpResponse;
 
 /**
  * Application Class Doc Comment
@@ -25,7 +26,6 @@ class Gvera
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     const GV_CONTROLLERS_KEY = 'gv_controllers';
-    const RESOURCE_NOT_FOUND_METHOD = 'resourceNotFound';
     private $method = 'index';
     private $controllerFinalName;
     private $controllerAutoloadingNames = [];
@@ -136,7 +136,6 @@ class Gvera
      */
     private function getValidControllerClassName($controllerName, $version)
     {
-
         if ($controllerName == "GvController") {
             throw new InvalidControllerException('GvController is not a valid controller');
         }
@@ -147,9 +146,10 @@ class Gvera
             return self::CONTROLLERS_PREFIX . $versionPath . $controllerName;
         }
 
-        $this->controllerFinalName = GvController::HTTP_CODE_REPONSE_CONTROLLER_NAME;
-        $this->method = self::RESOURCE_NOT_FOUND_METHOD;
-        return HttpCodeResponse::class;
+        HttpResponse::getInstance()->asJson();
+        HttpResponse::getInstance()->notFound();
+        HttpResponse::getInstance()->printError(404, "Resource not found");
+        exit();
     }
 
     /**
@@ -265,7 +265,7 @@ class Gvera
 
     /**
      * @return array
-     * if the're versions (subcontrollers in the controllers directory, get them and return the autoloading names)
+     * if there're versions (subcontrollers in the controllers directory, get them and return the autoloading names)
      */
     private function getApiVersions()
     {

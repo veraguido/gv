@@ -95,9 +95,22 @@ abstract class GvController
         }
     }
 
-
     protected function needsTwig()
     {
         return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.twig.html');
+    }
+
+    protected function badRequestWithError(int $errorCode, string $message)
+    {
+        $this->httpResponse->asJson();
+        $this->httpResponse->printError($errorCode, $message);
+        $this->httpResponse->badRequest();
+    }
+    
+    protected function unauthorizedWithError(int $errorCode, string $message)
+    {
+        $this->httpResponse->asJson();
+        $this->httpResponse->printError($errorCode, $message);
+        $this->httpResponse->unauthorized();
     }
 }

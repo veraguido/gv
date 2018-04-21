@@ -39,6 +39,16 @@ class HttpResponse
         header("HTTP/1.0 404 Not Found");
     }
 
+    public function badRequest()
+    {
+        header("HTTP/1.1 400 Bad Request");
+    }
+
+    public function unauthorized()
+    {
+        header("HTTP/1.1 401 Unauthorized");
+    }
+
     public function customHeader($header)
     {
         header($header);
@@ -78,5 +88,15 @@ class HttpResponse
     public function asPDF()
     {
         $this->setHeader(self::CONTENT_TYPE_PDF);
+    }
+
+    public function printError(int $errorCode, string $message)
+    {
+        echo json_encode(
+            array(
+                'code' => $errorCode,
+                 'message' => $message
+            )
+        ); 
     }
 }
