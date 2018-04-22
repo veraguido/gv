@@ -97,6 +97,6 @@ class HttpResponse
                 'code' => $errorCode,
                  'message' => $message
             )
-        ); 
+        );
     }
 }
