@@ -16,7 +16,6 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>./tests/</directory>
             <directory>./src/Services/</directory>
             <directory>./src/Models/</directory>
             <directory>./src/Commands/</directory>
