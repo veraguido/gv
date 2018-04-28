@@ -6,12 +6,14 @@ use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Controllers\Index;
 use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\InvalidVersionException;
+use Gvera\Helpers\dependencyInjection\DIRegistry;
 use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
 use Gvera\Helpers\http\HttpResponse;
 use Monolog\Logger;
 use Gvera\Exceptions\GvException;
+use Gvera\Helpers\dependencyInjection\DIContainer;
 
 /**
  * Application Class Doc Comment
@@ -37,6 +39,7 @@ class Gvera
     {
         $this->routeManager = new RouteManager(HttpRequest::getInstance());
         EventListenerRegistry::registerEventListeners();
+        DIRegistry::registerObjects();
     }
 
     /**

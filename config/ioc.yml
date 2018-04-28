@@ -1,0 +1,16 @@
+services:
+  classPath: Gvera\Services\
+  objects:
+    userService:
+      class: UserService
+      singleton: true
+
+commands:
+    classPath: Gvera\Commands\
+    objects:
+      loginCommand:
+        class: LoginCommand
+
+listeners:
+
+      

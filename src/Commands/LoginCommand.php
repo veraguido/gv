@@ -13,6 +13,7 @@ use Gvera\Services\UserService;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
+ * @Inject userService
  *
  */
 class LoginCommand implements ICommand
@@ -21,7 +22,7 @@ class LoginCommand implements ICommand
     private $password;
     private $role;
 
-    public function __construct($username, $password)
+    public function __construct($username = "", $password = "")
     {
         $this->username = $username;
         $this->password = $password;
@@ -32,8 +33,7 @@ class LoginCommand implements ICommand
      */
     public function execute()
     {
-        $userService = new UserService();
-        $userService->login($this->username, $this->password);
+        $this->userService->login($this->username, $this->password);
 
         if (UserService::isUserLoggedIn()) {
             EventDispatcher::dispatchEvent(
@@ -41,5 +41,45 @@ class LoginCommand implements ICommand
                 new UserLoggedInEvent()
             );
         }
+    }
+
+    /**
+     * Get the value of username
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set the value of username
+     *
+     * @return  self
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
     }
 }

@@ -8,6 +8,7 @@ use Gvera\Commands\LoginCommand;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Services\UserService;
+use Gvera\Helpers\dependencyInjection\DIContainer;
 
 /**
  * Controller Class Doc Comment
@@ -33,10 +34,10 @@ class Examples extends GvController
      */
     public function login()
     {
-        $loginCommand = new LoginCommand(
-            $this->httpRequest->getParameter('username'),
-            $this->httpRequest->getParameter('password')
-        );
+        $loginCommand = DIContainer::getInstanceOf("loginCommand");
+        $loginCommand->setUsername($this->httpRequest->getParameter('username'));
+        $loginCommand->setPassword($this->httpRequest->getParameter('password'));
+
         $loginCommand->execute();
     }
 
