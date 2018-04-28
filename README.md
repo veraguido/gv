@@ -13,6 +13,7 @@ GV is a PHP framework focused on usability, fastness and reliableness.
   - Only one configuration file with only a few REALLY needed lines
   - A specific routing system, with the possibility of overwriting
   - Easy cron management
+  - Dependency injection
 
 # The goal
 
