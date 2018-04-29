@@ -31,7 +31,6 @@ class HttpResponse
     public function redirect($url)
     {
         header("Location: " . $url);
-        exit;
     }
 
     public function notFound()
