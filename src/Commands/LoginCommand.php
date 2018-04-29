@@ -13,19 +13,18 @@ use Gvera\Services\UserService;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- * @Inject userService
- *
+ * @Inject eventDispatcher
  */
 class LoginCommand implements ICommand
 {
     private $username;
     private $password;
     private $role;
+    private $userService;
 
-    public function __construct($username = "", $password = "")
+    public function __construct(UserService $userService)
     {
-        $this->username = $username;
-        $this->password = $password;
+        $this->userService = $userService;
     }
 
     /**
@@ -36,7 +35,7 @@ class LoginCommand implements ICommand
         $this->userService->login($this->username, $this->password);
 
         if (UserService::isUserLoggedIn()) {
-            EventDispatcher::dispatchEvent(
+            $this->eventDispatcher::dispatchEvent(
                 UserLoggedInEvent::USER_LOGGED_IN_EVENT,
                 new UserLoggedInEvent()
             );

@@ -21,7 +21,7 @@ class DIRegistry
             foreach ($category['objects'] as $diKey => $diObject) {
                 $singleton = isset($diObject['singleton']) ? $diObject['singleton'] : false;
                 $className = $classPath . $diObject['class'];
-                $arguments = isset($diObject['arguments']) ? $diObject['arguments'] : [];
+                $arguments = isset($diObject['arguments']) ? array($diObject['arguments']) : [];
                 if ($singleton) {
                     DIContainer::mapClassAsSingleton(
                         $diKey,

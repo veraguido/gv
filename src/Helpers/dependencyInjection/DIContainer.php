@@ -40,7 +40,7 @@ class DIContainer
         ));
     }
 
-    public static function getInstanceOf($classId, $arguments = null)
+    public static function getInstanceOf($classId)
     {
         
         $className = self::$classMap[$classId];
@@ -51,7 +51,7 @@ class DIContainer
         
         // initialized the ReflectionClass
         $reflection = new \ReflectionClass($className);
-        
+        $arguments = isset(self::$map->$classId->arguments) ? self::$map->$classId->arguments : [];
         // creating an instance of the class
         if ($arguments === null || count($arguments) == 0) {
             $obj = new $className;
@@ -59,7 +59,11 @@ class DIContainer
             if (!is_array($arguments)) {
                 $arguments = array($arguments);
             }
-            $obj = $reflection->newInstanceArgs($arguments);
+
+            //convert the DIArguments to actual objects
+            $diArguments = self::getDIarguments($arguments);
+
+            $obj = $reflection->newInstanceArgs($diArguments);
         }
         
         // injecting
@@ -99,5 +103,25 @@ class DIContainer
         }
         // return the created instance
         return $obj;
+    }
+
+    /**
+     * @param $arguments
+     * Will instanciate and return the arguments with the instance of classes injected.
+     */
+    private static function getDIarguments($arguments)
+    {
+        $replacedArguments = $arguments;
+        foreach ($arguments as $index => $argument) {
+            if (!is_string($argument)) {
+                break;
+            }
+
+            if (strpos($argument, "@") !== false) {
+                $replacedArguments[$index] = self::getInstanceOf(str_replace("@", "", $argument));
+            }
+        }
+
+        return $replacedArguments;
     }
 }

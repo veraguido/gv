@@ -1,3 +1,10 @@
+dispatcher:
+  classPath: Gvera\Helpers\events\
+  objects:
+    eventDispatcher:
+      class: EventDispatcher
+      singleton: true
+
 services:
   classPath: Gvera\Services\
   objects:
@@ -10,7 +17,11 @@ commands:
     objects:
       loginCommand:
         class: LoginCommand
+        arguments:
+          "@userService"
 
 listeners:
+
+
 
       
