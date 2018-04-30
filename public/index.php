@@ -1,7 +1,5 @@
 <?php
 
-use PHPUnit\Runner\Exception;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../config/locale_setup.php';
 
@@ -17,6 +15,6 @@ if ($isDevMode) {
 try {
     $app = new Gvera\Gvera();
     $app->run();
-} catch(\Exception $e) {
+} catch(\Throwable $e) {
     $app->handleException($e, $isDevMode);
 }

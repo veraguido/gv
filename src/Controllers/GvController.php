@@ -103,14 +103,14 @@ abstract class GvController
     protected function badRequestWithError(int $errorCode, string $message)
     {
         $this->httpResponse->asJson();
-        $this->httpResponse->printError($errorCode, $message);
         $this->httpResponse->badRequest();
+        $this->httpResponse->printError($errorCode, $message);
     }
     
     protected function unauthorizedWithError(int $errorCode, string $message)
     {
         $this->httpResponse->asJson();
-        $this->httpResponse->printError($errorCode, $message);
         $this->httpResponse->unauthorized();
+        $this->httpResponse->printError($errorCode, $message);
     }
 }

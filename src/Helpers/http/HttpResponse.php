@@ -13,6 +13,10 @@ class HttpResponse
     const CONTENT_TYPE_PLAIN_TEXT = "Content-Type: text/plain";
     const CONTENT_TYPE_XML = "Content-Type: text/xml";
 
+    const HTTP_RESPONSE_NOT_FOUND = "HTTP/1.0 404 Not Found";
+    const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 404 Not Found";
+    const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
+
     private static $instance = null;
 
     public static function getInstance()
@@ -35,17 +39,17 @@ class HttpResponse
 
     public function notFound()
     {
-        header("HTTP/1.0 404 Not Found");
+        $this->setHeader(self::HTTP_RESPONSE_NOT_FOUND);
     }
 
     public function badRequest()
     {
-        header("HTTP/1.1 400 Bad Request");
+        $this->setHeader(self::HTTP_RESPONSE_BAD_REQUEST);
     }
 
     public function unauthorized()
     {
-        header("HTTP/1.1 401 Unauthorized");
+        $this->setHeader(self::HTTP_RESPONSE_UNAUTHORIZED);
     }
 
     public function customHeader($header)
