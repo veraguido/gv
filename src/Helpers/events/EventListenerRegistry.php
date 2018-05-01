@@ -10,14 +10,15 @@ use Gvera\Listeners\UserRegisteredEmailListener;
  * Class EventListenerRegistry
  * @package Gvera\Helpers\events
  * All event listeners should be added to this registry
+ * @Inject userRegisteredEmailListener
  */
 class EventListenerRegistry
 {
-    public static function registerEventListeners()
+    public function registerEventListeners()
     {
         EventDispatcher::addEventListener(
             UserRegisteredEvent::USER_REGISTERED_EVENT,
-            new UserRegisteredEmailListener()
+            $this->userRegisteredEmailListener
         );
     }
 }

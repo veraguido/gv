@@ -13,8 +13,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Config
 {
-    private static $instance;
-
     const CONFIG_KEY = 'gv_config';
     private $config;
 
@@ -22,7 +20,7 @@ class Config
      * @Cached
      * Config constructor.
      */
-    private function __construct()
+    public function __construct()
     {
         if (Cache::getCache()->exists(self::CONFIG_KEY)) {
             $this->config = unserialize(Cache::getCache()->load(self::CONFIG_KEY));
@@ -30,14 +28,6 @@ class Config
             $this->config = Yaml::parse(file_get_contents(__DIR__ . "/../../../config/config.yml"))["config"];
             Cache::getCache()->save(self::CONFIG_KEY, serialize($this->config));
         }
-    }
-
-    public static function getInstance()
-    {
-        if (!self::$instance) {
-            self::$instance = new Config();
-        }
-        return self::$instance;
     }
 
     public function getConfig($key)

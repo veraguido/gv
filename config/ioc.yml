@@ -1,3 +1,23 @@
+config:
+  classPath: Gvera\Helpers\config\
+  objects:
+    config:
+      class: Config
+      singleton: true
+
+email:
+  classPath: Gvera\Helpers\email\
+  objects:
+    email:
+      class: GvEmail
+
+entities:
+  classPath: Gvera\Helpers\entities\
+  objects:
+    entityManager:
+      class: EntityManager
+      singleton: true
+
 dispatcher:
   classPath: Gvera\Helpers\events\
   objects:
@@ -11,6 +31,10 @@ services:
     userService:
       class: UserService
       singleton: true
+    forgotPasswordService:
+      class: ForgotPasswordService
+      arguments:
+        "@entityManager"
 
 commands:
     classPath: Gvera\Commands\
@@ -21,7 +45,14 @@ commands:
           "@userService"
 
 listeners:
+  classPath: Gvera\Listeners\
+  objects:
+    userRegisteredEmailListener:
+      class: UserRegisteredEmailListener
 
-
-
+events:
+  classPath: Gvera\Helpers\events\
+  objects:
+    eventListenerRegistry:
+      class: EventListenerRegistry
       

@@ -1,6 +1,7 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\session\Session;
 use Gvera\Services\ForgotPasswordService;
 
@@ -20,7 +21,7 @@ class ForgotPassword extends GvController
             $this->redirectToIndex();
         }
 
-        $forgotPassService = new ForgotPasswordService();
+        $forgotPassService = DIContainer::getInstanceOf("forgotPasswordService");
         $email = $this->httpRequest->getParameter('email');
         if ($forgotPassService->validateNewForgotPassword($email)) {
             $forgotPassService->generateNewForgotPassword($email);
@@ -32,7 +33,7 @@ class ForgotPassword extends GvController
     public function use()
     {
 
-        $forgotPassService = new ForgotPasswordService();
+        $forgotPassService = DIContainer::getInstanceOf("forgotPasswordService");
         try {
             $forgotPassService->useForgotPassword($this->httpRequest->getParameter('key'));
         } catch (\Exception $e) {

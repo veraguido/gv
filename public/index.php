@@ -5,7 +5,8 @@ include_once __DIR__ . '/../config/locale_setup.php';
 
 
 // DEV MODE
-$isDevMode = Gvera\Helpers\config\Config::getInstance()->getConfig('devmode');
+$config = new Gvera\Helpers\config\Config();
+$isDevMode = $config->getConfig('devmode');
 ini_set('display_errors', $isDevMode);
 ini_set('display_startup_errors', $isDevMode);
 if ($isDevMode) {

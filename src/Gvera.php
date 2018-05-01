@@ -38,8 +38,9 @@ class Gvera
     public function __construct()
     {
         $this->routeManager = new RouteManager(HttpRequest::getInstance());
-        EventListenerRegistry::registerEventListeners();
         DIRegistry::registerObjects();
+        $eventRegistry = DIContainer::getInstanceOf("eventListenerRegistry");
+        $eventRegistry->registerEventListeners();
     }
 
     /**
@@ -68,7 +69,7 @@ class Gvera
      * @param bool $devMode
      * handle exception thrown and decide what to do depending on app state
      */
-    public function handleException(\Exception $exception, bool $devMode)
+    public function handleException(\Throwable $exception, bool $devMode)
     {
         if ($devMode) {
             $this->dieWithMessage($exception->getMessage());

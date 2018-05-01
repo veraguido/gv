@@ -7,6 +7,7 @@ use Gvera\Helpers\config\Config;
  * Class GVEmail
  * @package Gvera\Helpers\email\GVEmail
  * This class is a wrapper from the PhpMailer class just for easiness purposes.
+ * @Inject config
  */
 class GvEmail
 {
@@ -14,16 +15,16 @@ class GvEmail
 
     public function __construct($isHtml, $subject, $body, $alternativeBody)
     {
-        $config = Config::getInstance()->getConfig('email');
+        $emailConfig = $this->config->getConfig('email');
         $this->mailer = new \PHPMailer();
         $this->mailer->isSMTP();
         $this->mailer->isHTML($isHtml);
-        $this->mailer->Host = $config['host'];
-        $this->mailer->SMTPAuth = (bool)$config['smtp_auth'];
-        $this->mailer->From = $config['username'];
-        $this->mailer->Password = $config['password'];
-        $this->mailer->SMTPSecure = $config['smtp_secure'];
-        $this->mailer->Port = $config['port'];
+        $this->mailer->Host = $emailConfig['host'];
+        $this->mailer->SMTPAuth = (bool)$emailConfig['smtp_auth'];
+        $this->mailer->From = $emailConfig['username'];
+        $this->mailer->Password = $emailConfig['password'];
+        $this->mailer->SMTPSecure = $emailConfig['smtp_secure'];
+        $this->mailer->Port = $emailConfig['port'];
 
         $this->mailer->Subject = $subject;
         $this->mailer->Body = $body;

@@ -13,6 +13,7 @@ use Gvera\Helpers\email\GvEmail;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
+ * @Inject config
  *
  */
 class UserRegisteredEmailListener implements EventListener
@@ -21,7 +22,7 @@ class UserRegisteredEmailListener implements EventListener
     public function handleEvent(Event $event)
     {
 
-        if (boolval(Config::getInstance()->getConfig('devmode')) === false) {
+        if (boolval($this->$config->getConfig('devmode')) === false) {
             $username = $event->getUserName();
             $message = "Hi $username we want to let you know that your account is registered :)";
             $newUserEmail = new GvEmail(

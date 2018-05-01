@@ -28,7 +28,7 @@ class DIRegistry
                         $className,
                         $arguments
                     );
-                    break;
+                    continue;
                 }
 
                 DIContainer::mapClass(

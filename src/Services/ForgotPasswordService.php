@@ -9,21 +9,20 @@ use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Models\ForgotPassword;
 use Gvera\Models\User;
-
 class ForgotPasswordService
 {
     private $repository;
     private $entityManager;
 
-    public function __construct()
+    public function __construct(EntityManager $entityManager)
     {
-        $this->entityManager = EntityManager::getInstance();
+        $this->entityManager = $entityManager->getNewInstance();
         $this->repository = $this->entityManager->getRepository(ForgotPassword::class);
     }
 
     public function validateNewForgotPassword($email)
     {
-        $userRepository = EntityManager::getInstance()->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => $email]);
         $activeForgotPass = $this->repository->findOneBy(['user' => $user, 'alreadyUsed' => false]);
 
@@ -37,7 +36,7 @@ class ForgotPasswordService
      */
     public function generateNewForgotPassword($email)
     {
-        $userRepository = EntityManager::getInstance()->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
 
         $user = $userRepository->findOneBy(['email' => $email]);
         if (!isset($user)) {

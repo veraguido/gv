@@ -7,7 +7,7 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\ClassLoader;
 
-$config = \Gvera\Helpers\config\Config::getInstance();
+$config = new \Gvera\Helpers\config\Config();
 $paths = array(__DIR__ . "/../src/Models");
 $isDevMode = $config->getConfig('devmode');
 $mysqlConfig = $config->getConfig('mysql');
