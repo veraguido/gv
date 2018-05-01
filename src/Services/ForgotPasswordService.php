@@ -9,6 +9,7 @@ use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Models\ForgotPassword;
 use Gvera\Models\User;
+
 class ForgotPasswordService
 {
     private $repository;
