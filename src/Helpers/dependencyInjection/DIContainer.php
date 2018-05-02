@@ -6,7 +6,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-
 class DIContainer implements ContainerInterface
 {
     private $map;
