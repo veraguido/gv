@@ -1,10 +1,12 @@
 <?php
 namespace Gvera\Controllers;
 
-use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\session\Session;
-use Gvera\Services\ForgotPasswordService;
 
+/**
+ * Class ForgotPassword
+ * @package Gvera\Controllers
+ */
 class ForgotPassword extends GvController
 {
     public function index()
@@ -13,7 +15,7 @@ class ForgotPassword extends GvController
 
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws \ReflectionException
      */
     public function new()
     {
@@ -21,7 +23,7 @@ class ForgotPassword extends GvController
             $this->redirectToIndex();
         }
 
-        $forgotPassService = DIContainer::getInstanceOf("forgotPasswordService");
+        $forgotPassService = $this->diContainer->get("forgotPasswordService");
         $email = $this->httpRequest->getParameter('email');
         if ($forgotPassService->validateNewForgotPassword($email)) {
             $forgotPassService->generateNewForgotPassword($email);
@@ -30,12 +32,14 @@ class ForgotPassword extends GvController
         }
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function use()
     {
-
-        $forgotPassService = DIContainer::getInstanceOf("forgotPasswordService");
+        $forgotPasswordService = $this->diContainer->get("forgotPasswordService");
         try {
-            $forgotPassService->useForgotPassword($this->httpRequest->getParameter('key'));
+            $forgotPasswordService->useForgotPassword($this->httpRequest->getParameter('key'));
         } catch (\Exception $e) {
             $this->redirectToIndex();
         }
@@ -43,6 +47,7 @@ class ForgotPassword extends GvController
 
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \ReflectionException
      */
     public function regenerate()
     {
@@ -51,8 +56,8 @@ class ForgotPassword extends GvController
             $this->redirectToIndex();
         }
 
-        $forgotPassService = new ForgotPasswordService();
-        $forgotPassService->regeneratePassword(
+        $forgotPasswordService = $this->diContainer->get("forgotPasswordService");
+        $forgotPasswordService->regeneratePassword(
             Session::get('forgot_password'),
             $this->httpRequest->getParameter('new_password')
         );

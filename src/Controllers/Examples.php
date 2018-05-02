@@ -34,7 +34,7 @@ class Examples extends GvController
      */
     public function login()
     {
-        $loginCommand = DIContainer::getInstanceOf("loginCommand");
+        $loginCommand = $this->diContainer->get("loginCommand");
         $loginCommand->setUsername($this->httpRequest->getParameter('username'));
         $loginCommand->setPassword($this->httpRequest->getParameter('password'));
 
@@ -62,7 +62,8 @@ class Examples extends GvController
             $registerUserCommand = new CreateNewUserCommand(
                 $this->httpRequest->getParameter('username'),
                 $this->httpRequest->getParameter('password'),
-                $this->httpRequest->getParameter('email')
+                $this->httpRequest->getParameter('email'),
+                $this->diContainer->get("entityManager")
             );
 
             $registerUserCommand->execute();

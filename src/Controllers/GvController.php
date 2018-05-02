@@ -3,6 +3,7 @@
 use Doctrine\ORM\EntityManager;
 use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
+use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 
@@ -26,6 +27,7 @@ abstract class GvController
     protected $httpResponse;
     protected $httpRequest;
     protected $entityManager;
+    protected $diContainer;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_CONTROLLER = "Index";
@@ -38,8 +40,9 @@ abstract class GvController
      * @param string $method
      * @throws \Exception
      */
-    public function __construct($controllerName, $method = 'index')
+    public function __construct(DIContainer $diContainer, $controllerName, $method = 'index')
     {
+        $this->diContainer = $diContainer;
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpResponse = HttpResponse::getInstance();

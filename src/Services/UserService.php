@@ -15,11 +15,14 @@ use Gvera\Models\User;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
+ * @Inject entityManager
  *
  */
 class UserService
 {
     const MODERATOR_ROLE_PRIORITY = 5;
+
+    public $entityManager;
 
     public function validateEmail($email)
     {
@@ -43,8 +46,8 @@ class UserService
      */
     public function login($username, $password)
     {
-        $em = EntityManager::getInstance()->getRepository(User::class);
-        $user = $em->findOneBy(['username' => $username]);
+        $repository = $this->entityManager->getInstance()->getRepository(User::class);
+        $user = $repository->findOneBy(['username' => $username]);
 
         if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {
             Session::set(

@@ -22,7 +22,7 @@ class UserRegisteredEmailListener implements EventListener
     public function handleEvent(Event $event)
     {
 
-        if (boolval($this->$config->getConfig('devmode')) === false) {
+        if (boolval($this->config->getConfig('devmode')) === false) {
             $username = $event->getUserName();
             $message = "Hi $username we want to let you know that your account is registered :)";
             $newUserEmail = new GvEmail(

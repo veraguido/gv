@@ -17,6 +17,8 @@ entities:
     entityManager:
       class: EntityManager
       singleton: true
+      arguments:
+        "@config"
 
 dispatcher:
   classPath: Gvera\Helpers\events\

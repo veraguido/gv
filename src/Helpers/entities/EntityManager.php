@@ -12,16 +12,21 @@ use Gvera\Helpers\config\Config;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- * @Inject config
  *
  */
 class EntityManager
 {
-    public function getNewInstance()
+    private $emInstance;
+
+    /**
+     * EntityManager constructor.
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function __construct(Config $config)
     {
         $path = array('src/Models');
 
-        $mysqlConfig = $this->config->getConfig('mysql');
+        $mysqlConfig = $config->getConfig('mysql');
 
         $dbParams = array(
             'driver'   => 'pdo_mysql',
@@ -33,9 +38,14 @@ class EntityManager
 
         $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
             $path,
-            (bool) $this->config->getConfig('devmode')
+            (bool) $config->getConfig('devmode')
         );
 
-        return \Doctrine\ORM\EntityManager::create($dbParams, $doctrineConfig);
+        $this->emInstance = \Doctrine\ORM\EntityManager::create($dbParams, $doctrineConfig);
+    }
+
+    public function getInstance()
+    {
+        return $this->emInstance;
     }
 }

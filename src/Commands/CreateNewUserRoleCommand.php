@@ -20,10 +20,10 @@ class CreateNewUserRoleCommand implements ICommand
     private $priority;
     private $entityManager;
 
-    public function __construct($name, $priority)
+    public function __construct($name, $priority, EntityManager $entityManager)
     {
         $this->roleName = $name;
-        $this->entityManager = EntityManager::getInstance();
+        $this->entityManager = $entityManager->getInstance();
         $this->priority = $priority;
     }
 

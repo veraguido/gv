@@ -34,12 +34,19 @@ class Gvera
     private $controllerFinalName;
     private $controllerAutoloadingNames = [];
     private $routeManager;
+    private $diContainer;
 
+    /**
+     * Gvera constructor.
+     * @throws \ReflectionException
+     */
     public function __construct()
     {
         $this->routeManager = new RouteManager(HttpRequest::getInstance());
-        DIRegistry::registerObjects();
-        $eventRegistry = DIContainer::getInstanceOf("eventListenerRegistry");
+        $this->diContainer = new DIContainer();
+        $diRegistry = new DIRegistry($this->diContainer);
+        $diRegistry->registerObjects();
+        $eventRegistry = $this->diContainer->get("eventListenerRegistry");
         $eventRegistry->registerEventListeners();
     }
 
@@ -261,7 +268,7 @@ class Gvera
      */
     private function initializeControllerInstance($controllerFullName)
     {
-        $controllerInstance = new $controllerFullName($this->controllerFinalName, $this->method);
+        $controllerInstance = new $controllerFullName($this->diContainer, $this->controllerFinalName, $this->method);
         if (!is_a($controllerInstance, GvController::class)) {
             throw new InvalidControllerException(
                 'The controller that you are trying to instantiate should be extending GvController',

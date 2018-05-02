@@ -33,6 +33,10 @@ if [ $1 = "build" ]; then
     exit 1
 fi
 
+if [ $1 = "composer" ]; then
+    docker run --rm -v $(pwd):/app composer "$@"
+fi
+
 if [ $1 = "start" ]; then
     docker-compose up
     exit 1

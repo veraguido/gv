@@ -14,7 +14,9 @@ usage example: ./create-user-role admin 10
 
 echo $argv[1];
 try {
-    $command = new \Gvera\Commands\CreateNewUserRoleCommand($argv[1], $argv[2]);
+    $config = new \Gvera\Helpers\config\Config();
+    $entityManager = new \Gvera\Helpers\entities\EntityManager($config);
+    $command = new \Gvera\Commands\CreateNewUserRoleCommand($argv[1], $argv[2], $entityManager);
     $command->execute();
 } catch (Exception $e) {
     echo $e->getMessage();

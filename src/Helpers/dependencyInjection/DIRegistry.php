@@ -9,9 +9,16 @@ class DIRegistry
 {
     const DI_KEY = 'gv_di';
 
-    public static function registerObjects()
+    private $container;
+
+    public function __construct(DIContainer $container)
     {
-        foreach (self::getDIObjects() as $category) {
+        $this->container = $container;
+    }
+
+    public function registerObjects()
+    {
+        foreach ($this->getDIObjects() as $category) {
             $classPath = $category['classPath'];
 
             if (!$category['objects']) {
@@ -23,7 +30,7 @@ class DIRegistry
                 $className = $classPath . $diObject['class'];
                 $arguments = isset($diObject['arguments']) ? array($diObject['arguments']) : [];
                 if ($singleton) {
-                    DIContainer::mapClassAsSingleton(
+                    $this->container->mapClassAsSingleton(
                         $diKey,
                         $className,
                         $arguments
@@ -31,7 +38,7 @@ class DIRegistry
                     continue;
                 }
 
-                DIContainer::mapClass(
+                $this->container->mapClass(
                     $diKey,
                     $className,
                     $arguments
@@ -40,7 +47,7 @@ class DIRegistry
         }
     }
 
-    private static function getDIObjects()
+    private function getDIObjects()
     {
         if (Cache::getCache()->exists(self::DI_KEY)) {
             $diObjects = unserialize(Cache::getCache()->load(self::DI_KEY));

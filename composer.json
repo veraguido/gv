@@ -9,8 +9,14 @@
             "email": "vera.a.guido@gmail.com"
         }
     ],
+    "config": {
+        "platform" :{
+            "php": "7.1.0"
+        }
+    },
     "require": {
         "monolog/monolog":          "1.0.*",
+        "psr/container":            "1.0.0",
         "twig/twig":                "2.0",
         "doctrine/orm":             "2.4.*",
         "doctrine/migrations":	    "1.5.*",

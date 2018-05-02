@@ -17,7 +17,7 @@ class ForgotPasswordService
 
     public function __construct(EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager->getNewInstance();
+        $this->entityManager = $entityManager->getInstance();
         $this->repository = $this->entityManager->getRepository(ForgotPassword::class);
     }
 

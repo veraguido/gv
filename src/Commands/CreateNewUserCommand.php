@@ -1,6 +1,7 @@
 <?php
 namespace Gvera\Commands;
 
+use Doctrine\ORM\Mapping\Entity;
 use Gvera\Events\UserRegisteredEvent;
 use Gvera\Helpers\entities\EntityManager;
 use Gvera\Helpers\events\EventDispatcher;
@@ -26,12 +27,12 @@ class CreateNewUserCommand implements ICommand
     private $entityManager;
     private $roleName;
 
-    public function __construct($name, $password, $email)
+    public function __construct($name, $password, $email, EntityManager $entityManager)
     {
         $this->name = $name;
         $this->password = $password;
         $this->email = $email;
-        $this->entityManager = EntityManager::getInstance();
+        $this->entityManager = $entityManager->getInstance();
     }
 
     /**

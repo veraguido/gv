@@ -40,7 +40,10 @@ class UserStatuses extends GvController
             throw new \Exception(Locale::getLocale('User must be logged in and have the correct rights'));
         }
 
-        $newUserStatusCommand = new CreateUserStatusCommand($this->httpRequest->getParameter('name'));
+        $newUserStatusCommand = new CreateUserStatusCommand(
+            $this->httpRequest->getParameter('name'),
+            $this->diContainer->get("entityManager")
+        );
         $newUserStatusCommand->execute();
     }
 }
