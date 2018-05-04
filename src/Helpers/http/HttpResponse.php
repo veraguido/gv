@@ -52,12 +52,6 @@ class HttpResponse
         $this->setHeader(self::HTTP_RESPONSE_UNAUTHORIZED);
     }
 
-    public function customHeader($header)
-    {
-        header($header);
-        exit;
-    }
-
     public function setHeader($header)
     {
         header($header);

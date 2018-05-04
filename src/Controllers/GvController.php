@@ -116,4 +116,15 @@ abstract class GvController
         $this->httpResponse->unauthorized();
         $this->httpResponse->printError($errorCode, $message);
     }
+
+    /**
+     * using magic methods to retrieve from DIContainer
+     */
+    public function __call($name, $arguments)
+    {
+        $id = lcfirst(str_replace('get', '', $name));
+        if ($this->diContainer->has($id)) {
+            return $this->diContainer->get($id);
+        }
+    }
 }

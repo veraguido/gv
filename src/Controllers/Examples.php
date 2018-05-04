@@ -34,7 +34,7 @@ class Examples extends GvController
      */
     public function login()
     {
-        $loginCommand = $this->diContainer->get("loginCommand");
+        $loginCommand = $this->getLoginCommand();
         $loginCommand->setUsername($this->httpRequest->getParameter('username'));
         $loginCommand->setPassword($this->httpRequest->getParameter('password'));
 
