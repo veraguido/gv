@@ -10,8 +10,6 @@ namespace Gvera\Helpers\http;
 class HttpRequest
 {
 
-    private static $instance;
-
     private $requestType;
     private $requestParams = array();
 
@@ -21,18 +19,9 @@ class HttpRequest
     const DELETE = 'DELETE';
     const OPTIONS = 'OPTIONS';
 
-    private function __construct()
+    public function __construct()
     {
         $this->requestType = $_SERVER['REQUEST_METHOD'];
-    }
-
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new HttpRequest();
-        }
-
-        return self::$instance;
     }
 
     public function getParameters()

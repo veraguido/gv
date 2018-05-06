@@ -45,8 +45,8 @@ abstract class GvController
         $this->diContainer = $diContainer;
         $this->method = $method;
         $this->name = $controllerName;
-        $this->httpResponse = HttpResponse::getInstance();
-        $this->httpRequest = HttpRequest::getInstance();
+        $this->httpRequest = $this->diContainer->get('httpRequest');
+        $this->httpResponse =$this->diContainer->get('httpResponse');
 
         if (!method_exists($this, $method)) {
             throw new InvalidMethodException(

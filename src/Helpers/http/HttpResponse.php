@@ -17,21 +17,6 @@ class HttpResponse
     const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
 
-    private static $instance = null;
-
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new HttpResponse();
-        }
-
-        return self::$instance;
-    }
-
-    private function __construct()
-    {
-    }
-
     public function redirect($url)
     {
         header("Location: " . $url);

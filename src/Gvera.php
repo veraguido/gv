@@ -42,10 +42,10 @@ class Gvera
      */
     public function __construct()
     {
-        $this->routeManager = new RouteManager(HttpRequest::getInstance());
         $this->diContainer = new DIContainer();
         $diRegistry = new DIRegistry($this->diContainer);
         $diRegistry->registerObjects();
+        $this->routeManager = new RouteManager($this->diContainer->get('httpRequest'));
         $eventRegistry = $this->diContainer->get("eventListenerRegistry");
         $eventRegistry->registerEventListeners();
     }
@@ -195,9 +195,9 @@ class Gvera
             return self::CONTROLLERS_PREFIX . $versionPath . $controllerName;
         }
 
-        HttpResponse::getInstance()->asJson();
-        HttpResponse::getInstance()->notFound();
-        HttpResponse::getInstance()->printError(404, "Resource not found");
+        $this->diContainer->get('httpResponse')->asJson();
+        $this->diContainer->get('httpResponse')->notFound();
+        $this->diContainer->get('httpResponse')->printError(404, "Resource not found");
         exit();
     }
 

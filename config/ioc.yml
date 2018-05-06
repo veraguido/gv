@@ -5,6 +5,16 @@ config:
       class: Config
       singleton: true
 
+httpstatuses:
+  classPath: Gvera\Helpers\http\
+  objects:
+    httpRequest:
+      class: HttpRequest
+      singleton: true
+    httpResponse:
+      class: HttpResponse
+      singleton: true
+
 email:
   classPath: Gvera\Helpers\email\
   objects:
