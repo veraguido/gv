@@ -5,6 +5,7 @@ use Gvera\Events\UserLoggedInEvent;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Services\UserService;
 use Gvera\Commands\CommandInterface;
+
 /**
  * Command Class Doc Comment
  *
