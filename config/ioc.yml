@@ -1,3 +1,12 @@
+logger:
+  classPath: Monolog\
+  objects:
+    logger:
+      class: Logger
+      singleton: true
+      arguments:
+        "gv"
+
 config:
   classPath: Gvera\Helpers\config\
   objects:
@@ -61,6 +70,8 @@ listeners:
   objects:
     userRegisteredEmailListener:
       class: UserRegisteredEmailListener
+    throwableListener:
+      class: ThrowableListener  
 
 events:
   classPath: Gvera\Helpers\events\

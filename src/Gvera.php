@@ -4,14 +4,15 @@ use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Controllers\Index;
+use Gvera\Events\ThrowableFiredEvent;
 use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\InvalidVersionException;
 use Gvera\Helpers\dependencyInjection\DIRegistry;
+use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\routes\RouteManager;
 use Gvera\Helpers\http\HttpResponse;
-use Monolog\Logger;
 use Gvera\Exceptions\GvException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 
@@ -69,42 +70,6 @@ class Gvera
         $this->controllerFinalName = GvController::DEFAULT_CONTROLLER;
         $this->method = GvController::DEFAULT_METHOD;
         $this->initializeControllerInstance(Index::class);
-    }
-
-    /**
-     * @param \Throwable $exception
-     * @param bool $devMode
-     * handle exception thrown and decide what to do depending on app state
-     */
-    public function handleException(\Throwable $exception, bool $devMode)
-    {
-        if ($devMode) {
-            $this->dieWithMessage($exception->getMessage());
-        }
-
-        $arguments = is_a($exception, GvException::class) ? $exception->getArguments() : [];
-        $this->logMessageWithArguments($exception->getMessage(), $arguments);
-    }
-
-    /**
-     * @param $message
-     * display message in dev mode
-     */
-    private function dieWithMessage($message)
-    {
-        die($message);
-    }
-
-    /**
-     * @param $message
-     * @param $argunments
-     * log the exception (not dev mode)
-     */
-    private function logMessageWithArguments($message, $arguments)
-    {
-        $logger = new Logger('gv');
-        $logger->err($message, $arguments);
-        $this->redirectToDefault();
     }
 
     /**
