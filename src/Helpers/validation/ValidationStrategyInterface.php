@@ -10,7 +10,7 @@
  * @link     http://www.github.com/veraguido/gv
  *
  */
-interface IValidationStrategy
+interface ValidationStrategyInterface
 {
     public function validate($field);
 }

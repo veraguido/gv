@@ -11,7 +11,7 @@ namespace Gvera\Cache;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-interface ICache
+interface CacheInterface
 {
     /**
      * @return void

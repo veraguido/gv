@@ -10,7 +10,7 @@
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class IsNotEmptyValidationStrategy implements IValidationStrategy
+class IsNotEmptyValidationStrategy implements ValidationStrategyInterface
 {
     public function validate($field)
     {

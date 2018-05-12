@@ -57,7 +57,7 @@ class Gvera
     public function run()
     {
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
-        $this->parseUri($this->useSpecialRoutesIfApply());
+        $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
 
     /**
@@ -72,7 +72,7 @@ class Gvera
     }
 
     /**
-     * @param Exception $exception
+     * @param Throwable $exception
      * @param bool $devMode
      * handle exception thrown and decide what to do depending on app state
      */
@@ -102,8 +102,8 @@ class Gvera
      */
     private function logMessageWithArguments($message, $arguments)
     {
-        $l = new Logger('gv');
-        $l->err($message, $arguments);
+        $logger = new Logger('gv');
+        $logger->err($message, $arguments);
         $this->redirectToDefault();
     }
 
@@ -111,7 +111,7 @@ class Gvera
      * @return bool
      * This will check on routes.yml if a route is overwritten.
      */
-    private function useSpecialRoutesIfApply()
+    private function supportsSpecialRoutesIfApply()
     {
         return $this->routeManager->getRoute($_SERVER['REQUEST_URI']);
     }
@@ -119,6 +119,7 @@ class Gvera
     /**
      * @param bool $action
      * @throws \Exception
+     * @return mixed
      * If the route was already defined in the routes.yml file then that one will take precedence over the
      * convention over configuration strategy (host.com/Controller/Method)
      */
@@ -280,6 +281,7 @@ class Gvera
     }
 
     /**
+     * @return array
      * @Cached
      * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
      * The method will check for all the files created under the controllers directory and generate a map of them

@@ -10,7 +10,7 @@
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class NameValidationStrategy implements IValidationStrategy
+class NameValidationStrategy implements ValidationStrategyInterface
 {
     public function validate($field)
     {

@@ -4,7 +4,7 @@ namespace Gvera\Commands;
 use Gvera\Events\UserLoggedInEvent;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Services\UserService;
-
+use Gvera\Commands\CommandInterface;
 /**
  * Command Class Doc Comment
  *
@@ -15,7 +15,7 @@ use Gvera\Services\UserService;
  * @link     http://www.github.com/veraguido/gv
  * @Inject eventDispatcher
  */
-class LoginCommand implements ICommand
+class LoginCommand implements CommandInterface
 {
     private $username;
     private $password;

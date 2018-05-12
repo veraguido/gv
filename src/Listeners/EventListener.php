@@ -15,5 +15,5 @@ use Gvera\Events\Event;
  */
 interface EventListener
 {
-    public function handleEvent(Event $event);
+    public function handleEvent($event);
 }

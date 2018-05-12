@@ -3,6 +3,7 @@ namespace Gvera\Commands;
 
 use Gvera\Helpers\entities\EntityManager;
 use Gvera\Models\UserStatus;
+use Gvera\Commands\CommandInterface;
 
 /**
  * Command Class Doc Comment
@@ -14,7 +15,7 @@ use Gvera\Models\UserStatus;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class CreateUserStatusCommand implements ICommand
+class CreateUserStatusCommand implements CommandInterface
 {
 
     private $statusName;

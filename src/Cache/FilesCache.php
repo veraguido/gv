@@ -11,7 +11,7 @@ namespace Gvera\Cache;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class FilesCache implements ICache
+final class FilesCache implements CacheInterface
 {
     private static $instance;
     private static $client;

@@ -10,7 +10,7 @@
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class EmailValidationStrategy implements IValidationStrategy
+class EmailValidationStrategy implements ValidationStrategyInterface
 {
 
     public function validate($field)

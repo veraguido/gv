@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class RedisCache implements ICache
+final class RedisCache implements CacheInterface
 {
     private static $instance;
     private static $client;
@@ -23,6 +23,9 @@ class RedisCache implements ICache
     {
     }
 
+    /**
+     * @return Cache
+     */
     public static function getInstance()
     {
         if (!self::$instance) {
@@ -52,6 +55,9 @@ class RedisCache implements ICache
         self::$client->lpush($listKey, $list);
     }
 
+    /**
+     * @return array
+     */
     public function getList($listKey)
     {
         $list = self::$client->lrange($listKey, 0, -1);
@@ -63,6 +69,9 @@ class RedisCache implements ICache
         self::$client->hset($hashMapKey, $key, $value);
     }
 
+    /**
+     * @return array
+     */
     public function getHashMap($hashMapKey)
     {
         return self::$client->hgetall($hashMapKey);
@@ -75,6 +84,9 @@ class RedisCache implements ICache
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getHashMapItem($hashMapKey, $itemKey)
     {
         return self::$client->hget($hashMapKey, $itemKey);
@@ -85,16 +97,26 @@ class RedisCache implements ICache
         self::$client->expire($key, $expirationTime);
     }
 
+    /**
+     * @return bool
+     */
     public function exists($key)
     {
         return self::$client->exists($key);
     }
 
+    /**
+     * @return void
+     */
     public function delete($key)
     {
         return self::$client->del($key);
     }
 
+    /**
+     * @throws Exception
+     * @return bool
+     */
     public function ping()
     {
         return self::$client->ping();

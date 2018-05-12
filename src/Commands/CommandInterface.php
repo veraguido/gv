@@ -11,7 +11,7 @@ namespace Gvera\Commands;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-interface ICommand
+interface CommandInterface
 {
     public function execute();
 }

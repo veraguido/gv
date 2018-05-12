@@ -8,6 +8,7 @@ use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Models\User;
 use Gvera\Models\UserRole;
 use Gvera\Models\UserStatus;
+use Gvera\Commands\CommandInterface;
 
 /**
  * Command Class Doc Comment
@@ -19,7 +20,7 @@ use Gvera\Models\UserStatus;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class CreateNewUserCommand implements ICommand
+class CreateNewUserCommand implements CommandInterface
 {
     private $name;
     private $password;

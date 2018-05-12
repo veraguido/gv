@@ -21,7 +21,7 @@ class Cache
      * FilesCache
      * @return FilesCache|RedisCache
      */
-    public static function getCache(): ICache
+    public static function getCache(): CacheInterface
     {
         try {
             RedisCache::getInstance()->ping();

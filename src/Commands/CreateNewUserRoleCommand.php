@@ -3,6 +3,7 @@ namespace Gvera\Commands;
 
 use Gvera\Helpers\entities\EntityManager;
 use Gvera\Models\UserRole;
+use Gvera\Commands\CommandInterface;
 
 /**
  * Command Class Doc Comment
@@ -14,7 +15,7 @@ use Gvera\Models\UserRole;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class CreateNewUserRoleCommand implements ICommand
+class CreateNewUserRoleCommand implements CommandInterface
 {
     private $roleName;
     private $priority;
