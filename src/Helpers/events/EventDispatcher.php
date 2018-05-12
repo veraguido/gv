@@ -2,7 +2,7 @@
 namespace Gvera\Helpers\events;
 
 use Gvera\Events\Event;
-use Gvera\Listeners\EventListener;
+use Gvera\Listeners\EventListenerInterface;
 
 /**
  * Class EventDispatcher
@@ -13,7 +13,7 @@ class EventDispatcher
 {
     public static $eventsListeners = array();
 
-    public static function addEventListener(string $eventId, EventListener $listener)
+    public static function addEventListener(string $eventId, EventListenerInterface $listener)
     {
         $listeners = (isset(self::$eventsListeners[$eventId]) && is_iterable(self::$eventsListeners[$eventId])) ?
             array_push(self::$eventsListeners[$eventId], $listener) :
