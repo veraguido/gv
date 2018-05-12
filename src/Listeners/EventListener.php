@@ -13,7 +13,10 @@ use Gvera\Events\Event;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-interface EventListener
+interface EventListenerInterface
 {
+    /**
+     * @return void
+     */
     public function handleEvent($event);
 }

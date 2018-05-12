@@ -42,6 +42,9 @@ class HttpRequest
         return array_merge($this->requestParams, $paramArray);
     }
 
+    /**
+     * @return mixed
+     */
     public function getParameter($name)
     {
         return isset($this->getParameters()[$name]) ? $this->getParameters()[$name] : null;
@@ -67,6 +70,9 @@ class HttpRequest
         return $this->requestType == self::DELETE;
     }
 
+    /**
+     * @return string
+     */
     public function getRequestType()
     {
         return $this->requestType;

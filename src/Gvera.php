@@ -72,7 +72,7 @@ class Gvera
     }
 
     /**
-     * @param Throwable $exception
+     * @param \Throwable $exception
      * @param bool $devMode
      * handle exception thrown and decide what to do depending on app state
      */
@@ -179,7 +179,7 @@ class Gvera
 
     /**
      * @param $controllerName
-     * @return string
+     * @return string|null
      * @throws \Exception
      * All controllers should extend from GvController. By default if a Controller does not exist
      * it fallbacks to the HttpCodeResponse controller.
@@ -294,7 +294,7 @@ class Gvera
         }
         
         $controllersDir = scandir($scanDirectory);
-        $autoloadedControllers = [];
+        $loadedControllers = [];
         foreach ($controllersDir as $index => $autoloadingName) {
             if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
                 continue;
@@ -302,16 +302,16 @@ class Gvera
 
             if (is_dir($scanDirectory . $autoloadingName)) {
                 $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
-                $autoloadedControllers[$autoloadingName] = $autoloadedSubDir;
+                $loadedControllers[$autoloadingName] = $autoloadedSubDir;
                 continue;
             }
 
             $correctName = str_replace(".php", "", $autoloadingName);
-            $autoloadedControllers[strtolower($correctName)] = $correctName;
+            $loadedControllers[strtolower($correctName)] = $correctName;
         }
-        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, serialize($autoloadedControllers));
+        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, serialize($loadedControllers));
 
-        return $autoloadedControllers;
+        return $loadedControllers;
     }
 
     /**

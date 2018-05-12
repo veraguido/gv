@@ -16,7 +16,7 @@ use Gvera\Helpers\email\GvEmail;
  * @Inject config
  *
  */
-class UserRegisteredEmailListener implements EventListener
+class UserRegisteredEmailListener implements EventListenerInterface
 {
 
     public function handleEvent($event)
