@@ -28,7 +28,7 @@ class EventDispatcher
 
         foreach ($listeners as $listener) {
             $listener->handleEvent($event);
-            if ($event->getStopPropagation()) {
+            if ($event->hasStopPropagation()) {
                 break;
             }
         }

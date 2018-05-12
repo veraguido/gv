@@ -26,7 +26,7 @@ class ValidationService
                 throw new Exception('Validation strategy should implement ValidationStrategyInterface');
             }
 
-            if ($strategy->validate($field)) {
+            if ($strategy->isValid($field)) {
                 continue;
             }
 

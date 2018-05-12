@@ -12,5 +12,5 @@
  */
 interface ValidationStrategyInterface
 {
-    public function validate($field);
+    public function isValid($field);
 }

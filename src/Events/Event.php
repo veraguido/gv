@@ -18,7 +18,7 @@ abstract class Event
     /**
      * @return mixed
      */
-    public function getStopPropagation()
+    public function hasStopPropagation(): bool
     {
         return $this->stopPropagation;
     }

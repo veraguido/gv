@@ -12,7 +12,7 @@
  */
 class IsNotEmptyValidationStrategy implements ValidationStrategyInterface
 {
-    public function validate($field)
+    public function isValid($field)
     {
         return $field == '' || $field == null;
     }
