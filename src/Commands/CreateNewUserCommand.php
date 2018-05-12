@@ -26,7 +26,6 @@ class CreateNewUserCommand implements CommandInterface
     private $password;
     private $email;
     private $entityManager;
-    private $roleName;
 
     public function __construct($name, $password, $email, EntityManager $entityManager)
     {

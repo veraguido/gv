@@ -44,8 +44,8 @@ class Examples extends GvController
 
     public function logout()
     {
-        $us = new UserService();
-        $us->logout();
+        $userService = new UserService();
+        $userService->logout();
     }
 
     public function asd()

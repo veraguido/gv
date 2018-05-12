@@ -89,8 +89,8 @@ class ForgotPasswordService
      */
     public function regeneratePassword($key, $newPassword)
     {
-        $fp = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
-        $user = $fp->getUser();
+        $forgotPassword = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
+        $user = $forgotPassword->getUser();
         $user->setPassword($newPassword);
 
         $this->entityManager->persist($user);
