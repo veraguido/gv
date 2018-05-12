@@ -35,6 +35,9 @@ class RouteManager
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getRoute($pathLike)
     {
         $pathLikeArray = explode("/", $pathLike);
@@ -74,7 +77,8 @@ class RouteManager
 
     private function convertUriParams($totalRoute, $pathLikeArray)
     {
-        for ($i = 0; $i < count($pathLikeArray); $i++) {
+        $count = count($pathLikeArray);
+        for ($i = 0; $i < $count; $i++) {
             if (substr_count($pathLikeArray[$i], self::ROUTE_NEEDLE) == 2) {
                 if (empty($totalRoute[$i])) {
                     return false;
