@@ -19,7 +19,7 @@ use Gvera\Helpers\email\GvEmail;
 class UserRegisteredEmailListener implements EventListener
 {
 
-    public function handleEvent(Event $event)
+    public function handleEvent($event)
     {
 
         if (boolval($this->config->getConfig('devmode')) === false) {

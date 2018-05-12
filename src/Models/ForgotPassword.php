@@ -75,7 +75,7 @@ class ForgotPassword extends GvModel
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getCreated()
     {

@@ -21,7 +21,10 @@ class ForgotPasswordService
         $this->repository = $this->entityManager->getRepository(ForgotPassword::class);
     }
 
-    public function validateNewForgotPassword($email)
+    /**
+     * @return bool
+     */
+    public function validateNewForgotPassword(string $email)
     {
         $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => $email]);
@@ -64,17 +67,17 @@ class ForgotPasswordService
      */
     public function useForgotPassword($key)
     {
-        $fp = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
-        if (!isset($fp)) {
+        $forgotPassword = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
+        if (!isset($forgotPassword)) {
             throw new \Exception(Locale::getLocale('Forgot Password was never generated'));
         }
 
-        if ($fp->getAlreadyUsed()) {
+        if ($forgotPassword->getAlreadyUsed()) {
             throw new \Exception(Locale::getLocale('Forgot Password was already used'));
         }
 
-        $fp->setAlreadyUsed(true);
-        $this->entityManager->persist($fp);
+        $forgotPassword->setAlreadyUsed(true);
+        $this->entityManager->persist($forgotPassword);
         $this->entityManager->flush();
         Session::set('forgot_password', $key);
     }
