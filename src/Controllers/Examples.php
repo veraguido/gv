@@ -24,7 +24,6 @@ class Examples extends GvController
 {
     public function index()
     {
-        throw new \Exception("asd");
         //echo phpinfo();
         //$this->httpResponse->redirect("/Cars/tiju");
         //$this->httpResponse->notFound();
