@@ -24,7 +24,7 @@ final class RedisCache implements CacheInterface
     }
 
     /**
-     * @return Cache
+     * @return RedisCache
      */
     public static function getInstance()
     {

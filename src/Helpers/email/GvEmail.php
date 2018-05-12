@@ -36,14 +36,14 @@ class GvEmail
         $this->mailer->addAddress($address, $name);
     }
 
-    public function addCC($cc, $name = '')
+    public function addCC($cCopy, $name = '')
     {
-        $this->mailer->addCC($cc, $name);
+        $this->mailer->addCC($cCopy, $name);
     }
 
-    public function addBcc($bcc, $name = '')
+    public function addBcc($bcCopy, $name = '')
     {
-        $this->mailer->addBCC($bcc, $name);
+        $this->mailer->addBCC($bcCopy, $name);
     }
 
     public function addAttachment($path, $name = '', $encoding = 'base64', $type = '', $disposition = 'attachment')

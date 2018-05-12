@@ -31,6 +31,7 @@ class Examples extends GvController
 
     /**
      * @throws \Exception
+     * @method $this->diContainer->get('loginCommand');
      */
     public function login()
     {
