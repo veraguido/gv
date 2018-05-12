@@ -1,2 +1,15 @@
 checks:
     php: true
+
+build:
+  nodes:
+    analysis:
+      dependencies:
+        after:
+          - composer require --dev squizlabs/php_codesniffer:2.9
+
+      tests:
+        override:
+          -
+            command: phpcs-run
+            use_website_config: false
