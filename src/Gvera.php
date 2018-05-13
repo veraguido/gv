@@ -170,7 +170,7 @@ class Gvera
         $apiVersions = $this->getApiVersions();
 
         //if a version apply, go through that specific path
-        if (!empty($apiVersions) && array_key_exists($uriArray[1], $apiVersions)) {
+        if (array_key_exists($uriArray[1], $apiVersions)) {
             $this->generateControllerLifecycle(
                 isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_CONTROLLER,
                 $this->getValidMethodName(3, $uriArray),
