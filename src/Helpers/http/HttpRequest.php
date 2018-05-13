@@ -22,24 +22,26 @@ class HttpRequest
     public function __construct()
     {
         $this->requestType = $_SERVER['REQUEST_METHOD'];
+        $this->requestParams = $this->getRequestParametersByType($this->requestType);
     }
 
-    public function getParameters()
+    /**
+     * @return array
+     */
+    private function getRequestParametersByType($type)
     {
-        $paramArray = array();
-        if ($this->isGet()) {
-            $paramArray = $_GET;
+        switch ($type) {
+            case self::GET:
+                return $_GET;
+            break;
+            case self::POST:
+                return $_POST;
+            break;
+            case self::PUT:
+            case self::DELETE:
+                return parse_str(file_get_contents("php://input"), $paramArray); 
+            break;
         }
-
-        if ($this->isPost()) {
-            $paramArray = $_POST;
-        }
-
-        if ($this->isPut() || $this->isDelete()) {
-            parse_str(file_get_contents("php://input"), $paramArray);
-        }
-
-        return array_merge($this->requestParams, $paramArray);
     }
 
     /**
@@ -47,7 +49,7 @@ class HttpRequest
      */
     public function getParameter($name)
     {
-        return isset($this->getParameters()[$name]) ? $this->getParameters()[$name] : null;
+        return isset($this->requestParams[$name]) ? $this->requestParams[$name] : null;
     }
 
     public function isPost()
@@ -82,4 +84,6 @@ class HttpRequest
     {
         $this->requestParams[$key] = $value;
     }
+
+
 }
