@@ -21,10 +21,6 @@ class DIRegistry
         foreach ($this->getDIObjects() as $category) {
             $classPath = $category['classPath'];
 
-            if (!$category['objects']) {
-                break;
-            }
-
             foreach ($category['objects'] as $diKey => $diObject) {
                 $singleton = isset($diObject['singleton']) ? $diObject['singleton'] : false;
                 $className = $classPath . $diObject['class'];
