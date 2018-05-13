@@ -82,9 +82,7 @@ class DIContainer implements ContainerInterface
     {
         $className = $this->classMap[$id];
         // checking if the class exists
-        if (!class_exists($className)) {
-            throw new ClassNotFoundInDIContainerException("DI: missing class", array($className));
-        }
+        $this->checkClassExist($className);
 
         // initialized the ReflectionClass
         $reflection = new \ReflectionClass($className);
@@ -127,6 +125,17 @@ class DIContainer implements ContainerInterface
     }
 
     /**
+     * @throws ClassNotFoundInDIContainerException
+     * @return void
+     */
+    private function checkClassExist($className)
+    {
+        if (!class_exists($className)) {
+            throw new ClassNotFoundInDIContainerException("DI: missing class", array($className));
+        }
+    }
+
+    /**
      * @return void
      */
     private function getObjectDependencies($object, $dependencies)
@@ -165,7 +174,7 @@ class DIContainer implements ContainerInterface
         if ($arguments === null || count($arguments) == 0) {
             return new $className;
         }
-        
+
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }

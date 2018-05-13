@@ -16,17 +16,28 @@ class DIRegistry
         $this->container = $container;
     }
 
+    /**
+     * @return void
+     */
     public function registerObjects()
     {
         foreach ($this->getDIObjects() as $category) {
-            $classPath = $category['classPath'];
+            $this->registerByCategory($category);
+        }
+    }
 
-            foreach ($category['objects'] as $diKey => $diObject) {
-                $singleton = isset($diObject['singleton']) ? $diObject['singleton'] : false;
-                $className = $classPath . $diObject['class'];
-                $arguments = isset($diObject['arguments']) ? array($diObject['arguments']) : [];
-                $this->registerObject($diKey, $className, $singleton, $arguments);
-            }
+    /**
+     * @return void
+     */
+    private function registerByCategory($category)
+    {
+        $classPath = $category['classPath'];
+
+        foreach ($category['objects'] as $diKey => $diObject) {
+            $singleton = isset($diObject['singleton']) ? $diObject['singleton'] : false;
+            $className = $classPath . $diObject['class'];
+            $arguments = isset($diObject['arguments']) ? array($diObject['arguments']) : [];
+            $this->registerObject($diKey, $className, $singleton, $arguments);
         }
     }
 

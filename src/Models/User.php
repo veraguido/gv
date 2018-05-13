@@ -68,11 +68,17 @@ class User extends GvModel
      */
     protected $role;
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->username;
@@ -83,6 +89,9 @@ class User extends GvModel
         $this->username = $username;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
@@ -93,6 +102,9 @@ class User extends GvModel
         $this->password = $this->getService()->generatePassword($password);
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreated()
     {
         return $this->created;
@@ -125,6 +137,9 @@ class User extends GvModel
         $this->status = $status;
     }
 
+    /**
+     * @return UserStatus
+     */
     public function getStatus()
     {
         return $this->status;
