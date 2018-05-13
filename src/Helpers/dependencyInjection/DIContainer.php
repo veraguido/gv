@@ -165,16 +165,35 @@ class DIContainer implements ContainerInterface
         }
 
         $id = array_search($this->map->$key->value, $this->classMap);
-        switch ($this->map->$key->type) {
-            case "value":
-                $object->$key = $this->map->$key->value;
-                break;
-            case "class":
-                $object->$key = $this->get($id);
-                break;
-            case "classSingleton":
-                $this->generateSingletonDependency($key, $object, $id);
-                break;
+        $this->generateResource($id, $key, $object, $this->map->$key->type);
+    }
+
+    /**
+     * @return void
+     */
+    private function generateResource($id, $key, $object, $type)
+    {
+        if ($type === "value") {
+            $object->$key = $this->map->$key->value;
+            return;
+        }
+
+        $this->generateClass($id,$key,$object, $type);
+    }
+
+    /**
+     * @return void
+     */
+    private function generateClass($id, $key, $object, $type) 
+    {
+        if ($type === "class") {
+            $object->$key = $this->get($id);
+            return;
+        }
+
+        if ($type === "classSingleton") {
+            $this->generateSingletonDependency($key, $object, $id);
+            return;
         }
     }
 
