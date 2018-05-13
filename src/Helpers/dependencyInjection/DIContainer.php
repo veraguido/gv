@@ -93,14 +93,7 @@ class DIContainer implements ContainerInterface
         // injecting
         if ($doc = $reflection->getDocComment()) {
             $lines = explode("\n", $doc);
-            foreach ($lines as $line) {
-                if (count($parts = explode("@Inject", $line)) > 1) {
-                    $parts = explode(" ", $parts[1]);
-                    if (count($parts) > 1) {
-                        $this->getObjectDependencies($obj, $parts);
-                    }
-                }
-            }
+            $this->checkInjectionLinesInComments($lines, $obj);
         }
         // return the created instance
         return $obj;
@@ -125,6 +118,29 @@ class DIContainer implements ContainerInterface
     }
 
     /**
+     * @return void
+     */
+    private function checkInjectionLinesInComments($lines, $object)
+    {
+        foreach ($lines as $line) {
+            if (count($parts = explode("@Inject", $line)) > 1) {
+                $this->injectDependency($parts, $object);
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function injectDependency($parts, $object)
+    {
+        $parts = explode(" ", $parts[1]);
+        if (count($parts) > 1) {
+            $this->generateObjectDependencies($object, $parts);
+        }
+    }
+
+    /**
      * @throws ClassNotFoundInDIContainerException
      * @return void
      */
@@ -138,7 +154,7 @@ class DIContainer implements ContainerInterface
     /**
      * @return void
      */
-    private function getObjectDependencies($object, $dependencies)
+    private function generateObjectDependencies($object, $dependencies)
     {
         $key = $dependencies[1];
         $key = str_replace("\n", "", $key);
