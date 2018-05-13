@@ -48,18 +48,8 @@ class RouteManager
         $filteredRoutes = $this->stripRoutesByHttpMethod($this->httpRequest->getRequestType());
 
         foreach ($filteredRoutes as $route) {
-            if ((strpos($route['uri'], $pathLikeArray[1]) !== false) &&
-                (strpos($route['uri'], $pathLikeArray[2]) !== false)) {
-                $totalRoute = $route['uri'] ;
-                $totalRouteArray = explode("/", $totalRoute);
-                $routeController = $totalRouteArray[1];
-                $routeMethod = $totalRouteArray[2];
-
-                $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
-                $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
-                if ($urlCheck && $checkUri) {
-                    return $route['action'];
-                }
+            if ($routeFound = $this->defineRoute($route, $pathLikeArray)) {
+                return $routeFound;
             }
         }
         return false;
@@ -73,6 +63,27 @@ class RouteManager
     public function getExcludeDirectories()
     {
         return $this->excludeDirectories;
+    }
+
+    /**
+     * @return string|bool
+     */
+    private function defineRoute($route, $pathLikeArray)
+    {
+        if ((strpos($route['uri'], $pathLikeArray[1]) !== false) &&
+            (strpos($route['uri'], $pathLikeArray[2]) !== false)) {
+            $totalRoute = $route['uri'] ;
+            $totalRouteArray = explode("/", $totalRoute);
+            $routeController = $totalRouteArray[1];
+            $routeMethod = $totalRouteArray[2];
+
+            $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
+            $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
+            if ($urlCheck && $checkUri) {
+                return $route['action'];
+            }
+        }
+        return false;
     }
 
     private function isPathLikeArrayValid($pathLikeArray)
