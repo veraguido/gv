@@ -173,12 +173,17 @@ class DIContainer implements ContainerInterface
                 $object->$key = $this->get($id);
                 break;
             case "classSingleton":
-                if ($this->map->$key->instance === null) {
-                    $object->$key = $this->map->$key->instance = $this->get($id);
-                } else {
-                    $object->$key = $this->map->$key->instance;
-                }
+                $this->generateSingletonDependency($key, $object, $id);
                 break;
+        }
+    }
+
+    private function generateSingletonDependency($key, $object, $id)
+    {
+        if ($this->map->$key->instance === null) {
+            $object->$key = $this->map->$key->instance = $this->get($id);
+        } else {
+            $object->$key = $this->map->$key->instance;
         }
     }
 

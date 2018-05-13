@@ -41,7 +41,7 @@ class RouteManager
     public function getRoute($pathLike)
     {
         $pathLikeArray = explode("/", $pathLike);
-        if (!isset($pathLikeArray[2]) || empty($pathLikeArray[2])) {
+        if (!$this->isPathLikeArrayValid($pathLikeArray)) {
             return false;
         }
 
@@ -73,6 +73,11 @@ class RouteManager
     public function getExcludeDirectories()
     {
         return $this->excludeDirectories;
+    }
+
+    private function isPathLikeArrayValid($pathLikeArray)
+    {
+        return isset($pathLikeArray[2]) && !empty($pathLikeArray[2]);
     }
 
     private function convertUriParams($totalRoute, $pathLikeArray)
