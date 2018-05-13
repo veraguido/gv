@@ -73,7 +73,7 @@ class Gvera
     }
 
     /**
-     * @return bool
+     * @return string|boolean
      * This will check on routes.yml if a route is overwritten.
      */
     private function supportsSpecialRoutesIfApply()
