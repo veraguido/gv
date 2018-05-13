@@ -29,22 +29,30 @@ class DIRegistry
                 $singleton = isset($diObject['singleton']) ? $diObject['singleton'] : false;
                 $className = $classPath . $diObject['class'];
                 $arguments = isset($diObject['arguments']) ? array($diObject['arguments']) : [];
-                if ($singleton) {
-                    $this->container->mapClassAsSingleton(
-                        $diKey,
-                        $className,
-                        $arguments
-                    );
-                    continue;
-                }
-
-                $this->container->mapClass(
-                    $diKey,
-                    $className,
-                    $arguments
-                );
+                $this->registerObject($diKey, $className, $singleton, $arguments);
             }
         }
+    }
+
+    /**
+     * @return object
+     */
+    private function registerObject($objectKey, string $className, bool $singleton, array $arguments)
+    {
+        if ($singleton) {
+            $this->container->mapClassAsSingleton(
+                $objectKey,
+                $className,
+                $arguments
+            );
+            return;
+        }
+
+        $this->container->mapClass(
+            $objectKey,
+            $className,
+            $arguments
+        );
     }
 
     private function getDIObjects()
