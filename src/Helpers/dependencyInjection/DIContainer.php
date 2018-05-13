@@ -183,5 +183,4 @@ class DIContainer implements ContainerInterface
         $diArguments = $this->getDIarguments($arguments);
         return $reflectionClass->newInstanceArgs($diArguments);
     }
-        
 }
