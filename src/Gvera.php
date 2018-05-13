@@ -91,12 +91,9 @@ class Gvera
     private function parseUri($action = false)
     {
 
-        if ($action) {
-            $actionArr = explode('->', $action);
-            $this->generateControllerLifecycle(
-                $actionArr[0],
-                $actionArr[1]
-            );
+        $appliedAction = $this->useActionIfApplies($action);
+
+        if(true === $appliedAction) {
             return;
         }
 
@@ -107,26 +104,7 @@ class Gvera
             return;
         }
 
-        if (isset($uriData['path'])) {
-            $uriArray = explode('/', $uriData['path']);
-            $apiVersions = $this->getApiVersions();
-
-            //if a version apply, go through that specific path
-            if (!empty($apiVersions) && array_key_exists($uriArray[1], $apiVersions)) {
-                $this->generateControllerLifecycle(
-                    isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_CONTROLLER,
-                    $this->getValidMethodName(3, $uriArray),
-                    $uriArray[1]
-                );
-                return;
-            }
-
-            //if it doesn't go through the regular path
-            $this->generateControllerLifecycle(
-                $uriArray[1],
-                $this->getValidMethodName(2, $uriArray)
-            );
-        }
+        $this->generateRegularControllerLifecycle($uriData);
     }
 
     /**
@@ -175,6 +153,55 @@ class Gvera
     private function getValidMethodName($index, $uriArray)
     {
         return isset($uriArray[$index]) ? $uriArray[$index] : GvController::DEFAULT_METHOD;
+    }
+
+    /**
+     * @return void
+     */
+    private function generateRegularControllerLifecycle($uriData)
+    {
+        $uriPath = $uriData['path'];
+
+        if(!isset($uriPath)) {
+            return;
+        }
+
+        $uriArray = explode('/', $uriPath);
+        $apiVersions = $this->getApiVersions();
+
+        //if a version apply, go through that specific path
+        if (!empty($apiVersions) && array_key_exists($uriArray[1], $apiVersions)) {
+            $this->generateControllerLifecycle(
+                isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_CONTROLLER,
+                $this->getValidMethodName(3, $uriArray),
+                $uriArray[1]
+            );
+            return;
+        }
+
+        //if it doesn't go through the regular path
+        $this->generateControllerLifecycle(
+            $uriArray[1],
+            $this->getValidMethodName(2, $uriArray)
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    private function useActionIfApplies($action)
+    {
+        if (!$action) {
+            return false;
+        }
+
+        $actionArr = explode('->', $action);
+        $this->generateControllerLifecycle(
+            $actionArr[0],
+            $actionArr[1]
+        );
+
+        return true;
     }
 
     /**
