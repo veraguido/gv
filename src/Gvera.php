@@ -261,21 +261,30 @@ class Gvera
         $controllersDir = scandir($scanDirectory);
         $loadedControllers = [];
         foreach ($controllersDir as $index => $autoloadingName) {
-            if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
-                continue;
-            }
-
-            if (is_dir($scanDirectory . $autoloadingName)) {
-                $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
-                $loadedControllers[$autoloadingName] = $autoloadedSubDir;
-                continue;
-            }
-
-            $correctName = str_replace(".php", "", $autoloadingName);
-            $loadedControllers[strtolower($correctName)] = $correctName;
+            $loadedControllers = $this->loadControllers($scanDirectory, $autoloadingName, $loadedControllers);
         }
         Cache::getCache()->save(self::GV_CONTROLLERS_KEY, serialize($loadedControllers));
 
+        return $loadedControllers;
+    }
+
+    /**
+     * @return array
+     */
+    private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
+    {
+        if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
+            return;
+        }
+
+        if (is_dir($scanDirectory . $autoloadingName)) {
+            $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
+            $loadedControllers[$autoloadingName] = $autoloadedSubDir;
+            return $loadedControllers;
+        }
+
+        $correctName = str_replace(".php", "", $autoloadingName);
+        $loadedControllers[strtolower($correctName)] = $correctName;
         return $loadedControllers;
     }
 
