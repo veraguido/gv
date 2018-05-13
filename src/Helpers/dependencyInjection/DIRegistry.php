@@ -35,7 +35,7 @@ class DIRegistry
     }
 
     /**
-     * @return object
+     * @return object|null
      */
     private function registerObject($objectKey, string $className, bool $singleton, array $arguments)
     {

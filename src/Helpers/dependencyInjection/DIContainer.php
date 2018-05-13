@@ -110,27 +110,7 @@ class DIContainer implements ContainerInterface
                 if (count($parts = explode("@Inject", $line)) > 1) {
                     $parts = explode(" ", $parts[1]);
                     if (count($parts) > 1) {
-                        $key = $parts[1];
-                        $key = str_replace("\n", "", $key);
-                        $key = str_replace("\r", "", $key);
-                        if (isset($this->map->$key)) {
-                            $id = array_search($this->map->$key->value, $this->classMap);
-                            switch ($this->map->$key->type) {
-                                case "value":
-                                    $obj->$key = $this->map->$key->value;
-                                    break;
-                                case "class":
-                                    $obj->$key = $this->get($id);
-                                    break;
-                                case "classSingleton":
-                                    if ($this->map->$key->instance === null) {
-                                        $obj->$key = $this->map->$key->instance = $this->get($id);
-                                    } else {
-                                        $obj->$key = $this->map->$key->instance;
-                                    }
-                                    break;
-                            }
-                        }
+                        $this->getObjectDependencies($obj, $parts);
                     }
                 }
             }
@@ -155,5 +135,33 @@ class DIContainer implements ContainerInterface
         $className = $this->classMap[$id];
         // checking if the class exists
         return class_exists($className);
+    }
+
+    private function getObjectDependencies($object, $dependencies)
+    {
+        $key = $dependencies[1];
+        $key = str_replace("\n", "", $key);
+        $key = str_replace("\r", "", $key);
+
+        if (!isset($this->map->$key)) {
+            return;
+        }
+        
+        $id = array_search($this->map->$key->value, $this->classMap);
+        switch ($this->map->$key->type) {
+            case "value":
+                $object->$key = $this->map->$key->value;
+                break;
+            case "class":
+                $object->$key = $this->get($id);
+                break;
+            case "classSingleton":
+                if ($this->map->$key->instance === null) {
+                    $object->$key = $this->map->$key->instance = $this->get($id);
+                } else {
+                    $object->$key = $this->map->$key->instance;
+                }
+                break;
+        }
     }
 }
