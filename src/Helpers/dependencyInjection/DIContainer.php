@@ -178,6 +178,9 @@ class DIContainer implements ContainerInterface
         }
     }
 
+    /**
+     * @return void
+     */
     private function generateSingletonDependency($key, $object, $id)
     {
         if ($this->map->$key->instance === null) {
