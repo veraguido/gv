@@ -32,10 +32,10 @@ class HttpRequest
     {
         switch ($type) {
             case self::GET:
-                return $_GET;
+                return filter_input_array(INPUT_GET);
             break;
             case self::POST:
-                return $_POST;
+                return filter_input_array(INPUT_POST);
             break;
             case self::PUT:
             case self::DELETE:
