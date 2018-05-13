@@ -90,18 +90,7 @@ class DIContainer implements ContainerInterface
         $reflection = new \ReflectionClass($className);
         $arguments = isset($this->map->$id->arguments) ? $this->map->$id->arguments : [];
         // creating an instance of the class
-        if ($arguments === null || count($arguments) == 0) {
-            $obj = new $className;
-        } else {
-            if (!is_array($arguments)) {
-                $arguments = array($arguments);
-            }
-
-            //convert the DIArguments to actual objects
-            $diArguments = $this->getDIarguments($arguments);
-
-            $obj = $reflection->newInstanceArgs($diArguments);
-        }
+        $obj = $this->createInstanceOfNewClass($reflection, $className, $arguments);
 
         // injecting
         if ($doc = $reflection->getDocComment()) {
@@ -137,6 +126,9 @@ class DIContainer implements ContainerInterface
         return class_exists($className);
     }
 
+    /**
+     * @return void
+     */
     private function getObjectDependencies($object, $dependencies)
     {
         $key = $dependencies[1];
@@ -146,7 +138,7 @@ class DIContainer implements ContainerInterface
         if (!isset($this->map->$key)) {
             return;
         }
-        
+
         $id = array_search($this->map->$key->value, $this->classMap);
         switch ($this->map->$key->type) {
             case "value":
@@ -164,4 +156,23 @@ class DIContainer implements ContainerInterface
                 break;
         }
     }
+
+    /**
+     * @return object
+     */
+    private function createInstanceOfNewClass($reflectionClass, $className, $arguments)
+    {
+        if ($arguments === null || count($arguments) == 0) {
+            return new $className;
+        }
+        
+        if (!is_array($arguments)) {
+            $arguments = array($arguments);
+        }
+
+        //convert the DIArguments to actual objects
+        $diArguments = $this->getDIarguments($arguments);
+        return $reflectionClass->newInstanceArgs($diArguments);
+    }
+        
 }
