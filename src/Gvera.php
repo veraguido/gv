@@ -269,7 +269,7 @@ class Gvera
     }
 
     /**
-     * @return array
+     * @return null|array<*,array>
      */
     private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
     {
