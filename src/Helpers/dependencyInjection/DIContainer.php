@@ -178,13 +178,13 @@ class DIContainer implements ContainerInterface
             return;
         }
 
-        $this->generateClass($id,$key,$object, $type);
+        $this->generateClass($id, $key, $object, $type);
     }
 
     /**
      * @return void
      */
-    private function generateClass($id, $key, $object, $type) 
+    private function generateClass($id, $key, $object, $type)
     {
         if ($type === "class") {
             $object->$key = $this->get($id);
