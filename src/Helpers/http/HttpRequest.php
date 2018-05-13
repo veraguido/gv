@@ -39,7 +39,7 @@ class HttpRequest
             break;
             case self::PUT:
             case self::DELETE:
-                return parse_str(file_get_contents("php://input"), $paramArray); 
+                return parse_str(file_get_contents("php://input"), $paramArray);
             break;
         }
     }
@@ -84,6 +84,4 @@ class HttpRequest
     {
         $this->requestParams[$key] = $value;
     }
-
-
 }

@@ -91,9 +91,9 @@ class Gvera
     private function parseUri($action = false)
     {
 
-        $appliedAction = $this->useActionIfApplies($action);
+        $appliedAction = $this->supportsActionIfApplies($action);
 
-        if(true === $appliedAction) {
+        if (true === $appliedAction) {
             return;
         }
 
@@ -162,7 +162,7 @@ class Gvera
     {
         $uriPath = $uriData['path'];
 
-        if(!isset($uriPath)) {
+        if (!isset($uriPath)) {
             return;
         }
 
@@ -189,7 +189,7 @@ class Gvera
     /**
      * @return bool
      */
-    private function useActionIfApplies($action)
+    private function supportsActionIfApplies($action)
     {
         if (!$action) {
             return false;
