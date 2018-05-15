@@ -73,7 +73,7 @@ class RouteManager
         if (!(strpos($route['uri'], $pathLikeArray[1]) !== false) ||
             !(strpos($route['uri'], $pathLikeArray[2]) !== false)) {
                 return false;
-            }
+        }
             $totalRoute = $route['uri'] ;
             $totalRouteArray = explode("/", $totalRoute);
             $routeController = $totalRouteArray[1];
@@ -89,7 +89,7 @@ class RouteManager
     {
         $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
         $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
-        return $urlCheck && $checkUri; 
+        return $urlCheck && $checkUri;
     }
 
     private function isPathLikeArrayValid($pathLikeArray)
