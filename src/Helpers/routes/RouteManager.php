@@ -70,20 +70,23 @@ class RouteManager
      */
     private function defineRoute($route, $pathLikeArray)
     {
-        if ((strpos($route['uri'], $pathLikeArray[1]) !== false) &&
-            (strpos($route['uri'], $pathLikeArray[2]) !== false)) {
+        if (!(strpos($route['uri'], $pathLikeArray[1]) !== false) ||
+            !(strpos($route['uri'], $pathLikeArray[2]) !== false)) {
+                return false;
+            }
             $totalRoute = $route['uri'] ;
             $totalRouteArray = explode("/", $totalRoute);
             $routeController = $totalRouteArray[1];
             $routeMethod = $totalRouteArray[2];
+            
+            return $this->isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute);
+    }
 
-            $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
-            $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
-            if ($urlCheck && $checkUri) {
-                return $route['action'];
-            }
-        }
-        return false;
+    private function isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute)
+    {
+        $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
+        $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
+        return $urlCheck && $checkUri; 
     }
 
     private function isPathLikeArrayValid($pathLikeArray)
