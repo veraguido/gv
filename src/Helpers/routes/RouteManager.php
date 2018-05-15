@@ -82,6 +82,9 @@ class RouteManager
             return $this->isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute);
     }
 
+    /**
+     * @return bool
+     */
     private function isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute)
     {
         $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
