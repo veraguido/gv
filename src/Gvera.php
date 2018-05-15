@@ -169,6 +169,14 @@ class Gvera
         $uriArray = explode('/', $uriPath);
         $apiVersions = $this->getApiVersions();
 
+        $this->generateControllerLifeCycleBasedOnGivenData($uriArray, $apiVersions);
+    }
+
+    /**
+     * @return void
+     */
+    private function generateControllerLifeCycleBasedOnGivenData($uriArray, $apiVersions)
+    {
         //if a version apply, go through that specific path
         if (array_key_exists($uriArray[1], $apiVersions)) {
             $this->generateControllerLifecycle(
