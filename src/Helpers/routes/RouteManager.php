@@ -79,17 +79,17 @@ class RouteManager
             $routeController = $totalRouteArray[1];
             $routeMethod = $totalRouteArray[2];
             
-            return $this->isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute);
+            return $this->isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute, $route);
     }
 
     /**
-     * @return bool
+     * @return string|bool
      */
-    private function isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute)
+    private function isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute, $route)
     {
         $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
         $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
-        return $urlCheck && $checkUri;
+        return $urlCheck && $checkUri ? $route['action'] : false;
     }
 
     private function isPathLikeArrayValid($pathLikeArray)

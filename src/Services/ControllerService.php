@@ -29,12 +29,19 @@ class ControllerService
      * @return void
      * start the controllerLifeCycle
      */
-    public function startControllerLifecyle($diContainer, $uriData, $controllerAutoloadingNames)
+    public function startControllerLifecyle($diContainer, $uriData)
     {
         $this->diContainer = $diContainer;
         $this->uriData = $uriData;
-        $this->controllerAutoloadingNames = $controllerAutoloadingNames;
         $this->generateRegularControllerLifecycle();
+    }
+
+    /**
+     * @return void
+     */
+    public function generateSpecificControllerLifeCycle($controllerName, $methodName)
+    {
+        $this->generateControllerLifecycle($controllerName, $methodName);
     }
 
     /**
@@ -214,5 +221,29 @@ class ControllerService
         }
 
         $controllerInstance->init();
+    }
+
+    /**
+     * Set the value of controllerAutoloadingNames
+     *
+     * @return  self
+     */
+    public function setControllerAutoloadingNames($controllerAutoloadingNames)
+    {
+        $this->controllerAutoloadingNames = $controllerAutoloadingNames;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of diContainer
+     *
+     * @return  self
+     */
+    public function setDiContainer($diContainer)
+    {
+        $this->diContainer = $diContainer;
+
+        return $this;
     }
 }

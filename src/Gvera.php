@@ -31,8 +31,6 @@ class Gvera
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     const GV_CONTROLLERS_KEY = 'gv_controllers';
-    private $method = 'index';
-    private $controllerFinalName;
     private $controllerAutoloadingNames = [];
     private $routeManager;
     private $diContainer;
@@ -55,6 +53,7 @@ class Gvera
         $eventRegistry->registerEventListeners();
 
         $this->controllerService = $this->diContainer->get('controllerService');
+        $this->controllerService->setDiContainer($this->diContainer);
     }
 
     /**
@@ -64,6 +63,7 @@ class Gvera
     public function run()
     {
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
+        $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
 
@@ -110,8 +110,7 @@ class Gvera
 
         $this->controllerService->startControllerLifecyle(
             $this->diContainer,
-            $uriData,
-            $this->controllerAutoloadingNames
+            $uriData
         );
     }
 
@@ -125,7 +124,7 @@ class Gvera
         }
 
         $actionArr = explode('->', $action);
-        $this->generateControllerLifecycle(
+        $this->controllerService->generateSpecificControllerLifecycle(
             $actionArr[0],
             $actionArr[1]
         );
