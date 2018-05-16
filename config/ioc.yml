@@ -56,6 +56,8 @@ services:
       class: ForgotPasswordService
       arguments:
         "@entityManager"
+    controllerService:
+      class: ControllerService
 
 commands:
     classPath: Gvera\Commands\
