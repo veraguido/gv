@@ -25,7 +25,7 @@ class HttpRequest
     public function __construct(FileManager $fileManager)
     {
         $this->fileManager = $fileManager;
-        $this->requestType = $_SERVER['REQUEST_METHOD'];
+        $this->requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
         $this->requestParams = $this->getRequestParametersByType($this->requestType);
     }
 
@@ -94,8 +94,8 @@ class HttpRequest
     public function moveFileToDirectory($directory, $uploadedFileName)
     {
         $this->fileManager->buildFilesFromSource($_FILES);
+        
         $file = $this->fileManager->getByName($uploadedFileName);
-
         return $this->fileManager->saveToFileSystem($directory, $file);
     }
 }

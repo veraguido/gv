@@ -82,7 +82,7 @@ class Gvera
      */
     private function supportsSpecialRoutesIfApply()
     {
-        return $this->routeManager->getRoute($_SERVER['REQUEST_URI']);
+        return $this->routeManager->getRoute(filter_input(INPUT_SERVER, 'REQUEST_URI'));
     }
 
     /**
@@ -101,7 +101,7 @@ class Gvera
             return;
         }
 
-        $uriData = @parse_url($_SERVER['REQUEST_URI']);
+        $uriData = @parse_url(filter_input(INPUT_SERVER, 'REQUEST_URI'));
 
         if (!$uriData) {
             $this->redirectToDefault();
