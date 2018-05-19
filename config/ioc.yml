@@ -14,12 +14,18 @@ config:
       class: Config
       singleton: true
 
-httpstatuses:
+http:
   classPath: Gvera\Helpers\http\
   objects:
+    fileManager:
+      class: FileManager
+      arguments:
+        "@config"
     httpRequest:
       class: HttpRequest
       singleton: true
+      arguments:
+        "@fileManager"
     httpResponse:
       class: HttpResponse
       singleton: true

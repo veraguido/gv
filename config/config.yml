@@ -17,3 +17,8 @@ config:
     password:
     smtp_secure:
     port:
+  allowed_upload_file_types:
+    - text/csv
+    - image/png
+    - image/jpeg
+    - image/gif

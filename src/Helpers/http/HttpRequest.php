@@ -2,6 +2,8 @@
 
 namespace Gvera\Helpers\http;
 
+use Gvera\Helpers\config\Config;
+
 /**
  * Class HttpRequest
  * @package Gvera\Helpers\http
@@ -12,6 +14,7 @@ class HttpRequest
 
     private $requestType;
     private $requestParams = array();
+    private $fileManager;
 
     const GET = 'GET';
     const POST = 'POST';
@@ -19,8 +22,9 @@ class HttpRequest
     const DELETE = 'DELETE';
     const OPTIONS = 'OPTIONS';
 
-    public function __construct()
+    public function __construct(FileManager $fileManager)
     {
+        $this->fileManager = $fileManager;
         $this->requestType = $_SERVER['REQUEST_METHOD'];
         $this->requestParams = $this->getRequestParametersByType($this->requestType);
     }
@@ -83,5 +87,18 @@ class HttpRequest
     public function setParameter($key, $value)
     {
         $this->requestParams[$key] = $value;
+    }
+
+    /**
+     * @return bool
+     * @throws InvalidFileTypeException
+     * @throws NotFoundException
+     */
+    public function moveFileToDirectory($directory, $uploadedFileName)
+    {
+        $this->fileManager->buildFilesFromSource($_FILES);
+        $file = $this->fileManager->getByName($uploadedFileName);
+
+        return $this->fileManager->saveToFileSystem($directory, $file);
     }
 }

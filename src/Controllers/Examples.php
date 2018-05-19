@@ -64,10 +64,12 @@ class Examples extends GvController
                 $this->httpRequest->getParameter('username'),
                 $this->httpRequest->getParameter('password'),
                 $this->httpRequest->getParameter('email'),
-                $this->diContainer->get("entityManager")
+                $this->getEntityManager()
             );
 
             $registerUserCommand->execute();
+
+            $this->httpRequest->moveFileToDirectory("/tmp/", 'avatar-pic');
         }
     }
 
