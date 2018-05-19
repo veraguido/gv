@@ -37,14 +37,11 @@ class HttpRequest
         switch ($type) {
             case self::GET:
                 return filter_input_array(INPUT_GET);
-            break;
             case self::POST:
                 return filter_input_array(INPUT_POST);
-            break;
             case self::PUT:
             case self::DELETE:
                 return parse_str(file_get_contents("php://input"), $paramArray);
-            break;
         }
     }
 

@@ -18,7 +18,7 @@ use Gvera\Helpers\dependencyInjection\DIContainer;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- *
+ * @method getEntityManager()
  */
 class Examples extends GvController
 {
