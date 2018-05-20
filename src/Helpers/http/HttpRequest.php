@@ -47,7 +47,7 @@ class HttpRequest
     }
 
     /**
-     * @return array|object
+     * @return mixed
      */
     public function post($name = null)
     {
@@ -56,7 +56,7 @@ class HttpRequest
     }
 
     /**
-     * @return array|object
+     * @return mixed
      */
     public function put($name = null)
     {
@@ -64,13 +64,16 @@ class HttpRequest
     }
 
     /**
-     * @return array|object
+     * @return mixed
      */
     public function delete($name = null)
     {
         $this->getPutDeleteParameter($name);
     }
 
+    /**
+     * @return mixed
+     */
     private function getPutDeleteParameter($name)
     {
         $putDeleteArray = [];
@@ -121,6 +124,15 @@ class HttpRequest
     public function setParameter($key, $value)
     {
         $this->requestParams[$key] = $value;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAjax()
+    {
+        return null !== filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') &&
+        filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
     }
 
     /**
