@@ -16,7 +16,7 @@ abstract class Event
     protected $stopPropagation = false;
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function hasStopPropagation(): bool
     {
@@ -24,7 +24,7 @@ abstract class Event
     }
 
     /**
-     * @param mixed $stopPropagation
+     * @param boolean $stopPropagation
      */
     public function setStopPropagation(bool $stopPropagation)
     {

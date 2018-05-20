@@ -13,6 +13,7 @@ class File
 
     /**
      * Get the value of name
+     * @return string
      */
     public function getName()
     {
@@ -21,7 +22,6 @@ class File
 
     /**
      * Set the value of name
-     *
      * @return  self
      */
     public function setName($name)
@@ -33,6 +33,7 @@ class File
 
     /**
      * Get the value of size
+     * @return int
      */
     public function getSize()
     {
@@ -53,6 +54,7 @@ class File
 
     /**
      * Get the value of temporaryName
+     * @return string
      */
     public function getTemporaryName()
     {
@@ -73,6 +75,7 @@ class File
 
     /**
      * Get the value of error
+     * @return int
      */
     public function getError()
     {
@@ -93,6 +96,7 @@ class File
 
     /**
      * Get the value of type
+     * @return string
      */
     public function getType()
     {

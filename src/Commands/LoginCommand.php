@@ -45,6 +45,7 @@ class LoginCommand implements CommandInterface
 
     /**
      * Get the value of username
+     * @return string
      */
     public function getUsername()
     {
@@ -65,6 +66,7 @@ class LoginCommand implements CommandInterface
 
     /**
      * Get the value of password
+     * @return string
      */
     public function getPassword()
     {

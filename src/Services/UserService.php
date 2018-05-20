@@ -29,11 +29,17 @@ class UserService
         return ValidationService::validate($email, [new EmailValidationStrategy()]);
     }
 
+    /**
+     * @return string
+     */
     public function generatePassword($plainPassword)
     {
         return password_hash($plainPassword, PASSWORD_BCRYPT);
     }
 
+    /**
+     * @return boolean
+     */
     public function validatePassword($plainPassword, $hash)
     {
         return password_verify($plainPassword, $hash);
@@ -73,6 +79,9 @@ class UserService
         return Session::get('user') != null;
     }
 
+    /**
+     * @return int
+     */
     public static function getUserRole()
     {
         return Session::get('user') != null ? Session::get('user')['role'] : false;
