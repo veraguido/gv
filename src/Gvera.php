@@ -86,7 +86,7 @@ class Gvera
     }
 
     /**
-     * @param bool $action
+     * @param bool|string $action
      * @throws \Exception
      * @return mixed
      * If the route was already defined in the routes.yml file then that one will take precedence over the
