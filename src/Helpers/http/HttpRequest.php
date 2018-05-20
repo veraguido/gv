@@ -26,23 +26,6 @@ class HttpRequest
     {
         $this->fileManager = $fileManager;
         $this->requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
-        $this->requestParams = $this->getRequestParametersByType($this->requestType);
-    }
-
-    /**
-     * @return array
-     */
-    private function getRequestParametersByType($type)
-    {
-        switch ($type) {
-            case self::GET:
-                return filter_input_array(INPUT_GET);
-            case self::POST:
-                return filter_input_array(INPUT_POST);
-            case self::PUT:
-            case self::DELETE:
-                return parse_str(file_get_contents("php://input"), $paramArray);
-        }
     }
 
     /**
@@ -50,24 +33,78 @@ class HttpRequest
      */
     public function getParameter($name)
     {
-        return isset($this->requestParams[$name]) ? $this->requestParams[$name] : null;
+        $req = strtolower($this->requestType);
+        return $this->$req($name);
     }
 
+    /**
+     * @return array|object
+     */
+    public function get($name = null)
+    {
+        $getArray = filter_input_array(INPUT_GET);
+        return $name === null ? $getArray : $getArray[$name];
+    }
+
+    /**
+     * @return array|object
+     */
+    public function post($name = null)
+    {
+        $postArray = filter_input_array(INPUT_POST);
+        return $name === null ? $postArray : $postArray[$name];
+    }
+
+    /**
+     * @return array|object
+     */
+    public function put($name = null)
+    {
+        $this->getPutDeleteParameter($name);
+    }
+
+    /**
+     * @return array|object
+     */
+    public function delete($name = null)
+    {
+        $this->getPutDeleteParameter($name);
+    }
+
+    private function getPutDeleteParameter($name)
+    {
+        $putDeleteArray = [];
+        parse_str(file_get_contents("php://input"), $putDeleteArray);
+        return $name === null ? $putDeleteArray : $putDeleteArray[$name];
+    }
+    
+    /**
+     * @return boolean
+     */
     public function isPost()
     {
         return $this->requestType == self::POST;
     }
 
+    /**
+     * @return boolean
+     */
     public function isGet()
     {
         return $this->requestType == self::GET;
     }
 
+    /**
+     * @return boolean
+     */
     public function isPut()
     {
         return $this->requestType == self::PUT;
     }
 
+    /**
+     * @return boolean
+     */
     public function isDelete()
     {
         return $this->requestType == self::DELETE;
