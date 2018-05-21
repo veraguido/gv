@@ -57,7 +57,7 @@ class FileManager
      */
     public function saveToFileSystem(string $targetDirectory, File $file)
     {
-        if($file->getError() === 4) {
+        if ($file->getError() === 4) {
             return true;
         }
 
