@@ -57,6 +57,10 @@ class FileManager
      */
     public function saveToFileSystem(string $targetDirectory, File $file)
     {
+        if($file->getError() === 4) {
+            return true;
+        }
+
         if (!in_array($file, $this->files)) {
             throw new NotFoundException("The file you are trying to move is not uploaded");
         }

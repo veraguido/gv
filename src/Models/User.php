@@ -57,13 +57,13 @@ class User extends GvModel
     protected $updated;
 
     /**
-     * @OneToOne(targetEntity="UserStatus")
+     * @ManyToOne(targetEntity="UserStatus")
      * @JoinColumn(name="status_id", referencedColumnName="id")
      */
     protected $status;
 
     /**
-     * @OneToOne(targetEntity="UserRole")
+     * @ManyToOne(targetEntity="UserRole")
      * @JoinColumn(name="role_id", referencedColumnName="id")
      */
     protected $role;
