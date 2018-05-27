@@ -50,7 +50,7 @@ class ForgotPasswordService
 
         EventDispatcher::dispatchEvent(
             ForgotPasswordCreatedEvent::FORGOT_PASSWORD_EVENT,
-            new ForgotPasswordCreatedEvent($email)
+            new ForgotPasswordCreatedEvent($user->getEmail())
         );
     }
 

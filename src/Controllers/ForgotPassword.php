@@ -6,6 +6,7 @@ use Gvera\Helpers\session\Session;
 /**
  * Class ForgotPassword
  * @package Gvera\Controllers
+ * @method getForgotPasswordService
  * @Inject session
  */
 class ForgotPassword extends GvController
