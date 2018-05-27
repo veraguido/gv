@@ -7,6 +7,13 @@ logger:
       arguments:
         "gv"
 
+session:
+  classPath: Gvera\Helpers\session\
+  objects:
+    session:
+      class: Session
+      singleton: true
+
 config:
   classPath: Gvera\Helpers\config\
   objects:

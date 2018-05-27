@@ -16,6 +16,7 @@ use Gvera\Models\User;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
  * @Inject entityManager
+ * @Inject session
  *
  */
 class UserService
@@ -23,6 +24,7 @@ class UserService
     const MODERATOR_ROLE_PRIORITY = 5;
 
     public $entityManager;
+    public $session;
 
     public function validateEmail($email)
     {
@@ -56,7 +58,7 @@ class UserService
         $user = $repository->findOneBy(['username' => $username]);
 
         if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {
-            Session::set(
+            $this->session->set(
                 'user',
                 [
                     'username' => $username,
@@ -65,25 +67,25 @@ class UserService
                 ]
             );
         } else {
-            throw new \Exception(Locale::getLocale('user or password are incorrect'));
+            throw new \Exception('user or password are incorrect');
         }
     }
 
     public function logout()
     {
-        Session::unset('user');
+        $this->session->unset('user');
     }
 
-    public static function isUserLoggedIn()
+    public function isUserLoggedIn()
     {
-        return Session::get('user') != null;
+        return $this->session->get('user') != null;
     }
 
     /**
      * @return int
      */
-    public static function getUserRole()
+    public function getUserRole()
     {
-        return Session::get('user') != null ? Session::get('user')['role'] : false;
+        return $this->session->get('user') != null ? $this->session->get('user')['role'] : false;
     }
 }

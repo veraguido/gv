@@ -9,7 +9,9 @@ use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Models\ForgotPassword;
 use Gvera\Models\User;
-
+/**
+ * @Inject session
+ */
 class ForgotPasswordService
 {
     private $repository;
@@ -79,7 +81,7 @@ class ForgotPasswordService
         $forgotPassword->setAlreadyUsed(true);
         $this->entityManager->persist($forgotPassword);
         $this->entityManager->flush();
-        Session::set('forgot_password', $key);
+        $this->session->set('forgot_password', $key);
     }
 
     /**

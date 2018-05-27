@@ -1,5 +1,11 @@
 <?php
 
+use Gvera\Models\User;
+use Gvera\Models\UserRole;
+use Doctrine\ORM\EntityRepository;
+use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\session\Session;
+
 class UserServiceTest extends \PHPUnit\Framework\TestCase
 {
 
@@ -30,5 +36,83 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($passHash);
 
         $this->assertTrue($this->userService->validatePassword('password', $passHash));
+    }
+
+    /**
+     * @test
+     * @expectedException Exception
+     */
+    public function login()
+    {
+        $role = new UserRole();
+        $role->setName("testRole");
+        $role->setRolePriority(5);
+        
+        $user = new User();
+        $user->setEmail("asd@aasd.com");
+        $user->setUsername("test");
+        $passHash = $this->userService->generatePassword('test');
+        $user->setPassword($passHash);
+
+        $user->setRole($role);
+        $repo = $this->createMock(EntityRepository::class);
+        $repo->expects($this->any())
+            ->method('findOneBy')
+            ->willReturn($user);
+
+        $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
+        $doctrineEm->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($repo);
+
+        $em = $this->createMock(EntityManager::class);
+        $em->expects($this->any())
+            ->method('getInstance')
+            ->willReturn($doctrineEm);
+
+        
+        $session = $this->createMock(Session::class);
+        $session->expects($this->any())
+            ->method('set')
+            ->with($this->isType('string'),$this->isType('array'))
+            ->willReturn(true);
+        
+        $session->expects($this->any())
+            ->method('get')
+            ->with('user')
+            ->willReturn(['role' => $role->getRolePriority(), 'username' => $user->getUsername()]);
+            
+
+        $this->userService->entityManager = $em;
+        $this->userService->session = $session;
+
+        $this->userService->login($user->getUsername(), $passHash);
+        $this->assertTrue($session->get('user')['username'] === $user->getUsername());
+        $this->assertTrue($this->userService->getUserRole() === 5);
+        $this->userService->login($user->getUsername(), 'failedpass');
+
+    }
+
+    /**
+     * @test
+     */
+    public function logout()
+    {
+        $session = $this->createMock(Session::class);
+        $session->expects($this->any())
+            ->method('unset')
+            ->with('user')
+            ->willReturn(true);
+        
+        $session->expects($this->any())
+            ->method('get')
+            ->with('user')
+            ->willReturn(null);
+
+        $this->userService->session = $session;
+
+        $this->userService->logout();
+
+        $this->assertFalse($this->userService->isUserLoggedIn());
     }
 }

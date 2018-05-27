@@ -9,36 +9,36 @@ namespace Gvera\Helpers\session;
 class Session
 {
 
-    private static $started = false;
+    private $started = false;
 
-    public static function getId()
+    public function getId()
     {
         return session_id();
     }
 
-    private static function start()
+    private function start()
     {
-        if (!self::$started) {
-            self::$started = true;
+        if (!$this->started) {
+            $this->started = true;
             session_start();
         }
     }
 
-    public static function set($key, $value)
+    public function set($key, $value)
     {
-        self::start();
+        $this->start();
         $_SESSION[$key] = $value;
     }
 
-    public static function unset($key)
+    public function unset($key)
     {
-        self::start();
+        $this->start();
         unset($_SESSION[$key]);
     }
 
-    public static function get($key)
+    public function get($key)
     {
-        self::start();
+        $this->start();
         if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
@@ -46,15 +46,15 @@ class Session
         return false;
     }
 
-    public static function destroy()
+    public function destroy()
     {
-        if (self::$started) {
+        if ($this->started) {
             session_destroy();
-            self::$started = false;
+            $this->started = false;
         }
     }
 
-    public static function toString()
+    public function toString()
     {
         echo '<pre>';
         print_r($_SESSION);

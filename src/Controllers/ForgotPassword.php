@@ -6,6 +6,7 @@ use Gvera\Helpers\session\Session;
 /**
  * Class ForgotPassword
  * @package Gvera\Controllers
+ * @Inject session
  */
 class ForgotPassword extends GvController
 {
@@ -51,14 +52,14 @@ class ForgotPassword extends GvController
      */
     public function regenerate()
     {
-        if (!(Session::get('forgot_password')) || !$this->httpRequest->isPost()) {
-            Session::destroy();
+        if (!($this->session->get('forgot_password')) || !$this->httpRequest->isPost()) {
+            $this->session->destroy();
             $this->redirectToIndex();
         }
 
         $forgotPasswordService = $this->diContainer->get("forgotPasswordService");
         $forgotPasswordService->regeneratePassword(
-            Session::get('forgot_password'),
+            $this->session->get('forgot_password'),
             $this->httpRequest->getParameter('new_password')
         );
     }

@@ -35,7 +35,7 @@ class LoginCommand implements CommandInterface
     {
         $this->userService->login($this->username, $this->password);
 
-        if (UserService::isUserLoggedIn()) {
+        if ($this->userService->isUserLoggedIn()) {
             $this->eventDispatcher::dispatchEvent(
                 UserLoggedInEvent::USER_LOGGED_IN_EVENT,
                 new UserLoggedInEvent()
