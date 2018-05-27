@@ -24,23 +24,9 @@ class ForgotPasswordServiceTest extends TestCase
 
         $forgotPassword = new ForgotPassword($user, 'asd');
         
-        $repo2 = $this->createMock(EntityRepository::class);
-        $repo2->expects($this->any())
-                ->method('findOneBy')
-                ->willReturn($forgotPassword);
+        $repo2 = $this->getMockedRepository($forgotPassword);
 
-        $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
-
-        $doctrineEm->expects($this->any())
-            ->method('getRepository')
-            ->with($this->equalTo(ForgotPassword::class))
-            ->willReturn($repo2);
-
-        $em = $this->createMock(EntityManager::class);
-        $em->expects($this->any())
-            ->method('getInstance')
-            ->willReturn($doctrineEm);
-
+        $em = $this->getMockedEntityManager($repo2);
         $forgotPassService = new ForgotPasswordService($em);
 
         $this->assertFalse($forgotPassService->validateNewForgotPassword($user));
