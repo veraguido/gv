@@ -36,6 +36,9 @@ class Session
         unset($_SESSION[$key]);
     }
 
+    /**
+     * @return mixed 
+     */
     public function get($key)
     {
         $this->start();
