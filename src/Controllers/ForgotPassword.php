@@ -24,10 +24,15 @@ class ForgotPassword extends GvController
             $this->redirectToIndex();
         }
 
-        $forgotPassService = $this->diContainer->get("forgotPasswordService");
+        $forgotPassService = $this->getForgotPasswordService();
+
         $email = $this->httpRequest->getParameter('email');
-        if ($forgotPassService->validateNewForgotPassword($email)) {
-            $forgotPassService->generateNewForgotPassword($email);
+
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $email]);
+
+        if ($forgotPassService->validateNewForgotPassword($user)) {
+            $forgotPassService->generateNewForgotPassword($user);
         } else {
             $this->redirectToIndex();
         }

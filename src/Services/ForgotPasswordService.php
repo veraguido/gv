@@ -27,10 +27,8 @@ class ForgotPasswordService
     /**
      * @return bool
      */
-    public function validateNewForgotPassword(string $email)
+    public function validateNewForgotPassword(User $user)
     {
-        $userRepository = $this->entityManager->getRepository(User::class);
-        $user = $userRepository->findOneBy(['email' => $email]);
         $activeForgotPass = $this->repository->findOneBy(['user' => $user, 'alreadyUsed' => false]);
 
         return !isset($activeForgotPass);
@@ -41,15 +39,8 @@ class ForgotPasswordService
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Exception
      */
-    public function generateNewForgotPassword($email)
+    public function generateNewForgotPassword(User $user)
     {
-        $userRepository = $this->entityManager->getRepository(User::class);
-
-        $user = $userRepository->findOneBy(['email' => $email]);
-        if (!isset($user)) {
-            throw new \Exception(Locale::getLocale('Email do not correspond to a valid user'));
-        }
-
         $dateTime = new \DateTime();
         $newKey = md5($dateTime->format('Y-m-d H:i:s') . $user->getId());
         $forgotPassword = new ForgotPassword($user, $newKey);
@@ -72,11 +63,11 @@ class ForgotPasswordService
     {
         $forgotPassword = $this->repository->findOneBy(['forgotPasswordKey' => $key]);
         if (!isset($forgotPassword)) {
-            throw new \Exception(Locale::getLocale('Forgot Password was never generated'));
+            throw new \Exception('Forgot Password was never generated');
         }
 
         if ($forgotPassword->getAlreadyUsed()) {
-            throw new \Exception(Locale::getLocale('Forgot Password was already used'));
+            throw new \Exception('Forgot Password was already used');
         }
 
         $forgotPassword->setAlreadyUsed(true);
