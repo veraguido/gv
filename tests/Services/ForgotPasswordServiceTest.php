@@ -56,34 +56,54 @@ class ForgotPasswordServiceTest extends TestCase
 
         $forgotPassword = new ForgotPassword($user, 'asd');
         
-        $repo2 = $this->createMock(EntityRepository::class);
-        $repo2->expects($this->any())
-                ->method('findOneBy')
-                ->willReturn($forgotPassword);
+        $repo2 = $this->getMockedRepository($forgotPassword);
 
-        $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
-
-        $doctrineEm->expects($this->any())
-            ->method('getRepository')
-            ->with($this->equalTo(ForgotPassword::class))
-            ->willReturn($repo2);
-
-        $em = $this->createMock(EntityManager::class);
-        $em->expects($this->any())
-            ->method('getInstance')
-            ->willReturn($doctrineEm);
+        $em = $this->getMockedEntityManager($repo2);
 
         $forgotPassService = new ForgotPasswordService($em);
-        $session = $this->createMock(Session::class);
-        $session->expects($this->any())
-            ->method('set')
-            ->with('forgot_password')
-            ->willReturn(true);
+        $session = $this->getMockedSession();
 
         $forgotPassService->session = $session;
 
         $this->assertFalse($forgotPassword->getAlreadyUsed());
         $forgotPassService->useForgotPassword('asd');
         $this->assertTrue($forgotPassword->getAlreadyUsed());
+    }
+
+    private function getMockedRepository($forgotPass)
+    {
+        $repo2 = $this->createMock(EntityRepository::class);
+        $repo2->expects($this->any())
+                ->method('findOneBy')
+                ->willReturn($forgotPass);
+
+        return $repo2;
+    }
+
+    private function getMockedEntityManager($repo)
+    {
+        $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
+        $doctrineEm->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo(ForgotPassword::class))
+            ->willReturn($repo);
+
+        $em = $this->createMock(EntityManager::class);
+        $em->expects($this->any())
+            ->method('getInstance')
+            ->willReturn($doctrineEm);
+
+        return $em;
+    }
+
+    private function getMockedSession()
+    {
+        $session = $this->createMock(Session::class);
+        $session->expects($this->any())
+            ->method('set')
+            ->with('forgot_password')
+            ->willReturn(true);
+        
+        return $session;
     }
 }
