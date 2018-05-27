@@ -37,7 +37,7 @@ class Session
     }
 
     /**
-     * @return mixed 
+     * @return mixed
      */
     public function get($key)
     {
