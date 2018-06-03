@@ -162,9 +162,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     private function getMockedHttp($type) 
     {
         if ($type === 'httpRequest') {
-            return new HttpRequest(
-                new FileManager(new Config())
-            );
+            return null;
         }
 
         $httpResponse = $this->createMock(HttpResponse::class);
