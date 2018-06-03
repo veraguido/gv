@@ -246,4 +246,22 @@ class ControllerService
 
         return $this;
     }
+
+    /**
+     * Get the value of controllerFinalName
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerFinalName;
+    }
+
+    /**
+     * Get the value of method
+     * @return string
+     */
+    public function getMethodName()
+    {
+        return $this->method;
+    }
 }
