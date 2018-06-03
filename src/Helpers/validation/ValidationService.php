@@ -23,7 +23,7 @@ class ValidationService
     {
         foreach ($validationStrategies as $strategy) {
             if (!is_a($strategy, ValidationStrategyInterface::class)) {
-                throw new Exception('Validation strategy should implement ValidationStrategyInterface');
+                throw new \Exception('Validation strategy should implement ValidationStrategyInterface');
             }
 
             if ($strategy->isValid($field)) {

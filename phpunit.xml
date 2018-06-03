@@ -17,7 +17,7 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>./src/Services/</directory>
-            <directory>./src/Commands/</directory>
+            <directory>./src/Helpers/validation/</directory>
             <directory>./src/Listeners/</directory>
         </whitelist>
     </filter>

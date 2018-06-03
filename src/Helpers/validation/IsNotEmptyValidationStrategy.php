@@ -14,6 +14,6 @@ class IsNotEmptyValidationStrategy implements ValidationStrategyInterface
 {
     public function isValid($field)
     {
-        return $field == '' || $field == null;
+        return $field != '' && $field != null;
     }
 }
