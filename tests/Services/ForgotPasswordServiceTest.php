@@ -35,6 +35,25 @@ class ForgotPasswordServiceTest extends TestCase
     /**
      * @test
      */
+    public function generateNewForgotPasswordTest()
+    {
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())
+            ->method('getId')
+            ->willReturn(1);
+
+        $forgotPassword = new ForgotPassword($user, 'asd');    
+
+        $repo = $this->getMockedRepository($forgotPassword);
+        $entityManager = $this->getMockedEntityManager($repo, true);
+
+        $forgotPassService = new ForgotPasswordService($entityManager);
+        $forgotPassService->generateNewForgotPassword($user);
+    }
+
+    /**
+     * @test
+     */
     public function useForgotPassword()
     {
         $user = new User();
@@ -58,28 +77,36 @@ class ForgotPasswordServiceTest extends TestCase
 
     private function getMockedRepository($forgotPass)
     {
-        $repo2 = $this->createMock(EntityRepository::class);
-        $repo2->expects($this->any())
+        $repository = $this->createMock(EntityRepository::class);
+        $repository->expects($this->any())
                 ->method('findOneBy')
                 ->willReturn($forgotPass);
 
-        return $repo2;
+        return $repository;
     }
 
-    private function getMockedEntityManager($repo)
+    private function getMockedEntityManager($repo, $isExtended = false)
     {
         $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
         $doctrineEm->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(ForgotPassword::class))
             ->willReturn($repo);
+        
+        if($isExtended === true) {
+            $doctrineEm->expects($this->once())
+            ->method('merge');
 
-        $em = $this->createMock(EntityManager::class);
-        $em->expects($this->any())
+        $doctrineEm->expects($this->once())
+            ->method('flush');
+        }
+
+        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager->expects($this->any())
             ->method('getInstance')
             ->willReturn($doctrineEm);
 
-        return $em;
+        return $entityManager;
     }
 
     private function getMockedSession()
