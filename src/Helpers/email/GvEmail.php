@@ -55,7 +55,7 @@ class GvEmail
         $emailConfig = $this->getEmailConfiguration();
         $this->mailer = new \PHPMailer();
         $this->mailer->isSMTP();
-        $this->mailer->isHTML($isHtml);
+        $this->mailer->isHTML($this->isHtml);
         $this->mailer->Host = $emailConfig['host'];
         $this->mailer->SMTPAuth = (bool)$emailConfig['smtp_auth'];
         $this->mailer->From = $emailConfig['username'];
