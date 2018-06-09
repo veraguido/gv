@@ -85,6 +85,8 @@ listeners:
   objects:
     userRegisteredEmailListener:
       class: UserRegisteredEmailListener
+      arguments:
+        "@email"
     throwableListener:
       class: ThrowableListener  
 

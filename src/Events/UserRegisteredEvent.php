@@ -16,6 +16,7 @@ class UserRegisteredEvent extends Event
     const USER_REGISTERED_EVENT  = 'user_registered_event';
     protected $username;
     protected $email;
+    protected $devMode;
 
     /**
      * @return string
@@ -33,9 +34,18 @@ class UserRegisteredEvent extends Event
         return $this->email;
     }
 
-    public function __construct($username, $email)
+    /**
+     * @return boolean
+     */
+    public function getDevMode()
+    {
+        return boolval($this->devMode);
+    }
+
+    public function __construct($username, $email, $devMode = false)
     {
         $this->username = $username;
         $this->email = $email;
+        $this->devMode = $devMode;
     }
 }

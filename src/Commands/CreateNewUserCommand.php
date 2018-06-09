@@ -18,6 +18,7 @@ use Gvera\Commands\CommandInterface;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
+ * @Inject config
  *
  */
 class CreateNewUserCommand implements CommandInterface
@@ -58,7 +59,8 @@ class CreateNewUserCommand implements CommandInterface
             UserRegisteredEvent::USER_REGISTERED_EVENT,
             new UserRegisteredEvent(
                 $user->getUsername(),
-                $user->getEmail()
+                $user->getEmail(),
+                $this->config->getConfig('devmode')
             )
         );
     }

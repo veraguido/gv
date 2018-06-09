@@ -19,22 +19,24 @@ use Gvera\Listeners\EventListenerInterface;
  */
 class UserRegisteredEmailListener implements EventListenerInterface
 {
+    private const DEFAULT_SUBJECT = 'gv account created';
+    private $email;
+
+    public function __construct(GvEmail $email)
+    {
+        $this->email = $email;
+    }
 
     public function handleEvent($event)
     {
-
-        if (boolval($this->config->getConfig('devmode')) === false) {
+        if ($event->getDevMode() === false) {
             $username = $event->getUserName();
             $message = "Hi $username we want to let you know that your account is registered :)";
-            $newUserEmail = new GvEmail(
-                false,
-                "gv account created",
-                $message,
-                $message
-            );
-
-            $newUserEmail->addAddress($event->getEmail());
-            $newUserEmail->send();
+            $this->email->setSubject(self::DEFAULT_SUBJECT);
+            $this->email->setBody($message);
+            $this->email->setAlternativeBody($message);
+            $this->email->addAddress($event->getEmail());
+            $this->email->send();
         }
     }
 }
