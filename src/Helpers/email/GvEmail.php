@@ -46,11 +46,7 @@ class GvEmail
     public function send()
     {
 
-        if (!$this->isValid()) {
-            throw new \Exception(
-                'The email must have a body, an alternative body, and a subject to be valid'
-            );
-        }
+        $this->validate();
 
         $emailConfig = $this->getEmailConfiguration();
         $this->mailer = new \PHPMailer();
@@ -124,6 +120,18 @@ class GvEmail
         $this->alternativeBody = $alternativeBody;
 
         return $this;
+    }
+
+    /**
+     * @return void
+     */
+    private function validate()
+    {
+        if (!$this->isValid()) {
+            throw new \Exception(
+                'The email must have a body, an alternative body, and a subject to be valid'
+            );
+        }
     }
 
     /**
