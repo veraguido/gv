@@ -18,7 +18,6 @@ class ForgotPasswordServiceTest extends TestCase
      */
     public function validateForgotPassword()
     {
-
         $user = new User();
         $user->setEmail("asd@aasd.com");
 
@@ -61,11 +60,11 @@ class ForgotPasswordServiceTest extends TestCase
 
         $forgotPassword = new ForgotPassword($user, 'asd');
         
-        $repo2 = $this->getMockedRepository($forgotPassword);
+        $repository = $this->getMockedRepository($forgotPassword);
 
-        $em = $this->getMockedEntityManager($repo2);
+        $entityManager = $this->getMockedEntityManager($repository);
 
-        $forgotPassService = new ForgotPasswordService($em);
+        $forgotPassService = new ForgotPasswordService($entityManager);
         $session = $this->getMockedSession();
 
         $forgotPassService->session = $session;
@@ -73,6 +72,25 @@ class ForgotPasswordServiceTest extends TestCase
         $this->assertFalse($forgotPassword->getAlreadyUsed());
         $forgotPassService->useForgotPassword('asd');
         $this->assertTrue($forgotPassword->getAlreadyUsed());
+    }
+
+    /**
+     * @test
+     */
+    public function regeneratePassword()
+    {
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())
+            ->method('setPassword')
+            ->willReturn(true);
+
+        $forgotPassword = new ForgotPassword($user, 'asd');    
+
+        $repo = $this->getMockedRepository($forgotPassword);
+        $entityManager = $this->getMockedEntityManager($repo, false, true);
+
+        $forgotPassService = new ForgotPasswordService($entityManager);
+        $forgotPassService->regeneratePassword('asd', 'newPass');
     }
 
     private function getMockedRepository($forgotPass)
@@ -85,7 +103,7 @@ class ForgotPasswordServiceTest extends TestCase
         return $repository;
     }
 
-    private function getMockedEntityManager($repo, $isExtended = false)
+    private function getMockedEntityManager($repo, $checkMerge = false, $checkFlush = false)
     {
         $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
         $doctrineEm->expects($this->any())
@@ -93,14 +111,17 @@ class ForgotPasswordServiceTest extends TestCase
             ->with($this->equalTo(ForgotPassword::class))
             ->willReturn($repo);
         
-        if($isExtended === true) {
+        if($checkMerge === true) {
             $doctrineEm->expects($this->once())
             ->method('merge');
-
-        $doctrineEm->expects($this->once())
-            ->method('flush');
         }
 
+        if($checkFlush === true)
+        {
+            $doctrineEm->expects($this->once())
+                ->method('flush');
+        }
+        
         $entityManager = $this->createMock(EntityManager::class);
         $entityManager->expects($this->any())
             ->method('getInstance')
