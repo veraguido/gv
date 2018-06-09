@@ -44,7 +44,7 @@ class ForgotPasswordServiceTest extends TestCase
         $forgotPassword = new ForgotPassword($user, 'asd');    
 
         $repo = $this->getMockedRepository($forgotPassword);
-        $entityManager = $this->getMockedEntityManager($repo, true);
+        $entityManager = $this->getMockedEntityManager($repo, ['flush', 'merge']);
 
         $forgotPassService = new ForgotPasswordService($entityManager);
         $forgotPassService->generateNewForgotPassword($user);
@@ -87,7 +87,7 @@ class ForgotPasswordServiceTest extends TestCase
         $forgotPassword = new ForgotPassword($user, 'asd');    
 
         $repo = $this->getMockedRepository($forgotPassword);
-        $entityManager = $this->getMockedEntityManager($repo, false, true);
+        $entityManager = $this->getMockedEntityManager($repo, ['flush', 'persist']);
 
         $forgotPassService = new ForgotPasswordService($entityManager);
         $forgotPassService->regeneratePassword('asd', 'newPass');
@@ -103,7 +103,7 @@ class ForgotPasswordServiceTest extends TestCase
         return $repository;
     }
 
-    private function getMockedEntityManager($repo, $checkMerge = false, $checkFlush = false)
+    private function getMockedEntityManager($repo, $additionalChecks = [])
     {
         $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
         $doctrineEm->expects($this->any())
@@ -111,17 +111,11 @@ class ForgotPasswordServiceTest extends TestCase
             ->with($this->equalTo(ForgotPassword::class))
             ->willReturn($repo);
         
-        if($checkMerge === true) {
+        foreach ($additionalChecks as $check) {
             $doctrineEm->expects($this->once())
-            ->method('merge');
+                ->method($check);
         }
 
-        if($checkFlush === true)
-        {
-            $doctrineEm->expects($this->once())
-                ->method('flush');
-        }
-        
         $entityManager = $this->createMock(EntityManager::class);
         $entityManager->expects($this->any())
             ->method('getInstance')
