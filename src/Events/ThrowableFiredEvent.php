@@ -4,7 +4,6 @@ namespace Gvera\Events;
 
 use Gvera\Helpers\http\HttpResponse;
 
-
 /**
  * Event Class Doc Comment
  *
@@ -47,7 +46,7 @@ class ThrowableFiredEvent extends Event
 
     /**
      * Get the value of httpResponse
-     */ 
+     */
     public function getHttpResponse()
     {
         return $this->httpResponse;
