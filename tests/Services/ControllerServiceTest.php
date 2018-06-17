@@ -8,7 +8,7 @@ use Gvera\Helpers\http\HttpResponse;
 use Gvera\Helpers\config\Config;
 use Gvera\Controllers\GvController;
 use Gvera\Exceptions\InvalidControllerException;
-use Gvera\Services\AnnotationService;
+use Gvera\Helpers\annotations\AnnotationUtil;
 
 class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -155,7 +155,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             ->with($this->logicalOr(
                 $this->equalTo('httpRequest'),
                 $this->equalTo('httpResponse'),
-                $this->equalTo('annotationService')
+                $this->equalTo('annotationUtil')
             ))
             ->will(
                 $this->returnCallback(array($this, 'httpCallBack'))
@@ -187,8 +187,8 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             );
         }
 
-        if ($type === 'annotationService') {
-            return $this->getMockedAnnotationService();
+        if ($type === 'annotationUtil') {
+            return $this->getMockedannotationUtil();
         }
 
         $httpResponse = $this->createMock(HttpResponse::class);
@@ -206,15 +206,15 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         return $config;
     }
 
-    private function getMockedAnnotationService()
+    private function getMockedannotationUtil()
     {
-        $annotationServiceMock = $this->createMock(AnnotationService::class);
-        $annotationServiceMock->expects($this->any())
+        $annotationUtilMock = $this->createMock(AnnotationUtil::class);
+        $annotationUtilMock->expects($this->any())
             ->method('validateMethods')
             ->willReturn(true);
-        $annotationServiceMock->expects($this->any())
+        $annotationUtilMock->expects($this->any())
             ->method('getAnnotationContentFromMethod')
             ->willReturn([]);
-        return $annotationServiceMock;
+        return $annotationUtilMock;
     }
 }

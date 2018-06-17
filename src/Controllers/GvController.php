@@ -75,8 +75,8 @@ abstract class GvController
 
     protected function preInit($allowedHttpMethods)
     {
-        $annotationService = $this->diContainer->get('annotationService');
-        $isHttpMethodValid = $annotationService->validateMethods(
+        $annotationUtil = $this->diContainer->get('annotationUtil');
+        $isHttpMethodValid = $annotationUtil->validateMethods(
             $allowedHttpMethods,
             $this->httpRequest
         );

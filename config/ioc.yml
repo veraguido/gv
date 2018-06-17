@@ -71,8 +71,12 @@ services:
         "@entityManager"
     controllerService:
       class: ControllerService
-    annotationService:
-      class: AnnotationService
+
+annotations:
+  classPath: Gvera\Helpers\annotations\
+  objects:
+    annotationUtil:
+      class: AnnotationUtil
       singleton: true
 
 commands:

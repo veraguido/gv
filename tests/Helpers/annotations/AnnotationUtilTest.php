@@ -1,27 +1,27 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Gvera\Services\AnnotationService;
 use Gvera\Controllers\Index;
 use Gvera\Helpers\http\HttpRequest;
+use Gvera\Helpers\annotations\AnnotationUtil;
 
-class AnnotationServiceTest extends TestCase
+class AnnotationUtilTest extends TestCase
 {
-    private $service;
+    private $util;
 
     public function setUp()
     {
-        $this->service = new AnnotationService();
+        $this->util = new AnnotationUtil();
     }
     /**
      * @test
      */
     public function getAnnotationContentFromMethodHappyPathTest()
     {
-        $methods = $this->service->getAnnotationContentFromMethod(
+        $methods = $this->util->getAnnotationContentFromMethod(
             Index::class,
             'index',
-            AnnotationService::HTTP_ANNOTATION
+            AnnotationUtil::HTTP_ANNOTATION
         );
 
         $this->assertTrue(count($methods) > 0);
@@ -32,10 +32,10 @@ class AnnotationServiceTest extends TestCase
      */
     public function getAnnotationContentFromMethodEmptyPathTest()
     {
-        $secondTest = $this->service->getAnnotationContentFromMethod(
+        $secondTest = $this->util->getAnnotationContentFromMethod(
             Index::class,
             'cachetype',
-            AnnotationService::HTTP_ANNOTATION
+            AnnotationUtil::HTTP_ANNOTATION
         );
 
         $this->assertTrue(count($secondTest) == 0);
@@ -47,10 +47,10 @@ class AnnotationServiceTest extends TestCase
      */
     public function getAnnotationContentFromMethodExceptionTest()
     {
-        $this->service->getAnnotationContentFromMethod(
+        $this->util->getAnnotationContentFromMethod(
             Index::class,
             'test',
-            AnnotationService::HTTP_ANNOTATION
+            AnnotationUtil::HTTP_ANNOTATION
         );
     }
 
@@ -67,15 +67,15 @@ class AnnotationServiceTest extends TestCase
             ->willReturn('GET');
         
         $this->assertTrue(
-            $this->service->validateMethods($methods, $httpRequest)
+            $this->util->validateMethods($methods, $httpRequest)
         );
 
         $this->assertFalse(
-            $this->service->validateMethods(["PUT"], $httpRequest)
+            $this->util->validateMethods(["PUT"], $httpRequest)
         );
 
         $this->assertTrue(
-            $this->service->validateMethods([], $httpRequest)
+            $this->util->validateMethods([], $httpRequest)
         );
     }
 }

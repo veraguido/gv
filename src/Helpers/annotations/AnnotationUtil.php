@@ -1,13 +1,9 @@
 <?php
 
-namespace Gvera\Services;
+namespace Gvera\Helpers\annotations;
 
-use Gvera\Helpers\http\HttpRequest;
-use Gvera\Exceptions\InvalidHttpMethodException;
-
-class AnnotationService
+class AnnotationUtil
 {
-
     public const HTTP_ANNOTATION = '@httpMethod';
 
     /**
@@ -25,7 +21,7 @@ class AnnotationService
         return $this->getAnnotationFromArray($comments, $annotationName);
     }
 
-    public function validateMethods(array $allowedMethods, HttpRequest $httpRequest)
+    public function validateMethods(array $allowedMethods, $httpRequest)
     {
         if (count($allowedMethods) < 1) {
             return true;
