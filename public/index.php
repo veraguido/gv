@@ -18,8 +18,6 @@ try {
     $app = new Gvera\Gvera();
     $app->run();
 } catch(\Throwable $e) {
-    EventDispatcher::dispatchEvent(
-        ThrowableFiredEvent::THROWABLE_FIRED_EVENT,
-        new ThrowableFiredEvent($e, $isDevMode));
+    $app->handleThrowable($e, $isDevMode);
     $app->redirectToDefault();
 }

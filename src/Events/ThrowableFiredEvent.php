@@ -2,6 +2,9 @@
 
 namespace Gvera\Events;
 
+use Gvera\Helpers\http\HttpResponse;
+
+
 /**
  * Event Class Doc Comment
  *
@@ -17,11 +20,13 @@ class ThrowableFiredEvent extends Event
     const THROWABLE_FIRED_EVENT = 'throwable_fired_event';
     protected $throwable;
     protected $devMode;
+    protected $httpResponse;
 
-    public function __construct(\Throwable $throwable, $devMode)
+    public function __construct(\Throwable $throwable, $devMode, HttpResponse $httpResponse)
     {
         $this->throwable = $throwable;
         $this->devMode = $devMode;
+        $this->httpResponse = $httpResponse;
     }
 
     /**
@@ -38,5 +43,13 @@ class ThrowableFiredEvent extends Event
     public function isDevMode(): bool
     {
         return $this->devMode;
+    }
+
+    /**
+     * Get the value of httpResponse
+     */ 
+    public function getHttpResponse()
+    {
+        return $this->httpResponse;
     }
 }

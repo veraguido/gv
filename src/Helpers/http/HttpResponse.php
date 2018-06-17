@@ -47,6 +47,11 @@ class HttpResponse
         exit;
     }
 
+    public function terminate($message)
+    {
+        die($message);
+    }
+
     public function asJson()
     {
         $this->setHeader(self::CONTENT_TYPE_JSON);

@@ -46,9 +46,9 @@ class Gvera
         $this->diContainer = new DIContainer();
         $diRegistry = new DIRegistry($this->diContainer);
         $diRegistry->registerObjects();
-        
+
         $this->routeManager = new RouteManager($this->diContainer->get('httpRequest'));
-        
+
         $eventRegistry = $this->diContainer->get("eventListenerRegistry");
         $eventRegistry->registerEventListeners();
 
@@ -65,6 +65,19 @@ class Gvera
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
+    }
+
+    public function handleThrowable(\Throwable $e, $isDevMode)
+    {
+
+        EventDispatcher::dispatchEvent(
+            ThrowableFiredEvent::THROWABLE_FIRED_EVENT,
+            new ThrowableFiredEvent(
+                $e,
+                $isDevMode,
+                $this->diContainer->get('httpResponse')
+            )
+        );
     }
 
     /**
@@ -144,7 +157,7 @@ class Gvera
         if (Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
             return unserialize(Cache::getCache()->load(self::GV_CONTROLLERS_KEY));
         }
-        
+
         $controllersDir = scandir($scanDirectory);
         $loadedControllers = [];
         foreach ($controllersDir as $index => $autoloadingName) {

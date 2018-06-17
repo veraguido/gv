@@ -15,7 +15,7 @@ use Gvera\Cache\Cache;
 class Index extends GvController
 {
     /**
-     * @httpMethod("GET")
+     * @httpMethod("POST")
      */
     public function index()
     {

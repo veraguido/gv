@@ -19,7 +19,10 @@ class ThrowableListener implements EventListenerInterface
     {
         $throwable = $event->getThrowable();
         if ($event->isDevMode()) {
-            die($throwable->getMessage());
+            $httpResponse = $event->getHttpResponse();
+            $httpResponse->asJson();
+            $httpResponse->terminate($event->getThrowable()->getMessage());
+            return;
         }
 
         $arguments = is_a($throwable, GvException::class) ? $throwable->getArguments() : [];
