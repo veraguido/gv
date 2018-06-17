@@ -8,6 +8,7 @@ use Gvera\Helpers\http\HttpResponse;
 use Gvera\Helpers\config\Config;
 use Gvera\Controllers\GvController;
 use Gvera\Exceptions\InvalidControllerException;
+use Gvera\Services\AnnotationService;
 
 class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -136,7 +137,8 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             ->method("get")
             ->with($this->logicalOr(
                 $this->equalTo('httpRequest'),
-                $this->equalTo('httpResponse')
+                $this->equalTo('httpResponse'),
+                $this->equalTo('annotationService')
             ))
             ->will(
                 $this->returnCallback(array($this, 'httpCallBack'))
@@ -162,7 +164,21 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     private function getMockedHttp($type) 
     {
         if ($type === 'httpRequest') {
-            return null;
+            $_SERVER['REQUEST_METHOD'] = 'GET';
+            return new HttpRequest(
+                new FileManager($this->getMockedConfig())
+            );
+        }
+
+        if($type === 'annotationService') {
+            $annotationServiceMock = $this->createMock(AnnotationService::class);
+            $annotationServiceMock->expects($this->any())
+                ->method('validateMethods')
+                ->willReturn(true);
+            $annotationServiceMock->expects($this->any())
+                ->method('getAnnotationContentFromMethod')
+                ->willReturn([]);
+            return $annotationServiceMock;
         }
 
         $httpResponse = $this->createMock(HttpResponse::class);
@@ -171,5 +187,15 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             ->willReturn(true);
 
         return $httpResponse;
+    }
+
+    private function getMockedConfig()
+    {
+        $config = $this->createMock(Config::class);
+        /*$config->expects($this->any())
+            ->method('__construct')
+            ->willReturn($config);*/
+
+        return $config;
     }
 }

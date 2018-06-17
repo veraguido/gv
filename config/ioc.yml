@@ -71,6 +71,9 @@ services:
         "@entityManager"
     controllerService:
       class: ControllerService
+    annotationService:
+      class: AnnotationService
+      singleton: true
 
 commands:
     classPath: Gvera\Commands\

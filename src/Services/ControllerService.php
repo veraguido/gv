@@ -8,6 +8,7 @@ use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Exceptions\InvalidServiceException;
 use Gvera\Controllers\Index;
+use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * @class
@@ -220,7 +221,14 @@ class ControllerService
             );
         }
 
-        $controllerInstance->init();
+        $annotationService = $this->diContainer->get('annotationService');
+        $allowedHttpMethods = $annotationService->getAnnotationContentFromMethod(
+            get_class($controllerInstance),
+            $this->method,
+            AnnotationService::HTTP_ANNOTATION
+        );
+
+        $controllerInstance->init($allowedHttpMethods);
     }
 
     /**

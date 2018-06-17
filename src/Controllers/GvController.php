@@ -6,6 +6,7 @@ use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
+use Gvera\Exceptions\InvalidHttpMethodException;
 
 /**
  * Class GvController
@@ -59,25 +60,41 @@ abstract class GvController
         }
     }
 
-    protected function preInit()
-    {
-        if ($this->needsTwig()) {
-            $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
-            $this->twig = new \Twig_Environment($loader);
-        }
-    }
-
     /**
      * @throws \Exception
      */
-    public function init()
+    public function init($allowedHttpMethods = [])
     {
-        $this->preInit();
+        $this->preInit($allowedHttpMethods);
 
         $tmpM = $this->method;
         $this->$tmpM();
 
         $this->postInit();
+    }
+
+    protected function preInit($allowedHttpMethods)
+    {
+        $annotationService = $this->diContainer->get('annotationService');
+        $isHttpMethodValid = $annotationService->validateMethods(
+            $allowedHttpMethods,
+            $this->httpRequest
+        );
+
+        if (false === $isHttpMethodValid) {
+            throw new InvalidHttpMethodException(
+                'The http method used for this action is not supported',
+                [
+                    "httpMethod" => $this->httpRequest->getRequestType(),
+                    "allowedMethods" => $allowedHttpMethods
+                ]
+            );
+        }
+
+        if ($this->needsTwig()) {
+            $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
+            $this->twig = new \Twig_Environment($loader);
+        }
     }
 
     /**

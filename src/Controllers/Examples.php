@@ -9,6 +9,7 @@ use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Services\UserService;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\annotations\HttpMethodAnnotation;
 
 /**
  * Controller Class Doc Comment
@@ -56,6 +57,7 @@ class Examples extends GvController
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Exception
+     * @httpMethod("POST")
      */
     public function qwe()
     {
