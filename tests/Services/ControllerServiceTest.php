@@ -192,9 +192,6 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     private function getMockedConfig()
     {
         $config = $this->createMock(Config::class);
-        /*$config->expects($this->any())
-            ->method('__construct')
-            ->willReturn($config);*/
 
         return $config;
     }

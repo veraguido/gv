@@ -7,14 +7,19 @@ use Gvera\Helpers\http\HttpRequest;
 
 class AnnotationServiceTest extends TestCase
 {
+    private $service;
+
+    public function setUp()
+    {
+        $this->service = new AnnotationService();
+    }
     /**
      * @test
      * @expectedException ReflectionException
      */
     public function getAnnotationContentFromMethodTest()
     {
-        $service = new AnnotationService();
-        $methods = $service->getAnnotationContentFromMethod(
+        $methods = $this->service->getAnnotationContentFromMethod(
             Index::class,
             'index',
             AnnotationService::HTTP_ANNOTATION
@@ -22,7 +27,7 @@ class AnnotationServiceTest extends TestCase
 
         $this->assertTrue(count($methods) > 0);
 
-        $secondTest = $service->getAnnotationContentFromMethod(
+        $secondTest = $this->service->getAnnotationContentFromMethod(
             Index::class,
             'cachetype',
             AnnotationService::HTTP_ANNOTATION
@@ -30,7 +35,7 @@ class AnnotationServiceTest extends TestCase
 
         $this->assertTrue(count($secondTest) == 0);
 
-        $thirdTest = $service->getAnnotationContentFromMethod(
+        $this->service->getAnnotationContentFromMethod(
             Index::class,
             'test',
             AnnotationService::HTTP_ANNOTATION
@@ -43,7 +48,6 @@ class AnnotationServiceTest extends TestCase
     public function validateMethodsTest()
     {
         $methods = ["GET", "POST"];
-        $service = new AnnotationService();
 
         $httpRequest = $this->createMock(HttpRequest::class);
         $httpRequest->expects($this->any())
@@ -51,15 +55,15 @@ class AnnotationServiceTest extends TestCase
             ->willReturn('GET');
         
         $this->assertTrue(
-            $service->validateMethods($methods, $httpRequest)
+            $this->service->validateMethods($methods, $httpRequest)
         );
 
         $this->assertFalse(
-            $service->validateMethods(["PUT"], $httpRequest)
+            $this->service->validateMethods(["PUT"], $httpRequest)
         );
 
         $this->assertTrue(
-            $service->validateMethods([], $httpRequest)
+            $this->service->validateMethods([], $httpRequest)
         );
     }
 }

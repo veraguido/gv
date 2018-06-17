@@ -45,12 +45,7 @@ class CreateNewUserCommand implements CommandInterface
         $status = $this->entityManager->getRepository(UserStatus::class)->findOneBy(['status' => 'active']);
         $role = $this->entityManager->getRepository(UserRole::class)->findOneBy(['name' => 'user']);
 
-        $user = new User();
-        $user->setUsername($this->name);
-        $user->setPassword($this->password);
-        $user->setEmail($this->email);
-        $user->setStatus($status);
-        $user->setRole($role);
+        $user = $this->createNewUser($role, $status);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -63,5 +58,20 @@ class CreateNewUserCommand implements CommandInterface
                 $this->config->getConfig('devmode')
             )
         );
+    }
+
+    /**
+     * @return User
+     */
+    private function createNewUser($role, $status)
+    {
+        $user = new User();
+        $user->setUsername($this->name);
+        $user->setPassword($this->password);
+        $user->setEmail($this->email);
+        $user->setStatus($status);
+        $user->setRole($role);
+
+        return $user;
     }
 }
