@@ -187,15 +187,8 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             );
         }
 
-        if($type === 'annotationService') {
-            $annotationServiceMock = $this->createMock(AnnotationService::class);
-            $annotationServiceMock->expects($this->any())
-                ->method('validateMethods')
-                ->willReturn(true);
-            $annotationServiceMock->expects($this->any())
-                ->method('getAnnotationContentFromMethod')
-                ->willReturn([]);
-            return $annotationServiceMock;
+        if ($type === 'annotationService') {
+            return $this->getMockedAnnotationService();
         }
 
         $httpResponse = $this->createMock(HttpResponse::class);
@@ -211,5 +204,17 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         $config = $this->createMock(Config::class);
 
         return $config;
+    }
+
+    private function getMockedAnnotationService()
+    {
+        $annotationServiceMock = $this->createMock(AnnotationService::class);
+        $annotationServiceMock->expects($this->any())
+            ->method('validateMethods')
+            ->willReturn(true);
+        $annotationServiceMock->expects($this->any())
+            ->method('getAnnotationContentFromMethod')
+            ->willReturn([]);
+        return $annotationServiceMock;
     }
 }
