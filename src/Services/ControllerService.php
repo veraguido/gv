@@ -9,6 +9,7 @@ use Gvera\Exceptions\NotFoundException;
 use Gvera\Exceptions\InvalidServiceException;
 use Gvera\Controllers\Index;
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Runner\Exception;
 
 /**
  * @class
@@ -64,7 +65,7 @@ class ControllerService
         $uriPath = $this->uriData['path'];
 
         if (!isset($uriPath)) {
-            return;
+            throw new Exception('Url is malformed');
         }
 
         $uriArray = explode('/', $uriPath);
@@ -147,10 +148,6 @@ class ControllerService
         }
 
         if (isset($version)) {
-            if (!isset($this->controllerAutoloadingNames[$version])) {
-                throw new InvalidVersionException("the version does not exist");
-            }
-
             return $this->getAutoloadedControllerName($this->controllerAutoloadingNames[$version], $rawName);
         }
 

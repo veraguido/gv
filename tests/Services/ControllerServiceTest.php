@@ -42,6 +42,18 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
+     * @expectedException Exception
+     */
+    public function testEmptyUriPath()
+    {
+        $this->controllerService->startControllerLifecyle(
+            $this->getDiContainer(),
+            ["path" => null]
+        );
+    }
+
+    /**
+     * @test
      */
     public function testStartControllerLifeCycle()
     {
