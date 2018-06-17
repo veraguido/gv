@@ -15,9 +15,8 @@ class AnnotationServiceTest extends TestCase
     }
     /**
      * @test
-     * @expectedException ReflectionException
      */
-    public function getAnnotationContentFromMethodTest()
+    public function getAnnotationContentFromMethodHappyPathTest()
     {
         $methods = $this->service->getAnnotationContentFromMethod(
             Index::class,
@@ -26,7 +25,13 @@ class AnnotationServiceTest extends TestCase
         );
 
         $this->assertTrue(count($methods) > 0);
+    }
 
+    /**
+     * @test
+     */
+    public function getAnnotationContentFromMethodEmptyPathTest()
+    {
         $secondTest = $this->service->getAnnotationContentFromMethod(
             Index::class,
             'cachetype',
@@ -34,7 +39,14 @@ class AnnotationServiceTest extends TestCase
         );
 
         $this->assertTrue(count($secondTest) == 0);
+    }
 
+    /**
+     * @test
+     * @expectedException ReflectionException
+     */
+    public function getAnnotationContentFromMethodExceptionTest()
+    {
         $this->service->getAnnotationContentFromMethod(
             Index::class,
             'test',

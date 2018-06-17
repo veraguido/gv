@@ -38,7 +38,13 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(
             $this->controllerService->getMethodName() === "index"
         );
+    }
 
+    /**
+     * @test
+     */
+    public function testStartControllerLifeCycle()
+    {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
             ["path" => "/examples/asd"]
@@ -50,7 +56,6 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(
             $this->controllerService->getMethodName() === 'asd'
         );
-
     }
 
     /**
