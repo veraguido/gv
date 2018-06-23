@@ -41,7 +41,7 @@ class CreateNewUserCommand implements CommandInterface
      */
     public function execute()
     {
-        if(!$this->isCommandValid()) {
+        if (!$this->isCommandValid()) {
             throw new MissingArgumentsException(
                 'The command you are trying to run is missing mandatory arguments.'
             );
@@ -82,7 +82,7 @@ class CreateNewUserCommand implements CommandInterface
 
     private function isCommandValid()
     {
-        return 
+        return
             !empty($this->email) &&
             !empty($this->name) &&
             !empty($this->password);
@@ -92,7 +92,7 @@ class CreateNewUserCommand implements CommandInterface
      * Set the value of name
      *
      * @return  self
-     */ 
+     */
     public function setName($name)
     {
         $this->name = $name;
@@ -104,7 +104,7 @@ class CreateNewUserCommand implements CommandInterface
      * Set the value of password
      *
      * @return  self
-     */ 
+     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -116,7 +116,7 @@ class CreateNewUserCommand implements CommandInterface
      * Set the value of email
      *
      * @return  self
-     */ 
+     */
     public function setEmail($email)
     {
         $this->email = $email;
