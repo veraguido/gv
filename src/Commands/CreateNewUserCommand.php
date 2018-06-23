@@ -3,12 +3,14 @@ namespace Gvera\Commands;
 
 use Doctrine\ORM\Mapping\Entity;
 use Gvera\Events\UserRegisteredEvent;
-use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Models\User;
 use Gvera\Models\UserRole;
 use Gvera\Models\UserStatus;
 use Gvera\Commands\CommandInterface;
+use Gvera\Helpers\config\Config;
+use Gvera\Exceptions\MissingArgumentsException;
 
 /**
  * Command Class Doc Comment
@@ -18,8 +20,6 @@ use Gvera\Commands\CommandInterface;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- * @Inject config
- *
  */
 class CreateNewUserCommand implements CommandInterface
 {
@@ -27,13 +27,12 @@ class CreateNewUserCommand implements CommandInterface
     private $password;
     private $email;
     private $entityManager;
+    private $config;
 
-    public function __construct($name, $password, $email, EntityManager $entityManager)
+    public function __construct(Config $config, GvEntityManager $entityManager)
     {
-        $this->name = $name;
-        $this->password = $password;
-        $this->email = $email;
-        $this->entityManager = $entityManager->getInstance();
+        $this->config = $config;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -42,6 +41,12 @@ class CreateNewUserCommand implements CommandInterface
      */
     public function execute()
     {
+        if(!$this->isCommandValid()) {
+            throw new MissingArgumentsException(
+                'The command you are trying to run is missing mandatory arguments.'
+            );
+        }
+
         $status = $this->entityManager->getRepository(UserStatus::class)->findOneBy(['status' => 'active']);
         $role = $this->entityManager->getRepository(UserRole::class)->findOneBy(['name' => 'user']);
 
@@ -73,5 +78,49 @@ class CreateNewUserCommand implements CommandInterface
         $user->setRole($role);
 
         return $user;
+    }
+
+    private function isCommandValid()
+    {
+        return 
+            !empty($this->email) &&
+            !empty($this->name) &&
+            !empty($this->password);
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @return  self
+     */ 
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
     }
 }

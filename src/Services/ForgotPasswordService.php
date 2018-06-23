@@ -3,7 +3,7 @@
 namespace Gvera\Services;
 
 use Gvera\Events\ForgotPasswordCreatedEvent;
-use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
@@ -18,9 +18,9 @@ class ForgotPasswordService
     private $repository;
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(GvEntityManager $entityManager)
     {
-        $this->entityManager = $entityManager->getInstance();
+        $this->entityManager = $entityManager;
         $this->repository = $this->entityManager->getRepository(ForgotPassword::class);
     }
 

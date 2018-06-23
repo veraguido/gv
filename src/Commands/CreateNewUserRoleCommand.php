@@ -1,7 +1,7 @@
 <?php
 namespace Gvera\Commands;
 
-use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Models\UserRole;
 use Gvera\Commands\CommandInterface;
 
@@ -24,7 +24,7 @@ class CreateNewUserRoleCommand implements CommandInterface
     public function __construct($name, $priority, EntityManager $entityManager)
     {
         $this->roleName = $name;
-        $this->entityManager = $entityManager->getInstance();
+        $this->entityManager = $entityManager;
         $this->priority = $priority;
     }
 

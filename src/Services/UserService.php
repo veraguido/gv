@@ -1,6 +1,6 @@
 <?php namespace Gvera\Services;
 
-use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\validation\EmailValidationStrategy;
@@ -54,7 +54,7 @@ class UserService
      */
     public function login($username, $password)
     {
-        $repository = $this->entityManager->getInstance()->getRepository(User::class);
+        $repository = $this->entityManager->getRepository(User::class);
         $user = $repository->findOneBy(['username' => $username]);
 
         if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {

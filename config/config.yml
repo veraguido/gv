@@ -2,6 +2,7 @@ config:
   devmode: true
   mysql:
     host: mysql
+    driver: pdo_mysql
     db_name: gv
     username: root
     password: root

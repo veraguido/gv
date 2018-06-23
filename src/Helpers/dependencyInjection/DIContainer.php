@@ -55,8 +55,8 @@ class DIContainer implements ContainerInterface
     {
         $replacedArguments = $arguments;
         foreach ($arguments as $index => $argument) {
-            if (!is_string($argument)) {
-                break;
+            if (is_array($argument)) {
+                return $this->getDIarguments($argument);
             }
 
             if (strpos($argument, "@") !== false) {

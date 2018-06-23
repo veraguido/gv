@@ -1,6 +1,5 @@
 <?php namespace Gvera\Controllers;
 
-use Doctrine\ORM\EntityManager;
 use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
@@ -16,7 +15,7 @@ use Gvera\Exceptions\InvalidHttpMethodException;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
  * Base controller to be used as a parent of all controllers, manages http objects,
- * the entityManager and the responsibility of loading twig or not.
+ * and the responsibility of loading twig or not.
  */
 abstract class GvController
 {
@@ -27,7 +26,6 @@ abstract class GvController
     protected $viewParams = array();
     protected $httpResponse;
     protected $httpRequest;
-    protected $entityManager;
     protected $diContainer;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';

@@ -61,18 +61,15 @@ class Examples extends GvController
      */
     public function qwe()
     {
-        if ($this->httpRequest->isPost()) {
-            $registerUserCommand = new CreateNewUserCommand(
-                $this->httpRequest->getParameter('username'),
-                $this->httpRequest->getParameter('password'),
-                $this->httpRequest->getParameter('email'),
-                $this->getEntityManager()
-            );
+        $registerUserCommand = $this->getCreateNewUserCommand();
+        $registerUserCommand
+            ->setName($this->httpRequest->getParameter('username'))
+            ->setEmail($this->httpRequest->getParameter('email'))
+            ->setPassword($this->httpRequest->getParameter('password'));
+                
+        $registerUserCommand->execute();
 
-            $registerUserCommand->execute();
-
-            $this->httpRequest->moveFileToDirectory("/tmp/", 'avatar-pic');
-        }
+        $this->httpRequest->moveFileToDirectory("/tmp/", 'avatar-pic');
     }
 
     public function lorep()

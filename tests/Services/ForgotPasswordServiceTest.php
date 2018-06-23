@@ -1,12 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Gvera\Helpers\entities\EntityManager;
 use Gvera\Services\ForgotPasswordService;
 use Doctrine\ORM\EntityRepository;
 use Gvera\Models\User;
 use Gvera\Models\ForgotPassword;
 use Gvera\Helpers\session\Session;
+use Gvera\Helpers\entities\GvEntityManager;
 
 class ForgotPasswordServiceTest extends TestCase
 {
@@ -105,23 +105,18 @@ class ForgotPasswordServiceTest extends TestCase
 
     private function getMockedEntityManager($repo, $additionalChecks = [])
     {
-        $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
-        $doctrineEm->expects($this->any())
+        $gvEntityManager = $this->createMock(GvEntityManager::class);
+        $gvEntityManager->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(ForgotPassword::class))
             ->willReturn($repo);
         
         foreach ($additionalChecks as $check) {
-            $doctrineEm->expects($this->once())
+            $gvEntityManager->expects($this->once())
                 ->method($check);
         }
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $entityManager->expects($this->any())
-            ->method('getInstance')
-            ->willReturn($doctrineEm);
-
-        return $entityManager;
+        return $gvEntityManager;
     }
 
     private function getMockedSession()

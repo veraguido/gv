@@ -1,7 +1,7 @@
 <?php
 namespace Gvera\Commands;
 
-use Gvera\Helpers\entities\EntityManager;
+use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Models\UserStatus;
 use Gvera\Commands\CommandInterface;
 
@@ -21,10 +21,10 @@ class CreateUserStatusCommand implements CommandInterface
     private $statusName;
     private $entityManager;
 
-    public function __construct($statusName, EntityManager $entityManager)
+    public function __construct($statusName, GvEntityManager $entityManager)
     {
         $this->statusName = $statusName;
-        $this->entityManager = $entityManager->getInstance();
+        $this->entityManager = $entityManager;
     }
 
     /**

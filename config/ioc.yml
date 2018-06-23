@@ -47,7 +47,7 @@ entities:
   classPath: Gvera\Helpers\entities\
   objects:
     entityManager:
-      class: EntityManager
+      class: GvEntityManager
       singleton: true
       arguments:
         "@config"
@@ -80,12 +80,17 @@ annotations:
       singleton: true
 
 commands:
-    classPath: Gvera\Commands\
-    objects:
-      loginCommand:
-        class: LoginCommand
-        arguments:
-          "@userService"
+  classPath: Gvera\Commands\
+  objects:
+    loginCommand:
+      class: LoginCommand
+      arguments:
+        "@userService"
+    createNewUserCommand:
+      class: CreateNewUserCommand
+      arguments:
+        - "@config"
+        - "@entityManager"
 
 listeners:
   classPath: Gvera\Listeners\

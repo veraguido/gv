@@ -3,8 +3,8 @@
 use Gvera\Models\User;
 use Gvera\Models\UserRole;
 use Doctrine\ORM\EntityRepository;
-use Gvera\Helpers\entities\EntityManager;
 use Gvera\Helpers\session\Session;
+use Gvera\Helpers\entities\GvEntityManager;
 
 class UserServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -60,16 +60,10 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
             ->method('findOneBy')
             ->willReturn($user);
 
-        $doctrineEm = $this->createMock(Doctrine\ORM\EntityManager::class);
-        $doctrineEm->expects($this->any())
+        $gvEntityManager = $this->createMock(GvEntityManager::class);
+        $gvEntityManager->expects($this->any())
             ->method('getRepository')
             ->willReturn($repo);
-
-        $em = $this->createMock(EntityManager::class);
-        $em->expects($this->any())
-            ->method('getInstance')
-            ->willReturn($doctrineEm);
-
         
         $session = $this->createMock(Session::class);
         $session->expects($this->any())
@@ -83,7 +77,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
             ->willReturn(['role' => $role->getRolePriority(), 'username' => $user->getUsername()]);
             
 
-        $this->userService->entityManager = $em;
+        $this->userService->entityManager = $gvEntityManager;
         $this->userService->session = $session;
 
         $this->userService->login($user->getUsername(), $passHash);
