@@ -10,8 +10,6 @@ use Gvera\Exceptions\InvalidVersionException;
 use Gvera\Helpers\dependencyInjection\DIRegistry;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Helpers\events\EventListenerRegistry;
-use Gvera\Helpers\http\HttpRequest;
-use Gvera\Helpers\routes\RouteManager;
 use Gvera\Helpers\http\HttpResponse;
 use Gvera\Exceptions\GvException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
@@ -38,30 +36,13 @@ class Gvera
     private $controllerService;
 
     /**
-     * Gvera constructor.
-     * @throws \ReflectionException
-     */
-    public function __construct()
-    {
-        $this->diContainer = new DIContainer();
-        $diRegistry = new DIRegistry($this->diContainer);
-        $diRegistry->registerObjects();
-
-        $this->routeManager = new RouteManager($this->diContainer->get('httpRequest'));
-
-        $eventRegistry = $this->diContainer->get("eventListenerRegistry");
-        $eventRegistry->registerEventListeners();
-
-        $this->controllerService = $this->diContainer->get('controllerService');
-        $this->controllerService->setDiContainer($this->diContainer);
-    }
-
-    /**
      * @throws \Exception
      * Application's entry point
      */
     public function run()
     {
+        $this->initializeApp();
+
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
@@ -69,7 +50,6 @@ class Gvera
 
     public function handleThrowable(\Throwable $e, $isDevMode)
     {
-
         EventDispatcher::dispatchEvent(
             ThrowableFiredEvent::THROWABLE_FIRED_EVENT,
             new ThrowableFiredEvent(
@@ -78,6 +58,8 @@ class Gvera
                 $this->diContainer->get('httpResponse')
             )
         );
+
+        $this->redirectToDefault();
     }
 
     /**
@@ -87,6 +69,36 @@ class Gvera
     public function redirectToDefault()
     {
         $this->controllerService->redirectToDefault($this->diContainer);
+    }
+
+    /**
+     * @throws \ReflectionException
+     * @return void
+     */
+    private function initializeApp()
+    {
+        //Needed try catch for when typos are added to ioc.yml
+        //In that case the eventListenerRegistry is not registered
+        //and Throwable cannot be handled.
+        try {
+            $this->initializeDependencyInjection();
+            $eventRegistry = $this->diContainer->get("eventListenerRegistry");
+            $eventRegistry->registerEventListeners();
+        } catch (\Throwable $t) {
+            die($t);
+        }
+
+        $this->routeManager = $this->diContainer->get("routeManager");
+
+        $this->controllerService = $this->diContainer->get('controllerService');
+        $this->controllerService->setDiContainer($this->diContainer);
+    }
+
+    private function initializeDependencyInjection()
+    {
+        $this->diContainer = new DIContainer();
+        $diRegistry = new DIRegistry($this->diContainer);
+        $diRegistry->registerObjects();
     }
 
     /**

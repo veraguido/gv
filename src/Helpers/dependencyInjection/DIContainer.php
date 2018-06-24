@@ -147,7 +147,7 @@ class DIContainer implements ContainerInterface
     private function checkClassExist($className)
     {
         if (!class_exists($className)) {
-            throw new ClassNotFoundInDIContainerException("DI: missing class", array($className));
+            throw new ClassNotFoundInDIContainerException("DI: missing class $className", array($className));
         }
     }
 

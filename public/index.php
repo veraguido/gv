@@ -19,5 +19,4 @@ try {
     $app->run();
 } catch(\Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
-    $app->redirectToDefault();
 }

@@ -26,13 +26,11 @@ http:
   objects:
     fileManager:
       class: FileManager
-      arguments:
-        "@config"
+      arguments: "@config"
     httpRequest:
       class: HttpRequest
       singleton: true
-      arguments:
-        "@fileManager"
+      arguments: "@fileManager"
     httpResponse:
       class: HttpResponse
       singleton: true
@@ -49,8 +47,7 @@ entities:
     entityManager:
       class: GvEntityManager
       singleton: true
-      arguments:
-        "@config"
+      arguments: "@config"
 
 dispatcher:
   classPath: Gvera\Helpers\events\
@@ -67,10 +64,16 @@ services:
       singleton: true
     forgotPasswordService:
       class: ForgotPasswordService
-      arguments:
-        "@entityManager"
+      arguments: "@entityManager"
     controllerService:
       class: ControllerService
+
+routes:
+  classPath: Gvera\Helpers\routes\
+  objects:
+    routeManager:
+      class: RouteManager
+      arguments: "@httpRequest"
 
 annotations:
   classPath: Gvera\Helpers\annotations\
@@ -97,8 +100,7 @@ listeners:
   objects:
     userRegisteredEmailListener:
       class: UserRegisteredEmailListener
-      arguments:
-        "@email"
+      arguments: "@email"
     throwableListener:
       class: ThrowableListener  
 
