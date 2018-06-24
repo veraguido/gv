@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../config/locale_setup.php';
-use \Gvera\Events\ThrowableFiredEvent;
-use \Gvera\Helpers\events\EventDispatcher;
 
 // DEV MODE
 $config = new Gvera\Helpers\config\Config();
@@ -16,7 +14,7 @@ if ($isDevMode) {
 
 try {
     $app = new Gvera\Gvera();
-    $app->run();
+    $app->run($isDevMode);
 } catch(\Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
 }

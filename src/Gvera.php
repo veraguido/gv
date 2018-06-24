@@ -39,9 +39,9 @@ class Gvera
      * @throws \Exception
      * Application's entry point
      */
-    public function run()
+    public function run($isDevMode)
     {
-        $this->initializeApp();
+        $this->initializeApp($isDevMode);
 
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
@@ -85,7 +85,9 @@ class Gvera
             $eventRegistry = $this->diContainer->get("eventListenerRegistry");
             $eventRegistry->registerEventListeners();
         } catch (\Throwable $t) {
-            die($t);
+            if(true === $isDevMode) {
+                die($t);
+            }
         }
 
         $this->routeManager = $this->diContainer->get("routeManager");
