@@ -85,7 +85,7 @@ class Gvera
             $eventRegistry = $this->diContainer->get("eventListenerRegistry");
             $eventRegistry->registerEventListeners();
         } catch (\Throwable $t) {
-            if(true === $isDevMode) {
+            if (true === $isDevMode) {
                 die($t);
             }
         }
