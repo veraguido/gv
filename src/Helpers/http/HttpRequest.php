@@ -29,6 +29,7 @@ class HttpRequest
     }
 
     /**
+     * @param $name
      * @return mixed
      */
     public function getParameter($name)
@@ -47,6 +48,7 @@ class HttpRequest
     }
 
     /**
+     * @param $name
      * @return mixed
      */
     public function post($name = null)
@@ -56,7 +58,7 @@ class HttpRequest
     }
 
     /**
-     * @return mixed
+     * @param $name
      */
     public function put($name = null)
     {
@@ -64,7 +66,7 @@ class HttpRequest
     }
 
     /**
-     * @return mixed
+     * @param $name
      */
     public function delete($name = null)
     {
@@ -72,6 +74,7 @@ class HttpRequest
     }
 
     /**
+     * @param $name
      * @return mixed
      */
     private function getPutDeleteParameter($name)
@@ -136,9 +139,11 @@ class HttpRequest
     }
 
     /**
+     * @param $directory
+     * @param $uploadedFileName
      * @return bool
-     * @throws InvalidFileTypeException
-     * @throws NotFoundException
+     * @throws \Gvera\Exceptions\InvalidFileTypeException
+     * @throws \Gvera\Exceptions\NotFoundException
      */
     public function moveFileToDirectory($directory, $uploadedFileName)
     {

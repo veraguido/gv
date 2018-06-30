@@ -13,11 +13,10 @@
 class ValidationService
 {
     /**
-     * This function will run validation strategies on a specific field, an array of validation strategies
-     * are needed for the second parameter.
      * @param $field
      * @param $validationStrategies
      * @return bool
+     * @throws \Exception
      */
     public static function validate($field, $validationStrategies)
     {

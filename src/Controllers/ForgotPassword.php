@@ -1,13 +1,12 @@
 <?php
 namespace Gvera\Controllers;
 
-use Gvera\Helpers\session\Session;
+use Gvera\Models\User;
 
 /**
  * Class ForgotPassword
  * @package Gvera\Controllers
  * @method getForgotPasswordService
- * @Inject session
  */
 class ForgotPassword extends GvController
 {
@@ -26,10 +25,11 @@ class ForgotPassword extends GvController
         }
 
         $forgotPassService = $this->getForgotPasswordService();
+        $entityManager = $this->getEntityManager();
 
         $email = $this->httpRequest->getParameter('email');
 
-        $userRepository = $this->entityManager->getRepository(User::class);
+        $userRepository = $entityManager->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => $email]);
 
         if ($forgotPassService->validateNewForgotPassword($user)) {
@@ -58,14 +58,15 @@ class ForgotPassword extends GvController
      */
     public function regenerate()
     {
-        if (!($this->session->get('forgot_password')) || !$this->httpRequest->isPost()) {
-            $this->session->destroy();
+        $session = $this->getSession();
+        if (!($session->get('forgot_password')) || !$this->httpRequest->isPost()) {
+            $session->destroy();
             $this->redirectToIndex();
         }
 
         $forgotPasswordService = $this->diContainer->get("forgotPasswordService");
         $forgotPasswordService->regeneratePassword(
-            $this->session->get('forgot_password'),
+            $session->get('forgot_password'),
             $this->httpRequest->getParameter('new_password')
         );
     }

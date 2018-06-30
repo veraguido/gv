@@ -28,8 +28,10 @@ class ControllerService
     private $diContainer;
 
     /**
+     * @param $diContainer
+     * @param $uriData
+     * @throws \Exception
      * @return void
-     * start the controllerLifeCycle
      */
     public function startControllerLifecyle($diContainer, $uriData)
     {
@@ -39,6 +41,9 @@ class ControllerService
     }
 
     /**
+     * @param $controllerName
+     * @param $methodName
+     * @throws \Exception
      * @return void
      */
     public function generateSpecificControllerLifeCycle($controllerName, $methodName)
@@ -47,6 +52,8 @@ class ControllerService
     }
 
     /**
+     * @param $diContainer
+     * @throws \Exception
      * @return void
      */
     public function redirectToDefault($diContainer)
@@ -58,6 +65,7 @@ class ControllerService
     }
 
     /**
+     * @throws \Exception
      * @return void
      */
     private function generateRegularControllerLifecycle()
@@ -91,7 +99,9 @@ class ControllerService
     }
 
     /**
-     * @return void
+     * @param $uriArray
+     * @param $apiVersions
+     * @throws \Exception
      */
     private function generateControllerLifeCycleBasedOnGivenData($uriArray, $apiVersions)
     {

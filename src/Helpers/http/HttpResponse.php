@@ -12,11 +12,13 @@ class HttpResponse
     const CONTENT_TYPE_PDF = "Content-Type: application/pdf";
     const CONTENT_TYPE_PLAIN_TEXT = "Content-Type: text/plain";
     const CONTENT_TYPE_XML = "Content-Type: text/xml";
-
     const HTTP_RESPONSE_NOT_FOUND = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
 
+    /**
+     * @param $url
+     */
     public function redirect($url)
     {
         header("Location: " . $url);
@@ -37,6 +39,9 @@ class HttpResponse
         $this->setHeader(self::HTTP_RESPONSE_UNAUTHORIZED);
     }
 
+    /**
+     * @param $header
+     */
     public function setHeader($header)
     {
         header($header);
@@ -47,6 +52,9 @@ class HttpResponse
         exit;
     }
 
+    /**
+     * @param $message
+     */
     public function terminate($message)
     {
         die($message);
@@ -77,6 +85,10 @@ class HttpResponse
         $this->setHeader(self::CONTENT_TYPE_PDF);
     }
 
+    /**
+     * @param int $errorCode
+     * @param string $message
+     */
     public function printError(int $errorCode, string $message)
     {
         echo json_encode(

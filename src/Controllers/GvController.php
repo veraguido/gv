@@ -1,11 +1,9 @@
 <?php namespace Gvera\Controllers;
 
+use Gvera\Exceptions\InvalidHttpMethodException;
 use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
-use Gvera\Helpers\http\HttpRequest;
-use Gvera\Helpers\http\HttpResponse;
-use Gvera\Exceptions\InvalidHttpMethodException;
 
 /**
  * Class GvController
@@ -35,6 +33,7 @@ abstract class GvController
 
     /**
      * GvController constructor.
+     * @param DIContainer $diContainer
      * @param $controllerName
      * @param string $method
      * @throws \Exception
@@ -71,6 +70,11 @@ abstract class GvController
         $this->postInit();
     }
 
+    /**
+     * @param $allowedHttpMethods
+     * @throws InvalidHttpMethodException
+     * @throws \ReflectionException
+     */
     protected function preInit($allowedHttpMethods)
     {
         $annotationUtil = $this->diContainer->get('annotationUtil');
@@ -133,6 +137,10 @@ abstract class GvController
     }
 
     /**
+     * @param $name
+     * @param $arguments
+     * @return object
+     * @throws \ReflectionException
      * using magic methods to retrieve from DIContainer
      */
     public function __call($name, $arguments)

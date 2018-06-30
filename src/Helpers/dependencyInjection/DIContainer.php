@@ -49,6 +49,7 @@ class DIContainer implements ContainerInterface
     /**
      * @param $arguments
      * @return object
+     * @throws \ReflectionException
      * Will instanciate and return the arguments with the instance of classes injected.
      */
     private function getDIarguments($arguments)

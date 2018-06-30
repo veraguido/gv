@@ -38,6 +38,7 @@ class FileManager
     /**
      * @param $name
      * @return File
+     * @throws NotFoundException
      */
     public function getByName($name): File
     {

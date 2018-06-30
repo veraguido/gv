@@ -21,6 +21,7 @@ abstract class GvModel
     /**
      * @return mixed
      * @throws InvalidServiceException
+     * @throws \ReflectionException
      */
     protected function getService()
     {

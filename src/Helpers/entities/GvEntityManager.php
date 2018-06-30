@@ -20,8 +20,9 @@ use Doctrine\Common\EventManager;
 class GvEntityManager extends EntityManager
 {
     /**
-     * EntityManager constructor.
-     * @throws \Doctrine\ORM\ORMException
+     * GvEntityManager constructor.
+     * @param Config $config
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(Config $config)
     {

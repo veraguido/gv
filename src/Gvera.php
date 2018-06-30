@@ -48,6 +48,11 @@ class Gvera
         $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
 
+    /**
+     * @param \Throwable $e
+     * @param $isDevMode
+     * @throws \Exception
+     */
     public function handleThrowable(\Throwable $e, $isDevMode)
     {
         EventDispatcher::dispatchEvent(
@@ -72,10 +77,9 @@ class Gvera
     }
 
     /**
-     * @throws \ReflectionException
-     * @return void
+     * @param $isDevMode
      */
-    private function initializeApp()
+    private function initializeApp($isDevMode)
     {
         //Needed try catch for when typos are added to ioc.yml
         //In that case the eventListenerRegistry is not registered
@@ -188,7 +192,7 @@ class Gvera
     private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
     {
         if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
-            return;
+            return null;
         }
 
         if (is_dir($scanDirectory . $autoloadingName)) {
