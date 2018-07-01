@@ -13,6 +13,7 @@ class ThrowableListener implements EventListenerInterface
     public $logger;
 
     /**
+     * @param $event
      * @return void
      */
     public function handleEvent($event)

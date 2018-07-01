@@ -8,9 +8,8 @@ $config = new Gvera\Helpers\config\Config();
 $isDevMode = $config->getConfig('devmode');
 ini_set('display_errors', $isDevMode);
 ini_set('display_startup_errors', $isDevMode);
-if ($isDevMode) {
-    error_reporting(E_ALL);
-}
+$reporting = (true === $isDevMode) ? E_ALL : 0;
+error_reporting($reporting);
 
 try {
     $app = new Gvera\Gvera();
