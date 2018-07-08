@@ -8,6 +8,6 @@ class Index extends GvController
 {
     public function index()
     {
-        echo "2nd level index";
+        $this->httpResponse->response("2nd level index");
     }
 }

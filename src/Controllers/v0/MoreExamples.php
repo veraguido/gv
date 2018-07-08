@@ -7,11 +7,11 @@ class MoreExamples extends GvController
 {
     public function index()
     {
-        echo "2nd level controller!";
+        $this->httpResponse->response("2nd level controller!");
     }
 
     public function other()
     {
-        echo "another!";
+        $this->httpResponse->response("another!");
     }
 }

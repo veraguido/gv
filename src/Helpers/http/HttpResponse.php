@@ -1,5 +1,8 @@
 <?php namespace Gvera\Helpers\http;
 
+use Gvera\Exceptions\NotImplementedMethodException;
+use Gvera\Helpers\transformers\TransformerAbstract;
+
 /**
  * Class HttpResponse
  * @package Gvera\Helpers\http
@@ -16,6 +19,20 @@ class HttpResponse
     const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
 
+    /**
+     * @param string|array|TransformerAbstract $response
+     * @return void
+     * @throws NotImplementedMethodException
+     */
+    public function response($response)
+    {
+        if (is_a($response, TransformerAbstract::class)) {
+            echo json_encode($response->transform());
+            return;
+        }
+
+        echo is_array($response) ? json_encode($response) : $response;
+    }
     /**
      * @param $url
      */
@@ -91,11 +108,6 @@ class HttpResponse
      */
     public function printError(int $errorCode, string $message)
     {
-        echo json_encode(
-            array(
-                'code' => $errorCode,
-                 'message' => $message
-            )
-        );
+        $this->response(['code' => $errorCode, 'message' => $message]);
     }
 }

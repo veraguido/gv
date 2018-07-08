@@ -13,7 +13,7 @@ $isDevMode = $config->getConfig('devmode');
 $mysqlConfig = $config->getConfig('mysql');
 // the connection configuration
 $dbParams = array(
-    'driver'   => 'pdo_mysql',
+    'driver'   => $mysqlConfig['driver'],
     'host'     => $mysqlConfig['host'],
     'user'     => $mysqlConfig['username'],
     'password' => $mysqlConfig['password'],

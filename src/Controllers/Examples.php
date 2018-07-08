@@ -7,6 +7,8 @@ use Gvera\Commands\CreateNewUserCommand;
 use Gvera\Commands\LoginCommand;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
+use Gvera\Helpers\transformers\UserTransformer;
+use Gvera\Models\User;
 use Gvera\Services\UserService;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\annotations\HttpMethodAnnotation;
@@ -25,9 +27,6 @@ class Examples extends GvController
 {
     public function index()
     {
-        //echo phpinfo();
-        //$this->httpResponse->redirect("/Cars/tiju");
-        //$this->httpResponse->notFound();
     }
 
     /**
@@ -51,7 +50,7 @@ class Examples extends GvController
 
     public function asd()
     {
-        echo "trough routes.yml";
+        $this->httpResponse->response("trough routes.yml");
     }
 
     /**
@@ -74,6 +73,20 @@ class Examples extends GvController
 
     public function lorep()
     {
-        echo Locale::getLocale("Hello world");
+        $this->httpResponse->reponse(Locale::getLocale("Hello world"));
+    }
+
+    /**
+     * Before executing this method, be sure to have a user with username 'asda' in your database
+     * @httpMethod("GET")
+     */
+    public function transformer()
+    {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(User::class);
+        $user = $repository->findOneBy(['username' => 'asda']);
+
+        $this->httpResponse->asJson();
+        $this->httpResponse->response(new UserTransformer($user));
     }
 }

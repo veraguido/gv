@@ -105,7 +105,12 @@ abstract class GvController
     protected function postInit()
     {
         if ($this->needsTwig()) {
-            echo $this->twig->render('/'.$this->name . '/' . $this->method . '.twig.html', $this->viewParams);
+            $this->httpResponse->response(
+                $this->twig->render(
+                    '/' . $this->name . '/' . $this->method . '.twig.html',
+                    $this->viewParams
+                )
+            );
             return;
         }
 

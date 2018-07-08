@@ -21,7 +21,7 @@ class CreateNewUserRoleCommand implements CommandInterface
     private $priority;
     private $entityManager;
 
-    public function __construct($name, $priority, EntityManager $entityManager)
+    public function __construct($name, $priority, GvEntityManager $entityManager)
     {
         $this->roleName = $name;
         $this->entityManager = $entityManager;

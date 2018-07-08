@@ -21,7 +21,7 @@ class UserStatuses extends GvController
 {
     public function index()
     {
-        echo 'userstatuses';
+        $this->httpResponse->response('userstatuses');
     }
 
     /**

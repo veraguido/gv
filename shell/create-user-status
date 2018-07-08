@@ -15,7 +15,7 @@ usage example: ./create-user-status active
 echo $argv[1];
 try {
     $config = new \Gvera\Helpers\config\Config();
-    $entityManager = new \Gvera\Helpers\entities\EntityManager($config);
+    $entityManager = new \Gvera\Helpers\entities\GvEntityManager($config);
     $command = new \Gvera\Commands\CreateUserStatusCommand($argv[1], $entityManager);
     $command->execute();
 } catch (Exception $e) {
