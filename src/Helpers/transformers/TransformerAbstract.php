@@ -16,8 +16,7 @@ class TransformerAbstract
     }
 
     /**
-     * @param $object
-     * @param null $context
+     * always override this method to implement your own transformation
      * @return array
      * @throws NotImplementedMethodException
      */
