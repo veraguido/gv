@@ -41,8 +41,6 @@ class ThrowableListenerTest extends TestCase
     private function getMockedHttpResponse()
     {
         $httpResponse = $this->createMock(HttpResponse::class);
-        $httpResponse->expects($this->exactly(1))
-            ->method('asJson');
 
         $httpResponse->expects($this->exactly(1))
             ->method('terminate');
