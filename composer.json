@@ -15,7 +15,6 @@
         }
     },
     "require": {
-        "php": "^7.0",
         "monolog/monolog":          "1.0.*",
         "psr/container":            "1.0.0",
         "twig/twig":                "2.0",
