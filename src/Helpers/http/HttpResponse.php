@@ -31,7 +31,7 @@ class HttpResponse
             return;
         }
 
-        echo is_array($response) ? json_encode($response) : $response;
+        echo is_array($response) ? json_encode($response) : (string) $response;
     }
     /**
      * @param $url

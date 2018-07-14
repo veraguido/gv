@@ -1,9 +1,11 @@
 <?php namespace Gvera\Controllers;
 
+use Gvera\Exceptions\InvalidCSRFException;
 use Gvera\Exceptions\InvalidHttpMethodException;
 use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\security\CSRFToken;
 
 /**
  * Class GvController
@@ -122,23 +124,71 @@ abstract class GvController
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function needsTwig()
     {
         return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.twig.html');
     }
 
+    /**
+     * @param int $errorCode
+     * @param string $message
+     */
     protected function badRequestWithError(int $errorCode, string $message)
     {
         $this->httpResponse->asJson();
         $this->httpResponse->badRequest();
         $this->httpResponse->printError($errorCode, $message);
     }
-    
+
+    /**
+     * @param int $errorCode
+     * @param string $message
+     */
     protected function unauthorizedWithError(int $errorCode, string $message)
     {
         $this->httpResponse->asJson();
         $this->httpResponse->unauthorized();
         $this->httpResponse->printError($errorCode, $message);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function checkAuthorization(): bool
+    {
+        return $this->getUserService()->isUserLoggedIn();
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateCSRFToken(): string
+    {
+        $session = $this->getSession();
+        $token  = $this->getCsrfFactory()->createToken();
+        $session->set(CSRFToken::ID, $token->getTokenValue());
+
+        return $token->getTokenValue();
+    }
+
+    /**
+     * @param $requestToken
+     * @return bool
+     * @throws InvalidCSRFException
+     */
+    protected function validateCSRFToken($requestToken)
+    {
+        $session = $this->getSession();
+        $sessionToken = $session->get(CSRFToken::ID);
+        if (false === hash_equals($requestToken, $sessionToken)) {
+            throw new InvalidCSRFException(
+                "csrf tokens do not match",
+                ['session token' => $sessionToken, 'form token' => $requestToken]
+            );
+        }
     }
 
     /**

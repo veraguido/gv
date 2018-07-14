@@ -27,11 +27,13 @@ class Examples extends GvController
 {
     public function index()
     {
+        $this->viewParams = ['csrf' => $this->generateCSRFToken()];
     }
 
     /**
      * @throws \Exception
      * @method $this->diContainer->get('loginCommand');
+     *
      */
     public function login()
     {
@@ -44,7 +46,7 @@ class Examples extends GvController
 
     public function logout()
     {
-        $userService = new UserService();
+        $userService = $this->getUserService();
         $userService->logout();
     }
 
@@ -60,6 +62,7 @@ class Examples extends GvController
      */
     public function qwe()
     {
+        $this->validateCSRFToken($this->httpRequest->getParameter('csrf'));
         $registerUserCommand = $this->getCreateNewUserCommand();
         $registerUserCommand
             ->setName($this->httpRequest->getParameter('username'))
@@ -88,5 +91,10 @@ class Examples extends GvController
 
         $this->httpResponse->asJson();
         $this->httpResponse->response(new UserTransformer($user));
+    }
+
+    public function authTest()
+    {
+        $this->httpResponse->response($this->checkAuthorization());
     }
 }

@@ -21,7 +21,6 @@ class ThrowableListener implements EventListenerInterface
         $throwable = $event->getThrowable();
         if ($event->isDevMode()) {
             $httpResponse = $event->getHttpResponse();
-            $httpResponse->asJson();
             $httpResponse->terminate($event->getThrowable()->getMessage());
             return;
         }

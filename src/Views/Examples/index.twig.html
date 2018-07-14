@@ -1,6 +1,7 @@
 <form action="/examples/qwe" method="POST" enctype="multipart/form-data">
     <input type="text" name="username" placeholder="Input the desired username" />
     <input type="email" name="email" placeholder="asd@asd.com" />
+    <input type="hidden" name="csrf" value="{{csrf}}" />
     <input type="password" name="password" />
     <input type="file" name="avatar-pic" />
     <input type="submit" />

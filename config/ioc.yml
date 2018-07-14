@@ -109,4 +109,11 @@ events:
   objects:
     eventListenerRegistry:
       class: EventListenerRegistry
+
+security:
+  classPath: Gvera\Helpers\security\
+  objects:
+    csrfFactory:
+      class: CSRFFactory
+      singleton: true
       
