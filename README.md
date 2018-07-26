@@ -2,7 +2,7 @@
 Travis: [![Build Status](https://travis-ci.org/veraguido/gv.svg?branch=master)](https://travis-ci.org/veraguido/gv) 
 Scrutinizer: [![Build Status](https://scrutinizer-ci.com/g/veraguido/gv/badges/build.png?b=master)](https://scrutinizer-ci.com/g/veraguido/gv/build-status/master) <img src="https://scrutinizer-ci.com/g/veraguido/gv/badges/quality-score.png?b=master" alt="scrutinizer-value"> 
 [![codecov](https://codecov.io/gh/veraguido/gv/branch/master/graph/badge.svg)](https://codecov.io/gh/veraguido/gv)
-<img src="https://img.shields.io/badge/PHP-7-3498db.svg" alt="PHP 7" title="PHP 7"> <img src="https://img.shields.io/badge/Licence-MIT-f6ca19.svg" alt="LICENSE" title="LICENSE"> 
+<img src="https://img.shields.io/badge/Licence-MIT-f6ca19.svg" alt="LICENSE" title="LICENSE"> 
 
 
 GV is a PHP framework focused on usability, fastness and reliableness.
