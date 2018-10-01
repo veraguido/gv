@@ -1,7 +1,6 @@
 #!/usr/bin/php -q
 <?php
 
-
 if (count($argv) < 2){
     echo 'wrong amount of parameters for this command';?>
 

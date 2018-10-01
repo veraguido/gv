@@ -18,11 +18,6 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-if [ $1 = "create-model" ]; then
-    shell/create-model
-    exit 1
-fi
-
 if [ $1 = "list-tasks" ]; then
     docker exec -t gv_app_1 sh -c "crontab -l"
     exit 1
@@ -42,4 +37,4 @@ if [ $1 = "start" ]; then
     exit 1
 fi
 
-docker exec -t gv_app_1 php shell/"$@"
+docker exec -it gv_app_1 php shell/"$@"

@@ -3,7 +3,7 @@ Please choose a name for your model:
 <?php
 
 const MODELS_PATH = __DIR__ . '/../src/Models/';
-const PROPERTY_TYPES = array('integer', 'string', 'datetime');
+const PROPERTY_TYPES = array('integer', 'string', 'datetime', 'quit');
 
 $stdin = fopen('php://stdin', 'r');
 $name = fgets($stdin);
@@ -30,7 +30,7 @@ function createFile($fileName) {
 }
 
 function createNewProperty($classPath) {
-    echo "\033[33m Please choose a property type: \n \033[32m integer, string, datetime (CTRL + C to finish):";
+    echo "\033[33m Please choose a property type: \n \033[32m integer, string, datetime (type 'quit' to finish):";
     $stdin = fopen('php://stdin', 'r');
     $type = fgets($stdin);
     $type = removeExtraCharacters($type);
@@ -41,7 +41,7 @@ function createNewProperty($classPath) {
     $stdin = fopen('php://stdin', 'r');
     $property = fgets($stdin);
     $property = removeExtraCharacters($property);
-    fwrite($handle, "   public $".$property . ";\n\n}");
+    fwrite($handle, "    public $".$property . ";\n\n}");
     fclose($handle);
 
     createNewProperty($classPath);
@@ -54,7 +54,15 @@ function getDoctrineDoc($type, $classPath) {
     }
     removeClosingBracket($classPath);
 
-    return "/** @Column(type=\"$type\" */\n";
+    if($type === 'quit') {
+        $handle = fopen($classPath, 'a') or die('Cannot create file:  '.$classPath);
+        fwrite($handle, closeClass());
+        fclose($handle);
+        chmod($classPath, 0777);
+        exit('Model was successfully created');
+    }
+
+    return "    /** @Column(type=\"$type\" */\n";
 }
 
 function appendMethod($classPath) {
@@ -81,4 +89,10 @@ function removeClosingBracket($classPath) {
 
     //Recorded in a file
     file_put_contents($classPath, implode("", $file_out));
+}
+
+function closeClass() {
+    return "\n
+}
+";
 }
