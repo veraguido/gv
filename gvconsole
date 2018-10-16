@@ -1,5 +1,5 @@
 #!/bin/bash
-#USE THIS SCRIPT ONLY IF YOU ARE USING DOCKER.
+#USE THESE SCRIPTS ONLY IF YOU ARE USING DOCKER.
 # Exit when error
 set -eo pipefail
 
