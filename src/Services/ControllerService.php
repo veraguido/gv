@@ -70,7 +70,7 @@ class ControllerService
      */
     private function generateRegularControllerLifecycle()
     {
-        $uriPath = $this->uriData['path'];
+        $uriPath = $this->uriData;
 
         if (!isset($uriPath)) {
             throw new Exception('Url is malformed');

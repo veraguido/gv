@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     && ln -fsn /usr/local/bin/php /usr/bin/php
 
 RUN pecl install xdebug
-ADD php.ini /usr/local/etc/php/php.ini-production
+#RUN phpenmod xdebug
+ADD php.ini /usr/local/etc/php/conf.d/99-gv.ini
 
 EXPOSE 80

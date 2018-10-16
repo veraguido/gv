@@ -32,7 +32,7 @@ class UserStatuses extends GvController
         if (!$this->httpRequest->isPost()) {
             throw new InvalidHttpMethodException(
                 'Http method used mismatch with expected',
-                ['used' => filter_input(INPUT_SERVER, 'REQUEST_METHOD'), 'expected' => HttpRequest::POST]
+                ['used' => $_SERVER['REQUEST_METHOD'], 'expected' => HttpRequest::POST]
             );
         }
 

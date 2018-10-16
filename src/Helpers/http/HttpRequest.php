@@ -25,7 +25,7 @@ class HttpRequest
     public function __construct(FileManager $fileManager)
     {
         $this->fileManager = $fileManager;
-        $this->requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
+        $this->requestType =  $_SERVER['REQUEST_METHOD'];
     }
 
     /**
@@ -134,8 +134,8 @@ class HttpRequest
      */
     public function isAjax()
     {
-        return null !== filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') &&
-        filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
+        return null !== $_SERVER['HTTP_X_REQUESTED_WITH'] &&
+        $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
     }
 
     /**

@@ -11,6 +11,7 @@ ini_set('display_startup_errors', $isDevMode);
 $reporting = (true === $isDevMode) ? E_ALL : 0;
 error_reporting($reporting);
 
+
 try {
     $app = new Gvera\Gvera();
     $app->run($isDevMode);
