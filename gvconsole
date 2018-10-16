@@ -23,6 +23,11 @@ if [ $1 = "list-tasks" ]; then
     exit 1
 fi
 
+if [ $1 = "enter" ]; then
+    docker exec -it "$2" /bin/bash
+    exit 1
+fi
+
 if [ $1 = "build" ]; then
     docker-compose build && docker run --rm -v $(pwd):/app composer install
     exit 1
