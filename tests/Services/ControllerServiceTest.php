@@ -28,7 +28,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
-            ["path" => "/"]
+            "/"
         );
 
         $this->assertTrue(
@@ -48,7 +48,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
-            ["path" => null]
+            null
         );
     }
 
@@ -59,7 +59,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
-            ["path" => "/examples/asd"]
+            "/examples/asd"
         );
 
         $this->assertTrue(
@@ -94,7 +94,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
-            ["path" => "/gvcontroller"]
+            "/gvcontroller"
         );
     }
 
@@ -106,7 +106,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
-            ["path" => "/v5/index/asd"]
+            "/v5/index/asd"
         );
     }
 
@@ -117,7 +117,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
-            ["path" => "/v0/moreexamples/other"]
+            "/v0/moreexamples/other"
         );
 
         $this->assertTrue(
