@@ -3,18 +3,31 @@
 # Exit when error
 set -eo pipefail
 
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+GREY='\033[1;30m'
+NC='\033[0m' # No Color
+
 filenames=`ls ./shell/*`
 
 if [ -z "$1" ]; then
-    echo "No argument supplied, available commands:"
+    echo -e "${RED}No argument supplied, available commands: ${GREEN}"
+    echo
+    echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* APPLICATION COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     for entry in $filenames; do
         if [ $entry != "./shell/migrations.yml" ]; then
             echo ${entry/"./shell/"}
         fi
     done
     echo "list-tasks"
+    echo
+    echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* DEPENDENCY COMMANDS -/*-/*-/*-/*-/*-/*-/* ${GREEN}"
+    echo "composer"
+    echo
+    echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* BUILDING COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "build"
     echo "start"
+    echo "enter"
     exit 1
 fi
 
