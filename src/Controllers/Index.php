@@ -22,7 +22,7 @@ class Index extends GvController
         $this->httpResponse->asJson();
         $welcomeJson = [
             'gv' => [
-                "version" => "1.0",
+                "version" => "1.4",
                 "cache" => get_class(Cache::getCache()),
                 "opcache_enabled" => opcache_get_status()['opcache_enabled']
                  ]
