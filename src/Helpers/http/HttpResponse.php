@@ -10,14 +10,18 @@ use Gvera\Helpers\transformers\TransformerAbstract;
  */
 class HttpResponse
 {
-    const CONTENT_TYPE_CSS = "Content-Type: text/css";
-    const CONTENT_TYPE_JSON = "Content-Type: application/json";
-    const CONTENT_TYPE_PDF = "Content-Type: application/pdf";
-    const CONTENT_TYPE_PLAIN_TEXT = "Content-Type: text/plain";
-    const CONTENT_TYPE_XML = "Content-Type: text/xml";
+    const CONTENT_TYPE = "Content-Type";
+    const CONTENT_TYPE_CSS = "text/css";
+    const CONTENT_TYPE_JSON = "application/json";
+    const CONTENT_TYPE_PDF = "application/pdf";
+    const CONTENT_TYPE_PLAIN_TEXT = "text/plain";
+    const CONTENT_TYPE_XML = "text/xml";
     const HTTP_RESPONSE_NOT_FOUND = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
+    const LOCATION = "Location";
+
+    private $serverResponse;
 
     /**
      * @param string|array|TransformerAbstract $response
@@ -27,18 +31,18 @@ class HttpResponse
     public function response($response)
     {
         if (is_a($response, TransformerAbstract::class)) {
-            echo json_encode($response->transform());
+            $this->serverResponse->end(json_encode($response->transform()));
             return;
         }
 
-        echo is_array($response) ? json_encode($response) : (string) $response;
+        $this->serverResponse->end(is_array($response) ? json_encode($response) : (string) $response);
     }
     /**
      * @param $url
      */
     public function redirect($url)
     {
-        header("Location: " . $url);
+        $this->setHeader(self::LOCATION, $url);
     }
 
     public function notFound()
@@ -59,9 +63,9 @@ class HttpResponse
     /**
      * @param $header
      */
-    public function setHeader($header)
+    public function setHeader($key, $value)
     {
-        header($header);
+        $this->serverResponse->header($key, $value);
     }
 
     public function responseExit()
@@ -74,32 +78,36 @@ class HttpResponse
      */
     public function terminate($message)
     {
-        die($message);
+        //die($message);
     }
 
     public function asJson()
     {
-        $this->setHeader(self::CONTENT_TYPE_JSON);
+        $this->setContentType(self::CONTENT_TYPE_JSON);
     }
 
     public function asXML()
     {
-        $this->setHeader(self::CONTENT_TYPE_XML);
+        $this->setContentType(self::CONTENT_TYPE_XML);
     }
 
     public function asCSS()
     {
-        $this->setHeader(self::CONTENT_TYPE_CSS);
+        $this->setContentType(self::CONTENT_TYPE_CSS);
     }
 
     public function asPlainText()
     {
-        $this->setHeader(self::CONTENT_TYPE_PLAIN_TEXT);
+        $this->setContentType(self::CONTENT_TYPE_PLAIN_TEXT);
     }
 
     public function asPDF()
     {
-        $this->setHeader(self::CONTENT_TYPE_PDF);
+        $this->setContentType(self::CONTENT_TYPE_PDF);
+    }
+
+    private function setContentType($type) {
+        $this->setHeader(self::CONTENT_TYPE, $type);
     }
 
     /**
@@ -109,5 +117,9 @@ class HttpResponse
     public function printError(int $errorCode, string $message)
     {
         $this->response(['code' => $errorCode, 'message' => $message]);
+    }
+
+    public function setServerResponse($serverResponse) {
+        $this->serverResponse = $serverResponse;
     }
 }

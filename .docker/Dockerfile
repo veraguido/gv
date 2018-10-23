@@ -1,6 +1,6 @@
 FROM php:7.1-fpm
 
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
 		libfreetype6-dev \
@@ -22,4 +22,3 @@ RUN pecl install swoole
 ADD php.ini /usr/local/etc/php/conf.d/99-gv.ini
 
 EXPOSE 80
-EXPOSE 8080

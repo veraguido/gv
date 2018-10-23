@@ -62,12 +62,15 @@ class Gvera
      */
     public function handleThrowable(\Throwable $e, $isDevMode)
     {
-        EventDispatcher::dispatchEvent(
+        $response = $this->diContainer->get('httpResponse');
+        $response->setServerResponse($this->serverResponse);
+        $eventDispatcher = $this->diContainer->get('eventDispatcher');
+        $eventDispatcher::dispatchEvent(
             ThrowableFiredEvent::THROWABLE_FIRED_EVENT,
             new ThrowableFiredEvent(
                 $e,
                 $isDevMode,
-                $this->diContainer->get('httpResponse')
+                $response
             )
         );
 
@@ -147,6 +150,7 @@ class Gvera
         }
 
         $this->controllerService->setServerRequest($this->serverRequest);
+        $this->controllerService->setServerResponse($this->serverResponse);
 
         $this->controllerService->startControllerLifecyle(
             $this->diContainer,

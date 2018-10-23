@@ -17,6 +17,8 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->controllerService = new ControllerService();
+        $this->controllerService->setServerRequest($this->getServerRequest());
+        $this->controllerService->setServerResponse($this->getServerResponse());
         $this->controllerService->setControllerAutoloadingNames($this->getAutoloadingNames());
         $this->controllerService->setDiContainer($this->getDiContainer());
     }
@@ -166,6 +168,19 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
     public function httpCallBack($param) {
         return $this->getMockedHttp($param);
+    }
+
+    private function getServerRequest() 
+    {
+        $serverRequest = new stdClass();
+        $serverRequest->server = ['request_method' => 'GET'];
+        return $serverRequest;
+    }
+
+    private function getServerResponse()
+    {
+        $serverResponse = new stdClass();
+        return $serverResponse;
     }
 
     private function getAutoloadingNames()

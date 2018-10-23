@@ -23,6 +23,7 @@ class ControllerService
     private $controllerFinalName;
 
     private $serverRequest;
+    private $serverResponse;
     
     private $uriData;
     private $controllerAutoloadingNames;
@@ -226,6 +227,7 @@ class ControllerService
             $this->diContainer,
             $this->controllerFinalName,
             $this->serverRequest->server['request_method'],
+            $this->serverResponse,
             $this->method
         );
 
@@ -272,6 +274,10 @@ class ControllerService
 
     public function setServerRequest($serverRequest) {
         $this->serverRequest = $serverRequest;
+    }
+
+    public function setServerResponse($serverResponse) {
+        $this->serverResponse = $serverResponse;
     }
     /**
      * Get the value of controllerFinalName

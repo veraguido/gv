@@ -15,11 +15,12 @@ class EventDispatcher
 
     public static function addEventListener(string $eventId, EventListenerInterface $listener)
     {
-        $listeners = (isset(self::$eventsListeners[$eventId]) && is_iterable(self::$eventsListeners[$eventId])) ?
-            array_push(self::$eventsListeners[$eventId], $listener) :
-            array($listener);
+        if (!isset(self::$eventsListeners[$eventId])) {
+            self::$eventsListeners[$eventId] = array($listener);
+            return;
+        }
 
-        self::$eventsListeners[$eventId] = $listeners;
+        array_push(self::$eventsListeners[$eventId], $listener);
     }
 
     public static function dispatchEvent($eventId, Event $event)
