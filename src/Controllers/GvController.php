@@ -40,12 +40,13 @@ abstract class GvController
      * @param string $method
      * @throws \Exception
      */
-    public function __construct(DIContainer $diContainer, $controllerName, $method = 'index')
+    public function __construct(DIContainer $diContainer, $controllerName, $serverRequest, $method = 'index')
     {
         $this->diContainer = $diContainer;
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
+        $this->httpRequest->setHttpMethod($serverRequest->server['request_method']);
         $this->httpResponse =$this->diContainer->get('httpResponse');
 
         if (!method_exists($this, $method)) {

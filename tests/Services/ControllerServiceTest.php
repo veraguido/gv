@@ -181,10 +181,11 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     private function getMockedHttp($type) 
     {
         if ($type === 'httpRequest') {
-            $_SERVER['REQUEST_METHOD'] = 'GET';
-            return new HttpRequest(
+            $httpRequest = new HttpRequest(
                 new FileManager($this->getMockedConfig())
             );
+            $httpRequest->setHttpMethod('GET');
+            return $httpRequest;
         }
 
         if ($type === 'annotationUtil') {

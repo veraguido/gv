@@ -32,6 +32,8 @@ class Gvera
     private $controllerAutoloadingNames = [];
     private $routeManager;
     private $diContainer;
+    private $serverRequest;
+    private $serverResponse;
 
     private $controllerService;
 
@@ -46,6 +48,11 @@ class Gvera
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
+    }
+
+    public function __construct($serverRequest, $serverResponse) {
+        $this->serverRequest = $serverRequest;
+        $this->serverResponse = $serverResponse;
     }
 
     /**
@@ -113,7 +120,7 @@ class Gvera
      */
     private function supportsSpecialRoutesIfApply()
     {
-        return $this->routeManager->getRoute($_SERVER['REQUEST_URI']);
+        return $this->routeManager->getRoute($this->serverRequest->server['request_uri']);
     }
 
     /**
@@ -132,12 +139,14 @@ class Gvera
             return;
         }
 
-        $uriData = $_SERVER['REQUEST_URI'];
+        $uriData = $this->serverRequest->server['request_uri'];
         
         if (!$uriData) {
             $this->redirectToDefault();
             return;
         }
+
+        $this->controllerService->setServerRequest($this->serverRequest);
 
         $this->controllerService->startControllerLifecyle(
             $this->diContainer,

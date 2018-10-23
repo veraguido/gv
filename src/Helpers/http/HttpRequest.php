@@ -25,7 +25,10 @@ class HttpRequest
     public function __construct(FileManager $fileManager)
     {
         $this->fileManager = $fileManager;
-        $this->requestType =  $_SERVER['REQUEST_METHOD'];
+    }
+
+    public function setHttpMethod($httpMethod) {
+        $this->requestType = $httpMethod;
     }
 
     /**

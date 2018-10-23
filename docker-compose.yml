@@ -1,16 +1,10 @@
 version: "2"
 services:
-  nginx:
-    image: nginx:latest
-    ports:
-    - 8089:80
-    volumes:
-    - .docker/default.conf:/etc/nginx/conf.d/default.conf
-    volumes_from:
-    - php
   php:
     build: .docker/
     image: gv-docker
+    ports:
+      - 9051:80
     expose:
     - 9000
     volumes:
