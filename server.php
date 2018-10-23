@@ -28,8 +28,6 @@ $http->on("request", function ($request, $response) {
     } catch(\Throwable $e) {
         $app->handleThrowable($e, $isDevMode);
     }
-
-    
     
 });
 

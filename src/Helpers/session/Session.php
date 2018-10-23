@@ -18,9 +18,9 @@ class Session
 
     private function start()
     {
-        if (!$this->started) {
-            $this->started = true;
+        if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
+            $this->started = true;
         }
     }
 
