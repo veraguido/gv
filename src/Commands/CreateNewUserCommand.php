@@ -47,8 +47,13 @@ class CreateNewUserCommand implements CommandInterface
             );
         }
 
+        if ($this->userExists($this->email)) {
+            throw new \Exception("There was a problem registering the user");
+        }
+
         $status = $this->entityManager->getRepository(UserStatus::class)->findOneBy(['status' => 'active']);
         $role = $this->entityManager->getRepository(UserRole::class)->findOneBy(['name' => 'user']);
+
 
         $user = $this->createNewUser($role, $status);
 
@@ -80,12 +85,29 @@ class CreateNewUserCommand implements CommandInterface
         return $user;
     }
 
-    private function isCommandValid()
+    /**
+     * check is mandatory fields are setup
+     * 
+     * @return bool
+     */
+    private function isCommandValid(): bool
     {
         return
             !empty($this->email) &&
             !empty($this->name) &&
             !empty($this->password);
+    }
+
+    /**
+     * check if user already exists by email
+     * 
+     * @return bool
+     */
+    private function userExists(string $email): bool
+    {
+        return  !empty(
+            $this->entityManager->getRepository(User::class)->findByEmail($this->email)
+        );
     }
 
     /**

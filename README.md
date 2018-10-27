@@ -34,4 +34,5 @@ Please refer to the [documentation](https://veraguido.github.io/gv-documentation
 
 # Todo list
  - swagger
- - swoole for http serving
+ - swoole as web server
+ - split gv into multiple composable packages
