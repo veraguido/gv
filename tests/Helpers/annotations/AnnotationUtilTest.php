@@ -9,9 +9,17 @@ class AnnotationUtilTest extends TestCase
 {
     private $util;
 
+    /**
+     * @httpMethod("GET")
+     */
     public function setUp()
     {
         $this->util = new AnnotationUtil();
+    }
+
+    public function tearDown()
+    {
+
     }
     /**
      * @test
@@ -19,8 +27,8 @@ class AnnotationUtilTest extends TestCase
     public function getAnnotationContentFromMethodHappyPathTest()
     {
         $methods = $this->util->getAnnotationContentFromMethod(
-            Index::class,
-            'index',
+            AnnotationUtilTest::class,
+            'setup',
             AnnotationUtil::HTTP_ANNOTATION
         );
 
@@ -33,8 +41,8 @@ class AnnotationUtilTest extends TestCase
     public function getAnnotationContentFromMethodEmptyPathTest()
     {
         $secondTest = $this->util->getAnnotationContentFromMethod(
-            Index::class,
-            'cachetype',
+            AnnotationUtilTest::class,
+            'tearDown',
             AnnotationUtil::HTTP_ANNOTATION
         );
 
