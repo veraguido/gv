@@ -18,7 +18,9 @@ RUN apt-get update && apt-get install -y \
     && ln -fsn /usr/local/bin/php /usr/bin/php
 
 RUN pecl install xdebug
-#RUN phpenmod xdebug
+RUN pecl install swoole
+RUN pecl install redis && docker-php-ext-enable redis
+
 ADD php.ini /usr/local/etc/php/conf.d/99-gv.ini
 
 EXPOSE 80

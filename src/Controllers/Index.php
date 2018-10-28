@@ -14,9 +14,6 @@ use Gvera\Cache\Cache;
  */
 class Index extends GvController
 {
-    /**
-     * @httpMethod("GET")
-     */
     public function index()
     {
         $this->httpResponse->asJson();
