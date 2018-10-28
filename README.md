@@ -30,3 +30,9 @@ GV is a PHP framework focused on usability, fastness and reliableness.
 # Installation
 
 Please refer to the [documentation](https://veraguido.github.io/gv-documentation/)
+
+
+# Todo list
+ - swagger
+ - swoole as web server
+ - split gv into multiple composable packages
