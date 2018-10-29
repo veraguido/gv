@@ -87,7 +87,7 @@ class CreateNewUserCommand implements CommandInterface
 
     /**
      * check is mandatory fields are setup
-     * 
+     *
      * @return bool
      */
     private function isCommandValid(): bool
@@ -100,7 +100,7 @@ class CreateNewUserCommand implements CommandInterface
 
     /**
      * check if user already exists by email or username
-     * 
+     *
      * @return bool
      */
     private function userExists(): bool
@@ -108,7 +108,7 @@ class CreateNewUserCommand implements CommandInterface
         $byEmail = $this->entityManager->getRepository(User::class)->findByEmail($this->email);
         $byUsername = $this->entityManager->getRepository(User::class)->findByUsername($this->name);
         
-        return (!empty($byEmail) || !empty($byUsername));  
+        return (!empty($byEmail) || !empty($byUsername));
     }
 
     /**
