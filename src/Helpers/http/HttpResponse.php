@@ -34,7 +34,6 @@ class HttpResponse
             $this->serverResponse->end(json_encode($response->transform()));
             return;
         }
-
         $this->serverResponse->end(is_array($response) ? json_encode($response) : (string) $response);
     }
     /**

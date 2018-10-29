@@ -40,13 +40,13 @@ abstract class GvController
      * @param string $method
      * @throws \Exception
      */
-    public function __construct(DIContainer $diContainer, $controllerName, $serverRequestMethod, $serverResponse, $method = 'index')
+    public function __construct(DIContainer $diContainer, $controllerName, $serverRequest, $serverResponse, $method = 'index')
     {
         $this->diContainer = $diContainer;
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
-        $this->httpRequest->setHttpMethod($serverRequestMethod);
+        $this->httpRequest->setServerRequest($serverRequest);
         $this->httpResponse = $this->diContainer->get('httpResponse');
         $this->httpResponse->setServerResponse($serverResponse);
 
@@ -81,21 +81,7 @@ abstract class GvController
      */
     protected function preInit($allowedHttpMethods)
     {
-        $annotationUtil = $this->diContainer->get('annotationUtil');
-        $isHttpMethodValid = $annotationUtil->validateMethods(
-            $allowedHttpMethods,
-            $this->httpRequest
-        );
-
-        if (false === $isHttpMethodValid) {
-            throw new InvalidHttpMethodException(
-                'The http method used for this action is not supported',
-                [
-                    "httpMethod" => $this->httpRequest->getRequestType(),
-                    "allowedMethods" => $allowedHttpMethods
-                ]
-            );
-        }
+        $this->checkAllowedHttpMethods($allowedHttpMethods);
 
         if ($this->needsTwig()) {
             $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
@@ -189,6 +175,24 @@ abstract class GvController
             throw new InvalidCSRFException(
                 "csrf tokens do not match",
                 ['session token' => $sessionToken, 'form token' => $requestToken]
+            );
+        }
+    }
+
+    private function checkAllowedHttpMethods($allowedMethods) {
+        $annotationUtil = $this->diContainer->get('annotationUtil');
+        $isHttpMethodValid = $annotationUtil->validateMethods(
+            $allowedMethods,
+            $this->httpRequest
+        );
+
+        if (false === $isHttpMethodValid) {
+            throw new InvalidHttpMethodException(
+                'The http method used for this action is not supported',
+                [
+                    "httpMethod" => $this->httpRequest->getRequestType(),
+                    "allowedMethods" => $allowedHttpMethods
+                ]
             );
         }
     }

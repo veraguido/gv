@@ -199,7 +199,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             $httpRequest = new HttpRequest(
                 new FileManager($this->getMockedConfig())
             );
-            $httpRequest->setHttpMethod('GET');
+            $httpRequest->setServerRequest($this->getServerRequest());
             return $httpRequest;
         }
 

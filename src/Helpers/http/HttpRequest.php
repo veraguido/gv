@@ -15,6 +15,7 @@ class HttpRequest
     private $requestType;
     private $requestParams = array();
     private $fileManager;
+    private $serverRequest;
 
     const GET = 'GET';
     const POST = 'POST';
@@ -27,7 +28,12 @@ class HttpRequest
         $this->fileManager = $fileManager;
     }
 
-    public function setHttpMethod($httpMethod) {
+    public function setServerRequest($serverRequest) {
+        $this->serverRequest = $serverRequest;
+        $this->setHttpMethod($serverRequest->server['request_method']);
+    }
+
+    private function setHttpMethod($httpMethod) {
         $this->requestType = $httpMethod;
     }
 
@@ -38,7 +44,7 @@ class HttpRequest
     public function getParameter($name)
     {
         $req = strtolower($this->requestType);
-        return $this->$req($name);
+        return $this->serverRequest->$req[$name];
     }
 
     /**

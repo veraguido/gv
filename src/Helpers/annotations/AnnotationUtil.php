@@ -21,7 +21,7 @@ class AnnotationUtil
         return $this->getAnnotationFromArray($comments, $annotationName);
     }
 
-    public function validateMethods(array $allowedMethods, $httpRequest)
+    public function validateMethods(?array $allowedMethods, $httpRequest)
     {
         if (count($allowedMethods) < 1) {
             return true;

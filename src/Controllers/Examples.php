@@ -63,6 +63,7 @@ class Examples extends GvController
     public function qwe()
     {
         $this->validateCSRFToken($this->httpRequest->getParameter('csrf'));
+        
         $registerUserCommand = $this->getCreateNewUserCommand();
         $registerUserCommand
             ->setName($this->httpRequest->getParameter('username'))

@@ -20,8 +20,8 @@ class ThrowableListener implements EventListenerInterface
     {
         $throwable = $event->getThrowable();
         if ($event->isDevMode()) {
-            $httpResponse = $event->getHttpResponse();
-            $httpResponse->terminate($event->getThrowable()->getMessage());
+            //$httpResponse = $event->getHttpResponse();
+            echo ($event->getThrowable()->getMessage() . PHP_EOL);
             return;
         }
 

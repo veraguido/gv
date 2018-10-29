@@ -56,11 +56,4 @@ class Session
             $this->started = false;
         }
     }
-
-    public function toString()
-    {
-        echo '<pre>';
-        print_r($_SESSION);
-        echo '</pre>';
-    }
 }

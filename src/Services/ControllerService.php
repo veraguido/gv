@@ -226,7 +226,7 @@ class ControllerService
         $controllerInstance = new $controllerFullName(
             $this->diContainer,
             $this->controllerFinalName,
-            $this->serverRequest->server['request_method'],
+            $this->serverRequest,
             $this->serverResponse,
             $this->method
         );
