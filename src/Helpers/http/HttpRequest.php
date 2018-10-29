@@ -156,7 +156,7 @@ class HttpRequest
      */
     public function moveFileToDirectory($directory, $uploadedFileName)
     {
-        $this->fileManager->buildFilesFromSource($_FILES);
+        $this->fileManager->buildFilesFromSource($this->serverRequest->files);
         
         $file = $this->fileManager->getByName($uploadedFileName);
         return $this->fileManager->saveToFileSystem($directory, $file);

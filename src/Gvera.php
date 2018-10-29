@@ -44,15 +44,16 @@ class Gvera
     public function run($isDevMode)
     {
         $this->initializeApp($isDevMode);
-
+        
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
-
-    public function __construct($serverRequest, $serverResponse) {
+    
+    public function __construct($serverRequest, $serverResponse, $diContainer) {
         $this->serverRequest = $serverRequest;
         $this->serverResponse = $serverResponse;
+        $this->diContainer = $diContainer;
     }
 
     /**
@@ -74,7 +75,9 @@ class Gvera
             )
         );
 
-        $this->redirectToDefault();
+        if(!$isDevMode) {
+            $this->redirectToDefault();
+        }
     }
 
     /**
@@ -91,30 +94,10 @@ class Gvera
      */
     private function initializeApp($isDevMode)
     {
-        //Needed try catch for when typos are added to ioc.yml
-        //In that case the eventListenerRegistry is not registered
-        //and Throwable cannot be handled.
-        try {
-            $this->initializeDependencyInjection();
-            $eventRegistry = $this->diContainer->get("eventListenerRegistry");
-            $eventRegistry->registerEventListeners();
-        } catch (\Throwable $t) {
-            if (true === $isDevMode) {
-                die($t);
-            }
-        }
-
         $this->routeManager = $this->diContainer->get("routeManager");
 
         $this->controllerService = $this->diContainer->get('controllerService');
         $this->controllerService->setDiContainer($this->diContainer);
-    }
-
-    private function initializeDependencyInjection()
-    {
-        $this->diContainer = new DIContainer();
-        $diRegistry = new DIRegistry($this->diContainer);
-        $diRegistry->registerObjects();
     }
 
     /**

@@ -28,12 +28,13 @@ class HttpResponse
      * @return void
      * @throws NotImplementedMethodException
      */
-    public function response($response)
+    public function response($response, $statusCode = 200)
     {
         if (is_a($response, TransformerAbstract::class)) {
             $this->serverResponse->end(json_encode($response->transform()));
             return;
         }
+        $this->serverResponse->status($statusCode);
         $this->serverResponse->end(is_array($response) ? json_encode($response) : (string) $response);
     }
     /**

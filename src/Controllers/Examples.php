@@ -73,6 +73,7 @@ class Examples extends GvController
         $registerUserCommand->execute();
 
         $this->httpRequest->moveFileToDirectory("/tmp/", 'avatar-pic');
+        $this->httpResponse->response("All good ameo");
     }
 
     public function lorep()

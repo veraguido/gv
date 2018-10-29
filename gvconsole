@@ -28,6 +28,7 @@ if [ -z "$1" ]; then
     echo "build"
     echo "start"
     echo "enter"
+    echo "server"
     exit 1
 fi
 

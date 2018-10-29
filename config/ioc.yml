@@ -28,7 +28,6 @@ http:
       arguments: "@config"
     httpRequest:
       class: HttpRequest
-      singleton: true
       arguments: "@fileManager"
     httpResponse:
       class: HttpResponse

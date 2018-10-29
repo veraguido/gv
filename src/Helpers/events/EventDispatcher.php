@@ -26,7 +26,6 @@ class EventDispatcher
     public static function dispatchEvent($eventId, Event $event)
     {
         $listeners = isset(self::$eventsListeners[$eventId]) ? self::$eventsListeners[$eventId] : array();
-
         foreach ($listeners as $listener) {
             $listener->handleEvent($event);
             if ($event->hasStopPropagation()) {

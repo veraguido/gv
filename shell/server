@@ -1,14 +1,22 @@
+#!/usr/bin/php -q
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-include_once __DIR__ . '/config/locale_setup.php';
+use Gvera\Helpers\dependencyInjection\DIRegistry;
+use Gvera\Helpers\dependencyInjection\DIContainer;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../config/locale_setup.php';
 
 // DEV MODE
 
 $http = new swoole_http_server("localhost", 80);
+$diContainer = initializeDIContainer();
 
-$http->on("start", function ($server) {
-    echo "Swoole http server is started at localhost\n";
+$http->on("start", function ($server) use ($diContainer) {
+    printf("HTTP server started at %s:%s\n", $server->host, $server->port);
+    $eventRegistry = $diContainer->get("eventListenerRegistry");
+    $eventRegistry->registerEventListeners();
+    echo "Event listeners registered" . PHP_EOL;
 });
 
 $static = [
@@ -22,7 +30,7 @@ $static = [
     'ico'  => 'image/x-icon'
 ];
 
-$http->on("request", function ($request, $response) use ($static) {
+$http->on("request", function ($request, $response) use ($static, $diContainer) {
 
     if (getStaticFile($request, $response, $static)) {
         return;
@@ -67,7 +75,8 @@ $http->on("request", function ($request, $response) use ($static) {
     $_SESSION['key'] = $_SESSION['key'] ?? rand();
 
     try {
-        $app = new Gvera\Gvera($request, $response);
+        $app = new Gvera\Gvera($request, $response, $diContainer);
+        
         $app->run($isDevMode);
     } catch(\Throwable $e) {
         $app->handleThrowable($e, $isDevMode);
@@ -76,7 +85,7 @@ $http->on("request", function ($request, $response) use ($static) {
 });
 
 function getStaticFile(swoole_http_request $request, swoole_http_response $response, array $static) : bool {
-    $staticFile = __DIR__ . '/public' . $request->server['request_uri'];
+    $staticFile = __DIR__ . '/../public' . $request->server['request_uri'];
     if (! file_exists($staticFile)) {
         return false;
     }
@@ -87,6 +96,14 @@ function getStaticFile(swoole_http_request $request, swoole_http_response $respo
     $response->header('Content-Type', $static[$type]);
     $response->sendfile($staticFile);
     return true;
+}
+
+function initializeDIContainer() {
+    $diContainer = new DIContainer();
+    $diRegistry = new DIRegistry($diContainer);
+    $diRegistry->registerObjects();
+    echo "Dependency injection container initialized" . PHP_EOL;
+    return $diContainer;
 }
 
 $http->start();

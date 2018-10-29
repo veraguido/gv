@@ -4,9 +4,10 @@ services:
     build: .docker/
     image: gv-docker
     ports:
-      - 9051:80
+      - 8089:80
     expose:
     - 9000
+    tty: true
     volumes:
     - .:/var/www
     - ./docker/config/php.ini:/usr/local/etc/php/php.ini
