@@ -10,7 +10,7 @@ services:
     tty: true
     volumes:
     - .:/var/www
-    - ./docker/config/php.ini:/usr/local/etc/php/php.ini
+    - ./.docker/php.ini:/usr/local/etc/php/php.ini
     environment:
       DB_HOST: mysql
       DB_DATABASE: gv

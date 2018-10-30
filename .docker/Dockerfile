@@ -21,6 +21,4 @@ RUN pecl install xdebug
 RUN pecl install swoole
 RUN pecl install redis && docker-php-ext-enable redis
 
-ADD php.ini /usr/local/etc/php/conf.d/99-gv.ini
-
 EXPOSE 80
