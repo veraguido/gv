@@ -74,10 +74,6 @@ class Gvera
                 $response
             )
         );
-
-        if(!$isDevMode) {
-            $this->redirectToDefault();
-        }
     }
 
     /**

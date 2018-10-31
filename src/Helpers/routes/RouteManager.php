@@ -27,12 +27,10 @@ class RouteManager
     public function __construct(HttpRequest $httpRequest)
     {
         $this->httpRequest = $httpRequest;
-        if (Cache::getCache()->exists(self::ROUTE_CACHE_KEY)) {
-            $this->routes = unserialize(Cache::getCache()->load(self::ROUTE_CACHE_KEY));
-        } else {
-            $this->routes = Yaml::parse(file_get_contents(__DIR__ . '/../../../config/routes.yml'))['routes'];
-            Cache::getCache()->save(self::ROUTE_CACHE_KEY, serialize($this->routes));
-        }
+    }
+
+    public function setRoutes($routes) {
+        $this->routes = $routes;
     }
 
     /**
