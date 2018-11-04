@@ -2,7 +2,7 @@
 namespace Gvera\Helpers\config;
 
 use Gvera\Cache\Cache;
-use Gvera\Cache\RedisCache;
+use Gvera\Cache\RedisClientCache;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -29,7 +29,8 @@ class Config
         return $this->config[$key];
     }
 
-    public function setConfig($config) {
+    public function setConfig($config)
+    {
         $this->config = $config;
     }
 }

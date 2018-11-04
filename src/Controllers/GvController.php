@@ -37,13 +37,16 @@ abstract class GvController
      * GvController constructor.
      * @param DIContainer $diContainer
      * @param $controllerName
+     * @param $serverRequest
+     * @param $serverResponse
      * @param string $method
-     * @throws \Exception
+     * @throws InvalidMethodException
+     * @throws \ReflectionException
      */
-    public function __construct(DIContainer $diContainer, $controllerName, $serverRequest, $serverResponse, $method = 'index')
+    public function __construct(DIContainer $diContainer, $controllerName, $serverRequest, $serverResponse, $method)
     {
         $this->diContainer = $diContainer;
-        $this->method = $method;
+        $this->method = $method ?? self::DEFAULT_METHOD;
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
         $this->httpRequest->setServerRequest($serverRequest);
@@ -179,7 +182,8 @@ abstract class GvController
         }
     }
 
-    private function checkAllowedHttpMethods($allowedMethods) {
+    private function checkAllowedHttpMethods($allowedMethods)
+    {
         $annotationUtil = $this->diContainer->get('annotationUtil');
         $isHttpMethodValid = $annotationUtil->validateMethods(
             $allowedMethods,

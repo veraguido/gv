@@ -28,12 +28,14 @@ class HttpRequest
         $this->fileManager = $fileManager;
     }
 
-    public function setServerRequest($serverRequest) {
+    public function setServerRequest($serverRequest)
+    {
         $this->serverRequest = $serverRequest;
         $this->setHttpMethod($serverRequest->server['request_method']);
     }
 
-    private function setHttpMethod($httpMethod) {
+    private function setHttpMethod($httpMethod)
+    {
         $this->requestType = $httpMethod;
     }
 

@@ -106,7 +106,8 @@ class HttpResponse
         $this->setContentType(self::CONTENT_TYPE_PDF);
     }
 
-    private function setContentType($type) {
+    private function setContentType($type)
+    {
         $this->setHeader(self::CONTENT_TYPE, $type);
     }
 
@@ -119,7 +120,8 @@ class HttpResponse
         $this->response(['code' => $errorCode, 'message' => $message]);
     }
 
-    public function setServerResponse($serverResponse) {
+    public function setServerResponse($serverResponse)
+    {
         $this->serverResponse = $serverResponse;
     }
 }

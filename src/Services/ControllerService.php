@@ -272,11 +272,13 @@ class ControllerService
         return $this;
     }
 
-    public function setServerRequest($serverRequest) {
+    public function setServerRequest($serverRequest)
+    {
         $this->serverRequest = $serverRequest;
     }
 
-    public function setServerResponse($serverResponse) {
+    public function setServerResponse($serverResponse)
+    {
         $this->serverResponse = $serverResponse;
     }
     /**

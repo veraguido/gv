@@ -9,6 +9,8 @@ config:
   redis:
     host: redis
     port: 6379
+    cluster: false
+    pool_size: 20
     username:
     password:
   email:

@@ -29,7 +29,8 @@ class RouteManager
         $this->httpRequest = $httpRequest;
     }
 
-    public function setRoutes($routes) {
+    public function setRoutes($routes)
+    {
         $this->routes = $routes;
     }
 

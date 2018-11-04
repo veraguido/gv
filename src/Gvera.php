@@ -38,19 +38,20 @@ class Gvera
     private $controllerService;
 
     /**
+     * @param $isDevMode
      * @throws \Exception
-     * Application's entry point
      */
     public function run($isDevMode)
     {
         $this->initializeApp($isDevMode);
-        
+
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
     
-    public function __construct($serverRequest, $serverResponse, $diContainer) {
+    public function __construct($serverRequest, $serverResponse, $diContainer)
+    {
         $this->serverRequest = $serverRequest;
         $this->serverResponse = $serverResponse;
         $this->diContainer = $diContainer;
@@ -108,7 +109,6 @@ class Gvera
     /**
      * @param bool|string $action
      * @throws \Exception
-     * @return mixed
      * If the route was already defined in the routes.yml file then that one will take precedence over the
      * convention over configuration strategy (host.com/Controller/Method)
      */
@@ -165,7 +165,7 @@ class Gvera
     private function autoloadControllers($scanDirectory)
     {
         if (Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
-            return unserialize(Cache::getCache()->load(self::GV_CONTROLLERS_KEY));
+            return Cache::getCache()->load(self::GV_CONTROLLERS_KEY);
         }
 
         $controllersDir = scandir($scanDirectory);

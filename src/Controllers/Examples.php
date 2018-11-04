@@ -2,7 +2,7 @@
 namespace Gvera\Controllers;
 
 use Gvera\Cache\Cache;
-use Gvera\Cache\RedisCache;
+use Gvera\Cache\RedisClientCache;
 use Gvera\Commands\CreateNewUserCommand;
 use Gvera\Commands\LoginCommand;
 use Gvera\Helpers\locale\Locale;
