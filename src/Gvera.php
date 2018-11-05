@@ -173,7 +173,7 @@ class Gvera
         foreach ($controllersDir as $index => $autoloadingName) {
             $loadedControllers = $this->loadControllers($scanDirectory, $autoloadingName, $loadedControllers);
         }
-        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, serialize($loadedControllers));
+        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, $loadedControllers);
 
         return $loadedControllers;
     }

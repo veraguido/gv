@@ -45,36 +45,6 @@ final class FilesCache implements CacheInterface
         return self::$client->loadFromFile(self::FILES_CACHE_PREFIX . $key);
     }
 
-    public function addToList($listKey, $list)
-    {
-        $this->save(self::FILES_CACHE_LIST_PREFIX . $listKey, serialize($list));
-    }
-
-    public function getList($listKey)
-    {
-        return unserialize($this->load(self::FILES_CACHE_LIST_PREFIX . $listKey));
-    }
-
-    public function addToHashMap($hashMapKey, $key, $value)
-    {
-        // TODO: Implement addToHashMap() method.
-    }
-
-    public function getHashMap($hashMapKey)
-    {
-        // TODO: Implement getHashMap() method.
-    }
-
-    public function setHashMap($hashMapKey, $array)
-    {
-        // TODO: Implement setHashMap() method.
-    }
-
-    public function getHashMapItem($hashMapKey, $itemKey)
-    {
-        // TODO: Implement getHashMapItem() method.
-    }
-
     /**
      * @param $key
      * @param null $expirationTime
@@ -95,7 +65,7 @@ final class FilesCache implements CacheInterface
         unlink(self::FILES_CACHE_PATH . self::FILES_CACHE_PREFIX . $key);
     }
 
-    public function flushAll()
+    public function deleteAll()
     {
         $files = glob(self::FILES_CACHE_PATH . '*');
         foreach ($files as $file) {

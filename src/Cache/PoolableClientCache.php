@@ -29,10 +29,18 @@ class PoolableClientCache
     {
         if (($this->index + 1) < ($this->bufferSize - 1)) {
             $this->index++;
-            return $this->pool[$this->index];
+            return $this->returnCurrentClient();
         }
-        return $this->pool[0];
+
+        $this->index = 0;
+        return $this->returnCurrentClient();
     }
+
+    private function returnCurrentClient()
+    {
+        return $this->pool[$this->index];
+    }
+
 
     /**
      * @param $bufferSize

@@ -36,6 +36,7 @@ final class RedisClientCache implements CacheInterface
         if (!self::$instance) {
             self::$instance = new RedisClientCache();
         }
+        
         return self::$instance;
     }
 
@@ -49,7 +50,7 @@ final class RedisClientCache implements CacheInterface
 
     public function load($key)
     {
-        return $this->itemPool->getItem($key);
+        return $this->itemPool->getItem($key)->get();
     }
 
     public function setExpiration($key, $expirationTime = null)
@@ -77,5 +78,10 @@ final class RedisClientCache implements CacheInterface
     public function delete($key)
     {
         return $this->itemPool->deleteItem($key);
+    }
+
+    public function deleteAll()
+    {
+        return $this->itemPool->deleteAll();
     }
 }

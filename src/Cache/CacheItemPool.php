@@ -241,10 +241,16 @@ class CacheItemPool implements CacheItemPoolInterface
                 }
             }
 
-            $client->disconnect();
         } catch (\Throwable $t) {
             return false;
+        } finally {
+            $client->disconnect();
         }
         return true;
+    }
+
+    public function deleteAll()
+    {
+        $this->deleteItems(array_keys($this->pool));
     }
 }

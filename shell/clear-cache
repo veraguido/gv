@@ -23,7 +23,7 @@ if (count($argv) < 2){
 
 switch ($argv[1]) {
     case 1:
-        $cache->flushAll();
+        $cache->deleteAll();
         break;
     case 2:
         $cache->delete("gv_config");

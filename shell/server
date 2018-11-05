@@ -18,7 +18,6 @@ $http->on("start", function ($server) use ($diContainer, $isDevMode) {
 
     $eventRegistry = $diContainer->get("eventListenerRegistry");
     $eventRegistry->registerEventListeners();
-    //echo "Event listeners registered" . PHP_EOL;
 
     // DEV MODE
     $config = $diContainer->get('config');
@@ -88,6 +87,7 @@ $http->on("request", function ($request, $response) use ($static, $diContainer, 
     try {
         $app->run($isDevMode);
     } catch(\Throwable $e) {
+        echo 'Error catched: ' . $e->getMessage() . PHP_EOL;
         $app->handleThrowable($e, $isDevMode);
     }
     
@@ -111,7 +111,6 @@ function initializeDIContainer() {
     $diContainer = new DIContainer();
     $diRegistry = new DIRegistry($diContainer);
     $diRegistry->registerObjects();
-//    echo "Dependency injection container initialized" . PHP_EOL;
     return $diContainer;
 }
 

@@ -6,6 +6,7 @@ use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\security\CSRFToken;
+use Gvera\Cache\Cache;
 
 /**
  * Class GvController
@@ -32,6 +33,7 @@ abstract class GvController
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
     const HTTP_CODE_REPONSE_CONTROLLER_NAME = 'HttpCodeResponse';
+    const TWIG_VIEWS_PREFIX = 'gv_twig_';
 
     /**
      * GvController constructor.
@@ -120,7 +122,19 @@ abstract class GvController
      */
     protected function needsTwig()
     {
-        return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.twig.html');
+        $cache = Cache::getCache();
+        $twigKey = self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.twig.html';
+        $cacheKey = self::TWIG_VIEWS_PREFIX . $this->name . '_' . $this->method;
+        
+        if ($cache->exists($cacheKey)) {
+            return $cache->load($cacheKey);
+        }
+
+        $needsTwig = file_exists($twigKey);
+
+        $cache->save(self::TWIG_VIEWS_PREFIX . $this->name . '_' . $this->method, $needsTwig);
+
+        return $needsTwig;
     }
 
     /**
