@@ -40,6 +40,12 @@ final class RedisClientCache implements CacheInterface
         return self::$instance;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @param null $expirationTime
+     * @throws \Exception
+     */
     public function save($key, $value, $expirationTime = null)
     {
         $cacheItem = new CacheItem($key);
@@ -48,11 +54,21 @@ final class RedisClientCache implements CacheInterface
         $this->itemPool->save($cacheItem);
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     * @throws \Gvera\Exceptions\InvalidArgumentException
+     */
     public function load($key)
     {
         return $this->itemPool->getItem($key)->get();
     }
 
+    /**
+     * @param $key
+     * @param null $expirationTime
+     * @throws \Gvera\Exceptions\InvalidArgumentException
+     */
     public function setExpiration($key, $expirationTime = null)
     {
         $cacheItem = $this->itemPool->getItem($key);
@@ -79,6 +95,7 @@ final class RedisClientCache implements CacheInterface
     {
         return $this->itemPool->deleteItem($key);
     }
+
 
     public function deleteAll()
     {

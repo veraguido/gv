@@ -32,9 +32,8 @@ class CacheItemPool implements CacheItemPoolInterface
         ];
         $clientCacheBufferSize = $this->config["pool_size"];
 
-        $this->poolCacheClient = new PoolableClientCache(
+        $this->poolCacheClient = new RedisPoolableClientCache(
             $clientCacheBufferSize,
-            Client::class,
             $redisConfig
         );
     }

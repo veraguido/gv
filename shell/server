@@ -7,7 +7,6 @@ use Gvera\Helpers\dependencyInjection\DIContainer;
 require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../config/locale_setup.php';
 
-
 $http = new swoole_http_server("localhost", 80);
 $diContainer = initializeDIContainer();
 $isDevMode = false;

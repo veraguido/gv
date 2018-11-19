@@ -4,7 +4,7 @@ namespace Gvera\Cache;
 
 use Predis\Client;
 
-class PoolableClientCache
+class RedisPoolableClientCache
 {
     private $bufferSize;
     private $index = 0;
@@ -17,9 +17,9 @@ class PoolableClientCache
      * @param array $config
      * @throws \ReflectionException
      */
-    public function __construct(int $bufferSize, string $clientClassName, array $config)
+    public function __construct(int $bufferSize, array $config)
     {
-        $this->constructPool($bufferSize, $clientClassName, $config);
+        $this->constructPool($bufferSize, $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class PoolableClientCache
      * @param $config
      * @throws \ReflectionException
      */
-    public function constructPool($bufferSize, $clientClass, $config)
+    public function constructPool($bufferSize, $config)
     {
         for ($i = 0; $i < $bufferSize; $i++) {
             $clientInstance = new Client($config);
