@@ -59,10 +59,9 @@ class CacheItemPool implements CacheItemPoolInterface
     {
         try {
             $client = $this->poolCacheClient->nextClient();
-            $client->connect();
             $item = unserialize($client->get($key));
             $this->pool[$key] = $item;
-            $client->disconnect();
+
         } catch (\Throwable $t) {
             throw new InvalidArgumentException('something went wrong retrieving a cache item', [$key]);
         }
@@ -222,6 +221,7 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function commit()
     {
+        $success = false;
         try {
             $client = $this->poolCacheClient->nextClient();
             $client->connect();
@@ -241,12 +241,13 @@ class CacheItemPool implements CacheItemPoolInterface
                 }
             }
 
+            $success = true;
         } catch (\Throwable $t) {
-            return false;
         } finally {
+            $this->saveBus = [];
             $client->disconnect();
         }
-        return true;
+        return $success;
     }
 
     public function deleteAll()

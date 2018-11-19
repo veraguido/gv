@@ -29,6 +29,6 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
   redis:
-    image: redis:4.0-alpine
+    image: redis
     ports:
       - 16379:6379

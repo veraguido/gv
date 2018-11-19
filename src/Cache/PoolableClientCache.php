@@ -51,8 +51,7 @@ class PoolableClientCache
     public function constructPool($bufferSize, $clientClass, $config)
     {
         for ($i = 0; $i < $bufferSize; $i++) {
-            $class = new \ReflectionClass($clientClass);
-            $clientInstance = $class->newInstance($config);
+            $clientInstance = new Client($config);
             array_push($this->pool, $clientInstance);
         }
     }

@@ -33,7 +33,7 @@ final class RedisClientCache implements CacheInterface
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if (null === self::$instance) {
             self::$instance = new RedisClientCache();
         }
         

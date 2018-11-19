@@ -19,14 +19,14 @@ class ThrowableListener implements EventListenerInterface
     public function handleEvent($event)
     {
         $throwable = $event->getThrowable();
+        $httpResponse = $event->getHttpResponse();
+        $arguments = is_a($throwable, GvException::class) ? $throwable->getArguments() : [];
         if ($event->isDevMode()) {
-            $httpResponse = $event->getHttpResponse();
-            $httpResponse->response($event->getThrowable()->getMessage());
-            echo $event->getThrowable()->getMessage();
-            return;
+            echo $event->getThrowable()->getMessage() . PHP_EOL;
+            var_dump($arguments);
         }
 
-        $arguments = is_a($throwable, GvException::class) ? $throwable->getArguments() : [];
         $this->logger->err($throwable->getMessage(), $arguments);
+        $httpResponse->response($event->getThrowable()->getMessage());
     }
 }
