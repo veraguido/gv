@@ -10,6 +10,7 @@ include_once __DIR__ . '/../config/locale_setup.php';
 $http = new swoole_http_server("localhost", 80);
 $diContainer = initializeDIContainer();
 $isDevMode = false;
+$app = new Gvera\Gvera($diContainer);
 
 $http->on("start", function ($server) use ($diContainer, $isDevMode) {
 
@@ -47,7 +48,7 @@ $static = [
     'ico'  => 'image/x-icon'
 ];
 
-$http->on("request", function ($request, $response) use ($static, $diContainer, $isDevMode) {
+$http->on("request", function ($request, $response) use ($app, $static, $diContainer, $isDevMode) {
 
     if (getStaticFile($request, $response, $static)) {
         return;
@@ -82,9 +83,9 @@ $http->on("request", function ($request, $response) use ($static, $diContainer, 
 
     $_SESSION['key'] = $_SESSION['key'] ?? rand();
 
-    $app = new Gvera\Gvera($request, $response, $diContainer);
+
     try {
-        $app->run($isDevMode);
+        $app->run($isDevMode, $request, $response);
     } catch(\Throwable $e) {
         echo 'Error catched: ' . $e->getMessage() . PHP_EOL;
         $app->handleThrowable($e, $isDevMode);

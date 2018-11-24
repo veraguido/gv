@@ -41,8 +41,10 @@ class Gvera
      * @param $isDevMode
      * @throws \Exception
      */
-    public function run($isDevMode)
+    public function run($isDevMode, $serverRequest, $serverResponse)
     {
+        $this->serverRequest = $serverRequest;
+        $this->serverResponse = $serverResponse;
         $this->initializeApp($isDevMode);
 
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
@@ -50,10 +52,8 @@ class Gvera
         $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
     
-    public function __construct($serverRequest, $serverResponse, $diContainer)
+    public function __construct(DIContainer $diContainer)
     {
-        $this->serverRequest = $serverRequest;
-        $this->serverResponse = $serverResponse;
         $this->diContainer = $diContainer;
     }
 

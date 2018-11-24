@@ -11,9 +11,10 @@ ini_set('display_startup_errors', $isDevMode);
 $reporting = (true === $isDevMode) ? E_ALL : 0;
 error_reporting($reporting);
 
+$diContainer = initializeDIContainer();
 
 try {
-    $app = new Gvera\Gvera();
+    $app = new Gvera\Gvera($diContainer);
     $app->run($isDevMode);
 } catch(\Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
