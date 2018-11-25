@@ -59,9 +59,8 @@ class ControllerService
     public function redirectToDefault($diContainer)
     {
         $this->diContainer = $diContainer;
-        $this->controllerFinalName = GvController::DEFAULT_CONTROLLER;
-        $this->method = GvController::DEFAULT_METHOD;
-        $this->initializeControllerInstance(Index::class);
+        $response = $diContainer->get('httpResponse');
+        $response->redirect('/' . GvController::DEFAULT_CONTROLLER);
     }
 
     /**
