@@ -1,17 +1,9 @@
-<?php namespace Gvera;
+<?php
+namespace Gvera;
 
 use Gvera\Cache\Cache;
-use Gvera\Controllers\GvController;
 use Gvera\Controllers\HttpCodeResponse;
-use Gvera\Controllers\Index;
 use Gvera\Events\ThrowableFiredEvent;
-use Gvera\Exceptions\InvalidControllerException;
-use Gvera\Exceptions\InvalidVersionException;
-use Gvera\Helpers\dependencyInjection\DIRegistry;
-use Gvera\Helpers\events\EventDispatcher;
-use Gvera\Helpers\events\EventListenerRegistry;
-use Gvera\Helpers\http\HttpResponse;
-use Gvera\Exceptions\GvException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 
 /**

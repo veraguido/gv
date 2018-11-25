@@ -47,17 +47,17 @@ class HttpResponse
 
     public function notFound()
     {
-        $this->setHeader(self::HTTP_RESPONSE_NOT_FOUND);
+        $this->setHeader('', self::HTTP_RESPONSE_NOT_FOUND);
     }
 
     public function badRequest()
     {
-        $this->setHeader(self::HTTP_RESPONSE_BAD_REQUEST);
+        $this->setHeader('', self::HTTP_RESPONSE_BAD_REQUEST);
     }
 
     public function unauthorized()
     {
-        $this->setHeader(self::HTTP_RESPONSE_UNAUTHORIZED);
+        $this->setHeader('', self::HTTP_RESPONSE_UNAUTHORIZED);
     }
 
     /**

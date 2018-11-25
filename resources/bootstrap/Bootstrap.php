@@ -18,7 +18,7 @@ class Bootstrap
         $this->diContainer = $this->initializeDIContainer();
 
         $this->config = $this->diContainer->get('config');
-        $this->config->setConfig(\Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . "/../../config/config.yml"))["config"]);
+
 
         $routeManager = $this->diContainer->get('routeManager');
         $routeManager->setRoutes(

@@ -29,6 +29,7 @@ http:
     httpRequest:
       class: HttpRequest
       arguments: "@fileManager"
+      singleton: true
     httpResponse:
       class: HttpResponse
       singleton: true

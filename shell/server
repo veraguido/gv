@@ -75,7 +75,6 @@ $http->on("request", function ($request, $response) use ($app, $static, $diConta
     try {
         $app->run($isDevMode, $request, $response);
     } catch(\Throwable $e) {
-        echo 'Error catched: ' . $e->getMessage() . PHP_EOL;
         $app->handleThrowable($e, $isDevMode);
     }
 
