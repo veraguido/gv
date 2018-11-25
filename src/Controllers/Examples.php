@@ -78,7 +78,7 @@ class Examples extends GvController
 
     public function lorep()
     {
-        $this->httpResponse->reponse(Locale::getLocale("Hello world"));
+        $this->httpResponse->response(Locale::getLocale("Hello world"));
     }
 
     /**

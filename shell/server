@@ -6,35 +6,23 @@ use Gvera\Helpers\dependencyInjection\DIContainer;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../config/locale_setup.php';
+include_once __DIR__ . '/../resources/bootstrap/Bootstrap.php';
 
 $http = new swoole_http_server("localhost", 80);
-$diContainer = initializeDIContainer();
-$isDevMode = false;
+$bootstrap = new Bootstrap();
+$diContainer = $bootstrap->getDiContainer();
 $app = new Gvera\Gvera($diContainer);
+$isDevMode = $bootstrap->getConfig()->getConfig('devmode');
 
 $http->on("start", function ($server) use ($diContainer, $isDevMode) {
 
     printf("HTTP server started at %s:%s\n", $server->host, $server->port);
 
-    $eventRegistry = $diContainer->get("eventListenerRegistry");
-    $eventRegistry->registerEventListeners();
-
     // DEV MODE
-    $config = $diContainer->get('config');
-    $config->setConfig(\Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . "/../config/config.yml"))["config"]);
-    $isDevMode = $config->getConfig('devmode');
     ini_set('display_errors', $isDevMode);
     ini_set('display_startup_errors', $isDevMode);
     $reporting = (true === $isDevMode) ? E_ALL : 0;
     error_reporting($reporting);
-
-    $routeManager = $diContainer->get('routeManager');
-    $routeManager->setRoutes(
-            \Symfony\Component\Yaml\Yaml::parse(
-                    file_get_contents(__DIR__ . '/../config/routes.yml')
-            )['routes']
-    );
-
 });
 
 $static = [
@@ -90,7 +78,7 @@ $http->on("request", function ($request, $response) use ($app, $static, $diConta
         echo 'Error catched: ' . $e->getMessage() . PHP_EOL;
         $app->handleThrowable($e, $isDevMode);
     }
-    
+
 });
 
 function getStaticFile(swoole_http_request $request, swoole_http_response $response, array $static) : bool {
@@ -105,13 +93,6 @@ function getStaticFile(swoole_http_request $request, swoole_http_response $respo
     $response->header('Content-Type', $static[$type]);
     $response->sendfile($staticFile);
     return true;
-}
-
-function initializeDIContainer() {
-    $diContainer = new DIContainer();
-    $diRegistry = new DIRegistry($diContainer);
-    $diRegistry->registerObjects();
-    return $diContainer;
 }
 
 $http->start();
