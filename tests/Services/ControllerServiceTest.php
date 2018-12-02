@@ -78,14 +78,6 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
     public function testRedirectToDefault()
     {
         $this->controllerService->redirectToDefault($this->getDiContainer());
-        $controllerName = GvController::DEFAULT_CONTROLLER;
-        $methodName = GvController::DEFAULT_METHOD; 
-        $this->assertTrue(
-             $this->controllerService->getControllerName() === $controllerName
-        );
-        $this->assertTrue(
-            $this->controllerService->getMethodName() === $methodName
-        );
     }
 
     /**
@@ -193,7 +185,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function getMockedHttp($type) 
+    private function getMockedHttp($type = '')
     {
         if ($type === 'httpRequest') {
             $httpRequest = new HttpRequest(
@@ -211,6 +203,9 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         $httpResponse->expects($this->any())
             ->method('asJson')
             ->willReturn(true);
+
+        $httpResponse->expects($this->any())
+            ->method('redirect');
 
         return $httpResponse;
     }
