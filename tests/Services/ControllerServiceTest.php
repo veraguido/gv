@@ -116,10 +116,10 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(
             $this->controllerService->getControllerName() === 'MoreExamples'
-       );
-       $this->assertTrue(
-           $this->controllerService->getMethodName() === 'other'
-       );
+        );
+        $this->assertTrue(
+            $this->controllerService->getMethodName() === 'other'
+        );
     }
 
     /**
@@ -158,11 +158,12 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         return $diContainer;
     }
 
-    public function httpCallBack($param) {
+    public function httpCallBack($param)
+    {
         return $this->getMockedHttp($param);
     }
 
-    private function getServerRequest() 
+    private function getServerRequest()
     {
         $serverRequest = new stdClass();
         $serverRequest->server = ['request_method' => 'GET'];
