@@ -29,7 +29,7 @@ class GvEntityManager extends EntityManager
         $path = array('src/Models');
 
         $mysqlConfig = $config->getConfig('mysql');
-
+        $redisConfig = $config->getConfig('redis');
         $dbParams = array(
             'driver'   => $mysqlConfig['driver'],
             'host'     => $mysqlConfig['host'],
@@ -37,10 +37,17 @@ class GvEntityManager extends EntityManager
             'password' => $mysqlConfig['password'],
             'dbname'   => $mysqlConfig['db_name']
         );
-        
+
+        $cache = new RedisCache();
+        $redis = new \Redis();
+        $redis->connect($redisConfig['host'], $redisConfig['port']);
+        $cache->setRedis($redis);
+
         $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
             $path,
-            (bool) $config->getConfig('devmode')
+            (bool) $config->getConfig('devmode'),
+            null,
+            $cache
         );
         
         $connection = DriverManager::getConnection($dbParams, $doctrineConfig);
