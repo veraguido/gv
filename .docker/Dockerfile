@@ -22,3 +22,4 @@ RUN pecl install swoole
 RUN pecl install redis && docker-php-ext-enable redis
 
 EXPOSE 80
+EXPOSE 8080
