@@ -73,7 +73,7 @@ class UserService
 
     public function logout()
     {
-        $this->session->unset('user');
+        $this->session->unsetByKey('user');
     }
 
     public function isUserLoggedIn()
