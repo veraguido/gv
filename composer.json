@@ -25,7 +25,6 @@
         "predis/predis":            "1.*",
         "tiben/crontab-manager":    "~1.0",
         "ext-json":                 "*",
-        "ext-zend-opcache":         "*"
     },
     "require-dev": {
         "phpunit/phpunit":          "6.5.*",
