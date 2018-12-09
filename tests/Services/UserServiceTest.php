@@ -94,7 +94,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
     {
         $session = $this->createMock(Session::class);
         $session->expects($this->any())
-            ->method('unset')
+            ->method('unsetByKey')
             ->with('user')
             ->willReturn(true);
         
