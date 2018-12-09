@@ -199,7 +199,6 @@ class ControllerService
      * @return string|null
      * @throws \Exception
      * All controllers should extend from GvController. By default if a Controller does not exist
-     * it fallbacks to the HttpCodeResponse controller.
      */
     private function getValidControllerClassName($controllerName, $version)
     {

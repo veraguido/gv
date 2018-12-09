@@ -30,7 +30,7 @@ class Session
         $_SESSION[$key] = $value;
     }
 
-    public function unset($key)
+    public function unsetByKey($key)
     {
         $this->start();
         unset($_SESSION[$key]);

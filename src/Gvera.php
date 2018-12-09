@@ -43,7 +43,7 @@ class Gvera
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
         $this->parseUri($this->supportsSpecialRoutesIfApply());
     }
-    
+
     public function __construct(DIContainer $diContainer)
     {
         $this->diContainer = $diContainer;
@@ -130,6 +130,7 @@ class Gvera
     }
 
     /**
+     * @param $action
      * @return bool
      */
     private function supportsActionIfApplies($action)
@@ -148,8 +149,8 @@ class Gvera
     }
 
     /**
-     * @return array
-     * @Cached
+     * @param $scanDirectory
+     * @return array|mixed|null
      * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
      * The method will check for all the files created under the controllers directory and generate a map of them
      * to be used for the instantiation.
@@ -171,7 +172,10 @@ class Gvera
     }
 
     /**
-     * @return null|array<*,array>
+     * @param $scanDirectory
+     * @param $autoloadingName
+     * @param $loadedControllers
+     * @return null|array
      */
     private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
     {
