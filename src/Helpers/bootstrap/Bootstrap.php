@@ -50,7 +50,7 @@ class Bootstrap
     /**
      * @return \Gvera\Helpers\dependencyInjection\DIContainer
      */
-    public function getDiContainer(): \Gvera\Helpers\dependencyInjection\DIContainer
+    public function getDiContainer(): DIContainer
     {
         return $this->diContainer;
     }
@@ -66,7 +66,7 @@ class Bootstrap
 
     private function initializeDIContainer()
     {
-        $diContainer = new \Gvera\Helpers\dependencyInjection\DIContainer();
+        $diContainer = new DIContainer();
         $diRegistry = new \Gvera\Helpers\dependencyInjection\DIRegistry($diContainer);
         $diRegistry->registerObjects();
         return $diContainer;

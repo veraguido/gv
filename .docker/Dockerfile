@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     && chown -R www-data:www-data /var/www/html \
     && ln -fsn /usr/local/bin/php /usr/bin/php
 
-#RUN pecl install xdebug
+RUN pecl install xdebug
 #RUN pecl install swoole
 RUN pecl install redis && docker-php-ext-enable redis
 
