@@ -71,5 +71,4 @@ class Bootstrap
         $diRegistry->registerObjects();
         return $diContainer;
     }
-
 }
