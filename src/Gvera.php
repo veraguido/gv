@@ -26,6 +26,12 @@ class Gvera
     private $routeManager;
     private $diContainer;
 
+    public function __construct(DIContainer $diContainer)
+    {
+        $this->diContainer = $diContainer;
+    }
+
+
     private $controllerService;
 
     /**
@@ -78,7 +84,6 @@ class Gvera
         //In that case the eventListenerRegistry is not registered
         //and Throwable cannot be handled.
         try {
-            $this->initializeDependencyInjection();
             $eventRegistry = $this->diContainer->get("eventListenerRegistry");
             $eventRegistry->registerEventListeners();
         } catch (\Throwable $t) {
@@ -93,12 +98,6 @@ class Gvera
         $this->controllerService->setDiContainer($this->diContainer);
     }
 
-    private function initializeDependencyInjection()
-    {
-        $this->diContainer = new DIContainer();
-        $diRegistry = new DIRegistry($this->diContainer);
-        $diRegistry->registerObjects();
-    }
 
     /**
      * @return string|boolean
@@ -167,7 +166,7 @@ class Gvera
     private function autoloadControllers($scanDirectory)
     {
         if (Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
-            return unserialize(Cache::getCache()->load(self::GV_CONTROLLERS_KEY));
+            return Cache::getCache()->load(self::GV_CONTROLLERS_KEY);
         }
 
         $controllersDir = scandir($scanDirectory);
@@ -175,8 +174,7 @@ class Gvera
         foreach ($controllersDir as $index => $autoloadingName) {
             $loadedControllers = $this->loadControllers($scanDirectory, $autoloadingName, $loadedControllers);
         }
-        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, serialize($loadedControllers));
-
+        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, $loadedControllers);
         return $loadedControllers;
     }
 

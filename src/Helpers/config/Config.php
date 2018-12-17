@@ -22,16 +22,20 @@ class Config
      */
     public function __construct()
     {
-        if (Cache::getCache()->exists(self::CONFIG_KEY)) {
-            $this->config = unserialize(Cache::getCache()->load(self::CONFIG_KEY));
-        } else {
-            $this->config = Yaml::parse(file_get_contents(__DIR__ . "/../../../config/config.yml"))["config"];
-            Cache::getCache()->save(self::CONFIG_KEY, serialize($this->config));
-        }
+        $this->setConfig(
+            \Symfony\Component\Yaml\Yaml::parse(
+                file_get_contents(__DIR__ . "/../../../config/config.yml")
+            )["config"]
+        );
     }
 
     public function getConfig($key)
     {
         return $this->config[$key];
+    }
+
+    public function setConfig($config)
+    {
+        $this->config = $config;
     }
 }
