@@ -24,30 +24,6 @@ interface CacheInterface
     /**
      * @return void
      */
-    public function addToList($listKey, $list);
-    /**
-     * @return array
-     */
-    public function getList($listKey);
-    /**
-     * @return void
-     */
-    public function addToHashMap($hashMapKey, $key, $value);
-    /**
-     * @return array
-     */
-    public function getHashMap($hashMapKey);
-    /**
-     * @return void
-     */
-    public function setHashMap($hashMapKey, $array);
-    /**
-     * @return mixed
-     */
-    public function getHashMapItem($hashMapKey, $itemKey);
-    /**
-     * @return void
-     */
     public function setExpiration($key, $expirationTime = null);
     /**
      * @return bool

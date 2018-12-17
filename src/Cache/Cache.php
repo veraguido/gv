@@ -13,28 +13,18 @@ namespace Gvera\Cache;
  */
 class Cache
 {
-    private static $exception;
-
     /**
      * it will ping redis to check the availability of the service, if it's not present it will fallback
      * to files as default. As PRedis will ping true OR exception I can only catch the exception and fallback to
      * FilesCache
-     * @return FilesCache|RedisCache
+     * @return FilesCache|RedisClientCache
      */
     public static function getCache(): CacheInterface
     {
         try {
-            RedisCache::getInstance()->ping();
+            return RedisClientCache::getInstance();
         } catch (\Exception $e) {
-            self::$exception = $e;
+            return FilesCache::getInstance();
         }
-
-        if (isset(self::$exception)) {
-            $cache = FilesCache::getInstance();
-        } else {
-            $cache = RedisCache::getInstance();
-        }
-
-        return $cache;
     }
 }
