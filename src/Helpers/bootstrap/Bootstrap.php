@@ -32,15 +32,16 @@ class Bootstrap
         $this->config = $this->diContainer->get('config');
 
 
-        $routes = Cache::getCache()->load(RouteManager::ROUTE_CACHE_KEY);
-
-        if (null === $routes) {
+        if (!Cache::getCache()->exists(RouteManager::ROUTE_CACHE_KEY)) {
             $routes = \Symfony\Component\Yaml\Yaml::parse(
-                file_get_contents(__DIR__ . '/../../config/routes.yml')
+                file_get_contents(__DIR__ . '/../../../config/routes.yml')
             )['routes'];
+        } else {
+            $routes = Cache::getCache()->load(RouteManager::ROUTE_CACHE_KEY);
         }
 
         $routeManager = $this->diContainer->get('routeManager');
+
         $routeManager->setRoutes($routes);
 
         $eventRegistry = $this->diContainer->get("eventListenerRegistry");
