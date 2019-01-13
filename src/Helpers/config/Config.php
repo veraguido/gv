@@ -23,13 +23,13 @@ class Config
     public function __construct()
     {
         $this->setConfig(
-            \Symfony\Component\Yaml\Yaml::parse(
+            Yaml::parse(
                 file_get_contents(__DIR__ . "/../../../config/config.yml")
             )["config"]
         );
     }
 
-    public function getConfig($key)
+    public function getConfigItem($key)
     {
         return $this->config[$key];
     }

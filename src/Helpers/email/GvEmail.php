@@ -71,7 +71,7 @@ class GvEmail
      */
     public function getEmailConfiguration()
     {
-        return $this->config->getConfig('email');
+        return $this->config->getConfigItem('email');
     }
 
     /**

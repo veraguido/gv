@@ -35,14 +35,19 @@ class Locale
                     __DIR__ . '/../../../resources/locale/' . self::$currentLocale .'/messages.yml'
                 )
             );
-            Cache::getCache()->setHashMap(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY, self::$locales);
+            Cache::getCache()->save(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY, self::$locales);
         }
-        $value = Cache::getCache()->getHashMapItem(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY, $key);
+        $value = Cache::getCache()->load(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY)[$key];
 
         if (!$value) {
             return $key;
         }
 
         return sprintf($value, $additionalParams);
+    }
+
+    public static function getLocaleCacheKey()
+    {
+        return self::$currentLocale . '_' . self::LOCALE_CACHE_KEY;
     }
 }

@@ -28,8 +28,8 @@ class GvEntityManager extends EntityManager
     {
         $path = array('src/Models');
 
-        $mysqlConfig = $config->getConfig('mysql');
-        $redisConfig = $config->getConfig('redis');
+        $mysqlConfig = $config->getConfigItem('mysql');
+        $redisConfig = $config->getConfigItem('redis');
         $dbParams = array(
             'driver'   => $mysqlConfig['driver'],
             'host'     => $mysqlConfig['host'],
@@ -45,7 +45,7 @@ class GvEntityManager extends EntityManager
 
         $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
             $path,
-            (bool) $config->getConfig('devmode'),
+            (bool) $config->getConfigItem('devmode'),
             null,
             $cache
         );

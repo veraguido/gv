@@ -1,3 +1,4 @@
+#!/usr/bin/php -q
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -12,7 +13,7 @@ if (count($argv) < 2){
     echo "Please select the option: \n";
     echo "--------------------------\n";
     echo "1 - Flush all\n";
-    echo "2 - Flush config && DI Objects\n";
+    echo "2 - Flush DI Objects\n";
     echo "3 - Flush routes\n";
     echo "4 - Flush translations\n";
     echo "5 - Flush controller names\n";
@@ -25,7 +26,6 @@ switch ($argv[1]) {
         $cache->deleteAll();
         break;
     case 2:
-        $cache->delete("gv_config");
         $cache->delete("gv_di");
         break;
     case 3:

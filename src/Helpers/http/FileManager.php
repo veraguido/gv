@@ -66,7 +66,7 @@ class FileManager
             throw new NotFoundException("The file you are trying to move is not uploaded");
         }
 
-        if (!in_array($file->getType(), $this->config->getConfig('allowed_upload_file_types'))) {
+        if (!in_array($file->getType(), $this->config->getConfigItem('allowed_upload_file_types'))) {
             throw new InvalidFileTypeException(
                 "The file you are trying to move does not match the server's requirement"
             );

@@ -10,9 +10,9 @@ use Doctrine\Common\ClassLoader;
 
 $config = new \Gvera\Helpers\config\Config();
 $paths = array(__DIR__ . "/../src/Models");
-$isDevMode = $config->getConfig('devmode');
-$mysqlConfig = $config->getConfig('mysql');
-$redisConfig = $config->getConfig('redis');
+$isDevMode = $config->getConfigItem('devmode');
+$mysqlConfig = $config->getConfigItem('mysql');
+$redisConfig = $config->getConfigItem('redis');
 // the connection configuration
 $dbParams = array(
     'driver'   => $mysqlConfig['driver'],

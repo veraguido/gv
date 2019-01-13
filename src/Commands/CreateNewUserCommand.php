@@ -65,7 +65,7 @@ class CreateNewUserCommand implements CommandInterface
             new UserRegisteredEvent(
                 $user->getUsername(),
                 $user->getEmail(),
-                $this->config->getConfig('devmode')
+                $this->config->getConfigItem('devmode')
             )
         );
     }

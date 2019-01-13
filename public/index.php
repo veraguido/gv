@@ -8,7 +8,7 @@ ob_start();
 $bootstrap = new \Gvera\Helpers\bootstrap\Bootstrap();
 $diContainer = $bootstrap->getDiContainer();
 $app = new Gvera\Gvera($diContainer);
-$isDevMode = $bootstrap->getConfig()->getConfig('devmode');
+$isDevMode = $bootstrap->getConfig()->getConfigItem('devmode');
 
 // DEV MODE
 ini_set('display_errors', $isDevMode);

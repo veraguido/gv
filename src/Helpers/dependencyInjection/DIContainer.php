@@ -8,8 +8,15 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class DIContainer implements ContainerInterface
 {
+    const SINGLETON_CLASS = 'classSingleton';
+
     private $map;
     private $classMap;
+
+    public function initialize()
+    {
+
+    }
 
     private function addToMap($key, $obj)
     {
@@ -85,7 +92,10 @@ class DIContainer implements ContainerInterface
         // checking if the class exists
         $this->checkClassExist($className);
 
-        // initialized the ReflectionClass
+        if (self::SINGLETON_CLASS === $this->map->$id->type && $this->map->$id->instance !== null) {
+            return $this->map->$id->instance;
+        }
+
         $reflection = new \ReflectionClass($className);
         $arguments = isset($this->map->$id->arguments) ? $this->map->$id->arguments : [];
         // creating an instance of the class
@@ -96,6 +106,11 @@ class DIContainer implements ContainerInterface
             $lines = explode("\n", $doc);
             $this->checkInjectionLinesInComments($lines, $obj);
         }
+
+        if (self::SINGLETON_CLASS === $this->map->$id->type) {
+            $this->map->$id->instance = $obj;
+        }
+
         // return the created instance
         return $obj;
     }
@@ -204,9 +219,7 @@ class DIContainer implements ContainerInterface
     private function generateSingletonDependency($key, $object, $id)
     {
         if ($this->map->$key->instance === null) {
-            $object->$key = $this->map->$key->instance = $this->get($id);
-        } else {
-            $object->$key = $this->map->$key->instance;
+            $this->map->$key->instance = $this->get($id);
         }
     }
 

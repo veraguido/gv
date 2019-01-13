@@ -73,6 +73,7 @@ routes:
   objects:
     routeManager:
       class: RouteManager
+      singleton: true
       arguments: "@httpRequest"
 
 annotations:

@@ -36,6 +36,7 @@ class Bootstrap
             $routes = \Symfony\Component\Yaml\Yaml::parse(
                 file_get_contents(__DIR__ . '/../../../config/routes.yml')
             )['routes'];
+            Cache::getCache()->save(RouteManager::ROUTE_CACHE_KEY, $routes);
         } else {
             $routes = Cache::getCache()->load(RouteManager::ROUTE_CACHE_KEY);
         }
@@ -70,6 +71,7 @@ class Bootstrap
         $diContainer = new DIContainer();
         $diRegistry = new \Gvera\Helpers\dependencyInjection\DIRegistry($diContainer);
         $diRegistry->registerObjects();
+        $diContainer->initialize();
         return $diContainer;
     }
 }

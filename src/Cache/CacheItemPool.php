@@ -3,7 +3,13 @@
 namespace Gvera\Cache;
 
 use Gvera\Exceptions\InvalidArgumentException;
+use Gvera\Gvera;
 use Gvera\Helpers\config\Config;
+use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\dependencyInjection\DIRegistry;
+use Gvera\Helpers\locale\Locale;
+use Gvera\Helpers\routes\RouteManager;
+use Gvera\Services\ControllerService;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Predis\Client;
@@ -11,9 +17,12 @@ use Symfony\Component\Yaml\Yaml;
 
 class CacheItemPool implements CacheItemPoolInterface
 {
+    const INSTRUCTIONS = ['save', 'delete'];
+    private $cachableKeys;
+
 
     private $pool = [];
-    private $saveBus = [];
+    private $bus = [];
     private $config;
     private $poolCacheClient;
 
@@ -36,6 +45,8 @@ class CacheItemPool implements CacheItemPoolInterface
             $clientCacheBufferSize,
             $redisConfig
         );
+
+        $this->initializeItemPool();
     }
 
     /**
@@ -59,7 +70,6 @@ class CacheItemPool implements CacheItemPoolInterface
         try {
             $client = $this->poolCacheClient->nextClient();
             $item = unserialize($client->get($key));
-            $this->pool[$key] = $item;
         } catch (\Throwable $t) {
             throw new InvalidArgumentException('something went wrong retrieving a cache item', [$key]);
         }
@@ -127,7 +137,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function clear()
     {
         $this->pool = [];
-        $this->saveBus = [];
+        $this->bus = [];
         return $this->commit();
     }
 
@@ -150,7 +160,7 @@ class CacheItemPool implements CacheItemPoolInterface
             throw new InvalidArgumentException('key does not exist in cache', ['key' => $key]);
         }
 
-        $this->saveBus['delete'] = [$key] ;
+        $this->bus['delete'] = [$key] ;
         unset($this->pool[$key]);
         return $this->commit();
     }
@@ -172,7 +182,7 @@ class CacheItemPool implements CacheItemPoolInterface
             if (!array_key_exists($key, $this->pool)) {
                 throw new InvalidArgumentException("there's one corrupted item passed as an argument", [$key]);
             }
-            array_push($this->saveBus['delete'], $this->pool[$key]);
+            array_push($this->bus['delete'], $this->pool[$key]);
             unset($this->pool[$key]);
         }
 
@@ -191,7 +201,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function save(CacheItemInterface $item)
     {
         $this->pool[$item->getKey()] = $item;
-        $this->saveBus['save'] = [$item->getKey() => $item];
+        $this->bus['save'] = [$item->getKey() => $item];
         return $this->commit();
     }
 
@@ -207,7 +217,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function saveDeferred(CacheItemInterface $item)
     {
         array_push($this->pool[$item->getKey()], $item);
-        $this->saveBus['save'] = [$item->getKey() => $item];
+        $this->bus['save'] = [$item->getKey() => $item];
         return true;
     }
 
@@ -220,29 +230,15 @@ class CacheItemPool implements CacheItemPoolInterface
     public function commit()
     {
         $success = false;
+        $client = $this->poolCacheClient->nextClient();
         try {
-            $client = $this->poolCacheClient->nextClient();
             $client->connect();
-
-            if (isset($this->saveBus['save'])) {
-                foreach ($this->saveBus['save'] as $keyToSave => $itemToSave) {
-                    $client->set($keyToSave, serialize($itemToSave));
-                    if ($itemToSave->getExpirationTime()) {
-                        $client->expire($keyToSave, $itemToSave->getExpirationTime());
-                    }
-                }
-            }
-
-            if (isset($this->saveBus['delete'])) {
-                foreach ($this->saveBus['delete'] as $keyToDelete) {
-                    $client->del($keyToDelete);
-                }
-            }
+            $this->executeBusInstructions($client);
 
             $success = true;
         } catch (\Throwable $t) {
         } finally {
-            $this->saveBus = [];
+            $this->bus = [];
             $client->disconnect();
         }
         return $success;
@@ -251,5 +247,80 @@ class CacheItemPool implements CacheItemPoolInterface
     public function deleteAll()
     {
         $this->deleteItems(array_keys($this->pool));
+    }
+
+    /**
+     * @param $client
+     */
+    private function executeBusInstructions($client)
+    {
+        foreach (self::INSTRUCTIONS as $instruction) {
+            if (!isset($this->bus[$instruction])) {
+                continue;
+            }
+
+            $this->executeBusInstruction($instruction, $client, $this->bus);
+        }
+    }
+
+    /**
+     * @param string $instruction
+     * @param $client
+     * @param $bus
+     */
+    private function executeBusInstruction(string $instruction, $client)
+    {
+        foreach ($this->bus[$instruction] as $keyToChange => $itemToChange) {
+            if ('save' === $instruction) {
+                $this->setItemWithExpirationTime($keyToChange, $itemToChange, $client);
+            }
+
+            if ('delete' === $instruction) {
+                $this->delete($keyToChange, $client);
+            }
+        }
+    }
+
+    /**
+     * @param $itemKey
+     * @param $item
+     * @param $client
+     */
+    private function setItemWithExpirationTime($itemKey, $item, $client)
+    {
+        $client->set($itemKey, serialize($item));
+        if ($item->getExpirationTime()) {
+            $client->expire($itemKey, $item->getExpirationTime());
+        }
+    }
+
+    /**
+     * @param $itemKey
+     * @param $client
+     */
+    private function delete($itemKey, $client)
+    {
+        $client->del([$itemKey]);
+    }
+
+    private function initializeItemPool()
+    {
+        $this->cachableKeys = [
+            Config::CONFIG_KEY,
+            RouteManager::ROUTE_CACHE_KEY,
+            Locale::getLocaleCacheKey(),
+            DIRegistry::DI_KEY,
+            Gvera::GV_CONTROLLERS_KEY
+        ];
+
+        foreach ($this->cachableKeys as $key) {
+            $item = $this->getItem($key);
+
+            if (!$item) {
+                continue;
+            }
+
+            $this->pool[$key] = $item;
+        }
     }
 }
