@@ -27,7 +27,7 @@ class DIRegistry
     }
 
     /**
-     * @return void
+     * @param $category
      */
     private function registerByCategory($category)
     {
@@ -42,7 +42,10 @@ class DIRegistry
     }
 
     /**
-     * @return object|null
+     * @param $objectKey
+     * @param string $className
+     * @param bool $singleton
+     * @param array $arguments
      */
     private function registerObject($objectKey, string $className, bool $singleton, array $arguments)
     {

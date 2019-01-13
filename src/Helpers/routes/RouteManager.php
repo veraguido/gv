@@ -92,11 +92,20 @@ class RouteManager
         return $urlCheck && $checkUri ? $route['action'] : false;
     }
 
+    /**
+     * @param $pathLikeArray
+     * @return bool
+     */
     private function isPathLikeArrayValid($pathLikeArray)
     {
         return isset($pathLikeArray[2]) && !empty($pathLikeArray[2]);
     }
 
+    /**
+     * @param $totalRoute
+     * @param $pathLikeArray
+     * @return bool
+     */
     private function convertUriParams($totalRoute, $pathLikeArray)
     {
         $count = count($pathLikeArray);
@@ -116,6 +125,10 @@ class RouteManager
         return true;
     }
 
+    /**
+     * @param $method
+     * @return array
+     */
     private function stripRoutesByHttpMethod($method)
     {
         $filteredRoutes = array();

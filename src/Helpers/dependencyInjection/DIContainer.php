@@ -90,8 +90,8 @@ class DIContainer implements ContainerInterface
         $className = $this->classMap[$id];
         // checking if the class exists
         $this->checkClassExist($className);
-
-        if (self::SINGLETON_CLASS === $this->map->$id->type && $this->map->$id->instance !== null) {
+        $singleton = $this->checkIfIsSingleton($id);
+        if ($singleton && $this->getItemInstance($id) !== null) {
             return $this->map->$id->instance;
         }
 
@@ -100,13 +100,9 @@ class DIContainer implements ContainerInterface
         // creating an instance of the class
         $obj = $this->createInstanceOfNewClass($reflection, $className, $arguments);
 
-        // injecting
-        if ($doc = $reflection->getDocComment()) {
-            $lines = explode("\n", $doc);
-            $this->checkInjectionLinesInComments($lines, $obj);
-        }
+        $this->checkInjection($reflection, $obj);
 
-        if (self::SINGLETON_CLASS === $this->map->$id->type) {
+        if ($singleton) {
             $this->map->$id->instance = $obj;
         }
 
@@ -238,5 +234,32 @@ class DIContainer implements ContainerInterface
         //convert the DIArguments to actual objects
         $diArguments = $this->getDIarguments($arguments);
         return $reflectionClass->newInstanceArgs($diArguments);
+    }
+
+    private function checkIfIsSingleton($id)
+    {
+        return self::SINGLETON_CLASS === $this->map->$id->type;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    private function getItemInstance($id)
+    {
+        return $this->map->$id->instance;
+    }
+
+    /**
+     * @param $reflection
+     * @param $instance
+     */
+    private function checkInjection($reflection, $instance)
+    {
+        // injecting
+        if ($doc = $reflection->getDocComment()) {
+            $lines = explode("\n", $doc);
+            $this->checkInjectionLinesInComments($lines, $instance);
+        }
     }
 }

@@ -66,6 +66,9 @@ class Bootstrap
 
     private $devMode = false;
 
+    /**
+     * @return DIContainer
+     */
     private function initializeDIContainer()
     {
         $diContainer = new DIContainer();
