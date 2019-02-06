@@ -13,7 +13,7 @@ class ThrowableListenerTest extends TestCase
      */
     public function testListener()
     {
-        $listener = new ThrowableListener();
+        $listener = new ThrowableListener(new Logger('gv'));
         $listener->logger = $this->getMockedLogger();
         $event = new ThrowableFiredEvent(new Exception('asd'), false, $this->createMock(HttpResponse::class));
         $listener->handleEvent($event);
@@ -24,7 +24,7 @@ class ThrowableListenerTest extends TestCase
      */
     public function testListenerWithDevMode()
     {
-        $listener = new ThrowableListener();
+        $listener = new ThrowableListener(new Logger('gv'));
         $event = new ThrowableFiredEvent(new Exception('asd'), true, $this->getMockedHttpResponse());
         $listener->handleEvent($event);
     }
