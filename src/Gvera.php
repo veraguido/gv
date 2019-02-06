@@ -63,7 +63,7 @@ class Gvera
             )
         );
 
-        $this->redirectToDefault();
+        //$this->redirectToDefault();
     }
 
     /**
@@ -80,18 +80,6 @@ class Gvera
      */
     private function initializeApp($isDevMode)
     {
-        //Needed try catch for when typos are added to ioc.yml
-        //In that case the eventListenerRegistry is not registered
-        //and Throwable cannot be handled.
-        try {
-            $eventRegistry = $this->diContainer->get("eventListenerRegistry");
-            $eventRegistry->registerEventListeners();
-        } catch (\Throwable $t) {
-            if (true === $isDevMode) {
-                die($t);
-            }
-        }
-
         $this->routeManager = $this->diContainer->get("routeManager");
 
         $this->controllerService = $this->diContainer->get('controllerService');

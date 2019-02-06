@@ -27,17 +27,16 @@ class Locale
      * @return string
      * Gets the value corresponding to the key, using sprintf for adding params to the values.
      */
-    public static function getLocale(string $key, array $additionalParams = null)
+    public static function getLocale(string $key = null, array $additionalParams = null)
     {
-        if (!Cache::getCache()->exists(self::LOCALE_CACHE_KEY)) {
-            self::$locales = Yaml::parse(
-                file_get_contents(
-                    __DIR__ . '/../../../resources/locale/' . self::$currentLocale .'/messages.yml'
-                )
-            );
-            Cache::getCache()->save(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY, self::$locales);
+
+        self::$locales = self::getLocalesFromCache();
+
+        if (null === $key) {
+            return self::$locales;
         }
-        $value = Cache::getCache()->load(self::$currentLocale . '_' . self::LOCALE_CACHE_KEY)[$key];
+
+        $value = self::$locales[$key];
 
         if (!$value) {
             return $key;
@@ -49,5 +48,21 @@ class Locale
     public static function getLocaleCacheKey()
     {
         return self::$currentLocale . '_' . self::LOCALE_CACHE_KEY;
+    }
+
+    private static function getLocalesFromCache()
+    {
+        if (Cache::getCache()->exists(self::getLocaleCacheKey())) {
+            return Cache::getCache()->load(self::getLocaleCacheKey());
+        }
+
+        $locales = Yaml::parse(
+            file_get_contents(
+                __DIR__ . '/../../../resources/locale/' . self::$currentLocale .'/messages.yml'
+            )
+        );
+        Cache::getCache()->save(self::getLocaleCacheKey(), $locales);
+
+        return $locales;
     }
 }

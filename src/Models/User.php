@@ -7,7 +7,7 @@ use Gvera\Helpers\validation\ValidationService;
  * @Entity @Table(name="users")
  * @HasLifecycleCallbacks
  */
-class User extends GvModel
+class User
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -40,10 +40,6 @@ class User extends GvModel
      */
     public function setEmail($email)
     {
-        if (!$this->getService()->validateEmail($email)) {
-            throw new \Exception('Email is not valid.');
-        }
-
         $this->email = $email;
     }
 
@@ -99,7 +95,7 @@ class User extends GvModel
 
     public function setPassword($password)
     {
-        $this->password = $this->getService()->generatePassword($password);
+        $this->password = $password;
     }
 
     /**

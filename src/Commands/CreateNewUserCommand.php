@@ -28,6 +28,23 @@ class CreateNewUserCommand implements CommandInterface
     private $email;
     private $entityManager;
     private $config;
+    private $roleId;
+
+    /**
+     * @return mixed
+     */
+    public function getRoleId()
+    {
+        return $this->roleId;
+    }
+
+    /**
+     * @param mixed $roleId
+     */
+    public function setRoleId($roleId)
+    {
+        $this->roleId = $roleId;
+    }
 
     public function __construct(Config $config, GvEntityManager $entityManager)
     {
@@ -52,8 +69,12 @@ class CreateNewUserCommand implements CommandInterface
         }
 
         $status = $this->entityManager->getRepository(UserStatus::class)->findOneBy(['status' => 'active']);
-        $role = $this->entityManager->getRepository(UserRole::class)->findOneBy(['name' => 'user']);
-
+        $userRoleRepository = $this->entityManager->getRepository(UserRole::class);
+        if (null === $this->roleId) {
+            $role = $userRoleRepository->findOneBy(['name' => 'user']);
+        } else {
+            $role = $userRoleRepository->find($this->roleId);
+        }
 
         $user = $this->createNewUser($role, $status);
 

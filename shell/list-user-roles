@@ -1,0 +1,15 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+try {
+    $config = new \Gvera\Helpers\config\Config();
+    $entityManager = new \Gvera\Helpers\entities\GvEntityManager($config);
+    $repo = $entityManager->getRepository(\Gvera\Models\UserRole::class);
+    $roles = $repo->findAll();
+    print_r($roles);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+

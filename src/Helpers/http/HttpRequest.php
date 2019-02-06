@@ -34,6 +34,10 @@ class HttpRequest
      */
     public function getParameter($name)
     {
+        if (isset($this->requestParams[$name])) {
+            return $this->requestParams[$name];
+        }
+
         $req = strtolower($this->requestType);
         return $this->$req($name);
     }

@@ -15,8 +15,6 @@ use Gvera\Models\User;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- * @Inject entityManager
- * @Inject session
  *
  */
 class UserService
@@ -25,6 +23,12 @@ class UserService
 
     public $entityManager;
     public $session;
+
+    public function __construct(GvEntityManager $entityManager, Session $session)
+    {
+        $this->entityManager = $entityManager;
+        $this->session = $session;
+    }
 
     public function validateEmail($email)
     {

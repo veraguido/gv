@@ -16,7 +16,7 @@ class HttpResponse
     const CONTENT_TYPE_PLAIN_TEXT = "Content-Type: text/plain";
     const CONTENT_TYPE_XML = "Content-Type: text/xml";
     const HTTP_RESPONSE_NOT_FOUND = "HTTP/1.0 404 Not Found";
-    const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 404 Not Found";
+    const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 400 Bad Request";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace Gvera\Helpers\entities;
 
+use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\Tools\Setup;
 use Gvera\Helpers\config\Config;
 use Doctrine\ORM\EntityManager;

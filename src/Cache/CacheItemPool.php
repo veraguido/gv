@@ -178,10 +178,15 @@ class CacheItemPool implements CacheItemPoolInterface
  */
     public function deleteItems(array $keys)
     {
+        if (!isset($this->bus['delete'])) {
+            $this->bus['delete'] = [];
+        }
+
         foreach ($keys as $key) {
             if (!array_key_exists($key, $this->pool)) {
                 throw new InvalidArgumentException("there's one corrupted item passed as an argument", [$key]);
             }
+
             array_push($this->bus['delete'], $this->pool[$key]);
             unset($this->pool[$key]);
         }
@@ -246,7 +251,9 @@ class CacheItemPool implements CacheItemPoolInterface
 
     public function deleteAll()
     {
-        $this->deleteItems(array_keys($this->pool));
+        $client = $this->poolCacheClient->nextClient();
+        $client->connect();
+        $client->flushall();
     }
 
     /**

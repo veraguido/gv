@@ -6,7 +6,7 @@ namespace Gvera\Models;
  * @package Gvera\Models
  * @Entity @Table(name="user_roles")
  */
-class UserRole extends GvModel
+class UserRole
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;

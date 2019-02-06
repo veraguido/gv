@@ -1,0 +1,41 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../config/locale_setup.php';
+
+if (count($argv) != 5){
+    echo 'wrong amount of parameters for this command';?>
+
+    usage example: ./create-user admin admin@admin.com complexPassword 1
+    <?php
+    exit(0);
+}
+
+$diContainer = getDiContainer();
+$userService = $diContainer->get('userService');
+$hashedPass = $userService->generatePassword($argv[3]);
+$userService->validateEmail($argv[2]);
+
+try {
+    $config = new \Gvera\Helpers\config\Config();
+    $entityManager = new \Gvera\Helpers\entities\GvEntityManager($config);
+    $command = new \Gvera\Commands\CreateNewUserCommand($config, $entityManager);
+    $command->setName($argv[1]);
+    $command->setEmail($argv[2]);
+    $command->setPassword($hashedPass);
+    $command->setRoleId($argv[4]);
+    $command->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+echo 'user generated successfully';
+
+function getDiContainer() {
+    $diContainer = new \Gvera\Helpers\dependencyInjection\DIContainer();
+    $diRegistry = new \Gvera\Helpers\dependencyInjection\DIRegistry($diContainer);
+    $diRegistry->registerObjects();
+    $diContainer->initialize();
+    return $diContainer;
+}

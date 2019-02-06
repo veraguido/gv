@@ -32,7 +32,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ $1 = "list-tasks" ]; then
-    docker exec -t gv_php_1 sh -c "crontab -l"
+    docker exec -t gvera_php_1 sh -c "crontab -l"
     exit 1
 fi
 
@@ -56,4 +56,4 @@ if [ $1 = "start" ]; then
     exit 1
 fi
 
-docker exec -it gv_php_1 php shell/"$@"
+docker exec -it gvera_php_1 php shell/"$@"

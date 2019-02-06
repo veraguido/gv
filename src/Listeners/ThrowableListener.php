@@ -12,6 +12,11 @@ class ThrowableListener implements EventListenerInterface
 {
     public $logger;
 
+    public function __construct(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param $event
      * @return void
@@ -19,13 +24,15 @@ class ThrowableListener implements EventListenerInterface
     public function handleEvent($event)
     {
         $throwable = $event->getThrowable();
+        $httpResponse = $event->getHttpResponse();
         if ($event->isDevMode()) {
-            $httpResponse = $event->getHttpResponse();
             $httpResponse->terminate($event->getThrowable()->getMessage());
             return;
         }
 
         $arguments = is_a($throwable, GvException::class) ? $throwable->getArguments() : [];
         $this->logger->err($throwable->getMessage(), $arguments);
+
+        $httpResponse->redirect('/');
     }
 }
