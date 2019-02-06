@@ -23,6 +23,16 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
+        $role = new UserRole();
+        $role->setName("testRole");
+        $role->setRolePriority(5);
+
+        $user = new User();
+        $user->setEmail("asd@aasd.com");
+        $user->setUsername("test");
+        $passHash = $this->userService->generatePassword('test');
+        $user->setPassword($passHash);
+
         $repo = $this->createMock(EntityRepository::class);
         $repo->expects($this->any())
             ->method('findOneBy')
