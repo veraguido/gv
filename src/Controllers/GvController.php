@@ -5,6 +5,7 @@ use Gvera\Exceptions\InvalidHttpMethodException;
 use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
 
 /**
@@ -27,6 +28,7 @@ abstract class GvController
     protected $httpResponse;
     protected $httpRequest;
     protected $diContainer;
+    protected $protectedController = false;
 
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_CONTROLLER = "Index";
@@ -39,7 +41,7 @@ abstract class GvController
      * @param string $method
      * @throws \Exception
      */
-    public function __construct(DIContainer $diContainer, $controllerName, $method = 'index')
+    public function __construct(DIContainer $diContainer, $controllerName, $method)
     {
         $this->diContainer = $diContainer;
         $this->method = $method;
@@ -78,6 +80,15 @@ abstract class GvController
      */
     protected function preInit($allowedHttpMethods)
     {
+        if (true === $this->protectedController && false === $this->checkAuthorization()) {
+            if ($this->httpRequest->isAjax()) {
+                $this->httpResponse->unauthorized();
+                exit();
+            }
+
+            $this->httpResponse->redirect("/");
+            exit();
+        }
         $annotationUtil = $this->diContainer->get('annotationUtil');
         $isHttpMethodValid = $annotationUtil->validateMethods(
             $allowedHttpMethods,
@@ -108,7 +119,7 @@ abstract class GvController
         if ($this->needsTwig()) {
             $this->httpResponse->response(
                 $this->twig->render(
-                    '/' . $this->name . '/' . $this->method . '.twig.html',
+                    '/' . $this->name . '/' . $this->method . '.html.twig',
                     $this->viewParams
                 )
             );
@@ -128,7 +139,7 @@ abstract class GvController
      */
     protected function needsTwig()
     {
-        return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.twig.html');
+        return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.html.twig');
     }
 
     /**
@@ -139,7 +150,10 @@ abstract class GvController
     {
         $this->httpResponse->asJson();
         $this->httpResponse->badRequest();
-        $this->httpResponse->printError($errorCode, $message);
+        $this->httpResponse->response([
+            'error' => $errorCode,
+            'message' => $message
+        ]);
     }
 
     /**

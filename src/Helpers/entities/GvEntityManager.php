@@ -39,10 +39,15 @@ class GvEntityManager extends EntityManager
             'dbname'   => $mysqlConfig['db_name']
         );
 
-        $cache = new RedisCache();
-        $redis = new \Redis();
-        $redis->connect($redisConfig['host'], $redisConfig['port']);
-        $cache->setRedis($redis);
+        $cache = null;
+        if (boolval($redisConfig['enabled'])) {
+            $cache = new RedisCache();
+            $redis = new \Redis();
+            $redis->connect($redisConfig['host'], $redisConfig['port']);
+            $cache->setRedis($redis);
+        }
+
+
 
         $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
             $path,

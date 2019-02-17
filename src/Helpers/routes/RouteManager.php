@@ -111,13 +111,11 @@ class RouteManager
         $count = count($pathLikeArray);
         for ($i = 0; $i < $count; $i++) {
             if (substr_count($pathLikeArray[$i], self::ROUTE_NEEDLE) == 2) {
-                if (empty($totalRoute[$i])) {
-                    return false;
-                }
+                $value = $totalRoute[$i] ?: null;
 
                 $this->httpRequest->setParameter(
                     str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]),
-                    $totalRoute[$i]
+                    $value
                 );
             }
         }

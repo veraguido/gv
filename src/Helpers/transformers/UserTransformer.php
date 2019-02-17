@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guido
- * Date: 08/07/18
- * Time: 11:01
- */
 
 namespace Gvera\Helpers\transformers;
 

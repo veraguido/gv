@@ -48,7 +48,7 @@ class HttpRequest
     public function get($name = null)
     {
         $getArray = filter_input_array(INPUT_GET);
-        return $name === null ? $getArray : $getArray[$name];
+        return (null === $name || !isset($getArray[$name]) || false === $getArray) ? null : $getArray[$name];
     }
 
     /**
@@ -58,7 +58,7 @@ class HttpRequest
     public function post($name = null)
     {
         $postArray = filter_input_array(INPUT_POST);
-        return $name === null ? $postArray : $postArray[$name];
+        return (null === $name || !isset($postArray[$name]) || false === $postArray) ? null : $postArray[$name];
     }
 
     /**
@@ -85,7 +85,8 @@ class HttpRequest
     {
         $putDeleteArray = [];
         parse_str(file_get_contents("php://input"), $putDeleteArray);
-        return $name === null ? $putDeleteArray : $putDeleteArray[$name];
+        $value = isset($putDeleteArray[$name]) ? $putDeleteArray[$name] : null;
+        return $name === null ? $putDeleteArray : $value;
     }
     
     /**
