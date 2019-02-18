@@ -80,15 +80,7 @@ abstract class GvController
      */
     protected function preInit($allowedHttpMethods)
     {
-        if (true === $this->protectedController && false === $this->checkAuthorization()) {
-            if ($this->httpRequest->isAjax()) {
-                $this->httpResponse->unauthorized();
-                exit();
-            }
-
-            $this->httpResponse->redirect("/");
-            exit();
-        }
+        $this->checkIfPassIsGranted();
         $annotationUtil = $this->diContainer->get('annotationUtil');
         $isHttpMethodValid = $annotationUtil->validateMethods(
             $allowedHttpMethods,
@@ -140,6 +132,19 @@ abstract class GvController
     protected function needsTwig()
     {
         return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.html.twig');
+    }
+
+    public function checkIfPassIsGranted()
+    {
+        if (true === $this->protectedController && false === $this->checkAuthorization()) {
+            if ($this->httpRequest->isAjax()) {
+                $this->httpResponse->unauthorized();
+                exit();
+            }
+
+            $this->httpResponse->redirect("/");
+            exit();
+        }
     }
 
     /**
