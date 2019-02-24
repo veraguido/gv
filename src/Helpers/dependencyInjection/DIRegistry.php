@@ -68,10 +68,10 @@ class DIRegistry
     private function getDIObjects()
     {
         if (Cache::getCache()->exists(self::DI_KEY)) {
-            $diObjects = unserialize(Cache::getCache()->load(self::DI_KEY));
+            $diObjects = Cache::getCache()->load(self::DI_KEY);
         } else {
             $diObjects = Yaml::parse(file_get_contents(__DIR__ . "/../../../config/ioc.yml"));
-            Cache::getCache()->save(self::DI_KEY, serialize($diObjects));
+            Cache::getCache()->save(self::DI_KEY, $diObjects);
         }
 
         return $diObjects;

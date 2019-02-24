@@ -9,6 +9,7 @@ use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\dependencyInjection\DIRegistry;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\routes\RouteManager;
+use Gvera\Models\Repositories\ProductRepository;
 use Gvera\Services\ControllerService;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -69,7 +70,8 @@ class CacheItemPool implements CacheItemPoolInterface
     {
         try {
             $client = $this->poolCacheClient->nextClient();
-            $item = unserialize($client->get($key));
+            $item = new CacheItem($key);
+            $item->set(unserialize($client->get($key)));
         } catch (\Throwable $t) {
             throw new InvalidArgumentException('something went wrong retrieving a cache item', [$key]);
         }
@@ -156,11 +158,15 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function deleteItem($key)
     {
+        if (!isset($this->pool[$key])) {
+            return true;
+        }
+
         if (!$this->pool[$key]) {
             throw new InvalidArgumentException('key does not exist in cache', ['key' => $key]);
         }
 
-        $this->bus['delete'] = [$key] ;
+        $this->bus['delete'] = [$key => ''] ;
         unset($this->pool[$key]);
         return $this->commit();
     }
@@ -266,7 +272,7 @@ class CacheItemPool implements CacheItemPoolInterface
                 continue;
             }
 
-            $this->executeBusInstruction($instruction, $client, $this->bus);
+            $this->executeBusInstruction($instruction, $client);
         }
     }
 
@@ -295,7 +301,7 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     private function setItemWithExpirationTime($itemKey, $item, $client)
     {
-        $client->set($itemKey, serialize($item));
+        $client->set($itemKey, serialize($item->get()));
         if ($item->getExpirationTime()) {
             $client->expire($itemKey, $item->getExpirationTime());
         }
@@ -305,9 +311,9 @@ class CacheItemPool implements CacheItemPoolInterface
      * @param $itemKey
      * @param $client
      */
-    private function delete($itemKey, $client)
+    private function delete($itemKey, Client $client)
     {
-        $client->del([$itemKey]);
+        $client->del($itemKey);
     }
 
     private function initializeItemPool()
@@ -322,8 +328,7 @@ class CacheItemPool implements CacheItemPoolInterface
 
         foreach ($this->cachableKeys as $key) {
             $item = $this->getItem($key);
-
-            if (!$item) {
+            if (!$item->get()) {
                 continue;
             }
 

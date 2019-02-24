@@ -21,6 +21,7 @@ class HttpRequest
     const PUT = 'PUT';
     const DELETE = 'DELETE';
     const OPTIONS = 'OPTIONS';
+    private $putDeleteArray;
 
     public function __construct(FileManager $fileManager)
     {
@@ -62,19 +63,21 @@ class HttpRequest
     }
 
     /**
-     * @param $name
+     * @param null $name
+     * @return mixed
      */
     public function put($name = null)
     {
-        $this->getPutDeleteParameter($name);
+        return $this->getPutDeleteParameter($name);
     }
 
     /**
-     * @param $name
+     * @param null $name
+     * @return mixed
      */
     public function delete($name = null)
     {
-        $this->getPutDeleteParameter($name);
+        return $this->getPutDeleteParameter($name);
     }
 
     /**
@@ -83,10 +86,14 @@ class HttpRequest
      */
     private function getPutDeleteParameter($name)
     {
-        $putDeleteArray = [];
-        parse_str(file_get_contents("php://input"), $putDeleteArray);
-        $value = isset($putDeleteArray[$name]) ? $putDeleteArray[$name] : null;
-        return $name === null ? $putDeleteArray : $value;
+        if (null === $this->putDeleteArray) {
+            $this->putDeleteArray = [];
+            parse_str(file_get_contents("php://input"), $this->putDeleteArray);
+        }
+
+        $value = isset($this->putDeleteArray[$name]) ? $this->putDeleteArray[$name] : null;
+
+        return $name === null ? $this->putDeleteArray : $value;
     }
     
     /**
@@ -139,8 +146,8 @@ class HttpRequest
      */
     public function isAjax()
     {
-        return null !== $_SERVER['HTTP_X_REQUESTED_WITH'] &&
-        $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
 
     /**

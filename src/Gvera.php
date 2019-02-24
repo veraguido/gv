@@ -62,8 +62,6 @@ class Gvera
                 $this->diContainer->get('httpResponse')
             )
         );
-
-        //$this->redirectToDefault();
     }
 
     /**

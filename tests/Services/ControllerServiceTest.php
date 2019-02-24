@@ -92,7 +92,7 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @expectedException Exception
+     * @expectedException \Gvera\Exceptions\NotFoundException
      */
     public function testVersionException()
     {
@@ -114,10 +114,10 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(
             $this->controllerService->getControllerName() === 'MoreExamples'
-       );
-       $this->assertTrue(
-           $this->controllerService->getMethodName() === 'other'
-       );
+        );
+        $this->assertTrue(
+            $this->controllerService->getMethodName() === 'other'
+        );
     }
 
     /**
@@ -147,7 +147,8 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             ->with($this->logicalOr(
                 $this->equalTo('httpRequest'),
                 $this->equalTo('httpResponse'),
-                $this->equalTo('annotationUtil')
+                $this->equalTo('annotationUtil'),
+                $this->equalTo('twigService')
             ))
             ->will(
                 $this->returnCallback(array($this, 'httpCallBack'))
@@ -183,6 +184,10 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
             return $this->getMockedannotationUtil();
         }
 
+        if ($type === 'twigService') {
+            return $this->getMockedTwigService();
+        }
+
         $httpResponse = $this->createMock(HttpResponse::class);
         $httpResponse->expects($this->any())
             ->method('asJson')
@@ -199,6 +204,12 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
         $config = $this->createMock(Config::class);
 
         return $config;
+    }
+
+    private function getMockedTwigService()
+    {
+        $config = $this->getMockedConfig();
+        return new \Gvera\Services\TwigService($config);
     }
 
     private function getMockedannotationUtil()

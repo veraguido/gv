@@ -30,9 +30,9 @@ abstract class GvController
     protected $diContainer;
     protected $protectedController = false;
 
-    const VIEWS_PREFIX = __DIR__ . '/../Views/';
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
+    private $twigService;
 
     /**
      * GvController constructor.
@@ -48,6 +48,7 @@ abstract class GvController
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
         $this->httpResponse =$this->diContainer->get('httpResponse');
+        $this->twigService = $this->diContainer->get('twigService');
 
         if (!method_exists($this, $method)) {
             throw new InvalidMethodException(
@@ -97,9 +98,8 @@ abstract class GvController
             );
         }
 
-        if ($this->needsTwig()) {
-            $loader = new \Twig_Loader_Filesystem(self::VIEWS_PREFIX);
-            $this->twig = new \Twig_Environment($loader);
+        if ($this->twigService->needsTwig($this->name, $this->method)) {
+            $this->twig = $this->twigService->loadTwig();
         }
     }
 
@@ -108,12 +108,9 @@ abstract class GvController
      */
     protected function postInit()
     {
-        if ($this->needsTwig()) {
+        if ($this->twigService->needsTwig($this->name, $this->method)) {
             $this->httpResponse->response(
-                $this->twig->render(
-                    '/' . $this->name . '/' . $this->method . '.html.twig',
-                    $this->viewParams
-                )
+                $this->twigService->render($this->name, $this->method, $this->viewParams)
             );
             return;
         }
@@ -124,14 +121,6 @@ abstract class GvController
                 ['method' => $this->method,'controller ' => $this->name]
             );
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function needsTwig()
-    {
-        return file_exists(self::VIEWS_PREFIX . $this->name . '/' . $this->method . '.html.twig');
     }
 
     public function checkIfPassIsGranted()
@@ -194,7 +183,6 @@ abstract class GvController
 
     /**
      * @param $requestToken
-     * @return bool
      * @throws InvalidCSRFException
      */
     protected function validateCSRFToken($requestToken)
@@ -219,8 +207,6 @@ abstract class GvController
     public function __call($name, $arguments)
     {
         $id = lcfirst(str_replace('get', '', $name));
-        if ($this->diContainer->has($id)) {
-            return $this->diContainer->get($id);
-        }
+        return $this->diContainer->get($id);
     }
 }

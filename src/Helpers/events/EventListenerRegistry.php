@@ -11,11 +11,19 @@ use Gvera\Events\ThrowableFiredEvent;
  * Class EventListenerRegistry
  * @package Gvera\Helpers\events
  * All event listeners should be added to this registry
- * @Inject userRegisteredEmailListener
- * @Inject throwableListener
  */
 class EventListenerRegistry
 {
+
+    private $throwableListener;
+    private $userRegisteredEmailListener;
+
+    public function __construct($throwableListener, $userRegisteredEmailListener)
+    {
+        $this->throwableListener = $throwableListener;
+        $this->userRegisteredEmailListener = $userRegisteredEmailListener;
+    }
+
     public function registerEventListeners()
     {
         EventDispatcher::addEventListener(

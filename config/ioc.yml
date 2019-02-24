@@ -59,6 +59,9 @@ dispatcher:
 services:
   classPath: Gvera\Services\
   objects:
+    twigService:
+      class: TwigService
+      arguments: "@config"
     userService:
       class: UserService
       singleton: true
@@ -103,13 +106,17 @@ listeners:
       class: UserRegisteredEmailListener
       arguments: "@email"
     throwableListener:
-      class: ThrowableListener  
+      class: ThrowableListener
+      arguments: "@logger"
 
 events:
   classPath: Gvera\Helpers\events\
   objects:
     eventListenerRegistry:
       class: EventListenerRegistry
+      arguments:
+        - "@throwableListener"
+        - "@userRegisteredEmailListener"
 
 security:
   classPath: Gvera\Helpers\security\

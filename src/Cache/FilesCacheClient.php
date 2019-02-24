@@ -22,12 +22,12 @@ class FilesCacheClient
 
     public function saveToFile($file, $value)
     {
-        file_put_contents($this->path . $file, json_encode($value));
+        file_put_contents($this->path . $file, serialize($value));
         return true;
     }
 
     public function loadFromFile($file)
     {
-        return file_get_contents($this->path . $file);
+        return unserialize(file_get_contents($this->path . $file));
     }
 }

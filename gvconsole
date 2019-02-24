@@ -7,6 +7,7 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 GREY='\033[1;30m'
 NC='\033[0m' # No Color
+container=gv_php_1
 
 filenames=`ls ./shell/*`
 
@@ -26,13 +27,18 @@ if [ -z "$1" ]; then
     echo
     echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* BUILDING COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "build"
+    echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* CONTAINER MANAGEMENT COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "start"
+    echo "stop"
+    echo "up"
+    echo "down"
+    echo "logs"
     echo "enter"
     exit 1
 fi
 
 if [ $1 = "list-tasks" ]; then
-    docker exec -t gv_php_1 sh -c "crontab -l"
+    docker exec -t stockmanager_php_1 sh -c "crontab -l"
     exit 1
 fi
 
@@ -42,7 +48,21 @@ if [ $1 = "enter" ]; then
 fi
 
 if [ $1 = "build" ]; then
-    docker-compose build && docker run --rm -v $(pwd):/app composer install
+    docker-compose rm -vsf
+	docker-compose down -v --remove-orphans
+	docker-compose build
+    docker run --rm -v $(pwd):/app composer install
+    echo "Build finished successfully."
+    exit 1
+fi
+
+if [ $1 = "up" ]; then
+    docker-compose up -d
+    exit 1
+fi
+
+if [ $1 = "down" ]; then
+    docker-compose down
     exit 1
 fi
 
@@ -56,4 +76,14 @@ if [ $1 = "start" ]; then
     exit 1
 fi
 
-docker exec -it gv_php_1 php shell/"$@"
+if [ $1 = "stop" ]; then
+    docker-compose stop
+    exit 1
+fi
+
+if [ $1 = "logs" ]; then
+    docker-compose logs -f -t
+    exit 1
+fi
+
+docker exec -it ${container} php shell/"$@"

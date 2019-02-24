@@ -219,7 +219,11 @@ class DIContainer implements ContainerInterface
     }
 
     /**
-     * @return object
+     * @param $reflectionClass
+     * @param $className
+     * @param $arguments
+     * @return mixed
+     * @throws \ReflectionException
      */
     private function createInstanceOfNewClass($reflectionClass, $className, $arguments)
     {

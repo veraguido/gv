@@ -57,7 +57,7 @@ final class FilesCache implements CacheInterface
 
     public function exists($key)
     {
-        return file_exists(self::FILES_CACHE_PATH . $key);
+        return file_exists(self::FILES_CACHE_PATH . self::FILES_CACHE_PREFIX . $key);
     }
 
     public function delete($key)
