@@ -8,5 +8,6 @@ composer.lock
 /vendor/*
 
 #volatile files
+var/cache*
 
 
