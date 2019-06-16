@@ -3,7 +3,6 @@
 
 namespace Gvera\Models;
 
-
 class BasicAuthenticationDetails extends GvModel
 {
     private $username;
