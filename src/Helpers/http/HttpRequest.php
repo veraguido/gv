@@ -3,6 +3,7 @@
 namespace Gvera\Helpers\http;
 
 use Gvera\Helpers\config\Config;
+use Gvera\Models\BasicAuthenticationDetails;
 
 /**
  * Class HttpRequest
@@ -21,6 +22,7 @@ class HttpRequest
     const PUT = 'PUT';
     const DELETE = 'DELETE';
     const OPTIONS = 'OPTIONS';
+
     private $putDeleteArray;
 
     public function __construct(FileManager $fileManager)
@@ -163,5 +165,14 @@ class HttpRequest
         
         $file = $this->fileManager->getByName($uploadedFileName);
         return $this->fileManager->saveToFileSystem($directory, $file);
+    }
+
+    public function getAuthDetails(): ?BasicAuthenticationDetails
+    {
+        if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
+            return null;
+        }
+
+        return new BasicAuthenticationDetails($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
     }
 }

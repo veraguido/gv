@@ -18,6 +18,8 @@ class HttpResponse
     const HTTP_RESPONSE_NOT_FOUND = "HTTP/1.0 404 Not Found";
     const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.0 400 Bad Request";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
+    const NO_CACHE = 'Cache-Control: no-cache, must-revalidate, max-age=0';
+    const BASIC_AUTH_ACCESS_DENIED = 'WWW-Authenticate: Basic realm="Access denied"';
 
     /**
      * @param string|array|TransformerAbstract $response

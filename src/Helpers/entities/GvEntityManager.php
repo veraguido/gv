@@ -2,6 +2,7 @@
 namespace Gvera\Helpers\entities;
 
 use Doctrine\Common\Cache\RedisCache;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Tools\Setup;
 use Gvera\Helpers\config\Config;
 use Doctrine\ORM\EntityManager;
@@ -20,6 +21,7 @@ use Doctrine\Common\EventManager;
  */
 class GvEntityManager extends EntityManager
 {
+    const PROXIES_PATH = __DIR__ . '/../../../src/Models/Proxies/';
     /**
      * GvEntityManager constructor.
      * @param Config $config
@@ -48,14 +50,14 @@ class GvEntityManager extends EntityManager
         }
 
 
+        $doctrineConfig = new Configuration();
+        $doctrineConfig->setMetadataCacheImpl($cache);
+        $driverImpl = $doctrineConfig->newDefaultAnnotationDriver($path);
+        $doctrineConfig->setMetadataDriverImpl($driverImpl);
+        $doctrineConfig->setAutoGenerateProxyClasses(true);
+        $doctrineConfig->setProxyDir(self::PROXIES_PATH);
+        $doctrineConfig->setProxyNamespace('Gvera\Models');
 
-        $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
-            $path,
-            (bool) $config->getConfigItem('devmode'),
-            null,
-            $cache
-        );
-        
         $connection = DriverManager::getConnection($dbParams, $doctrineConfig);
         parent::__construct($connection, $doctrineConfig, new EventManager());
     }

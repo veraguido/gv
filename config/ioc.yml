@@ -65,11 +65,19 @@ services:
     userService:
       class: UserService
       singleton: true
+      arguments:
+        - "@entityManager"
+        - "@session"
     forgotPasswordService:
       class: ForgotPasswordService
       arguments: "@entityManager"
     controllerService:
       class: ControllerService
+    basicAuthenticationService:
+      class: BasicAuthenticationService
+      arguments:
+        - "@entityManager"
+        - "@userService"
 
 routes:
   classPath: Gvera\Helpers\routes\

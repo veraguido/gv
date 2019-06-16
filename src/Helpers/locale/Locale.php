@@ -21,13 +21,11 @@ class Locale
     }
 
     /**
-     * @Cached
-     * @param string $key
+     * @param string|null $key
      * @param array|null $additionalParams
      * @return string
-     * Gets the value corresponding to the key, using sprintf for adding params to the values.
      */
-    public static function getLocale(string $key = null, array $additionalParams = null)
+    public static function getLocale(string $key = null, array $additionalParams = null): string
     {
 
         self::$locales = self::getLocalesFromCache();

@@ -3,7 +3,7 @@ namespace Gvera\Controllers;
 
 use Gvera\Cache\Cache;
 use Gvera\Cache\RedisCache;
-use Gvera\Commands\CreateNewUserCommand;
+use Gvera\Commands\nd;
 use Gvera\Commands\LoginCommand;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
@@ -63,7 +63,7 @@ class Examples extends GvController
     public function qwe()
     {
         $this->validateCSRFToken($this->httpRequest->getParameter('csrf'));
-        $registerUserCommand = $this->getCreateNewUserCommand();
+        $registerUserCommand = $this->getnd();
         $registerUserCommand
             ->setName($this->httpRequest->getParameter('username'))
             ->setEmail($this->httpRequest->getParameter('email'))
@@ -96,5 +96,10 @@ class Examples extends GvController
     public function authTest()
     {
         $this->httpResponse->response($this->checkAuthorization());
+    }
+
+    public function basicAuth()
+    {
+        $this->checkApiAuthentication();
     }
 }

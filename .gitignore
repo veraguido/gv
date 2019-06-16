@@ -8,6 +8,8 @@ composer.lock
 /vendor/*
 
 #volatile files
-var/cache*
+var/cache/files/*
+var/cache/views/*
+src/Models/Proxies/*
 
 

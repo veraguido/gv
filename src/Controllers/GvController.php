@@ -4,7 +4,9 @@ use Gvera\Exceptions\InvalidCSRFException;
 use Gvera\Exceptions\InvalidHttpMethodException;
 use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
+use Gvera\Exceptions\NotAllowedException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\http\HttpResponse;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
 
@@ -161,12 +163,33 @@ abstract class GvController
         $this->httpResponse->printError($errorCode, $message);
     }
 
+    protected function unauthorizedBasicAuth()
+    {
+        $this->httpResponse->unauthorized();
+        $this->httpResponse->setHeader(HttpResponse::BASIC_AUTH_ACCESS_DENIED);
+    }
+
     /**
      * @return bool
      */
     protected function checkAuthorization(): bool
     {
         return $this->getUserService()->isUserLoggedIn();
+    }
+
+    /**
+     * @throws NotAllowedException
+     */
+    protected function checkApiAuthentication()
+    {
+        $this->httpResponse->setHeader(HttpResponse::NO_CACHE);
+        $authService = $this->getBasicAuthenticationService();
+        $details = $this->httpRequest->getAuthDetails();
+
+
+        if (null !== $details && !$authService->requireAuth($details)) {
+            throw new NotAllowedException(Locale::getLocale('user is not allowed'));
+        }
     }
 
     /**

@@ -44,7 +44,9 @@ class UserService
     }
 
     /**
-     * @return boolean
+     * @param $plainPassword
+     * @param $hash
+     * @return bool
      */
     public function validatePassword($plainPassword, $hash)
     {

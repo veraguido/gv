@@ -1,5 +1,5 @@
 config:
-  devmode: true
+  devmode: false
   mysql:
     host: mysql
     driver: pdo_mysql
@@ -13,6 +13,7 @@ config:
     pool_size: 1
     username:
     password:
+    enabled: true
   email:
     host: lala.example.com
     smtp_auth: true
