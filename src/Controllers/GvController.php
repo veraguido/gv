@@ -187,7 +187,7 @@ abstract class GvController
         $details = $this->httpRequest->getAuthDetails();
 
 
-        if (null !== $details && !$authService->requireAuth($details)) {
+        if (null === $details || !$authService->requireAuth($details)) {
             throw new NotAllowedException(Locale::getLocale('user is not allowed'));
         }
     }

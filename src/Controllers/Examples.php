@@ -5,6 +5,7 @@ use Gvera\Cache\Cache;
 use Gvera\Cache\RedisCache;
 use Gvera\Commands\nd;
 use Gvera\Commands\LoginCommand;
+use Gvera\Exceptions\NotAllowedException;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\transformers\UserTransformer;
@@ -100,6 +101,12 @@ class Examples extends GvController
 
     public function basicAuth()
     {
-        $this->checkApiAuthentication();
+        try {
+            $this->checkApiAuthentication();
+        } catch (\Throwable $e) {
+            $this->unauthorizedBasicAuth();
+            $this->httpResponse->asJson();
+            $this->httpResponse->response(['message' => $e->getMessage()]);
+        }
     }
 }
