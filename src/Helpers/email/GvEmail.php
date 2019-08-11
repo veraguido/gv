@@ -1,7 +1,6 @@
 <?php
 namespace Gvera\Helpers\email;
 
-
 /**
  * Class GVEmail
  * @package Gvera\Helpers\email\GVEmail

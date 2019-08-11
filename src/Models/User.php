@@ -1,6 +1,5 @@
 <?php namespace Gvera\Models;
 
-
 /**
  * @Entity @Table(name="users")
  * @HasLifecycleCallbacks

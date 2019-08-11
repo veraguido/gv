@@ -1,7 +1,6 @@
 <?php
 namespace Gvera\Listeners;
 
-
 /**
  * Listener Class Doc Comment
  *

@@ -2,6 +2,9 @@
 .idea
 nbproject/*
 .vscode
+.settings
+.buildpath
+.project
 
 #composer
 composer.lock

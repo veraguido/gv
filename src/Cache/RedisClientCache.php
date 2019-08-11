@@ -1,6 +1,5 @@
 <?php namespace Gvera\Cache;
 
-
 /**
  * Cache Class Doc Comment
  *
