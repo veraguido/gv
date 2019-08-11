@@ -6,7 +6,6 @@ use Doctrine\Common\Cache\RedisCache;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use const False\MyClass\true;
 use Gvera\Helpers\config\Config;
 
 /**

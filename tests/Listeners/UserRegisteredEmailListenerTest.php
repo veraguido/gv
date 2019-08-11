@@ -1,6 +1,5 @@
 <?php
 
-use const False\MyClass\true;
 use Gvera\Events\UserRegisteredEvent;
 use Gvera\Helpers\email\GvEmail;
 use Gvera\Listeners\UserRegisteredEmailListener;
