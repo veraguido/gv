@@ -3,7 +3,6 @@ namespace Gvera\Commands;
 
 use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Models\UserRole;
-use Gvera\Commands\CommandInterface;
 
 /**
  * Command Class Doc Comment

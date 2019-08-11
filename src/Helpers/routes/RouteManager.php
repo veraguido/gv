@@ -1,8 +1,6 @@
 <?php namespace Gvera\Helpers\routes;
 
-use Gvera\Cache\Cache;
 use Gvera\Helpers\http\HttpRequest;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class RouteManager
@@ -111,7 +109,7 @@ class RouteManager
         $count = count($pathLikeArray);
         for ($i = 0; $i < $count; $i++) {
             if (substr_count($pathLikeArray[$i], self::ROUTE_NEEDLE) == 2) {
-                $value = $totalRoute[$i] ?: null;
+                $value = $totalRoute[$i] ?? null;
 
                 $this->httpRequest->setParameter(
                     str_replace(self::ROUTE_NEEDLE, '', $pathLikeArray[$i]),

@@ -2,18 +2,15 @@
 
 namespace Gvera\Cache;
 
+use Gvera\Gv;
 use Gvera\Exceptions\InvalidArgumentException;
-use Gvera\Gvera;
 use Gvera\Helpers\config\Config;
-use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\dependencyInjection\DIRegistry;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\routes\RouteManager;
-use Gvera\Models\Repositories\ProductRepository;
-use Gvera\Services\ControllerService;
+use Predis\Client;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Predis\Client;
 use Symfony\Component\Yaml\Yaml;
 
 class CacheItemPool implements CacheItemPoolInterface
@@ -127,7 +124,12 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function hasItem($key)
     {
-        return array_key_exists($key, $this->pool);
+        if (array_key_exists($key, $this->pool)) {
+            return true;
+        }
+
+        $item = $this->getItem($key);
+        return $item->get() != false;
     }
 
     /**
@@ -323,12 +325,12 @@ class CacheItemPool implements CacheItemPoolInterface
             RouteManager::ROUTE_CACHE_KEY,
             Locale::getLocaleCacheKey(),
             DIRegistry::DI_KEY,
-            Gvera::GV_CONTROLLERS_KEY
+            Gv::GV_CONTROLLERS_KEY
         ];
 
         foreach ($this->cachableKeys as $key) {
             $item = $this->getItem($key);
-            if (!$item->get()) {
+            if ($item && !$item->get()) {
                 continue;
             }
 

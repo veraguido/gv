@@ -1,10 +1,7 @@
 <?php
 namespace Gvera\Listeners;
 
-use Gvera\Events\Event;
-use Gvera\Helpers\config\Config;
 use Gvera\Helpers\email\GvEmail;
-use Gvera\Listeners\EventListenerInterface;
 
 /**
  * Listener Class Doc Comment

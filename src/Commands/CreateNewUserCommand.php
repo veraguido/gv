@@ -1,16 +1,14 @@
 <?php
 namespace Gvera\Commands;
 
-use Doctrine\ORM\Mapping\Entity;
 use Gvera\Events\UserRegisteredEvent;
+use Gvera\Exceptions\MissingArgumentsException;
+use Gvera\Helpers\config\Config;
 use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Models\User;
 use Gvera\Models\UserRole;
 use Gvera\Models\UserStatus;
-use Gvera\Commands\CommandInterface;
-use Gvera\Helpers\config\Config;
-use Gvera\Exceptions\MissingArgumentsException;
 
 /**
  * Command Class Doc Comment

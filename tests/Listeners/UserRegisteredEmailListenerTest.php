@@ -1,10 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+use const False\MyClass\true;
 use Gvera\Events\UserRegisteredEvent;
 use Gvera\Helpers\email\GvEmail;
 use Gvera\Listeners\UserRegisteredEmailListener;
-use Gvera\Helpers\config\Config;
+use PHPUnit\Framework\TestCase;
 
 class UserRegisteredEmailListenerTest extends TestCase
 {

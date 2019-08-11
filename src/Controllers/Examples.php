@@ -1,18 +1,9 @@
 <?php
 namespace Gvera\Controllers;
 
-use Gvera\Cache\Cache;
-use Gvera\Cache\RedisCache;
-use Gvera\Commands\nd;
-use Gvera\Commands\LoginCommand;
-use Gvera\Exceptions\NotAllowedException;
 use Gvera\Helpers\locale\Locale;
-use Gvera\Helpers\session\Session;
 use Gvera\Helpers\transformers\UserTransformer;
 use Gvera\Models\User;
-use Gvera\Services\UserService;
-use Gvera\Helpers\dependencyInjection\DIContainer;
-use Gvera\Helpers\annotations\HttpMethodAnnotation;
 
 /**
  * Controller Class Doc Comment
@@ -64,7 +55,7 @@ class Examples extends GvController
     public function qwe()
     {
         $this->validateCSRFToken($this->httpRequest->getParameter('csrf'));
-        $registerUserCommand = $this->getnd();
+        $registerUserCommand = $this->getCreateNewUserCommand();
         $registerUserCommand
             ->setName($this->httpRequest->getParameter('username'))
             ->setEmail($this->httpRequest->getParameter('email'))

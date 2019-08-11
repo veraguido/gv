@@ -1,7 +1,5 @@
 <?php namespace Gvera\Models;
 
-use Gvera\Helpers\validation\EmailValidationStrategy;
-use Gvera\Helpers\validation\ValidationService;
 
 /**
  * @Entity @Table(name="users")

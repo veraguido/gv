@@ -1,11 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Gvera\Helpers\validation\ValidationService;
-use Gvera\Helpers\validation\EmailValidationStrategy;
-use Gvera\Helpers\validation\NameValidationStrategy;
-use Gvera\Helpers\validation\IsNotEmptyValidationStrategy;
 use Gvera\Helpers\http\HttpResponse;
+use Gvera\Helpers\validation\EmailValidationStrategy;
+use Gvera\Helpers\validation\IsNotEmptyValidationStrategy;
+use Gvera\Helpers\validation\ValidationService;
+use PHPUnit\Framework\TestCase;
 
 class ValidationServiceTest extends TestCase
 {

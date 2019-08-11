@@ -1,9 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Gvera\Helpers\validation\EmailValidationStrategy;
-use Gvera\Helpers\validation\IsNotEmptyValidationStrategy;
 use Gvera\Helpers\validation\NameValidationStrategy;
+use PHPUnit\Framework\TestCase;
 
 class NameValidationStrategyTest extends TestCase
 {

@@ -3,13 +3,10 @@
 namespace Gvera\Services;
 
 use Gvera\Controllers\GvController;
-use Gvera\Exceptions\InvalidVersionException;
 use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\NotFoundException;
-use Gvera\Exceptions\InvalidServiceException;
-use Gvera\Controllers\Index;
-use PHPUnit\Runner\Exception;
 use Gvera\Helpers\annotations\AnnotationUtil;
+use PHPUnit\Runner\Exception;
 
 /**
  * @class
@@ -148,7 +145,6 @@ class ControllerService
      * @param $rawName
      * @return string
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
-     * @throws InvalidVersionException
      */
     private function getControllerFinalName(string $rawName = null, $version)
     {

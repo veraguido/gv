@@ -1,7 +1,5 @@
 <?php namespace Gvera\Cache;
 
-use Predis\Client;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Cache Class Doc Comment

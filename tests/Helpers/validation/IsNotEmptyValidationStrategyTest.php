@@ -1,8 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\IsNotEmptyValidationStrategy;
+use PHPUnit\Framework\TestCase;
 
 class IsNotEmptyValidationStrategyTest extends TestCase
 {

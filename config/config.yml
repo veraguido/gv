@@ -1,5 +1,6 @@
 config:
-  devmode: false
+  devmode: true
+  throttling: true
   mysql:
     host: mysql
     driver: pdo_mysql

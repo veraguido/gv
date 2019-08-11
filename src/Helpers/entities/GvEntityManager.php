@@ -1,13 +1,13 @@
 <?php
 namespace Gvera\Helpers\entities;
 
-use Doctrine\Common\Cache\RedisCache;
-use Doctrine\ORM\Configuration;
-use Doctrine\ORM\Tools\Setup;
-use Gvera\Helpers\config\Config;
-use Doctrine\ORM\EntityManager;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\Common\EventManager;
+use Doctrine\Common\Cache\RedisCache;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use const False\MyClass\true;
+use Gvera\Helpers\config\Config;
 
 /**
  * Entities Class Doc Comment

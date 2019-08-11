@@ -1,7 +1,6 @@
 <?php
 namespace Gvera\Helpers\email;
 
-use Gvera\Helpers\config\Config;
 
 /**
  * Class GVEmail

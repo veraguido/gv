@@ -1,13 +1,15 @@
 <?php
 
+use Gvera\Helpers\bootstrap\Bootstrap;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../config/locale_setup.php';
 ob_start();
 
 
-$bootstrap = new \Gvera\Helpers\bootstrap\Bootstrap();
+$bootstrap = new Bootstrap();
 $diContainer = $bootstrap->getDiContainer();
-$app = new Gvera\Gvera($diContainer);
+$app = new Gvera\Gv($diContainer);
 $isDevMode = $bootstrap->getConfig()->getConfigItem('devmode');
 
 // DEV MODE
@@ -22,3 +24,4 @@ try {
 } catch (\Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
 }
+ 

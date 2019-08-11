@@ -1,8 +1,6 @@
 <?php
 namespace Gvera\Helpers\config;
 
-use Gvera\Cache\Cache;
-use Gvera\Cache\RedisCache;
 use Symfony\Component\Yaml\Yaml;
 
 /**

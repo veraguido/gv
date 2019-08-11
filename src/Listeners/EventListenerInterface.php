@@ -1,7 +1,6 @@
 <?php
 namespace Gvera\Listeners;
 
-use Gvera\Events\Event;
 
 /**
  * Listener Class Doc Comment

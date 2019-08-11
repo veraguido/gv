@@ -1,11 +1,8 @@
 <?php
 namespace Gvera\Helpers\events;
 
-use Gvera\Events\QWEEvent;
-use Gvera\Events\UserRegisteredEvent;
-use Gvera\Listeners\QWEListener;
-use Gvera\Listeners\UserRegisteredEmailListener;
 use Gvera\Events\ThrowableFiredEvent;
+use Gvera\Events\UserRegisteredEvent;
 
 /**
  * Class EventListenerRegistry

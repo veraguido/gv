@@ -1,10 +1,8 @@
 <?php namespace Gvera;
 
 use Gvera\Cache\Cache;
-use Gvera\Controllers\HttpCodeResponse;
 use Gvera\Events\ThrowableFiredEvent;
 use Gvera\Helpers\dependencyInjection\DIContainer;
-use Gvera\Helpers\dependencyInjection\DIRegistry;
 use Gvera\Helpers\events\EventDispatcher;
 
 /**
@@ -17,7 +15,7 @@ use Gvera\Helpers\events\EventDispatcher;
  * @link     http://www.github.com/veraguido/gv
  *
  */
-class Gvera
+class Gv
 {
 
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
@@ -157,7 +155,7 @@ class Gvera
 
         $controllersDir = scandir($scanDirectory);
         $loadedControllers = [];
-        foreach ($controllersDir as $index => $autoloadingName) {
+        foreach ($controllersDir as $autoloadingName) {
             $loadedControllers = $this->loadControllers($scanDirectory, $autoloadingName, $loadedControllers);
         }
         Cache::getCache()->save(self::GV_CONTROLLERS_KEY, $loadedControllers);

@@ -73,6 +73,8 @@ services:
       arguments: "@entityManager"
     controllerService:
       class: ControllerService
+    throttlingService:
+      class: ThrottlingService
     basicAuthenticationService:
       class: BasicAuthenticationService
       arguments:

@@ -1,7 +1,6 @@
 <?php namespace Gvera\Services;
 
 use Gvera\Helpers\entities\GvEntityManager;
-use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\ValidationService;

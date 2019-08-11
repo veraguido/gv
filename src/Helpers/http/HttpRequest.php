@@ -2,7 +2,6 @@
 
 namespace Gvera\Helpers\http;
 
-use Gvera\Helpers\config\Config;
 use Gvera\Models\BasicAuthenticationDetails;
 
 /**
