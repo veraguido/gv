@@ -9,6 +9,8 @@ namespace Gvera\Helpers\session;
 class Session
 {
 
+    const GV_SESSION_NAME = 'sessionid';
+    
     private $started = false;
 
     public function getId()
@@ -19,8 +21,9 @@ class Session
     private function start()
     {
         if (!$this->started) {
-            $this->started = true;
+            session_name(self::GV_SESSION_NAME);
             session_start();
+            $this->started = true;
         }
     }
 

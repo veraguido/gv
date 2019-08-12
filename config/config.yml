@@ -1,6 +1,7 @@
 config:
   devmode: true
   throttling: true
+  allowed_requests_per_second: 4
   mysql:
     host: mysql
     driver: pdo_mysql

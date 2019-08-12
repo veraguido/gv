@@ -3,17 +3,16 @@
 namespace Gvera\Services;
 
 use Gvera\Cache\Cache;
-use Gvera\Helpers\http\HttpResponse;
 use src\Exceptions\ThrottledException;
 
 class ThrottlingService
 {
     const PREFIX_THROTTLING = 'gv_throttling_';
-    const ALLOWED_REQUESTS_PER_SECOND = 4;
     /**
-     * @var HttpResponse
+     * @var int
+     * By default 4 requests per second.
      */
-    private $httpResponse;
+    private $allowedRequestsPerSecond = 4;
     /**
      * @var string
      */
@@ -39,7 +38,7 @@ class ThrottlingService
             $last = $cache->load($key);
             $current = microtime(true);
             $sec =  abs($last - $current);
-            if ($sec <= (1 / self::ALLOWED_REQUESTS_PER_SECOND)) {
+            if ($sec <= (1 / $this->allowedRequestsPerSecond)) {
                 throw new ThrottledException('request not allowed', ['ip' => $this->ip]);
                 return;
             }
@@ -48,13 +47,13 @@ class ThrottlingService
         $cache->save($key, microtime(true), 10);
     }
     
-    public function getIp() :string
-    {
-        return $this->ip;
-    }
-    
     public function setIp(string $ip)
     {
         $this->ip = $ip;
+    }
+    
+    public function setAllowedRequestsPerSecond($rps)
+    {
+        $this->allowedRequestsPerSecond = $rps;
     }
 }

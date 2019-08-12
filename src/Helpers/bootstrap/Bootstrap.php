@@ -107,6 +107,7 @@ class Bootstrap
         
         $throttlingService = $this->diContainer->get('throttlingService');
         $throttlingService->setIp($_SERVER['REMOTE_ADDR']);
+        $throttlingService->setAllowedRequestsPerSecond($this->config->getConfigItem('allowed_requests_per_second'));
         $throttlingService->validateRate();
     }
 }
