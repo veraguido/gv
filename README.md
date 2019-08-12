@@ -5,12 +5,13 @@ Scrutinizer: [![Build Status](https://scrutinizer-ci.com/g/veraguido/gv/badges/b
 <img src="https://img.shields.io/badge/Licence-MIT-f6ca19.svg" alt="LICENSE" title="LICENSE"> 
 
 
-GV is a PHP framework focused on usability, fastness and reliableness.
+GV is a PHP framework focused on usability, fastness and reliableness. Out of the box you will find:
 
   - Redis cache
   - Docker
   - A validation strategy
   - Http handling
+  - Http Basic authentication
   - Shell scripts + ORM management through CLI
   - Event mechanism
   - Command pattern
@@ -20,6 +21,7 @@ GV is a PHP framework focused on usability, fastness and reliableness.
   - Easy cron management
   - Dependency injection
   - Fractal Transformers
+  - Throttling
 
 # The goal
 
