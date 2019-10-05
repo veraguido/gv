@@ -1,0 +1,6 @@
+#!/usr/bin/php -q
+<?php
+require("vendor/autoload.php");
+$openapi = \OpenApi\scan(__DIR__ . '/../src/');
+header('Content-Type: application/x-yaml');
+file_put_contents(__DIR__ . '/../public/openapi/doc.yaml', $openapi->toYaml());

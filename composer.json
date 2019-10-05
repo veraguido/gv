@@ -25,11 +25,18 @@
         "phpmailer/phpmailer":      "~5.2",
         "predis/predis":            "1.*",
         "tiben/crontab-manager":    "~1.0",
-        "ext-json":                 "*"
+        "ext-json":                 "*",
+        "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "6.5.*",
         "squizlabs/php_codesniffer": "*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php shell/generate-api-doc",
+            "chmod 777 src/Models/Proxies"
+        ]
     },
     "autoload": {
       "psr-4": {

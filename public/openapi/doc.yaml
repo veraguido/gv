@@ -1,0 +1,11 @@
+openapi: 3.0.0
+info:
+  title: 'My First API'
+  version: '0.1'
+paths:
+  /examples:
+    get:
+      operationId: 'Gvera\Controllers\Examples::index'
+      responses:
+        '200':
+          description: 'An example resource'

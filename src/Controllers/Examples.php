@@ -6,6 +6,10 @@ use Gvera\Helpers\transformers\UserTransformer;
 use Gvera\Models\User;
 
 /**
+ * @OA\Info(title="My First API", version="0.1")
+ */
+
+/**
  * Controller Class Doc Comment
  *
  * @category Class
@@ -17,6 +21,12 @@ use Gvera\Models\User;
  */
 class Examples extends GvController
 {
+    /**
+     * @OA\Get(
+     *     path="/examples",
+     *     @OA\Response(response="200", description="An example resource")
+     * )
+     */
     public function index()
     {
         $this->viewParams = ['csrf' => $this->generateCSRFToken()];

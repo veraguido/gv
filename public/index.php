@@ -24,4 +24,3 @@ try {
 } catch (\Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
 }
- 
