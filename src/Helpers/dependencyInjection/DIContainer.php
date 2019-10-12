@@ -193,7 +193,11 @@ class DIContainer implements ContainerInterface
     }
 
     /**
-     * @return void
+     * @param $id
+     * @param $key
+     * @param $object
+     * @param $type
+     * @throws \ReflectionException
      */
     private function generateClass($id, $key, $object, $type)
     {
@@ -203,15 +207,17 @@ class DIContainer implements ContainerInterface
         }
 
         if ($type === "classSingleton") {
-            $this->generateSingletonDependency($key, $object, $id);
+            $this->generateSingletonDependency($key, $id);
             return;
         }
     }
 
     /**
-     * @return void
+     * @param $key
+     * @param $id
+     * @throws \ReflectionException
      */
-    private function generateSingletonDependency($key, $object, $id)
+    private function generateSingletonDependency($key, $id)
     {
         if ($this->map->$key->instance === null) {
             $this->map->$key->instance = $this->get($id);

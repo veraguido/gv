@@ -72,9 +72,9 @@ class Gv
     }
 
     /**
-     * @param $isDevMode
+     * @throws \ReflectionException
      */
-    private function initializeApp($isDevMode)
+    private function initializeApp()
     {
         $this->routeManager = $this->diContainer->get("routeManager");
 
@@ -109,7 +109,7 @@ class Gv
         }
 
         $uriData = $_SERVER['REQUEST_URI'];
-        
+
         if (!$uriData) {
             $this->redirectToDefault();
             return;

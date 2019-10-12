@@ -62,7 +62,7 @@ class CreateNewUserCommand implements CommandInterface
             );
         }
 
-        if ($this->userExists($this)) {
+        if ($this->userExists()) {
             throw new \Exception("There was a problem registering the user");
         }
 
@@ -126,7 +126,7 @@ class CreateNewUserCommand implements CommandInterface
     {
         $byEmail = $this->entityManager->getRepository(User::class)->findByEmail($this->email);
         $byUsername = $this->entityManager->getRepository(User::class)->findByUsername($this->name);
-        
+
         return (!empty($byEmail) || !empty($byUsername));
     }
 
