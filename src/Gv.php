@@ -33,12 +33,11 @@ class Gv
     private $controllerService;
 
     /**
-     * @param $isDevMode
-     * @throws \Exception
+     * @throws \ReflectionException
      */
-    public function run($isDevMode)
+    public function run()
     {
-        $this->initializeApp($isDevMode);
+        $this->initializeApp();
 
         $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
         $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
