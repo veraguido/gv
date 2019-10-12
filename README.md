@@ -22,6 +22,7 @@ GV is a PHP framework focused on usability, fastness and reliableness. Out of th
   - Dependency injection
   - Fractal Transformers
   - Throttling
+  - Swagger / Swagger ui
 
 # The goal
 
