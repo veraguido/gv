@@ -20,7 +20,7 @@ error_reporting($reporting);
 
 
 try {
-    $app->run($isDevMode);
+    $app->run();
 } catch (\Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
 }
