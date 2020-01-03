@@ -7,12 +7,13 @@ use Gvera\Helpers\http\FileManager;
 use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 use Gvera\Services\ControllerService;
+use PHPUnit\Framework\TestCase;
 
-class ControllerServiceTest extends \PHPUnit\Framework\TestCase
+class ControllerServiceTest extends TestCase
 {
     private $controllerService;
 
-    public function setUp()
+    public function setUp():void
     {
         $this->controllerService = new ControllerService();
         $this->controllerService->setControllerAutoloadingNames($this->getAutoloadingNames());
@@ -40,10 +41,10 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @expectedException Exception
      */
     public function testEmptyUriPath()
     {
+        $this->expectException(Exception::class);
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
             null
@@ -78,10 +79,10 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @expectedException Exception
      */
     public function testServiceExceptions()
     {
+        $this->expectException(Exception::class);
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
             "/gvcontroller"
@@ -90,10 +91,10 @@ class ControllerServiceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @expectedException \Gvera\Exceptions\NotFoundException
      */
     public function testVersionException()
     {
+        $this->expectException(\Gvera\Exceptions\NotFoundException::class);
         $this->controllerService->startControllerLifecyle(
             $this->getDiContainer(),
             "/v5/index/asd"

@@ -6,8 +6,9 @@ use Gvera\Models\UserRole;
 use Doctrine\ORM\EntityRepository;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\entities\GvEntityManager;
+use PHPUnit\Framework\TestCase;
 
-class UserServiceTest extends \PHPUnit\Framework\TestCase
+class UserServiceTest extends TestCase
 {
 
     private $userService;
@@ -22,7 +23,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->userService->validateEmail($validEmail));
     }
 
-    public function setUp()
+    public function setUp():void
     {
         $repo = $this->createMock(EntityRepository::class);
 
@@ -74,10 +75,10 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @expectedException Exception
      */
     public function login()
     {
+        $this->expectException(Exception::class);
         $role = new UserRole();
         $role->setName("testRole");
         $role->setRolePriority(5);

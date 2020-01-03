@@ -20,6 +20,7 @@ if [ -z "$1" ]; then
             echo ${entry/"./shell/"}
         fi
     done
+    echo "tests"
     echo "list-tasks"
     echo
     echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* DEPENDENCY COMMANDS -/*-/*-/*-/*-/*-/*-/* ${GREEN}"
@@ -37,8 +38,13 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+if [ $1 = "tests" ]; then
+    docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpunit"
+    exit 1
+fi
+
 if [ $1 = "list-tasks" ]; then
-    docker exec -t stockmanager_php_1 sh -c "crontab -l"
+    docker exec -t gv_php_1 sh -c "crontab -l"
     exit 1
 fi
 

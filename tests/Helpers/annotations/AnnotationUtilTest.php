@@ -12,14 +12,13 @@ class AnnotationUtilTest extends TestCase
     /**
      * @httpMethod("GET")
      */
-    public function setUp()
+    public function setUp():void
     {
         $this->util = new AnnotationUtil();
     }
 
-    public function tearDown()
+    public function tearDown():void
     {
-
     }
     /**
      * @test
@@ -51,10 +50,10 @@ class AnnotationUtilTest extends TestCase
 
     /**
      * @test
-     * @expectedException ReflectionException
      */
     public function getAnnotationContentFromMethodExceptionTest()
     {
+        $this->expectException(ReflectionException::class);
         $this->util->getAnnotationContentFromMethod(
             Index::class,
             'test',

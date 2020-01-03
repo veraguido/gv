@@ -21,10 +21,10 @@ class ValidationServiceTest extends TestCase
 
     /**
      * @test
-     * @expectedException Exception
      */
     public function testException()
     {
+        $this->expectException(Exception::class);
         $service = new ValidationService();
         $service->validate('a', [new HttpResponse()]);
     }
