@@ -14,11 +14,3 @@ build:
       dependencies:
         after:
           - composer require --dev squizlabs/php_codesniffer:2.9
-      tests:
-        environment:
-          php:
-            version: 7.3
-        override:
-          -
-            command: phpcs-run
-            use_website_config: false
