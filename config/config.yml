@@ -1,6 +1,6 @@
 config:
   devmode: true
-  throttling: true
+  throttling: false
   allowed_requests_per_second: 4
   mysql:
     host: mysql

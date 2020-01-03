@@ -129,7 +129,8 @@ class DIContainer implements ContainerInterface
     }
 
     /**
-     * @return void
+     * @param $lines
+     * @param $object
      */
     private function checkInjectionLinesInComments($lines, $object)
     {
@@ -163,7 +164,9 @@ class DIContainer implements ContainerInterface
     }
 
     /**
-     * @return void
+     * @param $object
+     * @param $dependencies
+     * @throws \ReflectionException
      */
     private function generateObjectDependencies($object, $dependencies)
     {
@@ -177,10 +180,16 @@ class DIContainer implements ContainerInterface
 
         $id = array_search($this->map->$key->value, $this->classMap);
         $this->generateResource($id, $key, $object, $this->map->$key->type);
+
+        $object->$key = $this->map->$key->instance;
     }
 
     /**
-     * @return void
+     * @param $id
+     * @param $key
+     * @param $object
+     * @param $type
+     * @throws \ReflectionException
      */
     private function generateResource($id, $key, $object, $type)
     {

@@ -1,6 +1,8 @@
 <?php
 namespace Gvera\Listeners;
 
+use Gvera\Events\Event;
+
 /**
  * Listener Class Doc Comment
  *
@@ -14,7 +16,8 @@ namespace Gvera\Listeners;
 interface EventListenerInterface
 {
     /**
-     * @return void
+     * @param Event $event
+     * @return mixed
      */
-    public function handleEvent($event);
+    public function handleEvent(Event $event);
 }

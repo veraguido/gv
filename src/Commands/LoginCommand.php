@@ -2,6 +2,7 @@
 namespace Gvera\Commands;
 
 use Gvera\Events\UserLoggedInEvent;
+use Gvera\Helpers\events\EventDispatcher;
 use Gvera\Services\UserService;
 
 /**
@@ -12,17 +13,20 @@ use Gvera\Services\UserService;
  * @author    Guido Vera
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.github.com/veraguido/gv
- * @Inject eventDispatcher
  */
 class LoginCommand implements CommandInterface
 {
     private $username;
     private $password;
-    private $role;
     private $userService;
+    /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, EventDispatcher $eventDispatcher)
     {
+        $this->eventDispatcher = $eventDispatcher;
         $this->userService = $userService;
     }
 
@@ -51,9 +55,8 @@ class LoginCommand implements CommandInterface
     }
 
     /**
-     * Set the value of username
-     *
-     * @return  self
+     * @param $username
+     * @return $this
      */
     public function setUsername($username)
     {
@@ -72,9 +75,8 @@ class LoginCommand implements CommandInterface
     }
 
     /**
-     * Set the value of password
-     *
-     * @return  self
+     * @param $password
+     * @return $this
      */
     public function setPassword($password)
     {

@@ -15,6 +15,7 @@ class GvEmail
     private $subject;
     private $body;
     private $alternativeBody;
+    public $config;
 
 
     public function addAddress($address, $name = '')

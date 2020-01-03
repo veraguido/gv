@@ -2,12 +2,10 @@
 
 namespace Gvera\Listeners;
 
+use Gvera\Events\Event;
 use Gvera\Exceptions\GvException;
 use Monolog\Logger;
 
-/**
- * @Inject logger
- */
 class ThrowableListener implements EventListenerInterface
 {
     public $logger;
@@ -21,7 +19,7 @@ class ThrowableListener implements EventListenerInterface
      * @param $event
      * @return void
      */
-    public function handleEvent($event)
+    public function handleEvent(Event $event)
     {
         $throwable = $event->getThrowable();
         $httpResponse = $event->getHttpResponse();

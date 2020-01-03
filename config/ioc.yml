@@ -41,6 +41,12 @@ email:
     email:
       class: GvEmail
 
+validation:
+  classPath: Gvera\Helpers\validation\
+  objects:
+    validationService:
+      class: ValidationService
+
 entities:
   classPath: Gvera\Helpers\entities\
   objects:
@@ -68,6 +74,7 @@ services:
       arguments:
         - "@entityManager"
         - "@session"
+        - "@validationService"
     forgotPasswordService:
       class: ForgotPasswordService
       arguments: "@entityManager"
@@ -102,7 +109,8 @@ commands:
     loginCommand:
       class: LoginCommand
       arguments:
-        "@userService"
+        - "@userService"
+        - "@eventDispatcher"
     createNewUserCommand:
       class: CreateNewUserCommand
       arguments:

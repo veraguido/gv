@@ -1,5 +1,6 @@
 <?php
 
+use Gvera\Helpers\validation\ValidationService;
 use Gvera\Models\User;
 use Gvera\Models\UserRole;
 use Doctrine\ORM\EntityRepository;
@@ -36,7 +37,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
             ->with($this->isType('string'), $this->isType('array'))
             ->willReturn(true);
 
-        $this->userService = new \Gvera\Services\UserService($gvEntityManager, $session);
+        $this->userService = new \Gvera\Services\UserService($gvEntityManager, $session, new ValidationService());
 
         $role = new UserRole();
         $role->setName("testRole");

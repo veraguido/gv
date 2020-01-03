@@ -16,12 +16,7 @@ class ValidationServiceTest extends TestCase
         $service = new ValidationService();
         $emailValidation = new EmailValidationStrategy();
         $notEmptyValidation = new IsNotEmptyValidationStrategy();
-        $this->assertTrue(
-            $service->validate(
-                'peperino@pomoro.com',
-                 [$emailValidation, $notEmptyValidation]
-                 )
-            );
+        $this->assertTrue($service->validate('peperino@pomoro.com', [$emailValidation, $notEmptyValidation]));
     }
 
     /**

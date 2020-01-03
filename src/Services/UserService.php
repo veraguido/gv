@@ -22,16 +22,18 @@ class UserService
 
     public $entityManager;
     public $session;
+    private $validationService;
 
-    public function __construct(GvEntityManager $entityManager, Session $session)
+    public function __construct(GvEntityManager $entityManager, Session $session, ValidationService $validationService)
     {
+        $this->validationService = $validationService;
         $this->entityManager = $entityManager;
         $this->session = $session;
     }
 
     public function validateEmail($email)
     {
-        return ValidationService::validate($email, [new EmailValidationStrategy()]);
+        return $this->validationService->validate($email, [new EmailValidationStrategy()]);
     }
 
     /**

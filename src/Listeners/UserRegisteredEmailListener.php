@@ -1,6 +1,7 @@
 <?php
 namespace Gvera\Listeners;
 
+use Gvera\Events\Event;
 use Gvera\Helpers\email\GvEmail;
 
 /**
@@ -24,7 +25,7 @@ class UserRegisteredEmailListener implements EventListenerInterface
         $this->email = $email;
     }
 
-    public function handleEvent($event)
+    public function handleEvent(Event $event)
     {
         if ($event->getDevMode() === false) {
             $username = $event->getUserName();

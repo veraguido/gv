@@ -14,11 +14,11 @@ class ValidationService
 {
     /**
      * @param $field
-     * @param $validationStrategies
+     * @param array $validationStrategies
      * @return bool
      * @throws \Exception
      */
-    public static function validate($field, $validationStrategies)
+    public function validate($field, array $validationStrategies)
     {
         foreach ($validationStrategies as $strategy) {
             if (!is_a($strategy, ValidationStrategyInterface::class)) {
