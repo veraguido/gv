@@ -3,7 +3,18 @@ checks:
 
 build:
   nodes:
+    my-tests:
+      environment:
+        php:
+          version: 7.3
+          command: phpunit --coverage-clover=my-coverage-file
+            coverage:
+              file: my-coverage-file
+              format: php-clover
     analysis:
+      environment:
+        php:
+          version: 7.3
       dependencies:
         after:
           - composer require --dev squizlabs/php_codesniffer:2.9
@@ -12,7 +23,3 @@ build:
           -
             command: phpcs-run
             use_website_config: false
-    my-tests:
-      environment:
-        php:
-          version: 7.3
