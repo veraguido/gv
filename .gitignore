@@ -15,4 +15,6 @@ var/cache/files/*
 var/cache/views/*
 src/Models/Proxies/*
 
+#others
+.phpunit.result.cache
 
