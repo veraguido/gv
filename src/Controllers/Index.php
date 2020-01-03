@@ -18,10 +18,7 @@ class Index extends GvController
     {
         $this->httpResponse->asJson();
         $welcomeJson = [
-            'gv' => [
-                "version" => "1.4",
-                "cache" => get_class(Cache::getCache()),
-                 ]
+            'gv' => ["version" => "1.4"]
             ];
         $this->httpResponse->response($welcomeJson);
     }
@@ -34,6 +31,7 @@ class Index extends GvController
 
     public function opcache()
     {
+        $this->httpResponse->asJson();
         $this->httpResponse->response(["opcache_enabled" => opcache_get_status()['opcache_enabled']]);
     }
 }

@@ -3,7 +3,7 @@
 namespace Gvera\Services;
 
 use Gvera\Cache\Cache;
-use src\Exceptions\ThrottledException;
+use Gvera\Exceptions\ThrottledException;
 
 class ThrottlingService
 {
@@ -40,7 +40,6 @@ class ThrottlingService
             $sec =  abs($last - $current);
             if ($sec <= (1 / $this->allowedRequestsPerSecond)) {
                 throw new ThrottledException('request not allowed', ['ip' => $this->ip]);
-                return;
             }
         }
         

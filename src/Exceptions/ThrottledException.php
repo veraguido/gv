@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Exceptions;
+namespace Gvera\Exceptions;
 
 use Gvera\Exceptions\GvException;
 

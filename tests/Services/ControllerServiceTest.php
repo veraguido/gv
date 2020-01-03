@@ -148,7 +148,8 @@ class ControllerServiceTest extends TestCase
         return $diContainer;
     }
 
-    public function httpCallBack($param) {
+    public function httpCallBack($param)
+    {
         return $this->getMockedHttp($param);
     }
 
