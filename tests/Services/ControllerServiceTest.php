@@ -72,14 +72,6 @@ class ControllerServiceTest extends TestCase
     /**
      * @test
      */
-    public function testRedirectToDefault()
-    {
-        $this->controllerService->redirectToDefault($this->getDiContainer());
-    }
-
-    /**
-     * @test
-     */
     public function testServiceExceptions()
     {
         $this->expectException(Exception::class);
