@@ -1,5 +1,7 @@
 <?php namespace Gvera\Models;
 
+use Gvera\Services\UserService;
+
 /**
  * @Entity @Table(name="users")
  * @HasLifecycleCallbacks
@@ -17,6 +19,7 @@ class User
 
     /**
      * User constructor.
+     * @param UserService $userService
      */
     public function __construct()
     {

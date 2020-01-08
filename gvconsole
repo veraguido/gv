@@ -28,6 +28,7 @@ if [ -z "$1" ]; then
     echo
     echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* BUILDING COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "build"
+    echo "phpcs-compliance"
     echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* CONTAINER MANAGEMENT COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "start"
     echo "stop"
@@ -40,6 +41,16 @@ fi
 
 if [ $1 = "tests" ]; then
     docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpunit"
+    exit 1
+fi
+
+if [ $1 = "phpcs-compliance" ]; then
+    docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpcs --standard=PSR2 src/"
+    exit 1
+fi
+
+if [ $1 = "phpcbf" ]; then
+    docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpcbf --standard=PSR2 src/"
     exit 1
 fi
 

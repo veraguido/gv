@@ -5,7 +5,7 @@ namespace Gvera\Models;
  * @Entity @Table(name="forgot_passwords")
  * @HasLifecycleCallbacks
  */
-class ForgotPassword extends GvModel
+class ForgotPassword
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     private $id;

@@ -1,6 +1,9 @@
 <?php
 namespace Gvera\Models;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
+
 /**
  * Class UserStatus
  * @package Gvera\Models
@@ -14,6 +17,21 @@ class UserRole
     protected $name;
     /** @Column(type="integer", unique=true, nullable=false) */
     protected $rolePriority;
+
+    /**
+     * Many Users have Many Stores.
+     * @ManyToMany(targetEntity="UserRoleAction", inversedBy="user_role_actions", fetch="EAGER", cascade={"persist"})
+     */
+    protected $userRoleActions;
+
+    /**
+     * UserRole constructor.
+     */
+    public function __construct()
+    {
+        $this->userRoleActions = new PersistentCollection();
+    }
+
 
     /**
      * @return mixed
@@ -45,5 +63,41 @@ class UserRole
     public function setRolePriority($rolePriority)
     {
         $this->rolePriority = $rolePriority;
+    }
+
+    /**
+     * @return PersistentCollection
+     */
+    public function getUserRoleActions(): PersistentCollection
+    {
+        return $this->userRoleActions;
+    }
+
+    /**
+     * @param ArrayCollection $userRoleActions
+     */
+    public function setUserRoleActions(ArrayCollection $userRoleActions): void
+    {
+        $this->userRoleActions = $userRoleActions;
+    }
+
+    public function addRoleAction(UserRoleAction $roleAction)
+    {
+        if (null === $roleAction) {
+            return;
+        }
+
+        if ($this->userRoleActions->contains($roleAction)) {
+            return;
+        }
+        $this->userRoleActions->add($roleAction);
+    }
+
+    public function removeRoleAction(UserRoleAction $roleAction)
+    {
+        if (!$this->userRoleActions->contains($roleAction)) {
+            return;
+        }
+        $this->userRoleActions->removeElement($roleAction);
     }
 }

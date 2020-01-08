@@ -1,0 +1,21 @@
+#!/usr/bin/php -q
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (count($argv) != 3){
+    echo 'wrong amount of parameters for this command';?>
+    documentation: ./gvconsole create-or-assign-user-role-action {action name} {user role name}
+    usage example: ./gvconsole create-or-assign-user-role-action canpublish admin
+    <?php
+    exit(0);
+}
+
+$config = new \Gvera\Helpers\config\Config();
+$entityManager = new \Gvera\Helpers\entities\GvEntityManager($config);
+$command = new \Gvera\Commands\CreateOrAssignUserRoleActionCommand($argv[1], $argv[2], $entityManager);
+try {
+    $command->execute();
+} catch (Throwable $t) {
+    echo $t->getMessage();
+}

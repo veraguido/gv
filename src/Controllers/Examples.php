@@ -81,6 +81,13 @@ class Examples extends GvController
         $this->httpResponse->response(Locale::getLocale("Hello world"));
     }
 
+    public function authorization()
+    {
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => 'admin']);
+        $service = $this->getUserService();
+        $this->httpResponse->response(['can all' => $service->userCan($user, 'all')]);
+    }
+
     /**
      * Before executing this method, be sure to have a user with username 'asda' in your database
      * @httpMethod("GET")

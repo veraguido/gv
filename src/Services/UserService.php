@@ -1,10 +1,14 @@
 <?php namespace Gvera\Services;
 
+use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\ValidationService;
 use Gvera\Models\User;
+use Gvera\Models\UserRole;
+use Gvera\Models\UserRoleAction;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * Service Class Doc Comment
@@ -37,6 +41,7 @@ class UserService
     }
 
     /**
+     * @param $plainPassword
      * @return string
      */
     public function generatePassword($plainPassword)
@@ -94,5 +99,17 @@ class UserService
     public function getUserRole()
     {
         return $this->session->get('user') != null ? $this->session->get('user')['role'] : false;
+    }
+
+
+    public function userCan(User $user, string $userRoleActionName):bool
+    {
+        $action = $this->entityManager->getRepository(UserRoleAction::class)->findOneByName($userRoleActionName);
+
+        if (null == $action) {
+            return false;
+        }
+
+        return $user->getRole()->getUserRoleActions()->contains($action);
     }
 }
