@@ -39,7 +39,7 @@ class BasicAuthenticationService
         if (null === $user) {
             return false;
         }
-        
+
         return $this->userService->validatePassword($details->getPassword(), $user->getPassword());
     }
 }

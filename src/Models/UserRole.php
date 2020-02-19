@@ -29,7 +29,7 @@ class UserRole
      */
     public function __construct()
     {
-        $this->userRoleActions = new PersistentCollection();
+        $this->userRoleActions = new ArrayCollection();
     }
 
 
@@ -66,9 +66,9 @@ class UserRole
     }
 
     /**
-     * @return PersistentCollection
+     * @return ArrayCollection
      */
-    public function getUserRoleActions(): PersistentCollection
+    public function getUserRoleActions(): ArrayCollection
     {
         return $this->userRoleActions;
     }

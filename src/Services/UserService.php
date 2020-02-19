@@ -102,14 +102,18 @@ class UserService
     }
 
 
+    /**
+     * @param User $user
+     * @param string $userRoleActionName
+     * @return bool
+     */
     public function userCan(User $user, string $userRoleActionName):bool
     {
-        $action = $this->entityManager->getRepository(UserRoleAction::class)->findOneByName($userRoleActionName);
-
+        $action = $this->entityManager->getRepository(UserRoleAction::class)
+            ->findOneBy(['name' => $userRoleActionName]);
         if (null == $action) {
             return false;
         }
-
         return $user->getRole()->getUserRoleActions()->contains($action);
     }
 }

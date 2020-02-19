@@ -15,6 +15,7 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    private $user;
     public function validateEmail()
     {
         $invalidEmail = 'test';
@@ -47,6 +48,9 @@ class UserServiceTest extends TestCase
         $user = new User();
         $user->setEmail("asd@aasd.com");
         $user->setUsername("test");
+        $user->setRole($role);
+
+        $this->user = $user;
         $passHash = $this->userService->generatePassword('test');
         $user->setPassword($passHash);
 
@@ -103,7 +107,7 @@ class UserServiceTest extends TestCase
         $session = $this->createMock(Session::class);
         $session->expects($this->any())
             ->method('set')
-            ->with($this->isType('string'),$this->isType('array'))
+            ->with($this->isType('string'), $this->isType('array'))
             ->willReturn(true);
         
         $session->expects($this->any())
@@ -143,5 +147,40 @@ class UserServiceTest extends TestCase
         $this->userService->logout();
 
         $this->assertFalse($this->userService->isUserLoggedIn());
+    }
+
+    /**
+     * @test
+     */
+    public function testUserAuthorization()
+    {
+        $role = new UserRole();
+        $role->setName("testRole");
+        $role->setRolePriority(5);
+
+        $roleAction = new \Gvera\Models\UserRoleAction();
+        $roleAction->setActionName('test');
+
+        $role->addRoleAction($roleAction);
+
+        $user = new User();
+        $user->setEmail("asd@aasd.com");
+        $user->setUsername("test");
+        $user->setRole($role);
+
+        $role->addRoleAction($roleAction);
+
+        $repo = $this->createMock(EntityRepository::class);
+        $repo->expects($this->any())
+            ->method('findOneBy')
+            ->willReturn($roleAction);
+
+        $gvEntityManager = $this->createMock(GvEntityManager::class);
+        $gvEntityManager->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($repo);
+
+        $this->assertTrue($this->userService->userCan($user, 'test'));
+        $this->assertFalse($this->userService->userCan($user, 'not_test'));
     }
 }
