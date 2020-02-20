@@ -28,11 +28,12 @@ class CreateNewUserRoleCommand implements CommandInterface
     }
 
     /**
+     * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function execute()
     {
-        $userRole = new UserRole();
+        $userRole = new UserRole($this->entityManager);
         $userRole->setName($this->roleName);
         $userRole->setRolePriority($this->priority);
         $this->entityManager->persist($userRole);

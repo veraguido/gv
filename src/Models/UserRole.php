@@ -3,6 +3,7 @@ namespace Gvera\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
+use Gvera\Helpers\entities\GvEntityManager;
 
 /**
  * Class UserStatus
@@ -26,10 +27,11 @@ class UserRole
 
     /**
      * UserRole constructor.
+     * @param GvEntityManager $entityManager
      */
-    public function __construct()
+    public function __construct(GvEntityManager $entityManager)
     {
-        $this->userRoleActions = new ArrayCollection();
+        $this->userRoleActions = new PersistentCollection($entityManager, self::class, new ArrayCollection());
     }
 
 
@@ -66,17 +68,17 @@ class UserRole
     }
 
     /**
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
-    public function getUserRoleActions(): ArrayCollection
+    public function getUserRoleActions(): PersistentCollection
     {
         return $this->userRoleActions;
     }
 
     /**
-     * @param ArrayCollection $userRoleActions
+     * @param PersistentCollection $userRoleActions
      */
-    public function setUserRoleActions(ArrayCollection $userRoleActions): void
+    public function setUserRoleActions(PersistentCollection $userRoleActions): void
     {
         $this->userRoleActions = $userRoleActions;
     }
