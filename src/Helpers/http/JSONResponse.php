@@ -6,9 +6,11 @@ class JSONResponse extends Response
 {
     /**
      * JSONResponse constructor.
+     * @param string $content
+     * @param string $code
      */
-    public function __construct($code)
+    public function __construct(array $content, string $code = Response::HTTP_RESPONSE_OK)
     {
-        parent::__construct(Response::CONTENT_TYPE_JSON, $code);
+        parent::__construct(json_encode($content), Response::CONTENT_TYPE_JSON, $code);
     }
 }

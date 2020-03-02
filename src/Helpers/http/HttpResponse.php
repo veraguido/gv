@@ -31,12 +31,7 @@ class HttpResponse
     {
         $this->setHeader($response->getContentType());
         $this->setHeader($response->getCode());
-        if (is_a($response, TransformerAbstract::class)) {
-            echo json_encode($response->transform());
-            return;
-        }
-
-        echo is_array($response) ? json_encode($response) : (string) $response;
+        echo $response->getContent();
     }
     /**
      * @param $url
@@ -49,12 +44,6 @@ class HttpResponse
     public function notFound()
     {
         $this->setHeader(self::HTTP_RESPONSE_NOT_FOUND);
-        return $this;
-    }
-
-    public function badRequest()
-    {
-        $this->setHeader(self::HTTP_RESPONSE_BAD_REQUEST);
         return $this;
     }
 
@@ -91,12 +80,6 @@ class HttpResponse
         die($message);
     }
 
-    public function asJson()
-    {
-        $this->setHeader(self::CONTENT_TYPE_JSON);
-        return $this;
-    }
-
     public function asXML()
     {
         $this->setHeader(self::CONTENT_TYPE_XML);
@@ -119,14 +102,5 @@ class HttpResponse
     {
         $this->setHeader(self::CONTENT_TYPE_PDF);
         return $this;
-    }
-
-    /**
-     * @param int $errorCode
-     * @param string $message
-     */
-    public function printError(int $errorCode, string $message)
-    {
-        $this->response(['code' => $errorCode, 'message' => $message]);
     }
 }

@@ -39,9 +39,10 @@ class Response
      * @param string $code
      * @param string $content
      */
-    public function __construct(string $contentType = self::CONTENT_TYPE_HTML,
-                                string $code = self::HTTP_RESPONSE_OK,
-                                string $content = ''
+    public function __construct(string $content = '',
+                                string $contentType = self::CONTENT_TYPE_HTML,
+                                string $code = self::HTTP_RESPONSE_OK
+
     )
     {
         $this->contentType = $contentType;

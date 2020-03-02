@@ -7,6 +7,9 @@ use Gvera\Exceptions\InvalidViewException;
 use Gvera\Exceptions\NotAllowedException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\http\HttpResponse;
+use Gvera\Helpers\http\JSONResponse;
+use Gvera\Helpers\http\PrintErrorResponse;
+use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
 
@@ -112,7 +115,7 @@ abstract class GvController
     {
         if ($this->twigService->needsTwig($this->name, $this->method)) {
             $this->httpResponse->response(
-                $this->twigService->render($this->name, $this->method, $this->viewParams)
+                new Response($this->twigService->render($this->name, $this->method, $this->viewParams))
             );
             return;
         }
@@ -144,12 +147,12 @@ abstract class GvController
      */
     protected function badRequestWithError(int $errorCode, string $message)
     {
-        $this->httpResponse->asJson();
-        $this->httpResponse->badRequest();
-        $this->httpResponse->response([
-            'error' => $errorCode,
-            'message' => $message
-        ]);
+        $this->httpResponse->response(
+            new JSONResponse(
+                ['error' => $errorCode,'message' => $message],
+            Response::HTTP_RESPONSE_BAD_REQUEST
+            )
+        );
     }
 
     /**
@@ -158,15 +161,24 @@ abstract class GvController
      */
     protected function unauthorizedWithError(int $errorCode, string $message)
     {
-        $this->httpResponse->asJson();
-        $this->httpResponse->unauthorized();
-        $this->httpResponse->printError($errorCode, $message);
+        $this->httpResponse->response(
+            new PrintErrorResponse(
+                $errorCode,
+                $message,
+                Response::HTTP_RESPONSE_UNAUTHORIZED
+            )
+        );
     }
 
     protected function unauthorizedBasicAuth()
     {
-        $this->httpResponse->unauthorized();
-        $this->httpResponse->setHeader(HttpResponse::BASIC_AUTH_ACCESS_DENIED);
+        $this->httpResponse->response(
+            new Response(
+                '',
+                Response::CONTENT_TYPE_HTML,
+                Response::BASIC_AUTH_ACCESS_DENIED
+            )
+        );
     }
 
     /**

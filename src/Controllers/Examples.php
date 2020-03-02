@@ -1,6 +1,9 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Helpers\http\JSONResponse;
+use Gvera\Helpers\http\Response;
+use Gvera\Helpers\http\TransformerResponse;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\transformers\UserTransformer;
 use Gvera\Models\User;
@@ -54,7 +57,7 @@ class Examples extends GvController
 
     public function asd()
     {
-        $this->httpResponse->response("trough routes.yml");
+        $this->httpResponse->response(new Response("trough routes.yml"));
     }
 
     /**
@@ -82,8 +85,7 @@ class Examples extends GvController
     }
 
     /**
-     * Before executing this method, be sure to have a user with username 'asda' in your database
-     * @httpMethod("GET")
+     * @throws \Gvera\Exceptions\NotImplementedMethodException
      */
     public function transformer()
     {
@@ -91,8 +93,7 @@ class Examples extends GvController
         $repository = $entityManager->getRepository(User::class);
         $user = $repository->findOneBy(['username' => 'asda']);
 
-        $this->httpResponse->asJson();
-        $this->httpResponse->response(new UserTransformer($user));
+        $this->httpResponse->response(new TransformerResponse(new UserTransformer($user)));
     }
 
     public function authTest()
@@ -105,9 +106,8 @@ class Examples extends GvController
         try {
             $this->checkApiAuthentication();
         } catch (\Throwable $e) {
-            $this->unauthorizedBasicAuth();
-            $this->httpResponse->asJson();
-            $this->httpResponse->response(['message' => $e->getMessage()]);
+            $content = ['message' => $e->getMessage()];
+            $this->httpResponse->response(new JSONResponse($content, Response::HTTP_RESPONSE_UNAUTHORIZED));
         }
     }
 }

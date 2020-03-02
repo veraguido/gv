@@ -1,6 +1,8 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Helpers\http\JSONResponse;
+use Gvera\Helpers\http\Response;
 use Throwable;
 
 class Doc extends GvController
@@ -10,9 +12,11 @@ class Doc extends GvController
         try {
             $this->checkApiAuthentication();
         } catch (Throwable $e) {
-            $this->unauthorizedBasicAuth();
-            $this->httpResponse->asJson();
-            $this->httpResponse->response(['message' => $e->getMessage()]);
+            $this->httpResponse->response(
+                new JSONResponse(
+                    ['message' => $e->getMessage()],
+                    Response::HTTP_RESPONSE_UNAUTHORIZED)
+            );
             exit;
         }
     }
