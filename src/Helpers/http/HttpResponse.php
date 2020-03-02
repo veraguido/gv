@@ -27,8 +27,10 @@ class HttpResponse
      * @return void
      * @throws NotImplementedMethodException
      */
-    public function response($response)
+    public function response(Response $response)
     {
+        $this->setHeader($response->getContentType());
+        $this->setHeader($response->getCode());
         if (is_a($response, TransformerAbstract::class)) {
             echo json_encode($response->transform());
             return;
