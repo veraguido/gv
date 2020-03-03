@@ -195,7 +195,7 @@ abstract class GvController
      */
     protected function checkApiAuthentication()
     {
-        $this->httpResponse->setHeader(HttpResponse::NO_CACHE);
+        $this->httpResponse->setHeader(Response::NO_CACHE);
         $authService = $this->getBasicAuthenticationService();
         $details = $this->httpRequest->getAuthDetails();
 
