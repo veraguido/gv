@@ -15,7 +15,8 @@ class Doc extends GvController
             $this->httpResponse->response(
                 new JSONResponse(
                     ['message' => $e->getMessage()],
-                    Response::HTTP_RESPONSE_UNAUTHORIZED)
+                    Response::HTTP_RESPONSE_UNAUTHORIZED,
+                    Response::BASIC_AUTH_ACCESS_DENIED)
             );
             exit;
         }

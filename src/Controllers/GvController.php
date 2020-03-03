@@ -176,6 +176,7 @@ abstract class GvController
             new Response(
                 '',
                 Response::CONTENT_TYPE_HTML,
+                Response::HTTP_RESPONSE_UNAUTHORIZED,
                 Response::BASIC_AUTH_ACCESS_DENIED
             )
         );

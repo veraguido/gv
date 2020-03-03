@@ -31,6 +31,7 @@ class HttpResponse
     {
         $this->setHeader($response->getContentType());
         $this->setHeader($response->getCode());
+        $this->setHeader($response->getAuth());
         echo $response->getContent();
     }
     /**

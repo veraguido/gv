@@ -24,7 +24,7 @@ class TransformerResponse extends JSONResponse
     public function __construct(TransformerAbstract $transformer, $code = Response::HTTP_RESPONSE_OK)
     {
         $this->transformer = $transformer;
-        parent::__construct(json_encode($this->transformer->transform()), $code);
+        parent::__construct($this->transformer->transform(), $code);
     }
 
     /**
