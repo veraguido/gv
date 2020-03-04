@@ -83,7 +83,6 @@ class DIContainer implements ContainerInterface
      * @throws ContainerExceptionInterface Error while retrieving the entry.
      * @throws \ReflectionException
      *
-     * @return object
      */
     public function get($id)
     {

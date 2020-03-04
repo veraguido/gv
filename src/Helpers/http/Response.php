@@ -23,22 +23,10 @@ class Response
     const NO_CACHE = 'Cache-Control: no-cache, must-revalidate, max-age=0';
     const BASIC_AUTH_ACCESS_DENIED = 'WWW-Authenticate: Basic realm="Access denied"';
 
-    /**
-     * @var string $contentType
-     */
-    private $contentType;
-    /**
-     * @var string $code
-     */
-    private $code;
-    /**
-     * @var string $content
-     */
-    private $content;
-    /**
-     * @var string
-     */
-    private $auth;
+    private ?string $contentType;
+    private ?string $code;
+    private ?string $content;
+    private ?string $auth;
 
     /**
      * Response constructor.

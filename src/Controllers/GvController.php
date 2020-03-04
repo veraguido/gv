@@ -6,12 +6,15 @@ use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Exceptions\NotAllowedException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
 use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\PrintErrorResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
+use Gvera\Services\TwigService;
+use Twig\Environment;
 
 /**
  * Class GvController
@@ -26,18 +29,18 @@ use Gvera\Helpers\security\CSRFToken;
 abstract class GvController
 {
 
-    private $method = null;
-    private $name;
-    private $twig;
-    protected $viewParams = array();
-    protected $httpResponse;
-    protected $httpRequest;
-    protected $diContainer;
-    protected $protectedController = false;
+    private ?string $method = null;
+    private ?string $name;
+    private Environment $twig;
+    protected array $viewParams = array();
+    protected HttpResponse $httpResponse;
+    protected HttpRequest $httpRequest;
+    protected DIContainer $diContainer;
+    protected bool $protectedController = false;
 
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
-    private $twigService;
+    private TwigService $twigService;
 
     /**
      * GvController constructor.
@@ -53,7 +56,7 @@ abstract class GvController
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
-        $this->httpResponse =$this->diContainer->get('httpResponse');
+        $this->httpResponse = $this->diContainer->get('httpResponse');
         $this->twigService = $this->diContainer->get('twigService');
 
         if (!method_exists($this, $method)) {
@@ -73,7 +76,7 @@ abstract class GvController
      * @throws InvalidViewException
      * @throws \ReflectionException
      */
-    public function init($allowedHttpMethods = [])
+    public function init($allowedHttpMethods = []):void
     {
         $this->preInit($allowedHttpMethods);
 
@@ -149,7 +152,7 @@ abstract class GvController
      * @param int $errorCode
      * @param string $message
      */
-    protected function badRequestWithError(int $errorCode, string $message)
+    protected function badRequestWithError(int $errorCode, string $message):void
     {
         $this->httpResponse->response(
             new JSONResponse(
@@ -163,7 +166,7 @@ abstract class GvController
      * @param int $errorCode
      * @param string $message
      */
-    protected function unauthorizedWithError(int $errorCode, string $message)
+    protected function unauthorizedWithError(int $errorCode, string $message):void
     {
         $this->httpResponse->response(
             new PrintErrorResponse(
