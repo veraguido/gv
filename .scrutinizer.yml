@@ -6,11 +6,11 @@ build:
     my-tests:
       environment:
         php:
-          version: 7.3
+          version: 7.4
     analysis:
       environment:
         php:
-          version: 7.3
+          version: 7.4
       dependencies:
         after:
           - composer require --dev squizlabs/php_codesniffer:2.9
