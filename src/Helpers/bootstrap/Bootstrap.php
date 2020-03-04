@@ -6,6 +6,8 @@ use Gvera\Cache\Cache;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\dependencyInjection\DIRegistry;
+use Gvera\Helpers\http\JSONResponse;
+use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\routes\RouteManager;
 use Gvera\Helpers\session\Session;
@@ -44,8 +46,9 @@ class Bootstrap
             }
         } catch (Throwable $exception) {
             $httpResponse = $this->diContainer->get('httpResponse');
-            $httpResponse->badRequest()->asJson();
-            $httpResponse->response(['message' => Locale::getLocale('something went wrong')]);
+            $content = ['message' => Locale::getLocale('something went wrong')];
+
+            $httpResponse->response(new JSONResponse($content, Response::HTTP_RESPONSE_BAD_REQUEST));
             $httpResponse->terminate();
         }
 

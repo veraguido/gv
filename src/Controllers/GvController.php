@@ -6,9 +6,15 @@ use Gvera\Exceptions\InvalidMethodException;
 use Gvera\Exceptions\InvalidViewException;
 use Gvera\Exceptions\NotAllowedException;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Helpers\http\HttpRequest;
 use Gvera\Helpers\http\HttpResponse;
+use Gvera\Helpers\http\JSONResponse;
+use Gvera\Helpers\http\PrintErrorResponse;
+use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
+use Gvera\Services\TwigService;
+use Twig\Environment;
 
 /**
  * Class GvController
@@ -23,25 +29,26 @@ use Gvera\Helpers\security\CSRFToken;
 abstract class GvController
 {
 
-    private $method = null;
-    private $name;
-    private $twig;
-    protected $viewParams = array();
-    protected $httpResponse;
-    protected $httpRequest;
-    protected $diContainer;
-    protected $protectedController = false;
+    private ?string $method = null;
+    private ?string $name;
+    private Environment $twig;
+    protected array $viewParams = array();
+    protected HttpResponse $httpResponse;
+    protected HttpRequest $httpRequest;
+    protected DIContainer $diContainer;
+    protected bool $protectedController = false;
 
     const DEFAULT_CONTROLLER = "Index";
     const DEFAULT_METHOD = 'index';
-    private $twigService;
+    private TwigService $twigService;
 
     /**
      * GvController constructor.
      * @param DIContainer $diContainer
      * @param $controllerName
-     * @param string $method
-     * @throws \Exception
+     * @param $method
+     * @throws InvalidMethodException
+     * @throws \ReflectionException
      */
     public function __construct(DIContainer $diContainer, $controllerName, $method)
     {
@@ -49,7 +56,7 @@ abstract class GvController
         $this->method = $method;
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
-        $this->httpResponse =$this->diContainer->get('httpResponse');
+        $this->httpResponse = $this->diContainer->get('httpResponse');
         $this->twigService = $this->diContainer->get('twigService');
 
         if (!method_exists($this, $method)) {
@@ -64,9 +71,12 @@ abstract class GvController
     }
 
     /**
-     * @throws \Exception
+     * @param array $allowedHttpMethods
+     * @throws InvalidHttpMethodException
+     * @throws InvalidViewException
+     * @throws \ReflectionException
      */
-    public function init($allowedHttpMethods = [])
+    public function init($allowedHttpMethods = []):void
     {
         $this->preInit($allowedHttpMethods);
 
@@ -106,13 +116,13 @@ abstract class GvController
     }
 
     /**
-     * @throws \Exception
+     * @throws InvalidViewException
      */
     protected function postInit()
     {
         if ($this->twigService->needsTwig($this->name, $this->method)) {
             $this->httpResponse->response(
-                $this->twigService->render($this->name, $this->method, $this->viewParams)
+                new Response($this->twigService->render($this->name, $this->method, $this->viewParams))
             );
             return;
         }
@@ -129,7 +139,7 @@ abstract class GvController
     {
         if (true === $this->protectedController && false === $this->checkAuthorization()) {
             if ($this->httpRequest->isAjax()) {
-                $this->httpResponse->unauthorized();
+                $this->httpResponse->response(new JSONResponse([], Response::HTTP_RESPONSE_UNAUTHORIZED));
                 exit();
             }
 
@@ -142,31 +152,41 @@ abstract class GvController
      * @param int $errorCode
      * @param string $message
      */
-    protected function badRequestWithError(int $errorCode, string $message)
+    protected function badRequestWithError(int $errorCode, string $message):void
     {
-        $this->httpResponse->asJson();
-        $this->httpResponse->badRequest();
-        $this->httpResponse->response([
-            'error' => $errorCode,
-            'message' => $message
-        ]);
+        $this->httpResponse->response(
+            new JSONResponse(
+                ['error' => $errorCode,'message' => $message],
+                Response::HTTP_RESPONSE_BAD_REQUEST
+            )
+        );
     }
 
     /**
      * @param int $errorCode
      * @param string $message
      */
-    protected function unauthorizedWithError(int $errorCode, string $message)
+    protected function unauthorizedWithError(int $errorCode, string $message):void
     {
-        $this->httpResponse->asJson();
-        $this->httpResponse->unauthorized();
-        $this->httpResponse->printError($errorCode, $message);
+        $this->httpResponse->response(
+            new PrintErrorResponse(
+                $errorCode,
+                $message,
+                Response::HTTP_RESPONSE_UNAUTHORIZED
+            )
+        );
     }
 
     protected function unauthorizedBasicAuth()
     {
-        $this->httpResponse->unauthorized();
-        $this->httpResponse->setHeader(HttpResponse::BASIC_AUTH_ACCESS_DENIED);
+        $this->httpResponse->response(
+            new Response(
+                '',
+                Response::CONTENT_TYPE_HTML,
+                Response::HTTP_RESPONSE_UNAUTHORIZED,
+                Response::BASIC_AUTH_ACCESS_DENIED
+            )
+        );
     }
 
     /**
@@ -182,7 +202,7 @@ abstract class GvController
      */
     protected function checkApiAuthentication()
     {
-        $this->httpResponse->setHeader(HttpResponse::NO_CACHE);
+        $this->httpResponse->setHeader(Response::NO_CACHE);
         $authService = $this->getBasicAuthenticationService();
         $details = $this->httpRequest->getAuthDetails();
 

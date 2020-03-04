@@ -2,6 +2,7 @@
 namespace Gvera\Controllers;
 
 use Gvera\Cache\Cache;
+use Gvera\Helpers\http\JSONResponse;
 
 /**
  * Controller Class Doc Comment
@@ -16,22 +17,19 @@ class Index extends GvController
 {
     public function index()
     {
-        $this->httpResponse->asJson();
         $welcomeJson = [
             'gv' => ["version" => "1.4"]
             ];
-        $this->httpResponse->response($welcomeJson);
+        $this->httpResponse->response(new JSONResponse($welcomeJson));
     }
 
     public function cacheType()
     {
-        $this->httpResponse->asJson();
-        $this->httpResponse->response(["cache" => get_class(Cache::getCache())]);
+        $this->httpResponse->response(new JSONResponse(["cache" => get_class(Cache::getCache())]));
     }
 
     public function opcache()
     {
-        $this->httpResponse->asJson();
-        $this->httpResponse->response(["opcache_enabled" => opcache_get_status()['opcache_enabled']]);
+        $this->httpResponse->response(new JSONResponse(["opcache_enabled" => opcache_get_status()['opcache_enabled']]));
     }
 }

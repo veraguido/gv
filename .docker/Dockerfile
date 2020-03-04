@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 WORKDIR /var/www/html
 
@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y \
 		cron \
 	&& apt-get install --no-install-recommends --assume-yes --quiet ca-certificates curl git \
 	&& rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install mbstring pdo pdo_mysql opcache \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install pdo pdo_mysql opcache \
+    && docker-php-ext-configure gd  \
     && docker-php-ext-install -j$(nproc) gd \
     && chown -R www-data:www-data /var/www/html \
     && ln -fsn /usr/local/bin/php /usr/bin/php
