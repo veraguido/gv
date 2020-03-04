@@ -182,7 +182,7 @@ class ControllerServiceTest extends TestCase
 
         $httpResponse = $this->createMock(HttpResponse::class);
         $httpResponse->expects($this->any())
-            ->method('asJson')
+            ->method('response')
             ->willReturn(true);
 
         $httpResponse->expects($this->any())
