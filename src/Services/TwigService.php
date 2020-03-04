@@ -3,6 +3,8 @@
 namespace Gvera\Services;
 
 use Gvera\Helpers\config\Config;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class TwigService
 {
@@ -41,16 +43,16 @@ class TwigService
     }
 
     /**
-     * @param string $path
-     * @return \Twig_Environment
+     * @param string|null $path
+     * @return Environment
      */
-    public function loadTwig(string $path = null): \Twig_Environment
+    public function loadTwig(string $path = null): Environment
     {
         $path = $path ?? self::VIEWS_PREFIX;
         $devMode = boolval($this->config->getConfigItem('devmode'));
         $cache = $devMode ? false : __DIR__ . '/../../var/cache/views/';
-        $loader = new \Twig_Loader_Filesystem($path);
-        $this->twig = new \Twig_Environment($loader, ['cache' => $cache, 'debug' => $devMode]);
+        $loader = new FilesystemLoader($path);
+        $this->twig = new Environment($loader, ['cache' => $cache, 'debug' => $devMode]);
         return $this->twig;
     }
 

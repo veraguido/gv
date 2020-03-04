@@ -43,8 +43,9 @@ abstract class GvController
      * GvController constructor.
      * @param DIContainer $diContainer
      * @param $controllerName
-     * @param string $method
-     * @throws \Exception
+     * @param $method
+     * @throws InvalidMethodException
+     * @throws \ReflectionException
      */
     public function __construct(DIContainer $diContainer, $controllerName, $method)
     {
@@ -67,7 +68,10 @@ abstract class GvController
     }
 
     /**
-     * @throws \Exception
+     * @param array $allowedHttpMethods
+     * @throws InvalidHttpMethodException
+     * @throws InvalidViewException
+     * @throws \ReflectionException
      */
     public function init($allowedHttpMethods = [])
     {
@@ -109,7 +113,7 @@ abstract class GvController
     }
 
     /**
-     * @throws \Exception
+     * @throws InvalidViewException
      */
     protected function postInit()
     {
@@ -132,7 +136,7 @@ abstract class GvController
     {
         if (true === $this->protectedController && false === $this->checkAuthorization()) {
             if ($this->httpRequest->isAjax()) {
-                $this->httpResponse->unauthorized();
+                $this->httpResponse->response(new JSONResponse([], Response::HTTP_RESPONSE_UNAUTHORIZED));
                 exit();
             }
 

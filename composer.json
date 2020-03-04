@@ -18,7 +18,7 @@
         "monolog/monolog":          "1.0.*",
         "psr/container":            "1.0.0",
         "psr/cache":                "1.0.0",
-        "twig/twig":                "2.0",
+        "twig/twig":                "3.0",
         "doctrine/orm":             "2.6.3",
         "doctrine/migrations":	    "1.5.*",
         "symfony/yaml":             "3.*",
