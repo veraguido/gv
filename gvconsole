@@ -28,6 +28,8 @@ if [ -z "$1" ]; then
     echo
     echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* BUILDING COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "build"
+    echo "phpcs"
+    echo "phpcbf"
     echo -e "${GREY}-/*-/*-/*-/*-/*-/*-/* CONTAINER MANAGEMENT COMMANDS -/*-/*-/*-/*-/*-/*-/*${GREEN}"
     echo "start"
     echo "stop"
@@ -39,12 +41,12 @@ if [ -z "$1" ]; then
 fi
 
 if [ $1 = "tests" ]; then
-    docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpunit"
+    docker exec -t $container sh -c "/var/www/html/vendor/bin/phpunit"
     exit 1
 fi
 
 if [ $1 = "list-tasks" ]; then
-    docker exec -t gv_php_1 sh -c "crontab -l"
+    docker exec -t $container sh -c "crontab -l"
     exit 1
 fi
 
@@ -59,6 +61,16 @@ if [ $1 = "build" ]; then
 	docker-compose build
     docker run --rm -v $(pwd):/app composer install
     echo "Build finished successfully."
+    exit 1
+fi
+
+if [ $1 = "phpcs" ]; then
+    docker exec -it $container vendor/bin/phpcs --standard=PSR2 src/
+    exit 1
+fi
+
+if [ $1 = "phpcbf" ]; then
+    docker exec -it $container vendor/bin/phpcbf --standard=PSR2 src/
     exit 1
 fi
 

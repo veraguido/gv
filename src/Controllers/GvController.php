@@ -150,7 +150,7 @@ abstract class GvController
         $this->httpResponse->response(
             new JSONResponse(
                 ['error' => $errorCode,'message' => $message],
-            Response::HTTP_RESPONSE_BAD_REQUEST
+                Response::HTTP_RESPONSE_BAD_REQUEST
             )
         );
     }

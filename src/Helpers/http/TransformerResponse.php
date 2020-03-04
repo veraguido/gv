@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Gvera\Helpers\http;
-
 
 use Gvera\Exceptions\NotImplementedMethodException;
 use Gvera\Helpers\transformers\TransformerAbstract;
@@ -18,13 +16,13 @@ class TransformerResponse extends JSONResponse
     /**
      * TransformerResponse constructor.
      * @param TransformerAbstract $transformer
-     * @param $code
+     * @param string $httpCode
      * @throws NotImplementedMethodException
      */
-    public function __construct(TransformerAbstract $transformer, $code = Response::HTTP_RESPONSE_OK)
+    public function __construct(TransformerAbstract $transformer, $httpCode = Response::HTTP_RESPONSE_OK)
     {
         $this->transformer = $transformer;
-        parent::__construct($this->transformer->transform(), $code);
+        parent::__construct($transformer->transform(), $httpCode);
     }
 
     /**

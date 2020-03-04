@@ -3,7 +3,6 @@
 
 namespace Gvera\Helpers\http;
 
-
 class PrintErrorResponse extends JSONResponse
 {
     /**

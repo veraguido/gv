@@ -3,7 +3,6 @@
 
 namespace Gvera\Helpers\http;
 
-
 class Response
 {
     const CONTENT_TYPE_HTML = "Content-Type: text/html";
@@ -48,13 +47,12 @@ class Response
      * @param string $code
      * @param string $auth
      */
-    public function __construct(string $content = '',
-                                string $contentType = self::CONTENT_TYPE_HTML,
-                                string $code = self::HTTP_RESPONSE_OK,
-                                string $auth = ''
-
-    )
-    {
+    public function __construct(
+        string $content = '',
+        string $contentType = self::CONTENT_TYPE_HTML,
+        string $code = self::HTTP_RESPONSE_OK,
+        string $auth = ''
+    ) {
         $this->contentType = $contentType;
         $this->code = $code;
         $this->content = $content;
@@ -101,5 +99,4 @@ class Response
     {
         $this->content = $content;
     }
-
 }
