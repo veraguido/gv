@@ -36,7 +36,6 @@ class User
 
     /**
      * @param mixed $email
-     * @throws \Exception
      */
     public function setEmail($email)
     {

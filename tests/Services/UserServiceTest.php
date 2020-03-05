@@ -16,6 +16,15 @@ class UserServiceTest extends TestCase
      * @test
      */
     private $user;
+    /**
+     * @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $repo;
+    /**
+     * @var GvEntityManager|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $gvEntityManager;
+
     public function validateEmail()
     {
         $invalidEmail = 'test';
@@ -26,12 +35,14 @@ class UserServiceTest extends TestCase
 
     public function setUp():void
     {
-        $repo = $this->createMock(EntityRepository::class);
+        $this->repo = $this->createMock(EntityRepository::class);
 
-        $gvEntityManager = $this->createMock(GvEntityManager::class);
+
+        $this->gvEntityManager = $this->createMock(GvEntityManager::class);
+        $gvEntityManager = $this->gvEntityManager;
         $gvEntityManager->expects($this->any())
             ->method('getRepository')
-            ->willReturn($repo);
+            ->willReturn($this->repo);
 
         $session = $this->createMock(Session::class);
         $session->expects($this->any())
@@ -41,7 +52,7 @@ class UserServiceTest extends TestCase
 
         $this->userService = new \Gvera\Services\UserService($gvEntityManager, $session, new ValidationService());
 
-        $role = new UserRole($gvEntityManager);
+        $role = new UserRole();
         $role->setName("testRole");
         $role->setRolePriority(5);
 
@@ -54,9 +65,7 @@ class UserServiceTest extends TestCase
         $passHash = $this->userService->generatePassword('test');
         $user->setPassword($passHash);
 
-        $repo->expects($this->any())
-            ->method('findOneBy')
-            ->willReturn($user);
+
 
         $session->expects($this->any())
             ->method('get')
@@ -102,7 +111,7 @@ class UserServiceTest extends TestCase
             ->method('getRepository')
             ->willReturn($repo);
 
-        $role = new UserRole($gvEntityManager);
+        $role = new UserRole();
         $role->setName("testRole");
         $role->setRolePriority(5);
 
@@ -127,7 +136,6 @@ class UserServiceTest extends TestCase
         $this->assertTrue($session->get('user')['username'] === $user->getUsername());
         $this->assertTrue($this->userService->getUserRole() === 5);
         $this->userService->login($user->getUsername(), 'failedpass');
-
     }
 
     /**
@@ -156,26 +164,19 @@ class UserServiceTest extends TestCase
     public function testUserAuthorization()
     {
 
-        $repo = $this->createMock(EntityRepository::class);
-
         $roleAction = new \Gvera\Models\UserRoleAction();
         $roleAction->setActionName('test');
 
-        $repo->expects($this->any())
-            ->method('findOneBy')
-            ->willReturn($roleAction);
-
-        $gvEntityManager = $this->createMock(GvEntityManager::class);
-        $gvEntityManager->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($repo);
-
-
-        $role = new UserRole($gvEntityManager);
+        $role = new UserRole();
         $role->setName("testRole");
         $role->setRolePriority(5);
         $role->addRoleAction($roleAction);
 
+        $this->gvEntityManager->expects($this->any())->method('getRepository')
+            ->willReturn($this->repo);
+
+        $this->repo->expects($this->any())->method('findOneBy')
+            ->willReturn($roleAction);
 
         $user = new User();
         $user->setEmail("asd@aasd.com");
@@ -184,6 +185,7 @@ class UserServiceTest extends TestCase
 
 
         $this->assertTrue($this->userService->userCan($user, 'test'));
-        $this->assertFalse($this->userService->userCan($user, 'not_test'));
+        $this->assertFalse($this->userService->userCan(null, 'asd'));
+
     }
 }

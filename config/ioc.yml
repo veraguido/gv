@@ -115,7 +115,6 @@ commands:
       class: CreateNewUserCommand
       arguments:
         - "@config"
-        - "@entityManager"
 
 listeners:
   classPath: Gvera\Listeners\

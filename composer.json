@@ -19,7 +19,7 @@
         "psr/container":            "1.0.0",
         "psr/cache":                "1.0.0",
         "twig/twig":                "3.0",
-        "doctrine/orm":             "2.6.3",
+        "doctrine/orm":             "2.7.*",
         "doctrine/migrations":	    "1.5.*",
         "symfony/yaml":             "3.*",
         "phpmailer/phpmailer":      "~5.2",

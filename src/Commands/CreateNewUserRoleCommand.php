@@ -20,10 +20,9 @@ class CreateNewUserRoleCommand implements CommandInterface
     private $priority;
     private $entityManager;
 
-    public function __construct($name, $priority, GvEntityManager $entityManager)
+    public function __construct($name, $priority)
     {
         $this->roleName = $name;
-        $this->entityManager = $entityManager;
         $this->priority = $priority;
     }
 
@@ -33,7 +32,7 @@ class CreateNewUserRoleCommand implements CommandInterface
      */
     public function execute()
     {
-        $userRole = new UserRole($this->entityManager);
+        $userRole = new UserRole();
         $userRole->setName($this->roleName);
         $userRole->setRolePriority($this->priority);
         $this->entityManager->persist($userRole);

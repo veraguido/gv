@@ -86,9 +86,9 @@ class Examples extends GvController
 
     public function authorization()
     {
-        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => 'admin']);
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => 'mod']);
         $service = $this->getUserService();
-        $this->httpResponse->response(['can all' => $service->userCan($user, 'all')]);
+        $this->httpResponse->response(new JSONResponse(['can all' => $service->userCan($user, 'all')]));
     }
 
     /**

@@ -41,7 +41,7 @@ class ForgotPasswordServiceTest extends TestCase
             ->method('getId')
             ->willReturn(1);
 
-        $forgotPassword = new ForgotPassword($user, 'asd');    
+        $forgotPassword = new ForgotPassword($user, 'asd');
 
         $repo = $this->getMockedRepository($forgotPassword);
         $entityManager = $this->getMockedEntityManager($repo, ['flush', 'merge']);

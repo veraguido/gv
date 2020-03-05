@@ -2,7 +2,7 @@
 namespace Gvera\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\PersistentCollection;
+use Doctrine\Common\Collections\Collection;
 use Gvera\Helpers\entities\GvEntityManager;
 
 /**
@@ -23,15 +23,15 @@ class UserRole
      * Many Users have Many Stores.
      * @ManyToMany(targetEntity="UserRoleAction", inversedBy="user_role_actions", fetch="EAGER", cascade={"persist"})
      */
-    protected $userRoleActions;
+    protected Collection $userRoleActions;
 
     /**
      * UserRole constructor.
      * @param GvEntityManager $entityManager
      */
-    public function __construct(GvEntityManager $entityManager)
+    public function __construct()
     {
-        $this->userRoleActions = new PersistentCollection($entityManager, self::class, new ArrayCollection());
+        $this->userRoleActions = new ArrayCollection();
     }
 
 
@@ -68,17 +68,17 @@ class UserRole
     }
 
     /**
-     * @return PersistentCollection
+     * @return Collection
      */
-    public function getUserRoleActions(): PersistentCollection
+    public function getUserRoleActions(): Collection
     {
         return $this->userRoleActions;
     }
 
     /**
-     * @param PersistentCollection $userRoleActions
+     * @param Collection $userRoleActions
      */
-    public function setUserRoleActions(PersistentCollection $userRoleActions): void
+    public function setUserRoleActions(Collection $userRoleActions): void
     {
         $this->userRoleActions = $userRoleActions;
     }

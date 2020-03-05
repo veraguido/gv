@@ -24,9 +24,9 @@ class UserService
 {
     const MODERATOR_ROLE_PRIORITY = 5;
 
-    public $entityManager;
-    public $session;
-    private $validationService;
+    public GvEntityManager $entityManager;
+    public Session $session;
+    private ValidationService $validationService;
 
     public function __construct(GvEntityManager $entityManager, Session $session, ValidationService $validationService)
     {
@@ -35,6 +35,11 @@ class UserService
         $this->session = $session;
     }
 
+    /**
+     * @param $email
+     * @return bool
+     * @throws \Exception
+     */
     public function validateEmail($email)
     {
         return $this->validationService->validate($email, [new EmailValidationStrategy()]);
@@ -107,13 +112,20 @@ class UserService
      * @param string $userRoleActionName
      * @return bool
      */
-    public function userCan(User $user, string $userRoleActionName):bool
+    public function userCan(?User $user, string $userRoleActionName):bool
     {
+        if (null === $user) {
+            return false;
+        }
+
         $action = $this->entityManager->getRepository(UserRoleAction::class)
             ->findOneBy(['name' => $userRoleActionName]);
+
+
         if (null == $action) {
             return false;
         }
+
         return $user->getRole()->getUserRoleActions()->contains($action);
     }
 }

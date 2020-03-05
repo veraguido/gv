@@ -20,6 +20,7 @@ try {
     $command->execute();
 } catch (Exception $e) {
     echo $e->getMessage();
+    exit(0);
 }
 
 echo ' role generated successfully';
