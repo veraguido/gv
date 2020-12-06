@@ -6,6 +6,7 @@ use Gvera\Controllers\GvController;
 use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\annotations\AnnotationUtil;
+use Gvera\Helpers\dependencyInjection\DIContainer;
 use PHPUnit\Runner\Exception;
 
 /**
@@ -16,13 +17,13 @@ class ControllerService
 {
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
 
-    private $method = 'index';
-    private $controllerFinalName;
+    private string $method = 'index';
+    private string $controllerFinalName;
     
-    private $uriData;
-    private $controllerAutoloadingNames;
+    private string $uriData;
+    private array $controllerAutoloadingNames;
 
-    private $diContainer;
+    private DIContainer $diContainer;
 
     /**
      * @param $diContainer
@@ -82,7 +83,7 @@ class ControllerService
      * @return array
      * if there're versions (subcontrollers in the controllers directory, get them and return the autoloading names)
      */
-    private function getApiVersions()
+    private function getApiVersions():array
     {
         $versions = [];
         foreach ($this->controllerAutoloadingNames as $key => $controller) {
@@ -123,7 +124,7 @@ class ControllerService
      * @param $uriArray
      * @return string
      */
-    private function getValidMethodName($index, $uriArray)
+    private function getValidMethodName($index, $uriArray):string
     {
         return isset($uriArray[$index]) ? $uriArray[$index] : GvController::DEFAULT_METHOD;
     }
@@ -131,6 +132,7 @@ class ControllerService
     /**
      * @param $controller
      * @param $method
+     * @param null $version
      * @throws \Exception
      */
     private function generateControllerLifecycle($controller, $method, $version = null)
@@ -142,11 +144,12 @@ class ControllerService
     }
 
     /**
-     * @param $rawName
+     * @param string|null $rawName
+     * @param string $version
      * @return string
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
      */
-    private function getControllerFinalName(string $rawName = null, $version)
+    private function getControllerFinalName(string $rawName = null, ?string $version = null):string
     {
         if (empty($rawName)) {
             return GvController::DEFAULT_CONTROLLER;

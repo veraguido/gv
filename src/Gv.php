@@ -1,9 +1,14 @@
 <?php namespace Gvera;
 
+use Exception;
 use Gvera\Cache\Cache;
 use Gvera\Events\ThrowableFiredEvent;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\events\EventDispatcher;
+use Gvera\Helpers\routes\RouteManager;
+use Gvera\Services\ControllerService;
+use ReflectionException;
+use Throwable;
 
 /**
  * Application Class Doc Comment
@@ -18,11 +23,10 @@ use Gvera\Helpers\events\EventDispatcher;
 class Gv
 {
 
-    const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
     const GV_CONTROLLERS_KEY = 'gv_controllers';
-    private $controllerAutoloadingNames = [];
-    private $routeManager;
-    private $diContainer;
+    private array $controllerAutoloadingNames = [];
+    private RouteManager $routeManager;
+    private DIContainer $diContainer;
 
     public function __construct(DIContainer $diContainer)
     {
@@ -30,11 +34,11 @@ class Gv
     }
 
 
-    private $controllerService;
+    private ControllerService $controllerService;
 
     /**
      * @throws Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function run()
     {
@@ -46,11 +50,11 @@ class Gv
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      * @param $isDevMode
-     * @throws \Exception
+     * @throws Exception
      */
-    public function handleThrowable(\Throwable $e, $isDevMode)
+    public function handleThrowable(Throwable $e, $isDevMode)
     {
         EventDispatcher::dispatchEvent(
             ThrowableFiredEvent::THROWABLE_FIRED_EVENT,
@@ -63,7 +67,7 @@ class Gv
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      * In case of not dev mode redirect will be done instead of printing an exception.
      */
     public function redirectToDefault()
@@ -72,7 +76,7 @@ class Gv
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function initializeApp()
     {
@@ -94,12 +98,12 @@ class Gv
 
     /**
      * @param bool|string $action
-     * @throws \Exception
+     * @throws Exception
      * @return mixed
      * If the route was already defined in the routes.yml file then that one will take precedence over the
      * convention over configuration strategy (host.com/Controller/Method)
      */
-    private function parseUri($action = false)
+    private function parseUri($action = false) :void
     {
 
         $appliedAction = $this->supportsActionIfApplies($action);
@@ -124,8 +128,9 @@ class Gv
     /**
      * @param $action
      * @return bool
+     * @throws Exception
      */
-    private function supportsActionIfApplies($action)
+    private function supportsActionIfApplies($action):bool
     {
         if (!$action) {
             return false;
@@ -148,7 +153,7 @@ class Gv
      * The method will check for all the files created under the controllers directory and generate a map of them
      * to be used for the instantiation.
      */
-    private function autoloadControllers($scanDirectory)
+    private function autoloadControllers($scanDirectory):array
     {
         if (Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
             return Cache::getCache()->load(self::GV_CONTROLLERS_KEY);

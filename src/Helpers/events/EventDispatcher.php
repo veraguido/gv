@@ -11,7 +11,7 @@ use Gvera\Listeners\EventListenerInterface;
  */
 class EventDispatcher
 {
-    public static $eventsListeners = array();
+    public static array $eventsListeners = array();
 
     public static function addEventListener(string $eventId, EventListenerInterface $listener)
     {

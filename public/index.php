@@ -21,6 +21,6 @@ error_reporting($reporting);
 
 try {
     $app->run();
-} catch (\Throwable $e) {
+} catch (Throwable $e) {
     $app->handleThrowable($e, $isDevMode);
 }
