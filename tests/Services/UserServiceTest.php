@@ -36,7 +36,7 @@ class UserServiceTest extends TestCase
     public function setUp():void
     {
         $this->repo = $this->createMock(EntityRepository::class);
-
+        \Gvera\Helpers\locale\Locale::setCurrentLocale('en');
 
         $this->gvEntityManager = $this->createMock(GvEntityManager::class);
         $gvEntityManager = $this->gvEntityManager;

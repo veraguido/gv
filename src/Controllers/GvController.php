@@ -29,7 +29,7 @@ use Twig\Environment;
 abstract class GvController
 {
 
-    private ?string $method = null;
+    private ?string $method;
     private ?string $name;
     private Environment $twig;
     protected array $viewParams = array();
@@ -80,8 +80,8 @@ abstract class GvController
     {
         $this->preInit($allowedHttpMethods);
 
-        $tmpM = $this->method;
-        $this->$tmpM();
+        $methodName = $this->method;
+        $this->$methodName();
 
         $this->postInit();
     }
@@ -198,6 +198,17 @@ abstract class GvController
     }
 
     /**
+     * @return boolean
+     */
+    protected function isUserAllowed(string $action)
+    {
+        $repo = $this->getEntityManager()->getRepository(User::class);
+        $session = $this->getSession();
+        $user = $repo->findOneById($session->get('user')['id']);
+        return $this->getUserService()->userCan($user, $action);
+    }
+
+    /**
      * @throws NotAllowedException
      */
     protected function checkApiAuthentication()
@@ -238,6 +249,7 @@ abstract class GvController
                 ['session token' => $sessionToken, 'form token' => $requestToken]
             );
         }
+        $session->unsetByKey('csrf');
     }
 
     /**

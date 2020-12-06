@@ -1,7 +1,11 @@
 <?php namespace Gvera\Services;
 
+use Gvera\Commands\CreateNewUserCommand;
+use Gvera\Exceptions\BadRequestException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\entities\GvEntityManager;
+use Gvera\Helpers\http\HttpRequest;
+use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\session\Session;
 use Gvera\Helpers\validation\EmailValidationStrategy;
 use Gvera\Helpers\validation\ValidationService;
@@ -74,23 +78,27 @@ class UserService
         $repository = $this->entityManager->getRepository(User::class);
         $user = $repository->findOneBy(['username' => $username]);
 
-        if ($user && $user->getUsername() == $username && $this->validatePassword($password, $user->getPassword())) {
-            $this->session->set(
-                'user',
-                [
-                    'username' => $username,
-                    'userEmail' => $user->getEmail(),
-                    'role' => $user->getRole()->getRolePriority()
-                ]
-            );
-        } else {
-            throw new \Exception('user or password are incorrect');
+        if (!$user
+            || $user->getUsername() != $username
+            || !$user->getEnabled()
+            || !$this->validatePassword($password, $user->getPassword())) {
+            throw new \Exception(Locale::getLocale('bad_request'));
         }
+
+        $this->session->set(
+            'user',
+            [
+                'id' => $user->getId(),
+                'username' => $username,
+                'userEmail' => $user->getEmail(),
+                'role' => $user->getRole()->getRolePriority()
+            ]
+        );
     }
 
     public function logout()
     {
-        $this->session->unsetByKey('user');
+        $this->session->destroy();
     }
 
     public function isUserLoggedIn()
@@ -105,7 +113,6 @@ class UserService
     {
         return $this->session->get('user') != null ? $this->session->get('user')['role'] : false;
     }
-
 
     /**
      * @param User $user
@@ -127,5 +134,59 @@ class UserService
         }
 
         return $user->getRole()->getUserRoleActions()->contains($action);
+    }
+
+    /**
+     * @param HttpRequest $httpRequest
+     * @param CreateNewUserCommand $command
+     * @param UserRole $role
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function createFromRequest(HttpRequest $httpRequest, CreateNewUserCommand $command, UserRole $role)
+    {
+        $command->setEmail($httpRequest->getParameter('email'));
+        $command->setName($httpRequest->getParameter('username'));
+        $hashedPassword = $this->generatePassword($httpRequest->getParameter('password'));
+        $command->setPassword($hashedPassword);
+        $command->setRole($role);
+        $command->execute();
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param HttpRequest $request
+     * @throws BadRequestException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateFromRequest(HttpRequest $request)
+    {
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $id = intval($request->getParameter('user_id'));
+        $newPassword = $this->generatePassword($request->getParameter('password'));
+        $user = $userRepository->find($id);
+        $user->setPassword($newPassword);
+
+        $this->entityManager->merge($user);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param HttpRequest $request
+     * @throws BadRequestException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function toggleUser(HttpRequest $request)
+    {
+        $userRepository = $this->entityManager->getRepository(User::class);
+
+        $id = intval($request->getParameter('user_id'));
+        $user = $userRepository->find($id);
+        $user->setEnabled(!$user->getEnabled());
+        $this->entityManager->merge($user);
+        $this->entityManager->flush();
     }
 }

@@ -62,7 +62,10 @@ final class FilesCache implements CacheInterface
 
     public function delete($key)
     {
-        unlink(self::FILES_CACHE_PATH . self::FILES_CACHE_PREFIX . $key);
+        $path = self::FILES_CACHE_PATH . self::FILES_CACHE_PREFIX . $key;
+        if (file_exists($path)) {
+            unlink($path);
+        }
     }
 
     public function deleteAll()

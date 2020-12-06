@@ -27,7 +27,6 @@ class UserRole
 
     /**
      * UserRole constructor.
-     * @param GvEntityManager $entityManager
      */
     public function __construct()
     {

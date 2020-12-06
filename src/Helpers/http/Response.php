@@ -16,6 +16,7 @@ class Response
     const HTTP_RESPONSE_NOT_FOUND = "HTTP/1.1 404 Not Found";
     const HTTP_RESPONSE_BAD_REQUEST = "HTTP/1.1 400 Bad Request";
     const HTTP_RESPONSE_OK = "HTTP/1.1 200 OK";
+    const HTTP_RESPONSE_CREATED = "HTTP/1.1 201 Created";
     const HTTP_RESPONSE_TOO_MANY_REQUESTS = "HTTP/1.1 429 Too Many Requests";
     const HTTP_RESPONSE_UNAUTHORIZED = "HTTP/1.1 401 Unauthorized";
 

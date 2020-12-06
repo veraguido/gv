@@ -2,6 +2,7 @@
 
 namespace Gvera\Helpers\http;
 
+use Gvera\Helpers\fileSystem\File;
 use Gvera\Models\BasicAuthenticationDetails;
 
 /**
@@ -153,17 +154,26 @@ class HttpRequest
 
     /**
      * @param $directory
-     * @param $uploadedFileName
+     * @param File $file
      * @return bool
      * @throws \Gvera\Exceptions\InvalidFileTypeException
      * @throws \Gvera\Exceptions\NotFoundException
      */
-    public function moveFileToDirectory($directory, $uploadedFileName)
+    public function moveFileToDirectory($directory, File $file)
     {
-        $this->fileManager->buildFilesFromSource($_FILES);
-        
-        $file = $this->fileManager->getByName($uploadedFileName);
         return $this->fileManager->saveToFileSystem($directory, $file);
+    }
+
+    /**
+     * @param $propertyName
+     * @param string|null $changedName
+     * @return File
+     * @throws \Gvera\Exceptions\NotFoundException
+     */
+    public function getFileByPropertyName($propertyName, ?string $changedName = null):File
+    {
+        $this->fileManager->buildFilesFromSource($_FILES, $changedName);
+        return $this->fileManager->getByName($propertyName);
     }
 
     public function getAuthDetails(): ?BasicAuthenticationDetails
@@ -173,5 +183,10 @@ class HttpRequest
         }
 
         return new BasicAuthenticationDetails($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+    }
+
+    public function getIP():string
+    {
+        return $_SERVER['REMOTE_ADDR'];
     }
 }

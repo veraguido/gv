@@ -99,6 +99,7 @@ class CreateNewUserCommand implements CommandInterface
         $user->setPassword($this->password);
         $user->setEmail($this->email);
         $user->setStatus($status);
+        $user->setEnabled(true);
         $user->setRole($role);
 
         return $user;

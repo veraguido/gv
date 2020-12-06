@@ -31,6 +31,6 @@ class TransformerResponse extends JSONResponse
      */
     public function getContent(): string
     {
-        return $this->getContent();
+        return parent::getContent();
     }
 }

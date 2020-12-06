@@ -33,6 +33,7 @@ class Gv
     private $controllerService;
 
     /**
+     * @throws Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      */
     public function run()
@@ -107,7 +108,7 @@ class Gv
             return;
         }
 
-        $uriData = $_SERVER['REQUEST_URI'];
+        $uriData = strtok($_SERVER['REQUEST_URI'], '?');
 
         if (!$uriData) {
             $this->redirectToDefault();
@@ -141,7 +142,8 @@ class Gv
 
     /**
      * @param $scanDirectory
-     * @return array|mixed|null
+     * @return array|mixed
+     * @throws Exceptions\InvalidArgumentException
      * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
      * The method will check for all the files created under the controllers directory and generate a map of them
      * to be used for the instantiation.
@@ -165,7 +167,8 @@ class Gv
      * @param $scanDirectory
      * @param $autoloadingName
      * @param $loadedControllers
-     * @return null|array
+     * @return null
+     * @throws Exceptions\InvalidArgumentException
      */
     private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
     {

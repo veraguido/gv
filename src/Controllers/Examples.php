@@ -76,7 +76,9 @@ class Examples extends GvController
                 
         $registerUserCommand->execute();
 
-        $this->httpRequest->moveFileToDirectory("/tmp/", 'avatar-pic');
+        $file = $this->httpRequest->getFileByPropertyName("avatar-pic");
+
+        $this->httpRequest->moveFileToDirectory("/tmp/", $file);
     }
 
     public function lorep()

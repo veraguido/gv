@@ -3,7 +3,8 @@
 use Gvera\Services\UserService;
 
 /**
- * @Entity @Table(name="users")
+ * @Entity
+ * @Table(name="users")
  * @HasLifecycleCallbacks
  */
 class User
@@ -17,33 +18,11 @@ class User
     /** @Column(type="string", length=128, unique=true, nullable=false) */
     protected $email;
 
-    /**
-     * User constructor.
-     * @param UserService $userService
-     */
-    public function __construct()
-    {
-        $this->setCreated();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
     /** @Column(type="string") */
     protected $password;
+
+    /** @Column(type="boolean") */
+    protected $enabled = true;
 
     /** @Column(type="datetime") */
     protected $created;
@@ -63,10 +42,28 @@ class User
      */
     protected $role;
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
     /**
      * @return int
      */
-    public function getId()
+    public function getId() :int
     {
         return $this->id;
     }
@@ -154,5 +151,21 @@ class User
     public function setRole($role)
     {
         $this->role = $role;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param mixed $enabled
+     */
+    public function setEnabled($enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }

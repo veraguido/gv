@@ -7,3 +7,4 @@ Forgot Password was already used: Forgot password already used.
 user or password are incorrect: User or password are incorrect.
 user is not allowed: User is not allowed
 something went wrong: Something went wrong, please contact support.
+bad_request: Some field was not sent correctly

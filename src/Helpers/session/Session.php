@@ -8,10 +8,9 @@ namespace Gvera\Helpers\session;
  */
 class Session
 {
+    const GV_SESSION_NAME = 'sgvid';
 
-    const GV_SESSION_NAME = 'sessionid';
-    
-    private $started = false;
+    private bool $started = false;
 
     public function getId()
     {
@@ -54,10 +53,11 @@ class Session
 
     public function destroy()
     {
-        if ($this->started) {
-            session_destroy();
-            $this->started = false;
-        }
+        $this->start();
+        session_destroy();
+        session_unset();
+        unset($_SESSION);
+        session_write_close();
     }
 
     public function toString()

@@ -20,13 +20,18 @@ class FileManager
 
     /**
      * @param $source
-     * @return void
+     * @param string|null $replaceName
      */
-    public function buildFilesFromSource($source)
+    public function buildFilesFromSource($source, ?string $replaceName = null)
     {
         foreach ($source as $fileKey => $file) {
+            $imageFileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $name = $replaceName ? $replaceName . "." . $imageFileType : $file['name'];
+            if ($imageFileType === "") {
+                $name = "";
+            }
             $newFile = new File();
-            $newFile->setName($file['name']);
+            $newFile->setName($name);
             $newFile->setSize($file['size']);
             $newFile->setTemporaryName($file['tmp_name']);
             $newFile->setError($file['error']);
@@ -74,5 +79,16 @@ class FileManager
 
         $uploadPath = $targetDirectory . $file->getName();
         return move_uploaded_file($file->getTemporaryName(), $uploadPath);
+    }
+
+    public function recursiveRemove($dir) {
+        $structure = glob(rtrim($dir, "/").'/*');
+        if (is_array($structure)) {
+            foreach($structure as $file) {
+                if (is_dir($file)) $this->recursiveRemove($file);
+                elseif (is_file($file)) unlink($file);
+            }
+        }
+        rmdir($dir);
     }
 }

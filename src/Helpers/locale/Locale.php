@@ -25,7 +25,7 @@ class Locale
      * @param array|null $additionalParams
      * @return string
      */
-    public static function getLocale(string $key = null, array $additionalParams = null): string
+    public static function getLocale(string $key = null, array $additionalParams = null)
     {
 
         self::$locales = self::getLocalesFromCache();
