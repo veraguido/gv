@@ -81,12 +81,16 @@ class FileManager
         return move_uploaded_file($file->getTemporaryName(), $uploadPath);
     }
 
-    public function recursiveRemove($dir) {
+    public function recursiveRemove($dir)
+    {
         $structure = glob(rtrim($dir, "/").'/*');
         if (is_array($structure)) {
-            foreach($structure as $file) {
-                if (is_dir($file)) $this->recursiveRemove($file);
-                elseif (is_file($file)) unlink($file);
+            foreach ($structure as $file) {
+                if (is_dir($file)) {
+                    $this->recursiveRemove($file);
+                } elseif (is_file($file)) {
+                    unlink($file);
+                }
             }
         }
         rmdir($dir);
