@@ -20,7 +20,7 @@ class ControllerService
     private string $method = 'index';
     private string $controllerFinalName;
     
-    private string $uriData;
+    private ?string $uriData;
     private array $controllerAutoloadingNames;
 
     private DIContainer $diContainer;
