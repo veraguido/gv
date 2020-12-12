@@ -28,4 +28,12 @@ class ValidationServiceTest extends TestCase
         $service = new ValidationService();
         $service->validate('a', [new HttpResponse()]);
     }
+
+    /** @test */
+    public function testFalsy()
+    {
+        $service = new ValidationService();
+        $emailValidation = new EmailValidationStrategy();
+        $this->assertFalse($service->validate('pepe', [$emailValidation]));
+    }
 }

@@ -25,6 +25,7 @@ class UserServiceTest extends TestCase
      */
     private $gvEntityManager;
 
+    /** @test */
     public function validateEmail()
     {
         $invalidEmail = 'test';
