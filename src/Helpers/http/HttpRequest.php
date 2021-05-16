@@ -2,6 +2,7 @@
 
 namespace Gvera\Helpers\http;
 
+use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\fileSystem\File;
 use Gvera\Models\BasicAuthenticationDetails;
 
@@ -20,10 +21,9 @@ class HttpRequest
     const GET = 'GET';
     const POST = 'POST';
     const PUT = 'PUT';
+    const PATCH = "PATCH";
     const DELETE = 'DELETE';
     const OPTIONS = 'OPTIONS';
-
-    private $putDeleteArray;
 
     public function __construct(FileManager $fileManager)
     {
@@ -65,12 +65,21 @@ class HttpRequest
     }
 
     /**
+     * @param $name
+     * @return mixed
+     */
+    public function patch($name = null)
+    {
+        return $this->getFromStream($name);
+    }
+
+    /**
      * @param null $name
      * @return mixed
      */
     public function put($name = null)
     {
-        return $this->getPutDeleteParameter($name);
+        return $this->getFromStream($name);
     }
 
     /**
@@ -79,23 +88,23 @@ class HttpRequest
      */
     public function delete($name = null)
     {
-        return $this->getPutDeleteParameter($name);
+        return $this->getFromStream($name);
     }
 
     /**
      * @param $name
      * @return mixed
      */
-    private function getPutDeleteParameter($name)
+    private function getFromStream(string $name)
     {
-        if (null === $this->putDeleteArray) {
-            $this->putDeleteArray = [];
-            parse_str(file_get_contents("php://input"), $this->putDeleteArray);
+            $streamContent = [];
+            parse_str(file_get_contents("php://input"), $streamContent);
+
+        if (!isset($streamContent[$name])) {
+            throw new NotFoundException('parameter not found');
         }
 
-        $value = isset($this->putDeleteArray[$name]) ? $this->putDeleteArray[$name] : null;
-
-        return $name === null ? $this->putDeleteArray : $value;
+        return $streamContent[$name];
     }
     
     /**
