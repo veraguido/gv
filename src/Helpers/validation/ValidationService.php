@@ -18,7 +18,7 @@ class ValidationService
      * @return bool
      * @throws \Exception
      */
-    public function validate($field, array $validationStrategies)
+    public function validate(?string $field, array $validationStrategies)
     {
         foreach ($validationStrategies as $strategy) {
             if (!is_a($strategy, ValidationStrategyInterface::class)) {

@@ -13,7 +13,7 @@
 class EmailValidationStrategy implements ValidationStrategyInterface
 {
 
-    public function isValid($field)
+    public function isValid(?string $field)
     {
         return filter_var($field, FILTER_VALIDATE_EMAIL) !== false;
     }

@@ -12,7 +12,7 @@
  */
 class NameValidationStrategy implements ValidationStrategyInterface
 {
-    public function isValid($field)
+    public function isValid(?string $field)
     {
         return boolval(preg_match("/^[a-zA-Z]*$/", $field));
     }
