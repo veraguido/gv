@@ -81,9 +81,20 @@ class RouteManager
     }
 
     /**
-     * @return string|bool
+     * @param array $pathLikeArray
+     * @param string $routeController
+     * @param string $routeMethod
+     * @param string $totalRoute
+     * @param array $route
+     * @return false|string
      */
-    private function isUrlAndUriValid($pathLikeArray, $routeController, $routeMethod, $totalRoute, $route)
+    private function isUrlAndUriValid(
+        array $pathLikeArray,
+        string $routeController,
+        string $routeMethod,
+        string $totalRoute,
+        array $route
+    )
     {
         $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
         $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));

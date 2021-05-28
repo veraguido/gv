@@ -42,6 +42,7 @@ class Examples extends GvController
      */
     public function login()
     {
+        $this->httpRequest->validate();
         $loginCommand = $this->getLoginCommand();
         $loginCommand->setUsername($this->httpRequest->getParameter('username'));
         $loginCommand->setPassword($this->httpRequest->getParameter('password'));

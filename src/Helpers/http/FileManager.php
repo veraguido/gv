@@ -61,7 +61,7 @@ class FileManager
      * @throws NotFoundException
      * @return bool
      */
-    public function saveToFileSystem(string $targetDirectory, File $file)
+    public function saveToFileSystem(string $targetDirectory, File $file): bool
     {
         if ($file->getError() === 4) {
             return true;

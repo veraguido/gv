@@ -2,9 +2,11 @@
 
 namespace Gvera\Helpers\http;
 
+use Gvera\Exceptions\InvalidFileTypeException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\fileSystem\File;
 use Gvera\Models\BasicAuthenticationDetails;
+use mysql_xdevapi\Exception;
 
 /**
  * Class HttpRequest
@@ -14,9 +16,10 @@ use Gvera\Models\BasicAuthenticationDetails;
 class HttpRequest
 {
 
-    private $requestType;
-    private $requestParams = array();
-    private $fileManager;
+    private string $requestType;
+    private array $requestParams = array();
+    private FileManager $fileManager;
+    private HttpRequestValidator $httpRequestValidator;
 
     const GET = 'GET';
     const POST = 'POST';
@@ -25,9 +28,11 @@ class HttpRequest
     const DELETE = 'DELETE';
     const OPTIONS = 'OPTIONS';
 
-    public function __construct(FileManager $fileManager)
+
+    public function __construct(FileManager $fileManager, HttpRequestValidator $httpRequestValidator)
     {
         $this->fileManager = $fileManager;
+        $this->httpRequestValidator = $httpRequestValidator;
         $this->requestType =  $_SERVER['REQUEST_METHOD'];
     }
 
@@ -46,7 +51,8 @@ class HttpRequest
     }
 
     /**
-     * @return array|object
+     * @param null $name
+     * @return mixed|null
      */
     public function get($name = null)
     {
@@ -65,8 +71,9 @@ class HttpRequest
     }
 
     /**
-     * @param $name
+     * @param null $name
      * @return mixed
+     * @throws NotFoundException
      */
     public function patch($name = null)
     {
@@ -76,6 +83,7 @@ class HttpRequest
     /**
      * @param null $name
      * @return mixed
+     * @throws NotFoundException
      */
     public function put($name = null)
     {
@@ -85,6 +93,7 @@ class HttpRequest
     /**
      * @param null $name
      * @return mixed
+     * @throws NotFoundException
      */
     public function delete($name = null)
     {
@@ -92,8 +101,9 @@ class HttpRequest
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed
+     * @throws NotFoundException
      */
     private function getFromStream(string $name)
     {
@@ -106,11 +116,11 @@ class HttpRequest
 
         return $streamContent[$name];
     }
-    
+
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isPost()
+    public function isPost(): bool
     {
         return $this->requestType == self::POST;
     }
@@ -118,7 +128,7 @@ class HttpRequest
     /**
      * @return boolean
      */
-    public function isGet()
+    public function isGet(): bool
     {
         return $this->requestType == self::GET;
     }
@@ -126,7 +136,7 @@ class HttpRequest
     /**
      * @return boolean
      */
-    public function isPut()
+    public function isPut(): bool
     {
         return $this->requestType == self::PUT;
     }
@@ -134,7 +144,15 @@ class HttpRequest
     /**
      * @return boolean
      */
-    public function isDelete()
+    public function isPatch(): bool
+    {
+        return $this->requestType == self::PATCH;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDelete(): bool
     {
         return $this->requestType == self::DELETE;
     }
@@ -142,7 +160,7 @@ class HttpRequest
     /**
      * @return string
      */
-    public function getRequestType()
+    public function getRequestType(): string
     {
         return $this->requestType;
     }
@@ -155,7 +173,7 @@ class HttpRequest
     /**
      * @return boolean
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
@@ -165,10 +183,10 @@ class HttpRequest
      * @param $directory
      * @param File $file
      * @return bool
-     * @throws \Gvera\Exceptions\InvalidFileTypeException
-     * @throws \Gvera\Exceptions\NotFoundException
+     * @throws NotFoundException
+     * @throws InvalidFileTypeException
      */
-    public function moveFileToDirectory($directory, File $file)
+    public function moveFileToDirectory($directory, File $file): bool
     {
         return $this->fileManager->saveToFileSystem($directory, $file);
     }
@@ -177,9 +195,9 @@ class HttpRequest
      * @param $propertyName
      * @param string|null $changedName
      * @return File
-     * @throws \Gvera\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function getFileByPropertyName($propertyName, ?string $changedName = null):File
+    public function getFileByPropertyName($propertyName, ?string $changedName = null): File
     {
         $this->fileManager->buildFilesFromSource($_FILES, $changedName);
         return $this->fileManager->getByName($propertyName);
@@ -194,8 +212,29 @@ class HttpRequest
         return new BasicAuthenticationDetails($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
     }
 
-    public function getIP():string
+    public function getIP(): string
     {
         return $_SERVER['REMOTE_ADDR'];
+    }
+
+    /**
+     * @return bool
+     * @throws NotFoundException
+     * @throws \ReflectionException
+     */
+    public function validate(): bool
+    {
+        $traces = debug_backtrace();
+
+        if (!isset($traces[1]))
+        {
+            throw new \Exception('incorrect method calling validate');
+        }
+        $method = $traces[1]['function'];
+        $fullClassPath = $traces[1]['class'];
+        $reflectionClass = new \ReflectionClass($fullClassPath);
+        $controllersClassName = $reflectionClass->getShortName();
+
+        return $this->httpRequestValidator->validate($_REQUEST, $controllersClassName, $method);
     }
 }
