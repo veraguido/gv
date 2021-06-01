@@ -7,7 +7,6 @@ nbproject/*
 .project
 
 #composer
-composer.lock
 /vendor/*
 
 #volatile files
