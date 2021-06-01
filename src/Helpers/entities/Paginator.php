@@ -8,51 +8,45 @@ class Paginator
 {
     const DEFAULT_PAGE = 1;
     const DEFAULT_PAGE_SIZE = 20;
-    private $paginableObjects;
-    private $page;
-    private $size;
-    private $totalPages;
-    private $totalItems;
+    private array $pageableObjects;
+    private int $page;
+    private int $size;
+    private int $totalPages;
+    private int $totalItems;
 
     /**
      * Paginator constructor.
-     * @param array $paginableObjects
+     * @param array $pageableObjects
      * @param int $page
      * @param int $size
      * @throws InvalidConstructorParameterException
      */
-    public function __construct(array $paginableObjects, $page = self::DEFAULT_PAGE, $size = self::DEFAULT_PAGE_SIZE)
-    {
-        $this->paginableObjects = $paginableObjects;
+    public function __construct(
+        array $pageableObjects,
+        int $page = self::DEFAULT_PAGE,
+        int $size = self::DEFAULT_PAGE_SIZE
+    ) {
+        $this->pageableObjects = $pageableObjects;
         $this->page = $page;
         $this->size = $size;
-        $this->totalPages = floor(count($paginableObjects) / $this->size) + 1;
-        $this->totalItems = count($paginableObjects);
-        if (!is_iterable($this->paginableObjects)) {
+        $this->totalPages = floor(count($pageableObjects) / $this->size) + 1;
+        $this->totalItems = count($pageableObjects);
+        if (!is_iterable($this->pageableObjects)) {
             throw new InvalidConstructorParameterException('paginableObjects must be an iterable');
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalItems()
+    public function getTotalItems(): int
     {
         return $this->totalItems;
     }
 
-    /**
-     * @param int|void $totalItems
-     */
-    public function setTotalItems($totalItems): void
+    public function setTotalItems(int $totalItems): void
     {
         $this->totalItems = $totalItems;
     }
 
-    /**
-     * @return float
-     */
-    public function getTotalPages(): float
+    public function getTotalPages(): int
     {
         return $this->totalPages;
     }
@@ -89,10 +83,9 @@ class Paginator
         $this->size = $size;
     }
 
-    public function paginate():array
+    public function paginate(): array
     {
         $offset = ($this->getPage() - 1) * $this->getSize();
-        $result = array_slice($this->paginableObjects, $offset, $this->getSize());
-        return $result;
+        return array_slice($this->pageableObjects, $offset, $this->getSize());
     }
 }
