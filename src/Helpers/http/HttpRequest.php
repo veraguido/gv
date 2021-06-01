@@ -6,7 +6,6 @@ use Gvera\Exceptions\InvalidFileTypeException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\fileSystem\File;
 use Gvera\Models\BasicAuthenticationDetails;
-use mysql_xdevapi\Exception;
 
 /**
  * Class HttpRequest
@@ -221,13 +220,13 @@ class HttpRequest
      * @return bool
      * @throws NotFoundException
      * @throws \ReflectionException
+     * @throws \Exception
      */
     public function validate(): bool
     {
         $traces = debug_backtrace();
 
-        if (!isset($traces[1]))
-        {
+        if (!isset($traces[1])) {
             throw new \Exception('incorrect method calling validate');
         }
         $method = $traces[1]['function'];
@@ -235,6 +234,6 @@ class HttpRequest
         $reflectionClass = new \ReflectionClass($fullClassPath);
         $controllersClassName = $reflectionClass->getShortName();
 
-        return $this->httpRequestValidator->validate($_REQUEST, $controllersClassName, $method);
+        return $this->httpRequestValidator->validate($controllersClassName, $method, $_REQUEST, getallheaders());
     }
 }

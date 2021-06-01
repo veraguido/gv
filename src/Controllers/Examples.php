@@ -1,6 +1,7 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\http\TransformerResponse;
@@ -36,9 +37,8 @@ class Examples extends GvController
     }
 
     /**
-     * @throws \Exception
-     * @method $this->diContainer->get('loginCommand');
-     *
+     * @throws NotFoundException
+     * @throws \ReflectionException
      */
     public function login()
     {

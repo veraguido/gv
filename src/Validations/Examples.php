@@ -17,8 +17,8 @@ class Examples extends ControllerValidationAbstract
      */
     public function login(): bool
     {
-        if (null === $this->fields || empty($this->fields)) {
-            throw new \Exception('no fields to be validated');
+        if (!isset($this->fields['username']) || !isset($this->fields['password'])) {
+            throw new \Exception('something went wrong with the validation');
         }
 
         $username = $this->fields['username'];
@@ -28,7 +28,7 @@ class Examples extends ControllerValidationAbstract
         }
 
         $password = $this->fields['password'];
-        if(!$this->validate($password, $strategies)) {
+        if (!$this->validate($password, $strategies)) {
             return false;
         }
 
