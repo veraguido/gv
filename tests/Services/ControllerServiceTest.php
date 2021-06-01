@@ -165,10 +165,12 @@ class ControllerServiceTest extends TestCase
 
     private function getMockedHttp($type = '')
     {
+        $validator = new \Gvera\Helpers\http\HttpRequestValidator(new \Gvera\Helpers\validation\ValidationService());
         if ($type === 'httpRequest') {
             $_SERVER['REQUEST_METHOD'] = 'GET';
             return new HttpRequest(
-                new FileManager($this->getMockedConfig())
+                new FileManager($this->getMockedConfig()),
+                $validator
             );
         }
 

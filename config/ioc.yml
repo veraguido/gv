@@ -30,7 +30,9 @@ http:
     httpRequest:
       class: HttpRequest
       singleton: true
-      arguments: "@fileManager"
+      arguments:
+        - "@fileManager"
+        - "@httpRequestValidator"
     httpResponse:
       class: HttpResponse
       singleton: true
@@ -87,6 +89,13 @@ services:
       arguments:
         - "@entityManager"
         - "@userService"
+
+validators:
+  classPath: Gvera\Helpers\http\
+  objects:
+    httpRequestValidator:
+      class: HttpRequestValidator
+      arguments: "@validationService"
 
 routes:
   classPath: Gvera\Helpers\routes\
