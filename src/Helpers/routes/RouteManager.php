@@ -94,8 +94,7 @@ class RouteManager
         string $routeMethod,
         string $totalRoute,
         array $route
-    )
-    {
+    ) {
         $urlCheck = ($pathLikeArray[1] == $routeController && $pathLikeArray[2] == $routeMethod);
         $checkUri = $this->convertUriParams($pathLikeArray, explode('/', $totalRoute));
         return $urlCheck && $checkUri ? $route['action'] : false;
