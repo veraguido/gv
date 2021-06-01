@@ -34,7 +34,7 @@ class EventDispatcher
         }
     }
 
-    public static function removeEventListeners(string $eventId)
+    public static function removeEventListener(string $eventId)
     {
         unset(self::$eventsListeners[$eventId]);
     }
