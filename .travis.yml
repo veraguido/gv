@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 7.4.3
+  - 8.0.3
 
 before_script: composer install
 
