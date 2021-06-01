@@ -76,7 +76,7 @@ class HttpRequest
      */
     public function patch($name = null)
     {
-        return $this->getFromStream($name);
+        return $this->getParameterFromStream($name);
     }
 
     /**
@@ -86,7 +86,7 @@ class HttpRequest
      */
     public function put($name = null)
     {
-        return $this->getFromStream($name);
+        return $this->getParameterFromStream($name);
     }
 
     /**
@@ -96,15 +96,15 @@ class HttpRequest
      */
     public function delete($name = null)
     {
-        return $this->getFromStream($name);
+        return $this->getParameterFromStream($name);
     }
 
     /**
-     * @param string $name
-     * @return mixed
+     * @param string|null $name
+     * @return array|mixed
      * @throws NotFoundException
      */
-    private function getFromStream(string $name)
+    private function getParameterFromStream(string $name): string
     {
             $streamContent = [];
             parse_str(file_get_contents("php://input"), $streamContent);
@@ -114,6 +114,18 @@ class HttpRequest
         }
 
         return $streamContent[$name];
+    }
+
+    private function getParametersFromStream(): array
+    {
+        $streamContent = [];
+        parse_str(file_get_contents("php://input"), $streamContent);
+        return $streamContent;
+    }
+
+    private function getParametersFromRequest(): array
+    {
+        return $_REQUEST;
     }
 
     /**
@@ -234,6 +246,11 @@ class HttpRequest
         $reflectionClass = new \ReflectionClass($fullClassPath);
         $controllersClassName = $reflectionClass->getShortName();
 
-        return $this->httpRequestValidator->validate($controllersClassName, $method, $_REQUEST, getallheaders());
+        $fields =
+            $this->isGet() || $this->isPost() ?
+            $this->getParametersFromRequest() :
+            $this->getParametersFromStream();
+
+        return $this->httpRequestValidator->validate($controllersClassName, $method, $fields, getallheaders());
     }
 }
