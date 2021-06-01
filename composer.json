@@ -28,7 +28,8 @@
         "ext-json":                 "*",
         "zircote/swagger-php": "^3.0",
         "gvera/exceptions": "^1.0",
-        "gvera/validations": "^1.0"
+        "gvera/validations": "^1.0",
+        "gvera/paginator": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "8.5.1",
