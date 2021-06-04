@@ -4,6 +4,7 @@ namespace Services;
 
 use Gvera\Cache\Cache;
 use Gvera\Exceptions\ThrottledException;
+use Gvera\Helpers\config\Config;
 use Gvera\Services\ThrottlingService;
 use PHPUnit\Framework\TestCase;
 
@@ -11,9 +12,15 @@ class ThrottlingServiceTest extends TestCase
 {
     private $service;
     private $ip = "123";
+
+    /**
+     * @throws \Exception
+     */
     public function setUp(): void
     {
         parent::setUp();
+        $config = new Config(__DIR__.'/../../config/config.yml');
+        Cache::setConfig($config);
         $this->service = new ThrottlingService();
         $this->service->setAllowedRequestsPerSecond(1);
         $this->service->setIp($this->ip);

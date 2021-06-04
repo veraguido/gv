@@ -2,6 +2,8 @@
 
 namespace Gvera\Services;
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Gvera\Events\ForgotPasswordCreatedEvent;
 use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\events\EventDispatcher;
@@ -14,7 +16,7 @@ use Gvera\Models\User;
 class ForgotPasswordService
 {
     private $repository;
-    private $entityManager;
+    private GvEntityManager $entityManager;
 
     public function __construct(GvEntityManager $entityManager)
     {
@@ -23,9 +25,10 @@ class ForgotPasswordService
     }
 
     /**
+     * @param User $user
      * @return bool
      */
-    public function validateNewForgotPassword(User $user)
+    public function validateNewForgotPassword(User $user): bool
     {
         $activeForgotPass = $this->repository->findOneBy(['user' => $user, 'alreadyUsed' => false]);
 
@@ -33,9 +36,9 @@ class ForgotPasswordService
     }
 
     /**
-     * @param $email
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @param User $user
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function generateNewForgotPassword(User $user)
     {
@@ -54,7 +57,7 @@ class ForgotPasswordService
 
     /**
      * @param $key
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      * @throws \Exception
      */
     public function useForgotPassword($key)
@@ -77,7 +80,7 @@ class ForgotPasswordService
     /**
      * @param $key
      * @param $newPassword
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      */
     public function regeneratePassword($key, $newPassword)
     {

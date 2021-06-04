@@ -3,6 +3,8 @@ namespace Gvera\Helpers\events;
 
 use Gvera\Events\ThrowableFiredEvent;
 use Gvera\Events\UserRegisteredEvent;
+use Gvera\Helpers\dependencyInjection\DIContainer;
+use Gvera\Listeners\EventListenerInterface;
 
 /**
  * Class EventListenerRegistry
@@ -11,26 +13,37 @@ use Gvera\Events\UserRegisteredEvent;
  */
 class EventListenerRegistry
 {
+    /**
+     * @var DIContainer
+     */
+    private DIContainer $container;
 
-    private $throwableListener;
-    private $userRegisteredEmailListener;
-
-    public function __construct($throwableListener, $userRegisteredEmailListener)
+    /**
+     * EventListenerRegistry constructor.
+     * @param DIContainer $container
+     */
+    public function __construct(DIContainer $container)
     {
-        $this->throwableListener = $throwableListener;
-        $this->userRegisteredEmailListener = $userRegisteredEmailListener;
+        $this->container = $container;
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function registerEventListeners()
     {
-        EventDispatcher::addEventListener(
+        $this->registerEventListener(
             UserRegisteredEvent::USER_REGISTERED_EVENT,
-            $this->userRegisteredEmailListener
+            $this->container->get('userRegisteredEmailListener')
         );
-
-        EventDispatcher::addEventListener(
+        $this->registerEventListener(
             ThrowableFiredEvent::THROWABLE_FIRED_EVENT,
-            $this->throwableListener
+            $this->container->get('throwableListener')
         );
+    }
+
+    private function registerEventListener(string $eventId, EventListenerInterface $listener)
+    {
+        EventDispatcher::addEventListener($eventId, $listener);
     }
 }

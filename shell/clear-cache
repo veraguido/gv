@@ -3,6 +3,8 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$config = new \Gvera\Helpers\config\Config(__DIR__ . '/../config/config.yml');
+\Gvera\Cache\Cache::setConfig($config);
 $cache = \Gvera\Cache\Cache::getCache();
 
 if (count($argv) < 2){

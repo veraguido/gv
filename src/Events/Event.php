@@ -13,7 +13,13 @@ namespace Gvera\Events;
  */
 abstract class Event
 {
-    protected $stopPropagation = false;
+    protected string $id = '';
+    protected bool $stopPropagation = false;
+
+    public function __construct($id = '')
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return boolean
@@ -29,5 +35,10 @@ abstract class Event
     public function setStopPropagation(bool $stopPropagation)
     {
         $this->stopPropagation = $stopPropagation;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 }
