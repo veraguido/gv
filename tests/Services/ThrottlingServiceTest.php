@@ -20,6 +20,7 @@ class ThrottlingServiceTest extends TestCase
     {
         parent::setUp();
         $config = new Config(__DIR__.'/../../config/config.yml');
+        $config->overrideKey('cache_type', 'files');
         Cache::setConfig($config);
         $this->service = new ThrottlingService();
         $this->service->setAllowedRequestsPerSecond(1);
