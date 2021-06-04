@@ -11,6 +11,7 @@
   <testsuites>
     <testsuite name="Gvera's suite">
       <directory suffix=".php">./tests/</directory>
+      <exclude>./tests/Services/ThrottlingServiceTest.php</exclude>
     </testsuite>
   </testsuites>
 </phpunit>
