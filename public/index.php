@@ -6,6 +6,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../config/locale_setup.php';
 ob_start();
 
+define("CONFIG_ROOT", $_SERVER['DOCUMENT_ROOT'].'/../config/');
 
 $bootstrap = new Bootstrap();
 $diContainer = $bootstrap->getDiContainer();

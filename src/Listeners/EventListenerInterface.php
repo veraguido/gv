@@ -15,9 +15,5 @@ use Gvera\Events\Event;
  */
 interface EventListenerInterface
 {
-    /**
-     * @param Event $event
-     * @return mixed
-     */
     public function handleEvent(Event $event);
 }

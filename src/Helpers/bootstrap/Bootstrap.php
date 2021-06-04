@@ -3,25 +3,27 @@
 namespace Gvera\Helpers\bootstrap;
 
 use Gvera\Cache\Cache;
+use Gvera\Exceptions\InvalidArgumentException;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\dependencyInjection\DIRegistry;
+use Gvera\Helpers\events\EventListenerRegistry;
 use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\routes\RouteManager;
-use Gvera\Helpers\session\Session;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
 class Bootstrap
 {
-    const THROTTLING_LAST_CALL_KEY = 'last_call';
-    private $diContainer;
-    private $config;
+    const CONFIG_DEFAULT_FILE_PATH = CONFIG_ROOT . "config.yml";
+    const ROUTES_DEFAULT_FILE_PATH = CONFIG_ROOT . "routes.yml";
+    private DIContainer $diContainer;
+    private Config $config;
 
     /**
-     * @return \Gvera\Helpers\config\Config
+     * @return Config
      */
     public function getConfig(): Config
     {
@@ -30,15 +32,16 @@ class Bootstrap
 
     /**
      * Bootstrap constructor.
-     * @throws \Gvera\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Exception
      */
     public function __construct()
     {
+        $this->config = new Config(self::CONFIG_DEFAULT_FILE_PATH);
+        Cache::setConfig($this->config);
         $this->diContainer = $this->initializeDIContainer();
 
-        $this->config = $this->diContainer->get('config');
 
         try {
             if ($this->config->getConfigItem('throttling')) {
@@ -52,9 +55,11 @@ class Bootstrap
             $httpResponse->terminate();
         }
 
+
+
         if (!Cache::getCache()->exists(RouteManager::ROUTE_CACHE_KEY)) {
             $routes = Yaml::parse(
-                file_get_contents(__DIR__ . '/../../../config/routes.yml')
+                file_get_contents(self::ROUTES_DEFAULT_FILE_PATH)
             )['routes'];
             Cache::getCache()->save(RouteManager::ROUTE_CACHE_KEY, $routes);
         } else {
@@ -62,15 +67,14 @@ class Bootstrap
         }
 
         $routeManager = $this->diContainer->get('routeManager');
-
         $routeManager->setRoutes($routes);
 
-        $eventRegistry = $this->diContainer->get("eventListenerRegistry");
+        $eventRegistry = new EventListenerRegistry($this->diContainer);
         $eventRegistry->registerEventListeners();
     }
 
     /**
-     * @return \Gvera\Helpers\dependencyInjection\DIContainer
+     * @return DIContainer
      */
     public function getDiContainer(): DIContainer
     {
@@ -84,23 +88,22 @@ class Bootstrap
         return $this->devMode;
     }
 
-    private $devMode = false;
+    private bool $devMode = false;
 
     /**
      * @return DIContainer
+     * @throws InvalidArgumentException
      */
-    private function initializeDIContainer()
+    private function initializeDIContainer(): DIContainer
     {
         $diContainer = new DIContainer();
         $diRegistry = new DIRegistry($diContainer);
         $diRegistry->registerObjects();
-        $diContainer->initialize();
         return $diContainer;
     }
 
     /**
-     * @param Session $session
-     * @throws \Exception
+     * @throws \ReflectionException
      */
     private function validateThrottling()
     {

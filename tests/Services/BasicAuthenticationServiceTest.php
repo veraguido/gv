@@ -3,7 +3,6 @@
 
 namespace Services;
 
-
 use Doctrine\ORM\EntityRepository;
 use Gvera\Helpers\entities\GvEntityManager;
 use Gvera\Helpers\session\Session;
@@ -41,7 +40,8 @@ class BasicAuthenticationServiceTest extends TestCase
         $this->assertTrue(
             $basicAuthService->requireAuth(
                 new BasicAuthenticationDetails(
-                    $user->getUsername(), "admin"
+                    $user->getUsername(),
+                    "admin"
                 )
             )
         );
@@ -49,7 +49,8 @@ class BasicAuthenticationServiceTest extends TestCase
         $this->assertFalse(
             $basicAuthService->requireAuth(
                 new BasicAuthenticationDetails(
-                    $user->getUsername(), "invalidPass"
+                    $user->getUsername(),
+                    "invalidPass"
                 )
             )
         );

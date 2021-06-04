@@ -20,6 +20,7 @@ config:
     config:
       class: Config
       singleton: true
+      arguments: "/var/www/html/config/config.yml"
 
 http:
   classPath: Gvera\Helpers\http\
@@ -135,15 +136,6 @@ listeners:
     throwableListener:
       class: ThrowableListener
       arguments: "@logger"
-
-events:
-  classPath: Gvera\Helpers\events\
-  objects:
-    eventListenerRegistry:
-      class: EventListenerRegistry
-      arguments:
-        - "@throwableListener"
-        - "@userRegisteredEmailListener"
 
 security:
   classPath: Gvera\Helpers\security\
