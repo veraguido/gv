@@ -1,6 +1,10 @@
 <?php
 namespace Gvera\Helpers\email;
 
+use Gvera\Helpers\config\Config;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
 /**
  * Class GVEmail
  * @package Gvera\Helpers\email\GVEmail
@@ -9,13 +13,13 @@ namespace Gvera\Helpers\email;
  */
 class GvEmail
 {
-    private $mailer;
+    private PHPMailer $mailer;
 
-    private $isHtml = false;
-    private $subject;
-    private $body;
-    private $alternativeBody;
-    public $config;
+    private bool $isHtml = false;
+    private string $subject;
+    private string $body;
+    private string $alternativeBody;
+    public Config $config;
 
 
     public function addAddress($address, $name = '')
@@ -39,8 +43,8 @@ class GvEmail
     }
 
     /**
+     * @throws Exception
      * @throws \Exception
-     * @throws \phpmailerException
      */
     public function send()
     {
@@ -48,7 +52,7 @@ class GvEmail
         $this->validate();
 
         $emailConfig = $this->getEmailConfiguration();
-        $this->mailer = new \PHPMailer();
+        $this->mailer = new PHPMailer();
         $this->mailer->isSMTP();
         $this->mailer->isHTML($this->isHtml);
         $this->mailer->Host = $emailConfig['host'];
@@ -68,7 +72,7 @@ class GvEmail
     /**
      * @return array
      */
-    public function getEmailConfiguration()
+    public function getEmailConfiguration(): array
     {
         return $this->config->getConfigItem('email');
     }
@@ -78,7 +82,7 @@ class GvEmail
      *
      * @return  self
      */
-    public function setIsHtml($isHtml)
+    public function setIsHtml($isHtml): GvEmail
     {
         $this->isHtml = $isHtml;
 
@@ -90,7 +94,7 @@ class GvEmail
      *
      * @return  self
      */
-    public function setSubject($subject)
+    public function setSubject($subject): GvEmail
     {
         $this->subject = $subject;
 
@@ -102,7 +106,7 @@ class GvEmail
      *
      * @return  self
      */
-    public function setBody($body)
+    public function setBody($body): GvEmail
     {
         $this->body = $body;
 
@@ -112,9 +116,10 @@ class GvEmail
     /**
      * Set the value of alternativeBody
      *
+     * @param $alternativeBody
      * @return  self
      */
-    public function setAlternativeBody($alternativeBody)
+    public function setAlternativeBody($alternativeBody): GvEmail
     {
         $this->alternativeBody = $alternativeBody;
 
@@ -122,7 +127,7 @@ class GvEmail
     }
 
     /**
-     * @return void
+     * @throws \Exception
      */
     private function validate()
     {
@@ -136,7 +141,7 @@ class GvEmail
     /**
      * @return boolean
      */
-    private function isValid()
+    private function isValid(): bool
     {
         return
             $this->body !== null &&

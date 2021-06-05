@@ -10,8 +10,8 @@ use Gvera\Exceptions\InvalidFileTypeException;
 class FileManager
 {
 
-    private $files = [];
-    private $config;
+    private array $files = [];
+    private Config $config;
 
     public function __construct(Config $config)
     {

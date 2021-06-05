@@ -2,6 +2,8 @@
 
 namespace Gvera\Helpers\annotations;
 
+use ReflectionException;
+
 class AnnotationUtil
 {
     public const HTTP_ANNOTATION = '@httpMethod';
@@ -10,7 +12,7 @@ class AnnotationUtil
      * @param $className
      * @param $method
      * @param $annotationName
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @return array|boolean
      */
     public function getAnnotationContentFromMethod($className, $method, $annotationName)
@@ -21,7 +23,7 @@ class AnnotationUtil
         return $this->getAnnotationFromArray($comments, $annotationName);
     }
 
-    public function validateMethods(array $allowedMethods, $httpRequest)
+    public function validateMethods(array $allowedMethods, $httpRequest): bool
     {
         if (count($allowedMethods) < 1) {
             return true;

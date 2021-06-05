@@ -12,6 +12,7 @@ use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\routes\RouteManager;
+use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
@@ -33,7 +34,7 @@ class Bootstrap
     /**
      * Bootstrap constructor.
      * @throws InvalidArgumentException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws \Exception
      */
     public function __construct()
@@ -56,7 +57,6 @@ class Bootstrap
         }
 
 
-
         if (!Cache::getCache()->exists(RouteManager::ROUTE_CACHE_KEY)) {
             $routes = Yaml::parse(
                 file_get_contents(self::ROUTES_DEFAULT_FILE_PATH)
@@ -69,8 +69,7 @@ class Bootstrap
         $routeManager = $this->diContainer->get('routeManager');
         $routeManager->setRoutes($routes);
 
-        $eventRegistry = new EventListenerRegistry($this->diContainer);
-        $eventRegistry->registerEventListeners();
+        $this->initializeEventListenerRegistry();
     }
 
     /**
@@ -103,7 +102,7 @@ class Bootstrap
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function validateThrottling()
     {
@@ -115,5 +114,14 @@ class Bootstrap
         $throttlingService->setIp($_SERVER['REMOTE_ADDR']);
         $throttlingService->setAllowedRequestsPerSecond($this->config->getConfigItem('allowed_requests_per_second'));
         $throttlingService->validateRate();
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    private function initializeEventListenerRegistry()
+    {
+        $eventRegistry = new GvEventListenerRegristry($this->diContainer);
+        $eventRegistry->registerEventListeners();
     }
 }

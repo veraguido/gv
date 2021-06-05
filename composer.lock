@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71fb3854f46075bbf69a7dd19eae3c90",
+    "content-hash": "38d695fbd8eed25351afb5731d8b3a67",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1310,6 +1310,59 @@
             "time": "2021-06-04T15:08:25+00:00"
         },
         {
+            "name": "gvera/events",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-events.git",
+                "reference": "a7b6a6a8515f7c71f2a00f7f294f75329a9cedd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-events/zipball/a7b6a6a8515f7c71f2a00f7f294f75329a9cedd0",
+                "reference": "a7b6a6a8515f7c71f2a00f7f294f75329a9cedd0",
+                "shasum": ""
+            },
+            "require": {
+                "gvera/exceptions": "^1.0"
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ],
+                    "Tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv events",
+            "keywords": [
+                "events",
+                "gv"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-events/issues",
+                "source": "https://github.com/veraguido/gv-events/tree/1.1"
+            },
+            "time": "2021-06-05T17:43:02+00:00"
+        },
+        {
             "name": "gvera/exceptions",
             "version": "1.2",
             "source": {
@@ -1398,6 +1451,53 @@
                 "source": "https://github.com/veraguido/gv-paginator/tree/1"
             },
             "time": "2021-06-01T16:37:49+00:00"
+        },
+        {
+            "name": "gvera/security",
+            "version": "1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-security.git",
+                "reference": "d5c4b0f8bb4a804ca635737a5f0abe497afec416"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-security/zipball/d5c4b0f8bb4a804ca635737a5f0abe497afec416",
+                "reference": "d5c4b0f8bb4a804ca635737a5f0abe497afec416",
+                "shasum": ""
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv security",
+            "keywords": [
+                "gv",
+                "security"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-security/issues",
+                "source": "https://github.com/veraguido/gv-security/tree/1"
+            },
+            "time": "2021-06-05T18:45:42+00:00"
         },
         {
             "name": "gvera/validations",
