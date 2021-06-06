@@ -2,10 +2,12 @@
 
 namespace Gvera\Helpers\http;
 
+use Exception;
 use Gvera\Exceptions\InvalidFileTypeException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\fileSystem\File;
 use Gvera\Models\BasicAuthenticationDetails;
+use ReflectionException;
 
 /**
  * Class HttpRequest
@@ -231,15 +233,15 @@ class HttpRequest
     /**
      * @return bool
      * @throws NotFoundException
-     * @throws \ReflectionException
-     * @throws \Exception
+     * @throws ReflectionException
+     * @throws Exception
      */
     public function validate(): bool
     {
         $traces = debug_backtrace();
 
         if (!isset($traces[1])) {
-            throw new \Exception('incorrect method calling validate');
+            throw new Exception('incorrect method calling validate');
         }
         $method = $traces[1]['function'];
         $fullClassPath = $traces[1]['class'];

@@ -31,7 +31,8 @@
         "gvera/cache": "^1.0",
         "gvera/dependency-injection": "^1.0",
         "gvera/events": "^1.1",
-        "gvera/security": "^1.0"
+        "gvera/security": "^1.0",
+        "gvera/utils": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "^9.0",

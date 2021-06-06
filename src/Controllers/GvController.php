@@ -14,6 +14,7 @@ use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
 use Gvera\Services\TwigService;
+use ReflectionException;
 use Twig\Environment;
 
 /**
@@ -48,7 +49,7 @@ abstract class GvController
      * @param $controllerName
      * @param $method
      * @throws InvalidMethodException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct(DIContainer $diContainer, $controllerName, $method)
     {
@@ -74,7 +75,7 @@ abstract class GvController
      * @param array $allowedHttpMethods
      * @throws InvalidHttpMethodException
      * @throws InvalidViewException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function init($allowedHttpMethods = []):void
     {
@@ -89,7 +90,7 @@ abstract class GvController
     /**
      * @param $allowedHttpMethods
      * @throws InvalidHttpMethodException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function preInit($allowedHttpMethods)
     {
@@ -200,7 +201,7 @@ abstract class GvController
     /**
      * @return boolean
      */
-    protected function isUserAllowed(string $action)
+    protected function isUserAllowed(string $action): bool
     {
         $repo = $this->getEntityManager()->getRepository(User::class);
         $session = $this->getSession();
@@ -256,7 +257,7 @@ abstract class GvController
      * @param $name
      * @param $arguments
      * @return object
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * using magic methods to retrieve from DIContainer
      */
     public function __call($name, $arguments)

@@ -11,11 +11,11 @@ use Gvera\Helpers\http\HttpRequest;
  */
 class RouteManager
 {
-    private $routes;
+    private array $routes;
     const ROUTE_NEEDLE = ':';
     const ROUTE_CACHE_KEY = 'gv_routes';
-    private $httpRequest;
-    private $excludeDirectories = [".", ".."];
+    private HttpRequest $httpRequest;
+    private array $excludeDirectories = [".", ".."];
 
     /**
      * @Cached
@@ -27,13 +27,14 @@ class RouteManager
         $this->httpRequest = $httpRequest;
     }
 
-    public function setRoutes($routes)
+    public function setRoutes(array $routes)
     {
         $this->routes = $routes;
     }
 
 
     /**
+     * @param $pathLike
      * @return mixed
      */
     public function getRoute($pathLike)
@@ -58,7 +59,7 @@ class RouteManager
         $this->routes[$method][] = array('route' => $route, 'action' => $action);
     }
 
-    public function getExcludeDirectories()
+    public function getExcludeDirectories(): array
     {
         return $this->excludeDirectories;
     }
@@ -104,7 +105,7 @@ class RouteManager
      * @param $pathLikeArray
      * @return bool
      */
-    private function isPathLikeArrayValid($pathLikeArray)
+    private function isPathLikeArrayValid($pathLikeArray): bool
     {
         return isset($pathLikeArray[2]) && !empty($pathLikeArray[2]);
     }
@@ -135,7 +136,7 @@ class RouteManager
      * @param $method
      * @return array
      */
-    private function stripRoutesByHttpMethod($method)
+    private function stripRoutesByHttpMethod($method): array
     {
         $filteredRoutes = array();
         foreach ($this->routes as $route) {
