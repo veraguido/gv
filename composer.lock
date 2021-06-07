@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "670ec5497a14efa0dae6bfa5c86a1442",
+    "content-hash": "aabf3176e6f83e144a7167ea9c8c0abb",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1451,6 +1451,60 @@
                 "source": "https://github.com/veraguido/gv-paginator/tree/1"
             },
             "time": "2021-06-01T16:37:49+00:00"
+        },
+        {
+            "name": "gvera/response-types",
+            "version": "1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-response-types.git",
+                "reference": "b73a94c52fc247d1a7d561e11fbc46a961b55f23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-response-types/zipball/b73a94c52fc247d1a7d561e11fbc46a961b55f23",
+                "reference": "b73a94c52fc247d1a7d561e11fbc46a961b55f23",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "gvera/config": "^1.0"
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ],
+                    "Tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv response types",
+            "keywords": [
+                "gv",
+                "response-types"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-response-types/issues",
+                "source": "https://github.com/veraguido/gv-response-types/tree/1"
+            },
+            "time": "2021-06-07T10:20:53+00:00"
         },
         {
             "name": "gvera/security",
