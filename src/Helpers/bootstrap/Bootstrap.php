@@ -58,18 +58,6 @@ class Bootstrap
         }
 
 
-        if (!Cache::getCache()->exists(RouteManager::ROUTE_CACHE_KEY)) {
-            $routes = Yaml::parse(
-                file_get_contents(self::ROUTES_DEFAULT_FILE_PATH)
-            )['routes'];
-            Cache::getCache()->save(RouteManager::ROUTE_CACHE_KEY, $routes);
-        } else {
-            $routes = Cache::getCache()->load(RouteManager::ROUTE_CACHE_KEY);
-        }
-
-        $routeManager = $this->diContainer->get('routeManager');
-        $routeManager->setRoutes($routes);
-
         $this->initializeEventListenerRegistry();
     }
 

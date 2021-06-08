@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f457dbf2a017826617e9c77af3b822f7",
+    "content-hash": "383e4f6a26381e06d2ec6e79277e6411",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1616,6 +1616,62 @@
                 "source": "https://github.com/veraguido/gv-response-types/tree/1"
             },
             "time": "2021-06-07T10:20:53+00:00"
+        },
+        {
+            "name": "gvera/routes",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-routes.git",
+                "reference": "694f72aca13259231e970e599f1fd0071fbaecae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-routes/zipball/694f72aca13259231e970e599f1fd0071fbaecae",
+                "reference": "694f72aca13259231e970e599f1fd0071fbaecae",
+                "shasum": ""
+            },
+            "require": {
+                "gvera/cache": "^1.0",
+                "gvera/exceptions": "^1.0",
+                "gvera/http": "^1.0",
+                "gvera/validations": "^1.1"
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ],
+                    "Tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv routes",
+            "keywords": [
+                "gv",
+                "routes"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-routes/issues",
+                "source": "https://github.com/veraguido/gv-routes/tree/1.1"
+            },
+            "time": "2021-06-08T16:11:44+00:00"
         },
         {
             "name": "gvera/security",
@@ -3595,16 +3651,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.4",
+            "version": "9.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c73c6737305e779771147af66c96ca6a7ed8a741"
+                "reference": "89ff45ea9d70e35522fb6654a2ebc221158de276"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c73c6737305e779771147af66c96ca6a7ed8a741",
-                "reference": "c73c6737305e779771147af66c96ca6a7ed8a741",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/89ff45ea9d70e35522fb6654a2ebc221158de276",
+                "reference": "89ff45ea9d70e35522fb6654a2ebc221158de276",
                 "shasum": ""
             },
             "require": {
@@ -3634,7 +3690,7 @@
                 "sebastian/global-state": "^5.0.1",
                 "sebastian/object-enumerator": "^4.0.3",
                 "sebastian/resource-operations": "^3.0.3",
-                "sebastian/type": "^2.3",
+                "sebastian/type": "^2.3.2",
                 "sebastian/version": "^3.0.2"
             },
             "require-dev": {
@@ -3682,7 +3738,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.4"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.5"
             },
             "funding": [
                 {
@@ -3694,7 +3750,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-23T07:16:29+00:00"
+            "time": "2021-06-05T04:49:07+00:00"
         },
         {
             "name": "sebastian/cli-parser",

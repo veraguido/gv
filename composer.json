@@ -35,7 +35,8 @@
         "gvera/utils": "^1.0",
         "gvera/response-types": "^1.0",
         "gvera/file-manager": "^1.0",
-        "gvera/http": "^1.0"
+        "gvera/http": "^1.0",
+        "gvera/routes": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "^9.0",
