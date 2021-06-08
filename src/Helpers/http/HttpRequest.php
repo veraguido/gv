@@ -6,6 +6,7 @@ use Exception;
 use Gvera\Exceptions\InvalidFileTypeException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\fileSystem\File;
+use Gvera\Helpers\fileSystem\FileManager;
 use Gvera\Models\BasicAuthenticationDetails;
 use ReflectionException;
 
@@ -102,8 +103,8 @@ class HttpRequest
     }
 
     /**
-     * @param string|null $name
-     * @return array|mixed
+     * @param string $name
+     * @return string
      * @throws NotFoundException
      */
     private function getParameterFromStream(string $name): string

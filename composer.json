@@ -33,7 +33,8 @@
         "gvera/events": "^1.1",
         "gvera/security": "^1.0",
         "gvera/utils": "^1.0",
-        "gvera/response-types": "^1.0"
+        "gvera/response-types": "^1.0",
+        "gvera/file-manager": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "^9.0",

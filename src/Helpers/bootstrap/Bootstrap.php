@@ -19,6 +19,7 @@ use Throwable;
 class Bootstrap
 {
     const CONFIG_DEFAULT_FILE_PATH = CONFIG_ROOT . "config.yml";
+    const CONFIG_DEFAULT_IOC_PATH = CONFIG_ROOT . "ioc.yml";
     const ROUTES_DEFAULT_FILE_PATH = CONFIG_ROOT . "routes.yml";
     private DIContainer $diContainer;
     private Config $config;
@@ -96,7 +97,7 @@ class Bootstrap
     private function initializeDIContainer(): DIContainer
     {
         $diContainer = new DIContainer();
-        $diRegistry = new DIRegistry($diContainer);
+        $diRegistry = new DIRegistry($diContainer, self::CONFIG_DEFAULT_IOC_PATH);
         $diRegistry->registerObjects();
         return $diContainer;
     }

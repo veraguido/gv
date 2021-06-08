@@ -22,12 +22,16 @@ config:
       singleton: true
       arguments: "/var/www/html/config/config.yml"
 
-http:
-  classPath: Gvera\Helpers\http\
+fileSystem:
+  classPath: Gvera\Helpers\fileSystem\
   objects:
     fileManager:
       class: FileManager
       arguments: "@config"
+
+http:
+  classPath: Gvera\Helpers\http\
+  objects:
     httpRequest:
       class: HttpRequest
       singleton: true

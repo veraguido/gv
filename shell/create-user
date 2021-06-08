@@ -36,6 +36,5 @@ function getDiContainer() {
     $diContainer = new \Gvera\Helpers\dependencyInjection\DIContainer();
     $diRegistry = new \Gvera\Helpers\dependencyInjection\DIRegistry($diContainer);
     $diRegistry->registerObjects();
-    $diContainer->initialize();
     return $diContainer;
 }

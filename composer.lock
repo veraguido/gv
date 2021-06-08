@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aabf3176e6f83e144a7167ea9c8c0abb",
+    "content-hash": "99d920316be591e7f63fa72fc0c5d9d2",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1404,6 +1404,60 @@
                 "source": "https://github.com/veraguido/gv-exceptions/tree/1.2"
             },
             "time": "2021-06-01T16:03:54+00:00"
+        },
+        {
+            "name": "gvera/file-manager",
+            "version": "1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-file-manager.git",
+                "reference": "dda716f2fc87c52fa96168091f11307417737136"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-file-manager/zipball/dda716f2fc87c52fa96168091f11307417737136",
+                "reference": "dda716f2fc87c52fa96168091f11307417737136",
+                "shasum": ""
+            },
+            "require": {
+                "gvera/config": "^1.0",
+                "gvera/exceptions": "^1.0"
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ],
+                    "Tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv file manager",
+            "keywords": [
+                "files",
+                "gv"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-file-manager/issues",
+                "source": "https://github.com/veraguido/gv-file-manager/tree/1"
+            },
+            "time": "2021-06-08T10:43:12+00:00"
         },
         {
             "name": "gvera/paginator",
