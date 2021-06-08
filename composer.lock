@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99d920316be591e7f63fa72fc0c5d9d2",
+    "content-hash": "f457dbf2a017826617e9c77af3b822f7",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1458,6 +1458,63 @@
                 "source": "https://github.com/veraguido/gv-file-manager/tree/1"
             },
             "time": "2021-06-08T10:43:12+00:00"
+        },
+        {
+            "name": "gvera/http",
+            "version": "1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-http.git",
+                "reference": "88a2a7861c4805001b0da0ecd78be89885d56e8f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-http/zipball/88a2a7861c4805001b0da0ecd78be89885d56e8f",
+                "reference": "88a2a7861c4805001b0da0ecd78be89885d56e8f",
+                "shasum": ""
+            },
+            "require": {
+                "gvera/config": "^1.0",
+                "gvera/exceptions": "^1.0",
+                "gvera/file-manager": "^1.0",
+                "gvera/response-types": "^1.0",
+                "gvera/validations": "^1.0"
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ],
+                    "Tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv http",
+            "keywords": [
+                "gv",
+                "http"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-http/issues",
+                "source": "https://github.com/veraguido/gv-http/tree/1"
+            },
+            "time": "2021-06-08T13:41:20+00:00"
         },
         {
             "name": "gvera/paginator",
