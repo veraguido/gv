@@ -11,9 +11,9 @@ define("CONFIG_ROOT", $_SERVER['DOCUMENT_ROOT'].'/../config/');
 $bootstrap = new Bootstrap();
 $diContainer = $bootstrap->getDiContainer();
 $app = new Gvera\Gv($diContainer);
-$isDevMode = $bootstrap->getConfig()->getConfigItem('devmode');
 
 // DEV MODE
+$isDevMode = $bootstrap->isDevMode();
 ini_set('display_errors', $isDevMode);
 ini_set('display_startup_errors', $isDevMode);
 $reporting = (true === $isDevMode) ? E_ALL : 0;

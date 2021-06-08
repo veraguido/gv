@@ -2,7 +2,9 @@
 
 namespace Gvera\Helpers\bootstrap;
 
+use Exception;
 use Gvera\Cache\Cache;
+use Gvera\Cache\FilesCache;
 use Gvera\Exceptions\InvalidArgumentException;
 use Gvera\Helpers\config\Config;
 use Gvera\Helpers\dependencyInjection\DIContainer;
@@ -33,31 +35,17 @@ class Bootstrap
     }
 
     /**
-     * Bootstrap constructor.
+     * Bootstrap constructor. The order of things in this constructor is important
      * @throws InvalidArgumentException
      * @throws ReflectionException
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
         $this->config = new Config(self::CONFIG_DEFAULT_FILE_PATH);
         Cache::setConfig($this->config);
-        $this->diContainer = $this->initializeDIContainer();
-
-
-        try {
-            if ($this->config->getConfigItem('throttling')) {
-                $this->validateThrottling();
-            }
-        } catch (Throwable $exception) {
-            $httpResponse = $this->diContainer->get('httpResponse');
-            $content = ['message' => Locale::getLocale('something went wrong')];
-
-            $httpResponse->response(new JSONResponse($content, Response::HTTP_RESPONSE_BAD_REQUEST));
-            $httpResponse->terminate();
-        }
-
-
+        $this->initializeDIContainer();
+        $this->validateThrottling();
         $this->initializeEventListenerRegistry();
     }
 
@@ -73,21 +61,18 @@ class Bootstrap
      */
     public function isDevMode(): bool
     {
-        return $this->devMode;
+        return $this->config->getConfigItem('devmode');
     }
 
-    private bool $devMode = false;
-
     /**
-     * @return DIContainer
      * @throws InvalidArgumentException
      */
-    private function initializeDIContainer(): DIContainer
+    private function initializeDIContainer()
     {
         $diContainer = new DIContainer();
         $diRegistry = new DIRegistry($diContainer, self::CONFIG_DEFAULT_IOC_PATH);
         $diRegistry->registerObjects();
-        return $diContainer;
+        $this->diContainer = $diContainer;
     }
 
     /**
@@ -95,14 +80,31 @@ class Bootstrap
      */
     private function validateThrottling()
     {
-        if (!isset($_SERVER['REMOTE_ADDR'])) {
-            return;
+        try {
+            if ($this->config->getConfigItem('throttling')) {
+                if (!isset($_SERVER['REMOTE_ADDR'])) {
+                    return;
+                }
+
+                if (is_a(Cache::getCache(), FilesCache::class)) {
+                    return;
+                }
+
+                $throttlingService = $this->diContainer->get('throttlingService');
+                $throttlingService->setIp($_SERVER['REMOTE_ADDR']);
+                $throttlingService->setAllowedRequestsPerSecond(
+                    $this->config->getConfigItem('allowed_requests_per_second')
+                );
+                $throttlingService->validateRate();
+            }
+        } catch (Throwable $exception) {
+            $this->diContainer->get('logger')->err($exception->getMessage());
+            $httpResponse = $this->diContainer->get('httpResponse');
+            $content = ['message' => Locale::getLocale('something went wrong')];
+
+            $httpResponse->response(new JSONResponse($content, Response::HTTP_RESPONSE_BAD_REQUEST));
+            $httpResponse->terminate();
         }
-        
-        $throttlingService = $this->diContainer->get('throttlingService');
-        $throttlingService->setIp($_SERVER['REMOTE_ADDR']);
-        $throttlingService->setAllowedRequestsPerSecond($this->config->getConfigItem('allowed_requests_per_second'));
-        $throttlingService->validateRate();
     }
 
     /**

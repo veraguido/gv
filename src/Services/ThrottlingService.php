@@ -2,7 +2,9 @@
 
 namespace Gvera\Services;
 
+use Exception;
 use Gvera\Cache\Cache;
+use Gvera\Exceptions\InvalidArgumentException;
 use Gvera\Exceptions\ThrottledException;
 
 class ThrottlingService
@@ -24,7 +26,8 @@ class ThrottlingService
 
     /**
      * @throws ThrottledException
-     * @throws \Gvera\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function validateRate()
     {
