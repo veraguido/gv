@@ -1,5 +1,6 @@
 <?php
 
+use Gvera\Gv;
 use Gvera\Helpers\bootstrap\Bootstrap;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -10,7 +11,7 @@ define("CONFIG_ROOT", $_SERVER['DOCUMENT_ROOT'].'/../config/');
 
 $bootstrap = new Bootstrap();
 $diContainer = $bootstrap->getDiContainer();
-$app = new Gvera\Gv($diContainer);
+$app = new Gv($diContainer);
 
 // DEV MODE
 $isDevMode = $bootstrap->isDevMode();
