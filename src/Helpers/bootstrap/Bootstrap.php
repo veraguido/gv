@@ -36,6 +36,8 @@ class Bootstrap
 
     /**
      * Bootstrap constructor. The order of things in this constructor is important
+     * This can be only executed from a webserver as it will bootstrap
+     * all that's needed for the requests and responses to be covered
      * @throws InvalidArgumentException
      * @throws ReflectionException
      * @throws Exception

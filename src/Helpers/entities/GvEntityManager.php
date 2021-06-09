@@ -3,6 +3,7 @@ namespace Gvera\Helpers\entities;
 
 use Doctrine\Common\EventManager;
 use Doctrine\Common\Cache\RedisCache;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -24,7 +25,7 @@ class GvEntityManager extends EntityManager
     /**
      * GvEntityManager constructor.
      * @param Config $config
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(Config $config)
     {

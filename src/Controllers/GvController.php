@@ -199,6 +199,7 @@ abstract class GvController
     }
 
     /**
+     * @param string $action
      * @return boolean
      */
     protected function isUserAllowed(string $action): bool
@@ -260,7 +261,7 @@ abstract class GvController
      * @throws ReflectionException
      * using magic methods to retrieve from DIContainer
      */
-    public function __call($name, $arguments)
+    public function __call($name, $arguments): object
     {
         $id = lcfirst(str_replace('get', '', $name));
         return $this->diContainer->get($id);

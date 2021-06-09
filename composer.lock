@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "383e4f6a26381e06d2ec6e79277e6411",
+    "content-hash": "5789ab906877276ab24068ba047f3735",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1719,6 +1719,56 @@
                 "source": "https://github.com/veraguido/gv-security/tree/1"
             },
             "time": "2021-06-05T18:45:42+00:00"
+        },
+        {
+            "name": "gvera/session",
+            "version": "1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/veraguido/gv-session.git",
+                "reference": "203d5e0a0e3a4738d65d243c0a33b5c4a4ebaa28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/veraguido/gv-session/zipball/203d5e0a0e3a4738d65d243c0a33b5c4a4ebaa28",
+                "reference": "203d5e0a0e3a4738d65d243c0a33b5c4a4ebaa28",
+                "shasum": ""
+            },
+            "require-dev": {
+                "pcov/clobber": "^2.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvera\\": [
+                        "src/"
+                    ],
+                    "Tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guido Vera",
+                    "email": "vera.a.guido@gmail.com"
+                }
+            ],
+            "description": "gv session wrapper",
+            "keywords": [
+                "gv",
+                "session"
+            ],
+            "support": {
+                "issues": "https://github.com/veraguido/gv-session/issues",
+                "source": "https://github.com/veraguido/gv-session/tree/1"
+            },
+            "time": "2021-06-09T10:18:30+00:00"
         },
         {
             "name": "gvera/utils",
