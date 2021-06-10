@@ -1,6 +1,8 @@
 <?php
 namespace Gvera\Helpers\entities;
 
+use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\DBAL\DBALException;
@@ -21,7 +23,8 @@ use Gvera\Helpers\config\Config;
  */
 class GvEntityManager extends EntityManager
 {
-    const PROXIES_PATH = __DIR__ . '/../../../src/Models/Proxies/';
+    const PROXIES_PATH = __DIR__ . '/../../../var/proxies/';
+    const MODELS_PATH = __DIR__ . '/../../../src/Models/';
     /**
      * GvEntityManager constructor.
      * @param Config $config
@@ -29,10 +32,23 @@ class GvEntityManager extends EntityManager
      */
     public function __construct(Config $config)
     {
-        $path = array('src/Models');
 
+        $devMode = $config->getConfigItem('devmode');
         $mysqlConfig = $config->getConfigItem('mysql');
-        $redisConfig = $config->getConfigItem('redis');
+        $cache = new ApcCache();
+        if ($devMode) {
+            $cache = new ArrayCache();
+        }
+
+        $doctrineConfig = new Configuration();
+        $doctrineConfig->setMetadataCacheImpl($cache);
+        $driverImpl = $doctrineConfig->newDefaultAnnotationDriver(self::MODELS_PATH);
+        $doctrineConfig->setMetadataDriverImpl($driverImpl);
+        $doctrineConfig->setQueryCacheImpl($cache);
+        $doctrineConfig->setProxyDir(self::PROXIES_PATH);
+        $doctrineConfig->setProxyNamespace('Gvera\Models');
+
+        $doctrineConfig->setAutoGenerateProxyClasses($devMode);
         $dbParams = array(
             'driver'   => $mysqlConfig['driver'],
             'host'     => $mysqlConfig['host'],
@@ -41,22 +57,6 @@ class GvEntityManager extends EntityManager
             'dbname'   => $mysqlConfig['db_name']
         );
 
-        $cache = null;
-        if (boolval($redisConfig['enabled'])) {
-            $cache = new RedisCache();
-            $redis = new \Redis();
-            $redis->connect($redisConfig['host'], $redisConfig['port']);
-            $cache->setRedis($redis);
-        }
-
-
-        $doctrineConfig = new Configuration();
-        $doctrineConfig->setMetadataCacheImpl($cache);
-        $driverImpl = $doctrineConfig->newDefaultAnnotationDriver($path);
-        $doctrineConfig->setMetadataDriverImpl($driverImpl);
-        $doctrineConfig->setAutoGenerateProxyClasses(true);
-        $doctrineConfig->setProxyDir(self::PROXIES_PATH);
-        $doctrineConfig->setProxyNamespace('Gvera\Models');
 
         $connection = DriverManager::getConnection($dbParams, $doctrineConfig);
         parent::__construct($connection, $doctrineConfig, new EventManager());
