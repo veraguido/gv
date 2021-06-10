@@ -45,6 +45,7 @@ class Bootstrap
     public function __construct()
     {
         $this->config = new Config(self::CONFIG_DEFAULT_FILE_PATH);
+        Locale::setLocalesDirectory(LOCALE_ROOT);
         Cache::setConfig($this->config);
         $this->initializeDIContainer();
         $this->validateThrottling();

@@ -8,6 +8,7 @@ include_once __DIR__ . '/../config/locale_setup.php';
 ob_start();
 
 define("CONFIG_ROOT", $_SERVER['DOCUMENT_ROOT'].'/../config/');
+define("LOCALE_ROOT", $_SERVER['DOCUMENT_ROOT'].'/../resources/locale/');
 
 $bootstrap = new Bootstrap();
 $diContainer = $bootstrap->getDiContainer();
