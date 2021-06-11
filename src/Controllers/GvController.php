@@ -13,6 +13,7 @@ use Gvera\Helpers\http\PrintErrorResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Helpers\security\CSRFToken;
+use Gvera\Models\User;
 use Gvera\Services\TwigService;
 use ReflectionException;
 use Twig\Environment;
@@ -212,6 +213,7 @@ abstract class GvController
 
     /**
      * @throws NotAllowedException
+     * @throws \Exception
      */
     protected function checkApiAuthentication()
     {

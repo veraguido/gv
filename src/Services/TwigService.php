@@ -9,9 +9,9 @@ use Twig\Loader\FilesystemLoader;
 class TwigService
 {
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
-    private $config;
-    private $loadTwig;
-    private $twig;
+    private Config $config;
+    private bool $loadTwig;
+    private Environment $twig;
 
     /**
      * TwigService constructor.

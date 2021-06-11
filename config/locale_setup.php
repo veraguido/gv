@@ -4,7 +4,8 @@
  * @param string $locale
  * @return bool
  */
-function isValid($locale) {
+function isValid($locale)
+{
     return in_array($locale, ['en', 'es']);
 }
 

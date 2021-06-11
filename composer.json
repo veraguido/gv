@@ -47,7 +47,7 @@
     "scripts": {
         "post-install-cmd": [
             "php shell/generate-api-doc",
-            "chmod 777 src/Models/Proxies"
+            "chmod 777 var/proxies"
         ]
     },
     "autoload": {
