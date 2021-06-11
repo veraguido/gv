@@ -4,13 +4,16 @@ namespace Gvera\Services;
 
 use Gvera\Helpers\config\Config;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
 class TwigService
 {
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     private Config $config;
-    private bool $loadTwig;
+    private $loadTwig;
     private Environment $twig;
 
     /**
@@ -56,7 +59,16 @@ class TwigService
         return $this->twig;
     }
 
-    public function render($name, $method, $viewParams)
+    /**
+     * @param $name
+     * @param $method
+     * @param $viewParams
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function render($name, $method, $viewParams): string
     {
         return $this->twig->render(
             DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $method . '.html.twig',
