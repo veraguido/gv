@@ -15,7 +15,6 @@ class TwigService
     private Config $config;
     private $loadTwig;
     private $twig;
-
     /**
      * TwigService constructor.
      * @param Config $config
