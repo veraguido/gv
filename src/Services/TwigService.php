@@ -14,7 +14,7 @@ class TwigService
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     private Config $config;
     private $loadTwig;
-    private ?Environment $twig;
+    private $twig;
 
     /**
      * TwigService constructor.
@@ -49,7 +49,7 @@ class TwigService
      * @param string|null $path
      * @return Environment
      */
-    public function loadTwig(string $path = null): Environment
+    public function loadTwig(string $path = null)
     {
         $path = $path ?? self::VIEWS_PREFIX;
         $devMode = boolval($this->config->getConfigItem('devmode'));
