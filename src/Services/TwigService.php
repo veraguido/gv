@@ -14,7 +14,7 @@ class TwigService
     const VIEWS_PREFIX = __DIR__ . '/../Views/';
     private Config $config;
     private $loadTwig;
-    private Environment $twig;
+    private ?Environment $twig;
 
     /**
      * TwigService constructor.

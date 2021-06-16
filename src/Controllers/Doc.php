@@ -1,6 +1,7 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\Response;
 use Throwable;
@@ -10,7 +11,7 @@ class Doc extends GvController
     public function index()
     {
         try {
-            $this->checkApiAuthentication();
+            $this->mustPassBasicAuthentication();
         } catch (Throwable $e) {
             $this->httpResponse->response(
                 new JSONResponse(

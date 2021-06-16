@@ -7,9 +7,11 @@ use Doctrine\Common\EventManager;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Gvera\Helpers\config\Config;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * Entities Class Doc Comment
@@ -25,12 +27,15 @@ class GvEntityManager extends EntityManager
 {
     const PROXIES_PATH = __DIR__ . '/../../../var/proxies/';
     const MODELS_PATH = __DIR__ . '/../../../src/Models/';
+    const SECONDARY_MODELS_PATH = __DIR__ . '/../../../vendor/gvera/core-entities/src/Models/';
+
     /**
-     * GvEntityManager constructor.
      * @param Config $config
-     * @throws DBALException
+     * @param string|null $modelsPaths
+     * @param string|null $secondaryModelsPath
+     * @throws Exception
      */
-    public function __construct(Config $config)
+    public function __construct(Config $config, $modelsPaths = null, $secondaryModelsPath = null)
     {
 
         $devMode = $config->getConfigItem('devmode');
@@ -40,9 +45,14 @@ class GvEntityManager extends EntityManager
             $cache = new ArrayCache();
         }
 
+        $primaryPath = $modelsPaths ?? self::MODELS_PATH;
+        $secondaryPath = $secondaryModelsPath ?? self::SECONDARY_MODELS_PATH;
+
+        $paths = [$primaryPath, $secondaryPath];
+
         $doctrineConfig = new Configuration();
         $doctrineConfig->setMetadataCacheImpl($cache);
-        $driverImpl = $doctrineConfig->newDefaultAnnotationDriver(self::MODELS_PATH);
+        $driverImpl = $doctrineConfig->newDefaultAnnotationDriver($paths);
         $doctrineConfig->setMetadataDriverImpl($driverImpl);
         $doctrineConfig->setQueryCacheImpl($cache);
         $doctrineConfig->setProxyDir(self::PROXIES_PATH);

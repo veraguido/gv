@@ -2,6 +2,7 @@
 namespace Gvera\Controllers;
 
 use Gvera\Exceptions\NotFoundException;
+use Gvera\Exceptions\NotImplementedMethodException;
 use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\http\TransformerResponse;
@@ -95,7 +96,7 @@ class Examples extends GvController
     }
 
     /**
-     * @throws \Gvera\Exceptions\NotImplementedMethodException
+     * @throws NotImplementedMethodException
      */
     public function transformer()
     {
@@ -106,16 +107,21 @@ class Examples extends GvController
         $this->httpResponse->response(new TransformerResponse(new UserTransformer($user)));
     }
 
-    public function authTest()
-    {
-        $this->httpResponse->response($this->checkAuthorization());
-    }
-
     public function basicAuth()
     {
         try {
-            $this->checkApiAuthentication();
+            $this->mustPassBasicAuthentication();
         } catch (\Throwable $e) {
+            $content = ['message' => $e->getMessage()];
+            $this->httpResponse->response(new JSONResponse($content, Response::HTTP_RESPONSE_UNAUTHORIZED));
+        }
+    }
+
+    public function jwt()
+    {
+        try {
+            $this->mustPassTokenAuthentication();
+        } catch (\Exception $e) {
             $content = ['message' => $e->getMessage()];
             $this->httpResponse->response(new JSONResponse($content, Response::HTTP_RESPONSE_UNAUTHORIZED));
         }

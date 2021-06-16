@@ -1,9 +1,11 @@
 <?php
 namespace Gvera\Controllers;
 
+use Exception;
 use Gvera\Commands\CreateUserStatusCommand;
 use Gvera\Exceptions\InvalidHttpMethodException;
 use Gvera\Helpers\http\HttpRequest;
+use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
 use Gvera\Services\UserService;
 
@@ -21,14 +23,15 @@ class UserStatuses extends GvController
 {
     public function index()
     {
-        $this->httpResponse->response('userstatuses');
+        $this->httpResponse->response(new Response('userstatuses'));
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function create()
     {
+        $userService = $this->getUserService();
         if (!$this->httpRequest->isPost()) {
             throw new InvalidHttpMethodException(
                 'Http method used mismatch with expected',
@@ -36,8 +39,10 @@ class UserStatuses extends GvController
             );
         }
 
-        if (!UserService::isUserLoggedIn() || UserService::getUserRole() < UserService::MODERATOR_ROLE_PRIORITY) {
-            throw new \Exception(Locale::getLocale('User must be logged in and have the correct rights'));
+        if (!$userService->isUserLoggedIn() ||
+            $userService->getSessionUserRole() < $userService::MODERATOR_ROLE_PRIORITY
+        ) {
+            throw new Exception(Locale::getLocale('User must be logged in and have the correct rights'));
         }
 
         $newUserStatusCommand = new CreateUserStatusCommand(

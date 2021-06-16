@@ -13,7 +13,6 @@ class Examples extends ControllerValidationAbstract
     /**
      * @return bool
      * @throws EmptyValidationStrategiesException
-     * @throws InvalidValidationMethodException
      */
     public function login(): bool
     {

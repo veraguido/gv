@@ -1,7 +1,9 @@
 <?php
 namespace Gvera\Controllers;
 
+use Gvera\Helpers\http\Response;
 use Gvera\Models\User;
+use ReflectionException;
 
 /**
  * Class ForgotPassword
@@ -16,7 +18,7 @@ class ForgotPassword extends GvController
 
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function new()
     {
@@ -32,15 +34,22 @@ class ForgotPassword extends GvController
         $userRepository = $entityManager->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => $email]);
 
-        if ($forgotPassService->validateNewForgotPassword($user)) {
-            $forgotPassService->generateNewForgotPassword($user);
-        } else {
-            $this->redirectToIndex();
+        if (null === $user) {
+            $this->httpResponse->response(new Response('something went wrong'));
+            return;
         }
+
+        if (!$forgotPassService->validateNewForgotPassword($user)) {
+            $this->redirectToIndex();
+            return;
+        }
+
+        $newKey = $forgotPassService->generateNewForgotPassword($user);
+        $this->httpResponse->response(new Response('Key generated successfully: ' . $newKey));
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function use()
     {
@@ -53,8 +62,7 @@ class ForgotPassword extends GvController
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function regenerate()
     {

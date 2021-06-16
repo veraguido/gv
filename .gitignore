@@ -12,9 +12,11 @@ nbproject/*
 #volatile files
 var/cache/files/*
 var/cache/views/*
+var/proxies/*
 src/Models/Proxies/*
 
 #others
 .phpunit.result.cache
 phpunit.xml.bak
+html/
 

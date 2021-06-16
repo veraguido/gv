@@ -60,7 +60,8 @@ entities:
     entityManager:
       class: GvEntityManager
       singleton: true
-      arguments: "@config"
+      arguments:
+        - "@config"
 
 dispatcher:
   classPath: Gvera\Helpers\events\
@@ -94,6 +95,10 @@ services:
       arguments:
         - "@entityManager"
         - "@userService"
+    jwtService:
+      class: JWTService
+      singleton: true
+
 
 validators:
   classPath: Gvera\Helpers\http\

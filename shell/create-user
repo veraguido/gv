@@ -11,15 +11,17 @@ if (count($argv) != 5){
     <?php
     exit(0);
 }
-
+$config = new \Gvera\Helpers\config\Config(__DIR__ . '/../config/config.yml');
+\Gvera\Cache\Cache::setConfig($config);
 $diContainer = getDiContainer();
 $userService = $diContainer->get('userService');
 $hashedPass = $userService->generatePassword($argv[3]);
-$userService->validateEmail($argv[2]);
+
 
 try {
-    $config = new \Gvera\Helpers\config\Config();
-    $entityManager = new \Gvera\Helpers\entities\GvEntityManager($config);
+    $validationService = new \Gvera\Helpers\validation\ValidationService();
+    $validationService->validate($argv[2], [new \Gvera\Helpers\validation\EmailValidationStrategy()]);
+    $entityManager = $diContainer->get('entityManager');
     $command = new \Gvera\Commands\CreateNewUserCommand($config, $entityManager);
     $command->setName($argv[1]);
     $command->setEmail($argv[2]);
@@ -34,7 +36,7 @@ echo 'user generated successfully';
 
 function getDiContainer() {
     $diContainer = new \Gvera\Helpers\dependencyInjection\DIContainer();
-    $diRegistry = new \Gvera\Helpers\dependencyInjection\DIRegistry($diContainer);
+    $diRegistry = new \Gvera\Helpers\dependencyInjection\DIRegistry($diContainer, __DIR__.'/../config/ioc.yml');
     $diRegistry->registerObjects();
     return $diContainer;
 }

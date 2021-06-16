@@ -1,5 +1,6 @@
 <?php namespace Gvera\Controllers;
 
+use Exception;
 use Gvera\Exceptions\InvalidCSRFException;
 use Gvera\Exceptions\InvalidHttpMethodException;
 use Gvera\Exceptions\InvalidMethodException;
@@ -12,11 +13,18 @@ use Gvera\Helpers\http\JSONResponse;
 use Gvera\Helpers\http\PrintErrorResponse;
 use Gvera\Helpers\http\Response;
 use Gvera\Helpers\locale\Locale;
+use Gvera\Helpers\security\BasicAuthenticationStrategy;
 use Gvera\Helpers\security\CSRFToken;
+use Gvera\Helpers\security\JWTTokenAuthenticationStrategy;
+use Gvera\Helpers\security\SessionAuthenticationStrategy;
+use Gvera\Helpers\security\AuthenticationContext;
 use Gvera\Models\User;
 use Gvera\Services\TwigService;
 use ReflectionException;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class GvController
@@ -76,7 +84,11 @@ abstract class GvController
      * @param array $allowedHttpMethods
      * @throws InvalidHttpMethodException
      * @throws InvalidViewException
+     * @throws LoaderError
+     * @throws NotAllowedException
      * @throws ReflectionException
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function init($allowedHttpMethods = []):void
     {
@@ -92,6 +104,7 @@ abstract class GvController
      * @param $allowedHttpMethods
      * @throws InvalidHttpMethodException
      * @throws ReflectionException
+     * @throws NotAllowedException
      */
     protected function preInit($allowedHttpMethods)
     {
@@ -119,6 +132,9 @@ abstract class GvController
 
     /**
      * @throws InvalidViewException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function postInit()
     {
@@ -137,16 +153,70 @@ abstract class GvController
         }
     }
 
+    /**
+     * @throws NotAllowedException
+     */
     public function checkIfPassIsGranted()
     {
-        if (true === $this->protectedController && false === $this->checkAuthorization()) {
-            if ($this->httpRequest->isAjax()) {
-                $this->httpResponse->response(new JSONResponse([], Response::HTTP_RESPONSE_UNAUTHORIZED));
-                exit();
-            }
+        if (!$this->protectedController) {
+            return;
+        }
 
-            $this->httpResponse->redirect("/");
-            exit();
+        if (null !== $this->httpRequest->getAuthDetails()) {
+            $this->mustPassBasicAuthentication();
+            return;
+        }
+
+        if (null !== $this->httpRequest->getBearerToken()) {
+            $this->mustPassTokenAuthentication();
+        }
+
+        $this->mustPassSessionAuthentication();
+    }
+
+    /**
+     * @throws NotAllowedException
+     */
+    protected function mustPassSessionAuthentication()
+    {
+        $sessionStrategy = new SessionAuthenticationStrategy(
+            $this->getSession(),
+            $this->getUserService(),
+            $this->getEntityManager()
+        );
+        $context =new AuthenticationContext($sessionStrategy);
+        if (!$context->isUserLoggedIn()) {
+            throw new NotAllowedException(Locale::getLocale('user is not allowed'));
+        }
+    }
+
+    /**
+     * @throws NotAllowedException
+     */
+    protected function mustPassBasicAuthentication()
+    {
+        $basicAuthStrategy = new BasicAuthenticationStrategy(
+            $this->getEntityManager(),
+            $this->getUserService(),
+            $this->httpRequest->getAuthDetails()
+        );
+        $context = new AuthenticationContext($basicAuthStrategy);
+        if (!$context->isUserLoggedIn()) {
+            throw new NotAllowedException(Locale::getLocale('user is not allowed'));
+        }
+    }
+
+    /**
+     * @throws NotAllowedException
+     * @throws Exception
+     */
+    public function mustPassTokenAuthentication()
+    {
+        $token = $this->httpRequest->getBearerToken();
+        $jwtTokenStrategy = new JWTTokenAuthenticationStrategy($token, $this->getEntityManager());
+        $context = new AuthenticationContext($jwtTokenStrategy);
+        if (!$context->isUserLoggedIn()) {
+            throw new NotAllowedException(Locale::getLocale('user is not allowed'));
         }
     }
 
@@ -192,14 +262,6 @@ abstract class GvController
     }
 
     /**
-     * @return bool
-     */
-    protected function checkAuthorization(): bool
-    {
-        return $this->getUserService()->isUserLoggedIn();
-    }
-
-    /**
      * @param string $action
      * @return boolean
      */
@@ -209,22 +271,6 @@ abstract class GvController
         $session = $this->getSession();
         $user = $repo->findOneById($session->get('user')['id']);
         return $this->getUserService()->userCan($user, $action);
-    }
-
-    /**
-     * @throws NotAllowedException
-     * @throws \Exception
-     */
-    protected function checkApiAuthentication()
-    {
-        $this->httpResponse->setHeader(Response::NO_CACHE);
-        $authService = $this->getBasicAuthenticationService();
-        $details = $this->httpRequest->getAuthDetails();
-
-
-        if (null === $details || !$authService->requireAuth($details)) {
-            throw new NotAllowedException(Locale::getLocale('user is not allowed'));
-        }
     }
 
     /**
