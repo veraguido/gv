@@ -1,5 +1,5 @@
 # GV 
-Travis: [![Build Status](https://travis-ci.org/veraguido/gv.svg?branch=master)](https://travis-ci.org/veraguido/gv) 
+Travis: [![Build Status](https://travis-ci.com/veraguido/gv.svg?branch=master)](https://travis-ci.org/veraguido/gv) 
 Scrutinizer: [![Build Status](https://scrutinizer-ci.com/g/veraguido/gv/badges/build.png?b=master)](https://scrutinizer-ci.com/g/veraguido/gv/build-status/master) <img src="https://scrutinizer-ci.com/g/veraguido/gv/badges/quality-score.png?b=master" alt="scrutinizer-value"> 
 [![codecov](https://codecov.io/gh/veraguido/gv/branch/master/graph/badge.svg)](https://codecov.io/gh/veraguido/gv)
 <img src="https://img.shields.io/badge/Licence-MIT-f6ca19.svg" alt="LICENSE" title="LICENSE"> 
