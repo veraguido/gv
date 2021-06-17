@@ -5,7 +5,7 @@ Scrutinizer: [![Build Status](https://scrutinizer-ci.com/g/veraguido/gv/badges/b
 <img src="https://img.shields.io/badge/Licence-MIT-f6ca19.svg" alt="LICENSE" title="LICENSE"> 
 
 
-GV is a PHP framework focused on usability, fastness and reliableness. It is all dockerized and splited into multiple independent composer packages. 
+GV is a PHP framework focused on usability, fastness and reliableness. It is all dockerized and splitted into multiple independent composer packages. 
 Out of the box you will find:
 
   - [Redis cache with fallback to files](https://github.com/veraguido/gv-cache)
