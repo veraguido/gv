@@ -115,7 +115,7 @@ class Bootstrap
      */
     private function initializeEventListenerRegistry()
     {
-        $eventRegistry = new GvEventListenerRegristry($this->diContainer);
+        $eventRegistry = new GvEventListenerRegistry($this->diContainer);
         $eventRegistry->registerEventListeners();
     }
 }

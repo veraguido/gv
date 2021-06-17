@@ -5,23 +5,29 @@ Scrutinizer: [![Build Status](https://scrutinizer-ci.com/g/veraguido/gv/badges/b
 <img src="https://img.shields.io/badge/Licence-MIT-f6ca19.svg" alt="LICENSE" title="LICENSE"> 
 
 
-GV is a PHP framework focused on usability, fastness and reliableness. Out of the box you will find:
+GV is a PHP framework focused on usability, fastness and reliableness. It is all dockerized and splited into multiple independent composer packages. 
+Out of the box you will find:
 
-  - Redis cache
-  - Docker
-  - A validation strategy
-  - Http handling
-  - Http Basic authentication
+  - [Redis cache with fallback to files](https://github.com/veraguido/gv-cache)
+  - [A validation strategy](https://github.com/veraguido/gv-validations)
+  - [Http handling](https://github.com/veraguido/gv-http)
+  - [Typed responses](https://github.com/veraguido/gv-response-types)
+  - [Authentication strategies (Basic, JWT, Session)](https://github.com/veraguido/gv-security)
+  - [CSRF support](https://github.com/veraguido/gv-security)  
   - Shell scripts + ORM management through CLI
-  - Event mechanism
+  - [Event/Listener mechanism](https://github.com/veraguido/gv-events)
   - Command pattern
-  - Unit tests
-  - Only one configuration file with only a few REALLY needed lines
-  - A specific routing system, with the possibility of overwriting
+  - [Easy config access](https://github.com/veraguido/gv-config)
+  - [A specific routing system, with the possibility of overwriting](https://github.com/veraguido/gv-routes)
   - Easy cron management
-  - Dependency injection
+  - [Dependency injection](https://github.com/veraguido/gv-dependency-injection)
   - Fractal Transformers
   - Throttling
+  - [Locale](https://github.com/veraguido/gv-locale)  
+  - A set of utils: 
+    - [Paginator](https://github.com/veraguido/gv-paginator)
+    - [File manager](https://github.com/veraguido/gv-file-manager)
+    - [email wrapper](https://github.com/veraguido/gv-email)
   - Swagger / Swagger ui
 
 # The goal

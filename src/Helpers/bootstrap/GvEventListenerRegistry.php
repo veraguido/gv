@@ -8,7 +8,7 @@ use Gvera\Helpers\dependencyInjection\DIContainer;
 use Gvera\Helpers\events\EventListenerRegistry;
 use ReflectionException;
 
-class GvEventListenerRegristry extends EventListenerRegistry
+class GvEventListenerRegistry extends EventListenerRegistry
 {
     /**
      * @var DIContainer
