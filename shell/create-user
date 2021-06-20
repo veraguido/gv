@@ -6,8 +6,8 @@ include_once __DIR__ . '/../config/locale_setup.php';
 
 if (count($argv) != 5){
     echo 'wrong amount of parameters for this command';?>
-
-    usage example: ./create-user admin admin@admin.com complexPassword 1
+    what: ./gvconsole create-user {username} {email} {password} {user role name}
+    usage example: ./gvconsole create-user admin admin@admin.com complexPassword admin
     <?php
     exit(0);
 }
@@ -22,11 +22,21 @@ try {
     $validationService = new \Gvera\Helpers\validation\ValidationService();
     $validationService->validate($argv[2], [new \Gvera\Helpers\validation\EmailValidationStrategy()]);
     $entityManager = $diContainer->get('entityManager');
+
+    $role = $entityManager->getRepository(
+            \Gvera\Models\__CG__\Gvera\Models\UserRole::class
+    )->findOneBy(['name' => $argv[4]]);
+
+    if (!isset($role)) {
+        echo 'Role to be applied to the user cannot be found, please create the role before creating the user';
+        exit(0);
+    }
+
     $command = new \Gvera\Commands\CreateNewUserCommand($config, $entityManager);
     $command->setName($argv[1]);
     $command->setEmail($argv[2]);
     $command->setPassword($hashedPass);
-    $command->setRoleId($argv[4]);
+    $command->setRoleId($role->getId());
     $command->execute();
 } catch (Exception $e) {
     echo $e->getMessage();
