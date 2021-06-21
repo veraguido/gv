@@ -4,6 +4,8 @@ namespace Gvera\Services;
 
 use Exception;
 use Gvera\Cache\Cache;
+use Gvera\Cache\FilesCache;
+use Gvera\Cache\RedisClientCache;
 use Gvera\Exceptions\InvalidArgumentException;
 use Gvera\Exceptions\ThrottledException;
 
@@ -36,6 +38,11 @@ class ThrottlingService
         }
         
         $cache = Cache::getCache();
+
+        if (!is_a($cache, RedisClientCache::class)) {
+            return;
+        }
+
         $key = self::PREFIX_THROTTLING . $this->ip;
         if ($cache->exists($key)) {
             $last = $cache->load($key);

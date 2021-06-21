@@ -18,7 +18,7 @@ class Index extends GvController
     public function index()
     {
         $welcomeJson = [
-            'gv' => ["version" => "1.4"]
+            'gv' => ["Hello there :)"]
             ];
         $this->httpResponse->response(new JSONResponse($welcomeJson));
     }

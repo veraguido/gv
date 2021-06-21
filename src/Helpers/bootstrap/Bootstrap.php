@@ -89,10 +89,6 @@ class Bootstrap
                     return;
                 }
 
-                if (is_a(Cache::getCache(), FilesCache::class)) {
-                    return;
-                }
-
                 $throttlingService = $this->diContainer->get('throttlingService');
                 $throttlingService->setIp($_SERVER['REMOTE_ADDR']);
                 $throttlingService->setAllowedRequestsPerSecond(
