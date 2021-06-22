@@ -46,4 +46,20 @@ class ThrottlingServiceTest extends TestCase
         $this->assertTrue(Cache::getCache()->exists(ThrottlingService::PREFIX_THROTTLING.$this->ip));
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function testValidWithFilesCache()
+    {
+        $config = new Config(__DIR__.'/../../config/config.yml');
+        $config->overrideKey('cache_type', 'files');
+        Cache::setConfig($config);
+        $this->service->setAllowedRequestsPerSecond(1);
+        $this->service->setIp($this->ip);
+
+        $this->service->validateRate();
+        $this->service->validateRate();
+    }
+
 }

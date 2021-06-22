@@ -41,7 +41,6 @@ abstract class GvController
 
     private ?string $method;
     private ?string $name;
-    private Environment $twig;
     protected array $viewParams = array();
     protected HttpResponse $httpResponse;
     protected HttpRequest $httpRequest;
@@ -126,7 +125,7 @@ abstract class GvController
         }
 
         if ($this->twigService->needsTwig($this->name, $this->method)) {
-            $this->twig = $this->twigService->loadTwig();
+            $this->twigService->loadTwig();
         }
     }
 
