@@ -73,9 +73,6 @@ dispatcher:
 services:
   classPath: Gvera\Services\
   objects:
-    twigService:
-      class: TwigService
-      arguments: "@config"
     userService:
       class: UserService
       singleton: true

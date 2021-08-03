@@ -66,7 +66,12 @@ abstract class GvController
         $this->name = $controllerName;
         $this->httpRequest = $this->diContainer->get('httpRequest');
         $this->httpResponse = $this->diContainer->get('httpResponse');
-        $this->twigService = $this->diContainer->get('twigService');
+        $config = $this->diContainer->get('config');
+        $this->twigService = new TwigService(
+            $config,
+            __DIR__ . '/../Views/',
+            __DIR__ . '/../../var/cache/views/'
+        );
 
         if (!method_exists($this, $method)) {
             throw new InvalidMethodException(
@@ -89,7 +94,7 @@ abstract class GvController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function init($allowedHttpMethods = []):void
+    public function init(array $allowedHttpMethods = []):void
     {
         $this->preInit($allowedHttpMethods);
 
@@ -131,9 +136,6 @@ abstract class GvController
 
     /**
      * @throws InvalidViewException
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function postInit()
     {
@@ -175,6 +177,7 @@ abstract class GvController
 
     /**
      * @throws NotAllowedException
+     * @throws Exception
      */
     protected function mustPassSessionAuthentication()
     {

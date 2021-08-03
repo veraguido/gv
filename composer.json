@@ -16,8 +16,8 @@
     },
     "require": {
         "monolog/monolog":          "1.0.*",
-        "twig/twig":                "^3.0",
         "doctrine/orm":             "^2.7.0",
+        "doctrine/cache":           "^1.11",
         "doctrine/migrations":	    "^3.0",
         "symfony/yaml":             "^5.0",
         "tiben/crontab-manager":    "~1.0",
@@ -40,7 +40,8 @@
         "gvera/locale": "^1.0",
         "gvera/email": "^1.1",
         "firebase/php-jwt": "^5.3",
-        "gvera/core-entities": "^1.0"
+        "gvera/core-entities": "^1.0",
+        "gvera/core-services": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit":          "^9.0",

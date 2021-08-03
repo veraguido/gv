@@ -40,9 +40,9 @@ class GvEntityManager extends EntityManager
 
         $devMode = $config->getConfigItem('devmode');
         $mysqlConfig = $config->getConfigItem('mysql');
-        $cache = new ApcCache();
-        if ($devMode) {
-            $cache = new ArrayCache();
+        $cache = new ArrayCache();
+        if (!$devMode) {
+            $cache = new ApcCache();
         }
 
         $primaryPath = $modelsPaths ?? self::MODELS_PATH;

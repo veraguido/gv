@@ -139,7 +139,8 @@ class ControllerServiceTest extends TestCase
                 $this->equalTo('httpRequest'),
                 $this->equalTo('httpResponse'),
                 $this->equalTo('annotationUtil'),
-                $this->equalTo('twigService')
+                $this->equalTo('twigService'),
+                $this->equalTo('config')
             ))
             ->will(
                 $this->returnCallback(array($this, 'httpCallBack'))
@@ -182,6 +183,10 @@ class ControllerServiceTest extends TestCase
             return $this->getMockedTwigService();
         }
 
+        if ($type === 'config') {
+            return $this->getMockedConfig();
+        }
+
         $httpResponse = $this->createMock(HttpResponse::class);
         $httpResponse->expects($this->any())
             ->method('response')
@@ -195,9 +200,7 @@ class ControllerServiceTest extends TestCase
 
     private function getMockedConfig()
     {
-        $config = $this->createMock(Config::class);
-
-        return $config;
+        return $this->createMock(Config::class);
     }
 
     private function getMockedTwigService()
