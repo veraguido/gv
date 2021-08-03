@@ -120,7 +120,7 @@ class Gv
             return;
         }
 
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->diContainer,
             $uriData
         );
@@ -148,7 +148,7 @@ class Gv
 
     /**
      * @param $scanDirectory
-     * @return array|mixed
+     * @return array
      * @throws Exceptions\InvalidArgumentException
      * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
      * The method will check for all the files created under the controllers directory and generate a map of them

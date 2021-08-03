@@ -25,7 +25,7 @@ class ControllerServiceTest extends TestCase
      */
     public function testControllerLifeCycle()
     {
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->getDiContainer(),
             "/"
         );
@@ -45,7 +45,7 @@ class ControllerServiceTest extends TestCase
     public function testEmptyUriPath()
     {
         $this->expectException(Exception::class);
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->getDiContainer(),
             null
         );
@@ -56,7 +56,7 @@ class ControllerServiceTest extends TestCase
      */
     public function testStartControllerLifeCycle()
     {
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->getDiContainer(),
             "/examples/asd"
         );
@@ -75,7 +75,7 @@ class ControllerServiceTest extends TestCase
     public function testServiceExceptions()
     {
         $this->expectException(Exception::class);
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->getDiContainer(),
             "/gvcontroller"
         );
@@ -87,7 +87,7 @@ class ControllerServiceTest extends TestCase
     public function testVersionException()
     {
         $this->expectException(\Gvera\Exceptions\NotFoundException::class);
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->getDiContainer(),
             "/v5/index/asd"
         );
@@ -98,7 +98,7 @@ class ControllerServiceTest extends TestCase
      */
     public function testSubControllers()
     {
-        $this->controllerService->startControllerLifecyle(
+        $this->controllerService->startControllerLifecycle(
             $this->getDiContainer(),
             "/v0/moreexamples/other"
         );

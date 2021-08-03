@@ -7,6 +7,7 @@ use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\NotFoundException;
 use Gvera\Helpers\annotations\AnnotationUtil;
 use Gvera\Helpers\dependencyInjection\DIContainer;
+use JetBrains\PhpStorm\Pure;
 use PHPUnit\Runner\Exception;
 
 /**
@@ -31,7 +32,7 @@ class ControllerService
      * @throws \Exception
      * @return void
      */
-    public function startControllerLifecyle($diContainer, $uriData)
+    public function startControllerLifecycle($diContainer, $uriData)
     {
         $this->diContainer = $diContainer;
         $this->uriData = $uriData;
@@ -81,7 +82,7 @@ class ControllerService
 
     /**
      * @return array
-     * if there're versions (subcontrollers in the controllers directory, get them and return the autoloading names)
+     * if there are versions (sub-controllers in the controllers directory, get them and return the auto-loading names)
      */
     private function getApiVersions():array
     {
@@ -105,7 +106,7 @@ class ControllerService
         //if a version apply, go through that specific path
         if (array_key_exists($uriArray[1], $apiVersions)) {
             $this->generateControllerLifecycle(
-                isset($uriArray[2]) ? $uriArray[2] : GvController::DEFAULT_CONTROLLER,
+                $uriArray[2] ?? GvController::DEFAULT_CONTROLLER,
                 $this->getValidMethodName(3, $uriArray),
                 $uriArray[1]
             );
@@ -126,7 +127,7 @@ class ControllerService
      */
     private function getValidMethodName($index, $uriArray):string
     {
-        return isset($uriArray[$index]) ? $uriArray[$index] : GvController::DEFAULT_METHOD;
+        return $uriArray[$index] ?? GvController::DEFAULT_METHOD;
     }
 
     /**
@@ -145,11 +146,11 @@ class ControllerService
 
     /**
      * @param string|null $rawName
-     * @param string $version
+     * @param string|null $version
      * @return string
      * If no Controller/Method is specified it will fallback to the default controller (Index controller)
      */
-    private function getControllerFinalName(string $rawName = null, ?string $version = null):string
+    #[Pure] private function getControllerFinalName(string $rawName = null, ?string $version = null):string
     {
         if (empty($rawName)) {
             return GvController::DEFAULT_CONTROLLER;
@@ -165,9 +166,9 @@ class ControllerService
     /**
      * @param $autoloadedArray
      * @param $name
-     * @return mixed
+     * @return string
      */
-    private function getAutoloadedControllerName($autoloadedArray, $name)
+    private function getAutoloadedControllerName($autoloadedArray, $name): string
     {
         $lowercaseRawName = strtolower($name);
         if (!array_key_exists($lowercaseRawName, $autoloadedArray)) {
@@ -181,7 +182,7 @@ class ControllerService
      * @param null $methodName
      * @return string
      */
-    private function getMethodFinalName($methodName = null)
+    private function getMethodFinalName($methodName = null): string
     {
         //remove http get params if are present
         $methodName = explode('?', $methodName)[0];
@@ -192,11 +193,12 @@ class ControllerService
 
     /**
      * @param $controllerName
+     * @param $version
      * @return string|null
-     * @throws \Exception
-     * All controllers should extend from GvController. By default if a Controller does not exist
+     * @throws InvalidControllerException
+     * @throws NotFoundException
      */
-    private function getValidControllerClassName($controllerName, $version)
+    private function getValidControllerClassName($controllerName, $version): ?string
     {
         if ($controllerName == "GvController") {
             throw new InvalidControllerException('GvController is not a valid controller');
@@ -238,9 +240,10 @@ class ControllerService
     /**
      * Set the value of controllerAutoloadingNames
      *
+     * @param $controllerAutoloadingNames
      * @return  self
      */
-    public function setControllerAutoloadingNames($controllerAutoloadingNames)
+    public function setControllerAutoloadingNames($controllerAutoloadingNames): ControllerService
     {
         $this->controllerAutoloadingNames = $controllerAutoloadingNames;
 
@@ -250,9 +253,10 @@ class ControllerService
     /**
      * Set the value of diContainer
      *
+     * @param $diContainer
      * @return  self
      */
-    public function setDiContainer($diContainer)
+    public function setDiContainer($diContainer): ControllerService
     {
         $this->diContainer = $diContainer;
 
@@ -263,7 +267,7 @@ class ControllerService
      * Get the value of controllerFinalName
      * @return string
      */
-    public function getControllerName()
+    public function getControllerName(): string
     {
         return $this->controllerFinalName;
     }
@@ -272,7 +276,7 @@ class ControllerService
      * Get the value of method
      * @return string
      */
-    public function getMethodName()
+    public function getMethodName(): string
     {
         return $this->method;
     }

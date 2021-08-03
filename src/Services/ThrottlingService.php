@@ -16,7 +16,7 @@ class ThrottlingService
      * @var int
      * By default 4 requests per second.
      */
-    private $allowedRequestsPerSecond = 4;
+    private int $allowedRequestsPerSecond = 4;
     /**
      * @var string
      */
