@@ -70,6 +70,13 @@ dispatcher:
       class: EventDispatcher
       singleton: true
 
+annotations:
+  classPath: Gvera\Helpers\annotations\
+  objects:
+    annotationUtil:
+      class: AnnotationUtil
+      singleton: true
+
 services:
   classPath: Gvera\Services\
   objects:
@@ -111,13 +118,6 @@ routes:
       class: RouteManager
       singleton: true
       arguments: "@httpRequest"
-
-annotations:
-  classPath: Gvera\Helpers\annotations\
-  objects:
-    annotationUtil:
-      class: AnnotationUtil
-      singleton: true
 
 commands:
   classPath: Gvera\Commands\

@@ -2,6 +2,7 @@
 
 namespace Gvera\Services;
 
+use Gvera\Cache\Cache;
 use Gvera\Controllers\GvController;
 use Gvera\Exceptions\InvalidControllerException;
 use Gvera\Exceptions\NotFoundException;
@@ -17,6 +18,7 @@ use PHPUnit\Runner\Exception;
 class ControllerService
 {
     const CONTROLLERS_PREFIX = 'Gvera\\Controllers\\';
+    const CONTROLLERS_KEY = 'gv_controllers';
 
     private string $method = 'index';
     private string $controllerFinalName;
@@ -35,6 +37,12 @@ class ControllerService
     public function startControllerLifecycle($diContainer, $uriData)
     {
         $this->diContainer = $diContainer;
+
+        if (!$uriData) {
+            $this->redirectToDefault($diContainer);
+            return;
+        }
+
         $this->uriData = $uriData;
         $this->generateRegularControllerLifecycle();
     }
@@ -188,7 +196,7 @@ class ControllerService
         $methodName = explode('?', $methodName)[0];
 
         //if there's no method assigned then return the default method call.
-        return ($methodName === null || $methodName == '') ? GvController::DEFAULT_METHOD : $methodName;
+        return ($methodName == '') ? GvController::DEFAULT_METHOD : $methodName;
     }
 
     /**
@@ -279,5 +287,54 @@ class ControllerService
     public function getMethodName(): string
     {
         return $this->method;
+    }
+
+    /**
+     * @param $scanDirectory
+     * @return array
+     * @throws Exceptions\InvalidArgumentException
+     * @throws Exception
+     * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
+     * The method will check for all the files created under the controllers directory and generate a map of them
+     * to be used for the instantiation.
+     */
+    public function autoloadControllers($scanDirectory):array
+    {
+        if (Cache::getCache()->exists(self::CONTROLLERS_KEY)) {
+            return Cache::getCache()->load(self::CONTROLLERS_KEY);
+        }
+
+        $controllersDir = scandir($scanDirectory);
+        $loadedControllers = [];
+        foreach ($controllersDir as $autoloadingName) {
+            $loadedControllers = $this->loadControllers($scanDirectory, $autoloadingName, $loadedControllers);
+        }
+        Cache::getCache()->save(self::CONTROLLERS_KEY, $loadedControllers);
+        return $loadedControllers;
+    }
+
+    /**
+     * @param $scanDirectory
+     * @param $autoloadingName
+     * @param $loadedControllers
+     * @return null
+     * @throws Exceptions\InvalidArgumentException
+     */
+    private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
+    {
+        $routeManager = $this->diContainer->get('routeManager');
+        if (in_array($autoloadingName, $routeManager->getExcludeDirectories())) {
+            return null;
+        }
+
+        if (is_dir($scanDirectory . $autoloadingName)) {
+            $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
+            $loadedControllers[$autoloadingName] = $autoloadedSubDir;
+            return $loadedControllers;
+        }
+
+        $correctName = str_replace(".php", "", $autoloadingName);
+        $loadedControllers[strtolower($correctName)] = $correctName;
+        return $loadedControllers;
     }
 }

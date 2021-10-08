@@ -23,8 +23,6 @@ use Throwable;
 class Gv
 {
 
-    const GV_CONTROLLERS_KEY = 'gv_controllers';
-    private array $controllerAutoloadingNames = [];
     private RouteManager $routeManager;
     private DIContainer $diContainer;
 
@@ -37,7 +35,6 @@ class Gv
     private ControllerService $controllerService;
 
     /**
-     * @throws Exceptions\InvalidArgumentException
      * @throws ReflectionException
      * @throws Exception
      */
@@ -45,9 +42,10 @@ class Gv
     {
         $this->initializeApp();
 
-        $this->controllerAutoloadingNames = $this->autoloadControllers(__DIR__ . '/Controllers/');
-        $this->controllerService->setControllerAutoloadingNames($this->controllerAutoloadingNames);
-        $this->parseUri($this->supportsSpecialRoutesIfApply());
+        $controllerAutoloadingNames = $this->controllerService
+            ->autoloadControllers(__DIR__ . '/Controllers/');
+        $this->controllerService->setControllerAutoloadingNames($controllerAutoloadingNames);
+        $this->initializeController($this->routeManager->getRoute($_SERVER['REQUEST_URI']));
     }
 
     /**
@@ -68,57 +66,29 @@ class Gv
     }
 
     /**
-     * @throws Exception
-     * In case of not dev mode redirect will be done instead of printing an exception.
-     */
-    public function redirectToDefault()
-    {
-        $this->controllerService->redirectToDefault($this->diContainer);
-    }
-
-    /**
      * @throws ReflectionException
      */
     private function initializeApp()
     {
         $this->routeManager = $this->diContainer->get("routeManager");
-
         $this->controllerService = $this->diContainer->get('controllerService');
         $this->controllerService->setDiContainer($this->diContainer);
     }
 
-
-    /**
-     * @return string|boolean
-     * This will check on routes.yml if a route is overwritten.
-     */
-    private function supportsSpecialRoutesIfApply()
-    {
-        return $this->routeManager->getRoute($_SERVER['REQUEST_URI']);
-    }
-
     /**
      * @param bool|string $action
-     * @throws Exception
      * @return mixed
      * If the route was already defined in the routes.yml file then that one will take precedence over the
      * convention over configuration strategy (host.com/Controller/Method)
+     *@throws Exception
      */
-    private function parseUri($action = false) :void
+    private function initializeController(bool|string $action):void
     {
-
-        $appliedAction = $this->supportsActionIfApplies($action);
-
-        if (true === $appliedAction) {
+        if ($this->isRouteOverwritten($action)) {
             return;
         }
 
         $uriData = strtok($_SERVER['REQUEST_URI'], '?');
-
-        if (!$uriData) {
-            $this->redirectToDefault();
-            return;
-        }
 
         $this->controllerService->startControllerLifecycle(
             $this->diContainer,
@@ -131,7 +101,7 @@ class Gv
      * @return bool
      * @throws Exception
      */
-    private function supportsActionIfApplies($action):bool
+    private function isRouteOverwritten($action):bool
     {
         if (!$action) {
             return false;
@@ -144,52 +114,5 @@ class Gv
         );
 
         return true;
-    }
-
-    /**
-     * @param $scanDirectory
-     * @return array
-     * @throws Exceptions\InvalidArgumentException
-     * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
-     * The method will check for all the files created under the controllers directory and generate a map of them
-     * to be used for the instantiation.
-     */
-    private function autoloadControllers($scanDirectory):array
-    {
-        if (Cache::getCache()->exists(self::GV_CONTROLLERS_KEY)) {
-            return Cache::getCache()->load(self::GV_CONTROLLERS_KEY);
-        }
-
-        $controllersDir = scandir($scanDirectory);
-        $loadedControllers = [];
-        foreach ($controllersDir as $autoloadingName) {
-            $loadedControllers = $this->loadControllers($scanDirectory, $autoloadingName, $loadedControllers);
-        }
-        Cache::getCache()->save(self::GV_CONTROLLERS_KEY, $loadedControllers);
-        return $loadedControllers;
-    }
-
-    /**
-     * @param $scanDirectory
-     * @param $autoloadingName
-     * @param $loadedControllers
-     * @return null
-     * @throws Exceptions\InvalidArgumentException
-     */
-    private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
-    {
-        if (in_array($autoloadingName, $this->routeManager->getExcludeDirectories())) {
-            return null;
-        }
-
-        if (is_dir($scanDirectory . $autoloadingName)) {
-            $autoloadedSubDir = $this->autoloadControllers($scanDirectory . $autoloadingName);
-            $loadedControllers[$autoloadingName] = $autoloadedSubDir;
-            return $loadedControllers;
-        }
-
-        $correctName = str_replace(".php", "", $autoloadingName);
-        $loadedControllers[strtolower($correctName)] = $correctName;
-        return $loadedControllers;
     }
 }

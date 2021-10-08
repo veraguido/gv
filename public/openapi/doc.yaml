@@ -5,7 +5,7 @@ info:
 paths:
   /examples:
     get:
-      operationId: 'Gvera\Controllers\Examples::index'
+      operationId: 087bdd2163dba93152a008cb367b49e8
       responses:
         '200':
           description: 'An example resource'

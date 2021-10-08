@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ControllerServiceTest extends TestCase
 {
-    private $controllerService;
+    private ControllerService $controllerService;
 
     public function setUp():void
     {
@@ -36,18 +36,6 @@ class ControllerServiceTest extends TestCase
 
         $this->assertTrue(
             $this->controllerService->getMethodName() === "index"
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function testEmptyUriPath()
-    {
-        $this->expectException(Exception::class);
-        $this->controllerService->startControllerLifecycle(
-            $this->getDiContainer(),
-            null
         );
     }
 
