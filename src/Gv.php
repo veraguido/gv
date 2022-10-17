@@ -25,14 +25,12 @@ class Gv
 
     private RouteManager $routeManager;
     private DIContainer $diContainer;
+    private ControllerService $controllerService;
 
     public function __construct(DIContainer $diContainer)
     {
         $this->diContainer = $diContainer;
     }
-
-
-    private ControllerService $controllerService;
 
     /**
      * @throws ReflectionException
@@ -77,10 +75,10 @@ class Gv
 
     /**
      * @param bool|string $action
-     * @return mixed
+     * @return void
      * If the route was already defined in the routes.yml file then that one will take precedence over the
      * convention over configuration strategy (host.com/Controller/Method)
-     *@throws Exception
+     * @throws Exception
      */
     private function initializeController(bool|string $action):void
     {

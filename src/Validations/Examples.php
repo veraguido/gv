@@ -2,6 +2,7 @@
 
 namespace Gvera\Validations;
 
+use Exception;
 use Gvera\Exceptions\EmptyValidationStrategiesException;
 use Gvera\Exceptions\InvalidValidationMethodException;
 use Gvera\Helpers\validation\IsNotEmptyValidationStrategy;
@@ -13,11 +14,12 @@ class Examples extends ControllerValidationAbstract
     /**
      * @return bool
      * @throws EmptyValidationStrategiesException
+     * @throws Exception
      */
     public function login(): bool
     {
         if (!isset($this->fields['username']) || !isset($this->fields['password'])) {
-            throw new \Exception('something went wrong with the validation');
+            throw new Exception('something went wrong with the validation');
         }
 
         $username = $this->fields['username'];
