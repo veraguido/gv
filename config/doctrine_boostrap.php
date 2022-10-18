@@ -3,7 +3,7 @@
 use Gvera\Helpers\entities\GvEntityManager;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
+require_once __DIR__ . '/../vendor/doctrine/common/src/ClassLoader.php';
 
 $config = new \Gvera\Helpers\config\Config(__DIR__ . '/../config/config.yml');
 

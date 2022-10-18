@@ -7,7 +7,7 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 GREY='\033[1;30m'
 NC='\033[0m' # No Color
-container=gv_php_1
+container=gv-php-1
 
 filenames=`ls ./shell/*`
 
