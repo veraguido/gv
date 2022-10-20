@@ -1,4 +1,25 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Gvera\Helpers\config\Config;
 
-include_once(__DIR__ . "/../vendor/bin/doctrine");
+$config = new Config(__DIR__ . '/../config/config.yml');
+
+$classLoader = new \Doctrine\Common\ClassLoader(
+    'Doctrine\DBAL\Migrations',
+    __DIR__ . '/../vendor/doctrine/migrations/lib'
+);
+$classLoader->register();
+
+$entityManager = new \Gvera\Helpers\entities\GvEntityManager(
+    $config,
+    \Gvera\Helpers\entities\GvEntityManager::MODELS_PATH,
+    \Gvera\Helpers\entities\GvEntityManager::SECONDARY_MODELS_PATH
+);
+
+ConsoleRunner::run(
+    new SingleManagerProvider($entityManager),
+    []
+);
