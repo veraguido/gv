@@ -8,7 +8,6 @@ use ReflectionException;
 /**
  * Class ForgotPassword
  * @package Gvera\Controllers
- * @method getForgotPasswordService
  */
 class ForgotPassword extends GvController
 {

@@ -16,10 +16,10 @@ class ThrowableListener implements EventListenerInterface
     }
 
     /**
-     * @param $event
+     * @param Event $event
      * @return void
      */
-    public function handleEvent(Event $event)
+    public function handleEvent(Event $event): void
     {
         $throwable = $event->getThrowable();
         $httpResponse = $event->getHttpResponse();

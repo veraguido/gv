@@ -10,6 +10,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Gvera\Helpers\config\Config;
 use function PHPUnit\Framework\isEmpty;
 
@@ -34,8 +35,9 @@ class GvEntityManager extends EntityManager
      * @param string|null $modelsPaths
      * @param string|null $secondaryModelsPath
      * @throws Exception
+     * @throws MissingMappingDriverImplementation
      */
-    public function __construct(Config $config, $modelsPaths = null, $secondaryModelsPath = null)
+    public function __construct(Config $config, $modelsPaths = null, string $secondaryModelsPath = null)
     {
 
         $devMode = $config->getConfigItem('devmode');
@@ -69,6 +71,6 @@ class GvEntityManager extends EntityManager
 
 
         $connection = DriverManager::getConnection($dbParams, $doctrineConfig);
-        parent::__construct($connection, $doctrineConfig, new EventManager());
+        parent::__construct($connection, $doctrineConfig);
     }
 }

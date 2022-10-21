@@ -53,7 +53,7 @@ class ControllerService
      * @throws \Exception
      * @return void
      */
-    public function generateSpecificControllerLifeCycle($controllerName, $methodName)
+    public function generateSpecificControllerLifeCycle($controllerName, $methodName): void
     {
         $this->generateControllerLifecycle($controllerName, $methodName);
     }
@@ -63,7 +63,7 @@ class ControllerService
      * @throws \Exception
      * @return void
      */
-    public function redirectToDefault($diContainer)
+    public function redirectToDefault($diContainer): void
     {
         $this->diContainer = $diContainer;
         $response = $diContainer->get('httpResponse');
@@ -74,7 +74,7 @@ class ControllerService
      * @throws \Exception
      * @return void
      */
-    private function generateRegularControllerLifecycle()
+    private function generateRegularControllerLifecycle(): void
     {
         $uriPath = $this->uriData;
 
@@ -109,33 +109,24 @@ class ControllerService
      * @param $apiVersions
      * @throws \Exception
      */
-    private function generateControllerLifeCycleBasedOnGivenData($uriArray, $apiVersions)
+    private function generateControllerLifeCycleBasedOnGivenData($uriArray, $apiVersions): void
     {
         //if a version apply, go through that specific path
-        if (array_key_exists($uriArray[1], $apiVersions)) {
-            $this->generateControllerLifecycle(
-                $uriArray[2] ?? GvController::DEFAULT_CONTROLLER,
-                $this->getValidMethodName(3, $uriArray),
-                $uriArray[1]
-            );
-            return;
+        $version = array_key_exists($uriArray[1], $apiVersions) ? $uriArray[1] : null;
+        $controllerName = $uriArray[1] ?? null;
+        $methodName = $uriArray[2] ?? null;
+
+        if (isset($version)) {
+            $controllerName = $uriArray[2] ?? null;
+            $methodName = $uriArray[3] ?? null;
         }
 
         //if it doesn't go through the regular path
         $this->generateControllerLifecycle(
-            $uriArray[1],
-            $this->getValidMethodName(2, $uriArray)
+            $controllerName ?? GvController::DEFAULT_CONTROLLER,
+            $methodName ?? GvController::DEFAULT_METHOD,
+            $version
         );
-    }
-
-    /**
-     * @param $index
-     * @param $uriArray
-     * @return string
-     */
-    private function getValidMethodName($index, $uriArray):string
-    {
-        return $uriArray[$index] ?? GvController::DEFAULT_METHOD;
     }
 
     /**
@@ -144,7 +135,7 @@ class ControllerService
      * @param null $version
      * @throws \Exception
      */
-    private function generateControllerLifecycle($controller, $method, $version = null)
+    private function generateControllerLifecycle($controller, $method, $version = null): void
     {
         $this->controllerFinalName = $this->getControllerFinalName($controller, $version);
         $this->method = $this->getMethodFinalName($method);
@@ -156,19 +147,20 @@ class ControllerService
      * @param string|null $rawName
      * @param string|null $version
      * @return string
-     * If no Controller/Method is specified it will fallback to the default controller (Index controller)
+     * If no Controller/Method is specified it will fall back to the default controller (Index controller)
      */
-    #[Pure] private function getControllerFinalName(string $rawName = null, ?string $version = null):string
+    private function getControllerFinalName(string $rawName = null, ?string $version = null):string
     {
         if (empty($rawName)) {
             return GvController::DEFAULT_CONTROLLER;
         }
 
+        $autoloadedNames = $this->controllerAutoloadingNames;
         if (isset($version)) {
-            return $this->getAutoloadedControllerName($this->controllerAutoloadingNames[$version], $rawName);
+            $autoloadedNames = $this->controllerAutoloadingNames[$version];
         }
 
-        return $this->getAutoloadedControllerName($this->controllerAutoloadingNames, $rawName);
+        return $this->getAutoloadedControllerName($autoloadedNames, $rawName);
     }
 
     /**
@@ -292,11 +284,7 @@ class ControllerService
     /**
      * @param $scanDirectory
      * @return array
-     * @throws Exceptions\InvalidArgumentException
-     * @throws Exception
-     * In order to bypass the error of trying to load a class with case insensitive (depending on the OS)
-     * The method will check for all the files created under the controllers directory and generate a map of them
-     * to be used for the instantiation.
+     * @throws \Exception
      */
     public function autoloadControllers($scanDirectory):array
     {
@@ -317,8 +305,8 @@ class ControllerService
      * @param $scanDirectory
      * @param $autoloadingName
      * @param $loadedControllers
-     * @return null
-     * @throws Exceptions\InvalidArgumentException
+     * @return mixed|null
+     * @throws \ReflectionException
      */
     private function loadControllers($scanDirectory, $autoloadingName, $loadedControllers)
     {
