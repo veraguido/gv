@@ -46,12 +46,12 @@ if [ $1 = "tests" ]; then
 fi
 
 if [ $1 = "phpcs" ]; then
-    docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpcs --standard=PSR2 src/"
+    docker exec -t $container sh -c "/var/www/html/vendor/bin/phpcs --standard=PSR2 src/"
     exit 1
 fi
 
 if [ $1 = "phpcbf" ]; then
-    docker exec -t gv_php_1 sh -c "/var/www/html/vendor/bin/phpcbf --standard=PSR2 src/"
+    docker exec -t $container sh -c "/var/www/html/vendor/bin/phpcbf --standard=PSR2 src/"
     exit 1
 fi
 
