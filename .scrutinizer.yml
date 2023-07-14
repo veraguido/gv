@@ -16,6 +16,4 @@ build:
           - composer require --dev squizlabs/php_codesniffer:3.6
       tests:
         override:
-          -
-            command: phpcs-run
-            use_website_config: false
+          - php-scrutinizer-run
