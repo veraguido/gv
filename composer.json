@@ -11,7 +11,7 @@
     ],
     "config": {
         "platform" :{
-            "php": "8.0.0"
+            "php": "8.2.0"
         }
     },
     "require": {
@@ -28,9 +28,9 @@
         "gvera/config": "^1.3",
         "gvera/paginator": "^1.0",
         "gvera/cache": "^1.0",
-        "gvera/dependency-injection": "^1.0",
+        "gvera/dependency-injection": "^1.2",
         "gvera/events": "^1.1",
-        "gvera/security": "^1.6",
+        "gvera/security": "^1.7",
         "gvera/utils": "^1.0",
         "gvera/response-types": "^1.0",
         "gvera/file-manager": "^1.0",

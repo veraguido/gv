@@ -28,21 +28,23 @@ class UserStatuses extends GvController
 
     /**
      * @throws Exception
+     * @httpMethod("POST")
      */
     public function create()
     {
         $userService = $this->getUserService();
-        if (!$this->httpRequest->isPost()) {
-            throw new InvalidHttpMethodException(
-                'Http method used mismatch with expected',
-                ['used' => $_SERVER['REQUEST_METHOD'], 'expected' => HttpRequest::POST]
-            );
-        }
 
         if (!$userService->isUserLoggedIn() ||
             $userService->getSessionUserRole() < $userService::MODERATOR_ROLE_PRIORITY
         ) {
-            throw new Exception(Locale::getLocale('User must be logged in and have the correct rights'));
+            $this->httpResponse->response(
+                new Response(
+                    Locale::getLocale('User must be logged in and have the correct rights'),
+                    Response::CONTENT_TYPE_PLAIN_TEXT,
+                    Response::HTTP_RESPONSE_UNAUTHORIZED
+                )
+            );
+            return;
         }
 
         $newUserStatusCommand = new CreateUserStatusCommand(

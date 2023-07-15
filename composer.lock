@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd6699a9efa06ca2b48af333485fd99a",
+    "content-hash": "c0f20ff2af7b3e80bd80928251b0a1a7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1135,16 +1135,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.8.0",
+            "version": "v6.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "48b0210c51718d682e53210c24d25c5a10a2299b"
+                "reference": "5dbc8959427416b8ee09a100d7a8588c00fb2e26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/48b0210c51718d682e53210c24d25c5a10a2299b",
-                "reference": "48b0210c51718d682e53210c24d25c5a10a2299b",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/5dbc8959427416b8ee09a100d7a8588c00fb2e26",
+                "reference": "5dbc8959427416b8ee09a100d7a8588c00fb2e26",
                 "shasum": ""
             },
             "require": {
@@ -1192,9 +1192,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.8.0"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.8.1"
             },
-            "time": "2023-06-20T16:45:35+00:00"
+            "time": "2023-07-14T18:33:00+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
@@ -1532,16 +1532,16 @@
         },
         {
             "name": "gvera/dependency-injection",
-            "version": "1",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/veraguido/gv-dependency-injection.git",
-                "reference": "7e577bd21b634f0d1e1cb9b5d166a96fd7f17723"
+                "reference": "2a533a836a9365cb20532f8b8c46ae694abdaa8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/veraguido/gv-dependency-injection/zipball/7e577bd21b634f0d1e1cb9b5d166a96fd7f17723",
-                "reference": "7e577bd21b634f0d1e1cb9b5d166a96fd7f17723",
+                "url": "https://api.github.com/repos/veraguido/gv-dependency-injection/zipball/2a533a836a9365cb20532f8b8c46ae694abdaa8d",
+                "reference": "2a533a836a9365cb20532f8b8c46ae694abdaa8d",
                 "shasum": ""
             },
             "require": {
@@ -1582,9 +1582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/veraguido/gv-dependency-injection/issues",
-                "source": "https://github.com/veraguido/gv-dependency-injection/tree/1"
+                "source": "https://github.com/veraguido/gv-dependency-injection/tree/1.2"
             },
-            "time": "2021-06-04T15:08:25+00:00"
+            "time": "2023-07-15T00:35:43+00:00"
         },
         {
             "name": "gvera/email",
@@ -2060,16 +2060,16 @@
         },
         {
             "name": "gvera/security",
-            "version": "1.6",
+            "version": "1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/veraguido/gv-security.git",
-                "reference": "ea94f34f155192d3a0d3015b90d1917a74e2bf95"
+                "reference": "61d0eb78939990efb6c01178304696ce6880091b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/veraguido/gv-security/zipball/ea94f34f155192d3a0d3015b90d1917a74e2bf95",
-                "reference": "ea94f34f155192d3a0d3015b90d1917a74e2bf95",
+                "url": "https://api.github.com/repos/veraguido/gv-security/zipball/61d0eb78939990efb6c01178304696ce6880091b",
+                "reference": "61d0eb78939990efb6c01178304696ce6880091b",
                 "shasum": ""
             },
             "require": {
@@ -2115,9 +2115,9 @@
             ],
             "support": {
                 "issues": "https://github.com/veraguido/gv-security/issues",
-                "source": "https://github.com/veraguido/gv-security/tree/1.6"
+                "source": "https://github.com/veraguido/gv-security/tree/1.7"
             },
-            "time": "2023-07-14T10:18:04+00:00"
+            "time": "2023-07-15T11:25:25+00:00"
         },
         {
             "name": "gvera/session",
