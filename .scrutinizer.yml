@@ -2,6 +2,7 @@ checks:
     php: true
 
 build:
+  image: default-bionic
   nodes:
     my-tests:
       environment:
