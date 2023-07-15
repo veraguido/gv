@@ -6,11 +6,11 @@ build:
     my-tests:
       environment:
         php:
-          version: 8.1
+          version: 8.2
     analysis:
       environment:
         php:
-          version: 8.1
+          version: 8.2
       dependencies:
         after:
           - composer require --dev squizlabs/php_codesniffer:3.6
